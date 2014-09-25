@@ -12,7 +12,6 @@
 
     <modules>
         <module>WebApp</module>
-        <module>JettyRunner</module>
     </modules>
 
 </project>

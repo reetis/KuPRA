@@ -3,19 +3,12 @@ package eu.komanda30.kupra.config;
 import java.beans.PropertyVetoException;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.flywaydb.core.Flyway;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.google.common.base.Throwables;
@@ -53,30 +46,5 @@ public class PersistenceConfig {
         flyway.migrate();
 
         return dataSource;
-    }
-
-    @Bean
-    @Autowired
-    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource, ResourceLoader resourceLoader) {
-        final SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        bean.setDataSource(dataSource);
-        bean.setTypeAliasesPackage("eu.komanda30.kupra.model");
-        bean.setMapperLocations(new org.springframework.core.io.Resource[] {
-                resourceLoader.getResource("classpath*:eu/komanda30/kupra/mappers/*.xml")
-        });
-        return bean;
-    }
-
-    @Bean
-    @Autowired
-    public SqlSessionTemplate sqlSession(SqlSessionFactory sessionFactory) {
-        return new SqlSessionTemplate(sessionFactory);
-    }
-
-    @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() {
-        final MapperScannerConfigurer configurer = new MapperScannerConfigurer();
-        configurer.setBasePackage("eu.komanda30.kupra.mappers");
-        return configurer;
     }
 }
