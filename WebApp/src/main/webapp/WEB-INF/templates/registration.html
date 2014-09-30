@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="#{registration.title}">Regtst</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
+
+    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container">
+    <h2 th:text="#{registration.title}">Registration</h2>
+    <form class="registration-form" role="form" action="#" method="post"
+          th:action="@{/registration}"
+          th:object="${registrationForm}">
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group"
+                     th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
+                    <label for="name" class="control-label"
+                           th:text="#{registration.name}">Name</label>
+                    <input type="text" class="form-control" placeholder="Name" id="name"
+                           th:field="*{name}" th:placeholder="#{registration.name}"/>
+                    <span class="help-block"
+                          th:if="${#fields.hasErrors('name')}"
+                          th:errors="*{name}">Validation errors</span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group"
+                     th:attrappend="class=${#fields.hasErrors('surname')}?' has-error'">
+                    <label for="surname" class="control-label"
+                           th:text="#{registration.surname}">Surname</label>
+                    <input type="text" class="form-control" placeholder="Surname" id="surname"
+                           th:field="*{surname}" th:placeholder="#{registration.surname}"/>
+                    <span class="help-block"
+                          th:if="${#fields.hasErrors('surname')}"
+                          th:errors="*{surname}">Validation errors</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group"
+                     th:attrappend="class=${#fields.hasErrors('login')}?' has-error'">
+                    <label for="login" class="control-label"
+                           th:text="#{registration.login}">Login</label>
+                    <input type="text" class="form-control" placeholder="Login" id="login"
+                           th:field="*{login}" th:placeholder="#{registration.login}"/>
+                    <span class="help-block"
+                          th:if="${#fields.hasErrors('login')}"
+                          th:errors="*{login}">Validation errors</span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group"
+                     th:attrappend="class=${#fields.hasErrors('email')}?' has-error'">
+                    <label for="email" class="control-label"
+                           th:text="#{registration.email}">Email</label>
+                    <input type="text" class="form-control" placeholder="Email" id="email"
+                           th:field="*{email}" th:placeholder="#{registration.email}"/>
+                    <span class="help-block"
+                          th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}">Validation errors</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group"
+                     th:attrappend="class=${#fields.hasErrors('password')}?' has-error'">
+                    <label for="password" class="control-label"
+                           th:text="#{registration.password}">Password</label>
+                    <input type="password" class="form-control" placeholder="Password" id="password"
+                           th:field="*{password}" th:placeholder="#{registration.password}"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('password')}"
+                          th:errors="*{password}">Validation errors</span>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group"
+                     th:attrappend="class=${#fields.hasErrors('passwordRepeat')}?' has-error'">
+                    <label for="passwordRepeat" class="control-label"
+                           th:text="#{registration.passwordRepeat}">Repeat password</label>
+                    <input type="password" class="form-control" placeholder="Password" id="passwordRepeat"
+                           th:field="*{passwordRepeat}" th:placeholder="#{registration.passwordRepeat}"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('passwordRepeat')}"
+                          th:errors="*{passwordRepeat}">Validation errors</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default btn-lg"
+                            th:text="#{registration.register}">Register</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+</body>
+</html>

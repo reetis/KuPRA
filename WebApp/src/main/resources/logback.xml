@@ -6,6 +6,8 @@
     </appender>
 
     <logger name="eu.komanda30" level="TRACE"/>
+    <logger name="log4j.logger.org.hibernate.SQL" level="TRACE"/>
+    <logger name="log4j.logger.org.hibernate.tool.hbm2ddl.SchemaUpdate" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
