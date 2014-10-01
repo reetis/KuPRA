@@ -2,4 +2,33 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
+    <error-page>
+        <!-- Missing login -->
+        <error-code>401</error-code>
+        <location>/error/auth</location>
+    </error-page>
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>403</error-code>
+        <location>/error/auth</location>
+    </error-page>
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>404</error-code>
+        <location>/error/notfound</location>
+    </error-page>
+    <error-page>
+        <!-- Uncaught exception -->
+        <error-code>500</error-code>
+        <location>/error/system</location>
+    </error-page>
+    <error-page>
+        <!-- Unsupported servlet method -->
+        <error-code>503</error-code>
+        <location>/error/unsupported</location>
+    </error-page>
+    <error-page>
+        <!-- Others -->
+        <location>/error/generic</location>
+    </error-page>
 </web-app>
