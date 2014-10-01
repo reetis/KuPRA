@@ -19,6 +19,7 @@
 </head>
 <body>
 <div class="container">
+    <h1 th:text="${@pageHeader.testString}">Test</h1>
     <h2 th:text="#{registration.title}">Registration</h2>
     <form class="registration-form" role="form" action="#" method="post"
           th:action="@{/registration}"
