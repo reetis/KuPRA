@@ -18,4 +18,16 @@ public class UserId implements Serializable {
     public String getLogin() {
         return login;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o
+                || o instanceof UserId && login.equals(((UserId) o).login);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return login.hashCode();
+    }
 }

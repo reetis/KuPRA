@@ -1,4 +1,5 @@
 WebApp/dev-db
+WebApp/logs
 
 ### Java ###
 *.class
