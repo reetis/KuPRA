@@ -1,9 +1,8 @@
 package eu.komanda30.kupra.services;
 
-import eu.komanda30.kupra.entity.User;
+import eu.komanda30.kupra.entity.UserId;
+import eu.komanda30.kupra.entity.UserProfile;
 
 public interface UserRegistrar {
-    boolean isLoginUsed(String login);
-    boolean isEmailUsed(String email);
-    void registerUser(User user);
+    void registerUser(UserId userId, UserProfile userProfile, String username, String password);
 }

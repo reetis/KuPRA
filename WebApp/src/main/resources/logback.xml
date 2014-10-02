@@ -8,7 +8,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/kupra.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>kupra.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/archive/kupra.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
 
@@ -18,8 +18,9 @@
     </appender>
 
     <logger name="eu.komanda30" level="TRACE"/>
-    <logger name="org.hibernate.SQL" level="TRACE"/>
-    <logger name="org.hibernate.tool.hbm2ddl.SchemaUpdate" level="TRACE"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.tool.hbm2ddl.SchemaUpdate" level="DEBUG"/>
+    <!--<logger name="org.springframework.security" level="TRACE"/>-->
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

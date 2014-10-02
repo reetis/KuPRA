@@ -54,14 +54,14 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     th:attrappend="class=${#fields.hasErrors('login')}?' has-error'">
-                    <label for="login" class="control-label"
-                           th:text="#{registration.login}">Login</label>
-                    <input type="text" class="form-control" placeholder="Login" id="login"
-                           th:field="*{login}" th:placeholder="#{registration.login}"/>
+                     th:attrappend="class=${#fields.hasErrors('username')}?' has-error'">
+                    <label for="username" class="control-label"
+                           th:text="#{registration.username}">Username</label>
+                    <input type="text" class="form-control" placeholder="Username" id="username"
+                           th:field="*{username}" th:placeholder="#{registration.username}"/>
                     <span class="help-block"
-                          th:if="${#fields.hasErrors('login')}"
-                          th:errors="*{login}">Validation errors</span>
+                          th:if="${#fields.hasErrors('username')}"
+                          th:errors="*{username}">Validation errors</span>
                 </div>
             </div>
             <div class="col-sm-6">

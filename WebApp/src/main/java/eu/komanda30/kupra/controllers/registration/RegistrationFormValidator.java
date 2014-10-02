@@ -1,6 +1,7 @@
 package eu.komanda30.kupra.controllers.registration;
 
-import eu.komanda30.kupra.services.UserRegistrar;
+import eu.komanda30.kupra.repositories.KupraUsers;
+import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
 
 import javax.annotation.Resource;
 
@@ -11,7 +12,10 @@ import org.springframework.validation.Validator;
 @Component
 public class RegistrationFormValidator implements Validator {
     @Resource
-    private UserRegistrar userRegistrar;
+    private KupraUsers kupraUsers;
+
+    @Resource
+    private UsernamePasswordAuths usernamePasswordAuths;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -24,10 +28,10 @@ public class RegistrationFormValidator implements Validator {
         if (!form.getPassword().equals(form.getPasswordRepeat())) {
             errors.rejectValue("passwordRepeat", "DoesNotMatch");
         }
-        if (userRegistrar.isLoginUsed(form.getLogin())) {
+        if (usernamePasswordAuths.findOne(form.getUsername()) != null) {
             errors.rejectValue("login","AlreadyUsed");
         }
-        if (userRegistrar.isEmailUsed(form.getEmail())) {
+        if (kupraUsers.findByEmail(form.getEmail()) != null) {
             errors.rejectValue("email","AlreadyUsed");
         }
     }

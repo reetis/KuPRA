@@ -1,8 +1,7 @@
 package eu.komanda30.kupra.controllers.registration;
 
-import eu.komanda30.kupra.entity.User;
 import eu.komanda30.kupra.entity.UserId;
-import eu.komanda30.kupra.services.PasswordHasher;
+import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.services.UserRegistrar;
 
 import javax.annotation.Resource;
@@ -20,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class RegistrationController {
     @Resource
     private UserRegistrar userRegistrar;
-
-    @Resource
-    private PasswordHasher passwordHasher;
 
     @Resource
     private RegistrationFormValidator registrationFormValidator;
@@ -44,22 +40,12 @@ public class RegistrationController {
             return "registration";
         }
 
-        final User user = new User(new UserId(form.getLogin()));
-        user.setName(form.getName());
-        user.setSurname(form.getSurname());
-        user.setEmail(form.getEmail());
-        user.setPasswordHash(passwordHasher.hash(form.getPassword()));
-        userRegistrar.registerUser(user);
-
+        final UserId userId = new UserId(form.getUsername());
+        final UserProfile userProfile = new UserProfile();
+        userProfile.setName(form.getName());
+        userProfile.setSurname(form.getSurname());
+        userProfile.setEmail(form.getEmail());
+        userRegistrar.registerUser(userId, userProfile, form.getUsername(), form.getPassword());
         return "registration";
     }
-
-    /*@ModelAttribute("allCountries")
-    public String[] populateCountries() {
-        return new String[] {
-                "Lithuania",
-                "Russia",
-                "Latvia"
-        };
-    } */
 }

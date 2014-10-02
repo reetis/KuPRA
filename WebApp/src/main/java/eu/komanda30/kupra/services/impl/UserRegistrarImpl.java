@@ -1,34 +1,40 @@
 package eu.komanda30.kupra.services.impl;
 
-import eu.komanda30.kupra.entity.User;
+import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.UserId;
-import eu.komanda30.kupra.repositories.Users;
+import eu.komanda30.kupra.entity.UserProfile;
+import eu.komanda30.kupra.entity.UsernamePasswordAuth;
+import eu.komanda30.kupra.repositories.KupraUsers;
+import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
 import eu.komanda30.kupra.services.UserRegistrar;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserRegistrarImpl implements UserRegistrar {
+    @Resource
+    private KupraUsers kupraUsers;
 
     @Resource
-    private Users users;
+    private UsernamePasswordAuths usernamePasswordAuths;
 
-    @Override
-    public boolean isLoginUsed(String login) {
-        return users.findByUserId(new UserId(login)) != null;
-    }
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
-    @Override
-    public boolean isEmailUsed(String email) {
-        return users.findByEmail(email) != null;
-    }
-
-    @Override
     @Transactional
-    public void registerUser(User user) {
-        users.save(user);
+    @Override
+    public void registerUser(UserId userId, UserProfile userProfile, String username,
+                             String password) {
+        final String encodedPassword = passwordEncoder.encode(password);
+        final KupraUser kupraUser = new KupraUser(userId, userProfile);
+        kupraUsers.save(kupraUser);
+
+        final UsernamePasswordAuth usernamePasswordAuth = new UsernamePasswordAuth(
+                username, encodedPassword, userId);
+        usernamePasswordAuths.save(usernamePasswordAuth);
     }
 }

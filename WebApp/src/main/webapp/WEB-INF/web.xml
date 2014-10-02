@@ -10,7 +10,7 @@
     <error-page>
         <!-- Forbidden directory listing -->
         <error-code>403</error-code>
-        <location>/error/auth</location>
+        <location>/error/access_denied</location>
     </error-page>
     <error-page>
         <!-- Forbidden directory listing -->

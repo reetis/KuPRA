@@ -17,7 +17,7 @@ public class RegistrationForm {
 
     @NotNull
     @Size(min=3, max=64)
-    private String login;
+    private String username;
 
     @NotNull
     @Size(min=8, max=64)
@@ -49,12 +49,12 @@ public class RegistrationForm {
         this.surname = surname;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

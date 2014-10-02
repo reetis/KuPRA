@@ -2,32 +2,44 @@ package eu.komanda30.kupra.controllers.error;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/error/")
 public class ErrorController {
     @RequestMapping("auth")
+    @ResponseBody
     public String authError() {
-        throw new RuntimeException("Not implemented!");
+        return "Authentication error!";
+    }
+
+    @RequestMapping("access_denied")
+    @ResponseBody
+    public String accessDeniedError() {
+        return "Access denied!";
     }
 
     @RequestMapping("notfound")
+    @ResponseBody
     public String notFoundError() {
-        throw new RuntimeException("Not implemented!");
+        return "Page not found!";
     }
 
     @RequestMapping("system")
+    @ResponseBody
     public String systemError() {
-        throw new RuntimeException("Not implemented!");
+        return "System error!";
     }
 
     @RequestMapping("unsupported")
+    @ResponseBody
     public String methodNotSupportedError() {
-        throw new RuntimeException("Not implemented!");
+        return "Method not supported!";
     }
 
     @RequestMapping("generic")
+    @ResponseBody
     public String genericError() {
-        throw new RuntimeException("Not implemented!");
+        return "Unknown server error!";
     }
 }
