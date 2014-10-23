@@ -19,23 +19,23 @@
 <div class="container">
     <h2 th:text="#{loginForm.title}">Prisijungti</h2>
     <form class="unit-form" role="form" action="#" method="post"
-          th:action="@{/login_process}"
+          th:action="@{/login}"
           th:object="${loginForm}">
 
         <div class="row">
             <div class="col-sm-1">
                 <div class="form-group"
-                     th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
-                    <label for="name" class="control-label"
-                           th:text="#{loginForm.name}">Name</label>
+                     th:attrappend="class=${#fields.hasErrors('username')}?' has-error'">
+                    <label for="username" class="control-label"
+                           th:text="#{loginForm.username}">Name</label>
                 </div>
             </div>
             <div  class="col-sm-3">
-                <input type="text" class="form-control" placeholder="Name" id="name"
-                       th:field="*{name}" th:placeholder="#{loginForm.name}"/>
+                <input type="text" class="form-control" placeholder="Name" id="username"
+                       th:field="*{username}" th:placeholder="#{loginForm.username}"/>
                     <span class="help-block"
-                          th:if="${#fields.hasErrors('name')}"
-                          th:errors="*{name}">Validation errors</span>
+                          th:if="${#fields.hasErrors('username')}"
+                          th:errors="*{username}">Validation errors</span>
             </div>
         </div>
         <div class="row">
@@ -54,6 +54,10 @@
                           th:errors="*{password}">Password error</span>
                 <a th:text="#{loginForm.forgotPassword}">Forgot your password?</a>
             </div>
+        </div>
+
+        <div class="row" th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">Authentication error</p>
         </div>
 
         <div class="row">
