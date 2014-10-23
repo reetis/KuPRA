@@ -13,7 +13,7 @@ public class NewUnitForm {
 
     @NotNull
     @Size(min=1, max=8)
-    private String abbrevation;
+    private String abbreviation;
 
     private boolean successful;
 
@@ -25,12 +25,12 @@ public class NewUnitForm {
         this.name = name;
     }
 
-    public String getAbbrevation() {
-        return abbrevation;
+    public String getAbbreviation() {
+        return abbreviation;
     }
 
-    public void setAbbrevation(String abbrevation) {
-        this.abbrevation = abbrevation;
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public boolean isSuccessful() {

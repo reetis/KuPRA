@@ -1,9 +1,6 @@
 package eu.komanda30.kupra.controllers.unit;
 
-import eu.komanda30.kupra.controllers.registration.RegistrationForm;
-import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Units;
-import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -30,8 +27,8 @@ public class NewUnitFormValidator implements Validator {
         if (units.findByName(form.getName()) != null) {
             errors.rejectValue("name","AlreadyUsed");
         }
-        if (units.findByAbbrevation(form.getAbbrevation()) != null) {
-            errors.rejectValue("abbrevation","AlreadyUsed");
+        if (units.findByAbbreviation(form.getAbbreviation()) != null) {
+            errors.rejectValue("abbreviation","AlreadyUsed");
         }
     }
 }

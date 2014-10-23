@@ -37,7 +37,7 @@ public class UnitController {
             return "newUnit";
         }
 
-        productManager.addProductUnit(form.getName(), form.getAbbrevation());
+        productManager.addProductUnit(form.getName(), form.getAbbreviation());
         form.setSuccessful(true);
         return "newUnit";
     }
