@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserRegistrarImpl implements UserRegistrar {
+
     @Resource
     private KupraUsers kupraUsers;
 
@@ -36,5 +37,12 @@ public class UserRegistrarImpl implements UserRegistrar {
         final UsernamePasswordAuth usernamePasswordAuth = new UsernamePasswordAuth(
                 username, encodedPassword, userId);
         usernamePasswordAuths.save(usernamePasswordAuth);
+    }
+
+    @Transactional
+    @Override
+    public void changePassword(UserId userId, String password) {
+        final UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(userId);
+        passwordAuth.setPassword(password);
     }
 }

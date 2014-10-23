@@ -6,7 +6,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
-public class RegistrationForm {
+public class
+        RegistrationForm {
     @NotNull
     @Size(min=3, max=64)
     private String name;
