@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * Created by Rytis on 2014-10-21.
  */
-
 @Controller
 @RequestMapping("/unit")
 public class UnitController {

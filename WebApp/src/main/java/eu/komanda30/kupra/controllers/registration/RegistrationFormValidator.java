@@ -29,7 +29,7 @@ public class RegistrationFormValidator implements Validator {
             errors.rejectValue("passwordRepeat", "DoesNotMatch");
         }
         if (usernamePasswordAuths.findOne(form.getUsername()) != null) {
-            errors.rejectValue("login","AlreadyUsed");
+            errors.rejectValue("username","AlreadyUsed");
         }
         if (kupraUsers.findByEmail(form.getEmail()) != null) {
             errors.rejectValue("email","AlreadyUsed");

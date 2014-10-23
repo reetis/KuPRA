@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface Units extends CrudRepository<Unit, Integer> {
     Unit findByName(String name);
-    Unit findByAbbreviation(String abbrevation);
+    Unit findByAbbreviation(String abbreviation);
 }

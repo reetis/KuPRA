@@ -6,7 +6,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{connectingToSystemForm.title}">Regtst</title>
+    <title th:text="#{loginForm.title}">Regtst</title>
 
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -17,10 +17,9 @@
 </head>
 <body>
 <div class="container">
-    <h1 th:text="${@pageHeader.testString}">Test</h1>
-    <h2 th:text="#{connectingToSystemForm.title}">Prisijungti</h2>
+    <h2 th:text="#{loginForm.title}">Prisijungti</h2>
     <form class="unit-form" role="form" action="#" method="post"
-          th:action="@{/login}"
+          th:action="@{/login_process}"
           th:object="${loginForm}">
 
         <div class="row">
@@ -28,12 +27,12 @@
                 <div class="form-group"
                      th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
                     <label for="name" class="control-label"
-                           th:text="#{connectingToSystemForm.name}">Name</label>
+                           th:text="#{loginForm.name}">Name</label>
                 </div>
             </div>
             <div  class="col-sm-3">
                 <input type="text" class="form-control" placeholder="Name" id="name"
-                       th:field="*{name}" th:placeholder="#{connectingToSystemForm.name}"/>
+                       th:field="*{name}" th:placeholder="#{loginForm.name}"/>
                     <span class="help-block"
                           th:if="${#fields.hasErrors('name')}"
                           th:errors="*{name}">Validation errors</span>
@@ -44,23 +43,23 @@
                 <div class="form-group"
                      th:attrappend="class=${#fields.hasErrors('password')}?' has-error'">
                     <label for="password" class="control-label"
-                           th:text="#{connectingToSystemForm.password}">Password</label>
+                           th:text="#{loginForm.password}">Password</label>
                 </div>
             </div>
             <div class="col-sm-3">
                 <input type="password" class="form-control" placeholder="Password" id="password"
-                       th:field="*{password}" th:placeholder="#{connectingToSystemForm.password}"/>
+                       th:field="*{password}" th:placeholder="#{loginForm.password}"/>
                     <span class="help-block"
                           th:if="${#fields.hasErrors('password')}"
                           th:errors="*{password}">Password error</span>
-                <a th:text="#{connectingToSystemForm.forgotPassword}">Forgot your password?</a>
+                <a th:text="#{loginForm.forgotPassword}">Forgot your password?</a>
             </div>
         </div>
-        <br>
+
         <div class="row">
             <div class="col-sm-2">
-               <a class="btn btn-default  btn-lg" href="facebook.com"
-                  th:text="#{connectingToSystemForm.registrationButton}"
+               <a class="btn btn-default  btn-lg" th:href="@{/registration}"
+                  th:text="#{loginForm.registrationButton}"
                   type="registrationButtom">
                             Registration
                </a>
@@ -68,7 +67,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <button type="submit" class="btn btn-default btn-lg"
-                            th:text="#{connectingToSystemForm.connectButton}">Login</button>
+                            th:text="#{loginForm.connectButton}">Login</button>
                 </div>
             </div>
         </div>

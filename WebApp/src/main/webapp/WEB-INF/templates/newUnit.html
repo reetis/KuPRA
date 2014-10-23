@@ -39,9 +39,9 @@
         <div class="form-group"
              th:attrappend="class=${#fields.hasErrors('abbreviation')}?' has-error'">
             <label for="abbreviation" class="control-label col-sm-2"
-                   th:text="#{newUnitForm.abbreviation}">Abbrevation</label>
+                   th:text="#{newUnitForm.abbreviation}">Abbreviation</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Abbrevation" id="abbreviation"
+                <input type="text" class="form-control" placeholder="Abbreviation" id="abbreviation"
                    th:field="*{abbreviation}" th:placeholder="#{newUnitForm.abbreviation}"/>
                 <span class="help-block"
                       th:if="${#fields.hasErrors('abbreviation')}"
