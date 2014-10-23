@@ -1,16 +1,15 @@
 package eu.komanda30.kupra.controllers.unit;
 
 import eu.komanda30.kupra.services.ProductManager;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * Created by Rytis on 2014-10-21.
@@ -27,6 +26,12 @@ public class UnitController {
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(newUnitFormValidator);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String showUnit(final NewUnitForm form) {
+
+        return "newUnit";
     }
 
     @RequestMapping(method = RequestMethod.POST)
