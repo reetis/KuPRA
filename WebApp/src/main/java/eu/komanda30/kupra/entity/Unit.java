@@ -1,5 +1,6 @@
 package eu.komanda30.kupra.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,10 @@ public class Unit {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="unitIdSequence")
     private Integer id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String abbreviation;
 
     public String getName() {

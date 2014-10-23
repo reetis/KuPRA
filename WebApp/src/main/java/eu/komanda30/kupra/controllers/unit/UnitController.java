@@ -1,7 +1,6 @@
 package eu.komanda30.kupra.controllers.unit;
 
-import eu.komanda30.kupra.entity.Unit;
-import eu.komanda30.kupra.repositories.Units;
+import eu.komanda30.kupra.services.ProductManager;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -24,7 +23,7 @@ public class UnitController {
     private NewUnitFormValidator newUnitFormValidator;
 
     @Resource
-    private Units units;
+    private ProductManager productManager;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -38,10 +37,7 @@ public class UnitController {
             return "newUnit";
         }
 
-        Unit newUnit = new Unit();
-        newUnit.setName(form.getName());
-        newUnit.setAbbreviation(form.getAbbrevation());
-        units.save(newUnit);
+        productManager.addProductUnit(form.getName(), form.getAbbrevation());
         form.setSuccessful(true);
         return "newUnit";
     }
