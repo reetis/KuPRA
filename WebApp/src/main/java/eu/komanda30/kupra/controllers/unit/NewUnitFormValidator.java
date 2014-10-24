@@ -1,11 +1,12 @@
 package eu.komanda30.kupra.controllers.unit;
 
 import eu.komanda30.kupra.repositories.Units;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import javax.annotation.Resource;
 
 /**
  * Created by Rytis on 2014-10-21.
@@ -25,10 +26,10 @@ public class NewUnitFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         final NewUnitForm form = (NewUnitForm)target;
         if (units.findByName(form.getName()) != null) {
-            errors.rejectValue("name","AlreadyUsed");
+            errors.rejectValue("name","AlreadyUsed", new Object[] {form.getName()}, null);
         }
         if (units.findByAbbreviation(form.getAbbreviation()) != null) {
-            errors.rejectValue("abbreviation","AlreadyUsed");
+            errors.rejectValue("abbreviation","AlreadyUsed", new Object[] {form.getAbbreviation()}, null);
         }
     }
 }

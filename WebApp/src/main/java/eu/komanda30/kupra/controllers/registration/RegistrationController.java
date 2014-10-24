@@ -40,7 +40,7 @@ public class RegistrationController {
             return "registration";
         }
 
-        final UserId userId = new UserId(form.getUsername());
+        final UserId userId = UserId.forUsername(form.getUsername());
         final UserProfile userProfile = new UserProfile();
         userProfile.setName(form.getName());
         userProfile.setSurname(form.getSurname());

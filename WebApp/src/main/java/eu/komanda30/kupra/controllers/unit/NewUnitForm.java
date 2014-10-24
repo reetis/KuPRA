@@ -15,8 +15,6 @@ public class NewUnitForm {
     @Size(min=1, max=8)
     private String abbreviation;
 
-    private boolean successful;
-
     public String getName() {
         return name;
     }
@@ -31,13 +29,5 @@ public class NewUnitForm {
 
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
-    }
-
-    public boolean isSuccessful() {
-        return successful;
-    }
-
-    public void setSuccessful(boolean successful) {
-        this.successful = successful;
     }
 }

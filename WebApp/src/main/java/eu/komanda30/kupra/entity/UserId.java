@@ -13,7 +13,11 @@ public class UserId implements Serializable {
     //For hibernate
     protected UserId() {}
 
-    public UserId(String userId) {
+    public static UserId forUsername(String username) {
+        return new UserId(username);
+    }
+
+    protected UserId(String userId) {
         this.userId = userId;
     }
 

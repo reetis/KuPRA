@@ -32,6 +32,11 @@ public class LoginController {
         if (bindingResult.hasErrors()) {
             return "login";
         }
-        return "forward:/login_process";
+
+        if (form.isRememberMe()) {
+            return "forward:/login/process?remember-me=1";
+        } else {
+            return "forward:/login/process";
+        }
     }
 }

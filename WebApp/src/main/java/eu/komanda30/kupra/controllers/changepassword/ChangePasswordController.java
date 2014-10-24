@@ -30,7 +30,7 @@ public class ChangePasswordController {
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        userRegistrar.changePassword(new UserId(auth.getName()), form.getPassword());
+        userRegistrar.changePassword(UserId.forUsername(auth.getName()), form.getPassword());
         return "changepassword";
     }
 }

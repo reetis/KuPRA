@@ -1,15 +1,16 @@
 package eu.komanda30.kupra.controllers.unit;
 
 import eu.komanda30.kupra.services.ProductManager;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
 
 /**
  * Created by Rytis on 2014-10-21.
@@ -28,21 +29,19 @@ public class UnitController {
         binder.addValidators(newUnitFormValidator);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String showUnit(final NewUnitForm form) {
-
-        return "newUnit";
+    @RequestMapping(value="add", method = RequestMethod.GET)
+    public String showUnitFrame(final NewUnitForm form) {
+        return "newUnit :: newUnitForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value="add", method = RequestMethod.POST)
     public String submit(@Valid final NewUnitForm form,
                          final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "newUnit";
+            return "newUnit :: newUnitForm";
         }
 
         productManager.addProductUnit(form.getName(), form.getAbbreviation());
-        form.setSuccessful(true);
-        return "newUnit";
+        return "newUnit :: unitSavedForm";
     }
 }
