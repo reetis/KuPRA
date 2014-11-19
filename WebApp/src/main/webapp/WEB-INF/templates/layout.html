@@ -11,6 +11,7 @@
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
     <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -18,15 +19,31 @@
     <![endif]-->
 </head>
 <body>
-<div th:fragment="header" th:with="userDetails = ${@sessionData.loggedUserDetails}">
-    <div>Welcome, <span th:text="${userDetails.name} + ' ' + ${userDetails.surname}">Username Usersurname</span></div>
+<div th:fragment="header">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="navbar-header">
+                    <a class="navbar-brand"  data-toggle="tab">KuPRA</a>
+                </div>
+                <!-- TODO: Užbaigt normaliai navbar'ą -->
+                <div>
+                    <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..." />
+                    <button type="button" class="btn btn-default navbar-btn">Navbar Button</button>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
 
-    <div th:replace="newUnit :: newUnitButton"></div>
 
-    <div>Header End</div>
 </div>
 <div th:fragment="footer">
-    Footer
+    <div class="container">
+        <hr />
+        <div class="text-center">
+            Footer
+        </div>
+    </div>
 </div>
 <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
