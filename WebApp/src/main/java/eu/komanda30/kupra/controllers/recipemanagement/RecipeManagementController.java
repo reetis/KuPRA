@@ -32,7 +32,8 @@ public class RecipeManagementController {
     @RequestMapping(value="/recipe_create", method = RequestMethod.POST)
     public String createRecipe(@Valid final RecipeManagementForm form,
                          final BindingResult bindingResult) {
-
+        String name = form.getName();
+        System.out.println(name);
         return "recipe_form";
     }
 }
