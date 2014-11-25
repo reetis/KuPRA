@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/login")
 public class LoginController {
 
-    private static Logger LOG = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
     @RequestMapping(method = RequestMethod.GET)
     public String showLogin(final LoginForm form,
