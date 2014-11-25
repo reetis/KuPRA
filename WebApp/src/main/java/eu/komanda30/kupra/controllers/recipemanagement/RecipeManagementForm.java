@@ -1,5 +1,7 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -8,7 +10,8 @@ import javax.validation.constraints.Size;
  */
 public class RecipeManagementForm {
 
-    @NotNull
+    @NotBlank
+    @Size(min=1, max=256)
     private String name;
 
     @NotNull

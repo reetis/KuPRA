@@ -12,7 +12,7 @@
 
     <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
 
-    <link th:href="@{/css/kupra.css}" href="../../css/registration.css" rel="stylesheet"/>
+    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
 
 
     <!--[if lt IE 9]>
@@ -34,18 +34,36 @@
                 <div class="col-sm-6">
                     <div class="form-group">
 
-                        <label for="name" class="control-label"
-                               th:text="#{recipeCreateForm.name}">Name</label>
-                        <input type="text" class="form-control" placeholder="Name" id="name"
-                               th:field="*{name}" th:placeholder="#{recipeCreateForm.name}"/>
+                        <div th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
+                            <label for="name" class="control-label"
+                                   th:text="#{recipeCreateForm.name}">Name</label>
+                            <input type="text" class="form-control"  placeholder="Name" id="name"
+                                   th:field="*{name}" th:placeholder="#{recipeCreateForm.name}"
+                                    />
+                            <span class="help-block" th:if="${#fields.hasErrors('name')}"
+                                  th:errors="*{name}">Validation errors></span>
+                        </div>
 
-                        <label for="cookingTime" th:text="#{recipeCreateForm.cookingTime}">Cooking Time</label>
+                        <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
+                            <label for="description" th:text="#{recipeCreateForm.description}">Aprašymas</label>
+                            <textarea id="description"  placeholder="Aprašymas" th:field="*{description}"
+                                      th:placeholder="#{recipeCreateForm.descriptionPlaceholder}"  class="form-control"
+                                      rows="3"></textarea>
+                            <span class="help-block" th:if="${#fields.hasErrors('description')}"
+                                  th:errors="*{description}">Validation errors></span>
+                        </div>
 
-                        <select th:field="*{cookingTime}">
-                            <option th:each="type : ${allTypes}"
-                                    th:value="${type}"
-                                    th:text="#{${'seedstarter.type.' + type}}">Wireframe</option>
-                        </select>
+                        <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
+                            <label for="description" th:text="#{recipeCreateForm.description}">Gamybos Aprašymas</label>
+                            <textarea id="processDescription" placeholder="Gaminimo aprašymas" th:field="*{processDescription}"
+                                      th:placeholder="#{recipeCreateForm.processDescriptionPlaceholder}"  class="form-control"
+                                      rows="8"></textarea>
+                            <span class="help-block" th:if="${#fields.hasErrors('processDescription')}"
+                                  th:errors="*{processDescription}">Validation errors></span>
+                        </div>
+
+
+
                         <button type="submit" class="btn btn-default btn-lg"
                                 th:text="#{recipeCreateForm.create}">Register</button>
                     </div>

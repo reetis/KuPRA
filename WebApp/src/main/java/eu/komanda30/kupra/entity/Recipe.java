@@ -7,8 +7,14 @@ import javax.persistence.*;
  */
 @Table(name="recipe")
 @Entity
+@SequenceGenerator(
+        name="recipeIdSequence",
+        sequenceName="recipe_seq",
+        allocationSize=1
+)
 public class Recipe {
     @Id
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="recipeIdSequence")
     private Integer recipe_id;
 
     @Column(nullable = false)
