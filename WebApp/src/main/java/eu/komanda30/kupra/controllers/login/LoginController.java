@@ -2,6 +2,8 @@ package eu.komanda30.kupra.controllers.login;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/login")
 public class LoginController {
 
+    private static Logger LOG = LoggerFactory.getLogger(LoginController.class);
+
     @RequestMapping(method = RequestMethod.GET)
     public String showLogin(final LoginForm form,
                             final BindingResult bindingResult,
                             @RequestParam(value = "error", required = false) final String error) {
+        LOG.debug("Login requested for user: {}", form.getUsername());
+
         //Response from spring security
         if (error != null) {
             bindingResult.reject("authFailed");
