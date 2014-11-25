@@ -6,3 +6,40 @@ body {
     margin-top: 8px;
     margin-bottom: 8px;
 }
+
+.cstm-navbar {
+    width: 100%;
+    display: inline-flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+}
+
+.navbar-logo {
+    order: 1;
+    flex-grow: 0;
+    flex-basis: auto;
+    padding-right: 16px;
+    align-self: auto;
+}
+
+.navbar-search {
+    order: 2;
+    flex-grow: 1;
+    flex-basis: auto;
+    align-self: auto;
+}
+
+.navbar-menu {
+    order: 3;
+    flex-grow: 0;
+    flex-basis: auto;
+    padding-left: 16px;
+    align-self: auto;
+}
+
+.image_in_btn {
+    width: 20px;
+    height: 20px;
+}
