@@ -41,8 +41,10 @@ public class UserRegistrarImpl implements UserRegistrar {
 
     @Transactional
     @Override
-    public void changePassword(UserId userId, String password) {
+    public void editProfile(UserId userId, String password, String name, String surname, String email,
+                            String description){
         final UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(userId);
-        passwordAuth.setPassword(password);
+        final String encodedNewPassword = passwordEncoder.encode(password);
+        passwordAuth.setPassword(encodedNewPassword);
     }
 }

@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.changepassword;
+package eu.komanda30.kupra.controllers.editprofile;
 
 import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.services.UserRegistrar;
@@ -19,35 +19,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by Lukas on 2014.10.23.
  */
 @Controller
-public class ChangePasswordController {
+public class EditProfileController {
     @Resource
     private UserRegistrar userRegistrar;
 
     @Resource
-    private ChangePasswordValidator changePasswordValidator;
+    private EditProfileValidator editProfileValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(changePasswordValidator);
+        binder.addValidators(editProfileValidator);
     }
 
-    @RequestMapping(value="/change_password", method = RequestMethod.GET)
-    public String showForm(final ChangePasswordForm form) {
-        return "changePassword";
+    @RequestMapping(value="/edit_profile", method = RequestMethod.GET)
+    public String showForm(final EditProfileForm form) {
+        return "editProfile";
     }
 
-    @RequestMapping(value="/change_password", method = RequestMethod.POST)
-    public String submit(@Valid final ChangePasswordForm form,
+    @RequestMapping(value="/edit_profile", method = RequestMethod.POST)
+    public String submit(@Valid final EditProfileForm form,
                          final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "changePassword";
+            return "editProfile";
         }
 
-       /* TODO: kas cia per xuinia, akd su camel case'u neveikia templatas?*/
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        userRegistrar.changePassword(UserId.forUsername(auth.getName()), form.getPassword());
-        return "changePassword";
+        userRegistrar.editProfile(UserId.forUsername(auth.getName()), form.getNewPassword(), form.getName(),
+                                form.getSurname(), form.getEmail(), form.getDescription());
+        return "editProfile";
+
     }
 
 

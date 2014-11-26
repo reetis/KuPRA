@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.changepassword;
+package eu.komanda30.kupra.controllers.editprofile;
 
 import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.entity.UsernamePasswordAuth;
@@ -19,7 +19,7 @@ import org.springframework.validation.Validator;
  */
 
 @Component
-public class ChangePasswordValidator implements Validator {
+public class EditProfileValidator implements Validator {
 
     @Resource
     private KupraUsers kupraUsers;
@@ -32,22 +32,25 @@ public class ChangePasswordValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return ChangePasswordForm.class.isAssignableFrom(clazz);
+        return EditProfileForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        final ChangePasswordForm form = (ChangePasswordForm)target;
+        final EditProfileForm form = (EditProfileForm)target;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(UserId.forUsername(auth.getName()));
 
-        String encodedPassword = passwordEncoder.encode(form.getPassword());
+      //  String encodedPassword = passwordEncoder.encode(form.getPassword());
 
-        if (!encodedPassword.equals(passwordAuth.getPassword())){
+        if (!passwordEncoder.matches(form.getPassword(), passwordAuth.getPassword())){
             errors.rejectValue("password", "DoesNotMatch");
         }
         if (!form.getNewPassword().equals(form.getConfirmNewPassword())) {
             errors.rejectValue("confirmNewPassword", "DoesNotMatch");
+        }
+        if (kupraUsers.findByEmail(form.getEmail()) != null) {
+            errors.rejectValue("email","AlreadyUsed");
         }
     }
 }
