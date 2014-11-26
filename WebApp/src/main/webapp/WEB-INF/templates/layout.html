@@ -21,66 +21,60 @@
 <body>
 <div th:fragment="header">
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar-inverse navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="visible-md visible-lg">
-            <div class="cstm-navbar">
+                <div class="cstm-navbar">
 
-                <div class="navbar-logo">
-                    <a class="navbar-brand">KuPRA</a>
-                </div>
+                    <div class="navbar-logo">
+                        <a class="navbar-brand">KuPRA</a>
+                    </div>
 
-                <div class="navbar-search">
-                    <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..." class="form-control inpt"/>
-                </div>
+                    <div class="navbar-search">
+                        <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..." class="form-control inpt"/>
+                    </div>
 
-                <div class="navbar-menu">
-                    <img th:src="@{/images/list.png}" src="../../images/list.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/search.png}" src="../../images/search.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/profile.png}" src="../../images/profile.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/recipes.png}" src="../../images/recipes.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/friends.png}" src="../../images/friends.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/fridge.png}" src="../../images/fridge.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/ruler.png}" src="../../images/ruler.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/meat.png}" src="../../images/meat.png" class="navbarImage linkImage"/>
+                    <div class="navbar-menu">
+                        <img th:src="@{/images/list.png}" src="../../images/list_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.menu}"/>
+                        <img th:src="@{/images/search.png}" src="../../images/search_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.filter}"/>
+                        <img th:src="@{/images/profile.png}" src="../../images/profile_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.profile}"/>
+                        <img th:src="@{/images/recipes.png}" src="../../images/recipes_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.recipes}"/>
+                        <img th:src="@{/images/friends.png}" src="../../images/friends_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.friends}"/>
+                        <img th:src="@{/images/fridge.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.fridge}"/>
+                        <img th:src="@{/images/ruler.png}" src="../../images/ruler_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.units}"/>
+                        <img th:src="@{/images/meat.png}" src="../../images/meat_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.ingredients}"/>
+                    </div>
                 </div>
-            </div>
             </div>
 
             <div class="hidden-md hidden-lg">
                 <div class="row">
-                <div class="col-xs-12">
-                    <a class="navbar-brand">KuPRA</a>
-                </div>
-
-                <div class="col-xs-12">
-                    <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..." class="form-control inpt"/>
-                </div>
-
-                <div class="col-xs-12">
-                    <img th:src="@{/images/list.png}" src="../../images/list.png" class="navbarImage linkImage"/>
-                    <img th:src="@{/images/search.png}" src="../../images/search.png" class="navbarImage"/>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default navbar-btn">
-                            <img th:src="@{/images/profile.png}" src="../../images/profile.png" class="navbarImage"/>
-                        </button>
-                        <button type="button" class="btn btn-default navbar-btn">
-                            <img th:src="@{/images/recipes.png}" src="../../images/recipes.png" class="navbarImage"/>
-                        </button>
-                        <button type="button" class="btn btn-default navbar-btn">
-                            <img th:src="@{/images/friends.png}" src="../../images/friends.png" class="navbarImage"/>
-                        </button>
-                        <button type="button" class="btn btn-default navbar-btn">
-                            <img th:src="@{/images/fridge.png}" src="../../images/fridge.png" class="navbarImage"/>
-                        </button>
-                        <button type="button" class="btn btn-default navbar-btn">
-                            <img th:src="@{/images/ruler.png}" src="../../images/ruler.png" class="navbarImage"/>
-                        </button>
-                        <button type="button" class="btn btn-default navbar-btn">
-                            <img th:src="@{/images/meat.png}" src="../../images/meat.png" class="navbarImage"/>
-                        </button>
+                    <div class="col-xs-12">
+                        <a class="navbar-brand">KuPRA</a>
                     </div>
-                </div>
+
+                    <div class="col-xs-12">
+                        <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..." class="form-control inpt"/>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <img th:src="@{/images/list.png}" src="../../images/list_white.png" class="navbarImage linkImage"/>
+                        <img th:src="@{/images/search.png}" src="../../images/search_white.png" class="navbarImage linkImage"/>
+                        <img th:src="@{/images/profile.png}" src="../../images/profile_white.png" class="navbarImage linkImage"/>
+                        <img th:src="@{/images/recipes.png}" src="../../images/recipes_white.png" class="navbarImage linkImage"/>
+                        <img th:src="@{/images/friends.png}" src="../../images/friends_white.png" class="navbarImage linkImage"/>
+                        <img th:src="@{/images/fridge.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"/>
+                        <img th:src="@{/images/ruler.png}" src="../../images/ruler_white.png" class="navbarImage linkImage"/>
+                        <img th:src="@{/images/meat.png}" src="../../images/meat_white.png" class="navbarImage linkImage"/>
+                    </div>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
