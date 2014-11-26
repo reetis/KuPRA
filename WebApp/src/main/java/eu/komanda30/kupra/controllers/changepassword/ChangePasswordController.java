@@ -32,8 +32,7 @@ public class ChangePasswordController {
     }
 
     @RequestMapping(value="/change_password", method = RequestMethod.GET)
-    public String showForm(@Valid final ChangePasswordForm form) {
-
+    public String showForm(final ChangePasswordForm form) {
         return "changePassword";
     }
 
