@@ -1,7 +1,6 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
-import org.hibernate.validator.constraints.NotBlank;
-
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -10,7 +9,6 @@ import javax.validation.constraints.Size;
  */
 public class RecipeManagementForm {
 
-    @NotBlank
     @Size(min=1, max=256)
     private String name;
 
@@ -26,6 +24,14 @@ public class RecipeManagementForm {
     @NotNull
     @Size(min=1, max=512)
     private String processDescription;
+
+    @NotNull
+    @Min(1)
+    private int servings = 1;
+
+    private boolean publicState;
+
+    private String[] cookingTypesSelection = {"5","10","15"};
 
     public String getName() {
         return name;
@@ -66,4 +72,23 @@ public class RecipeManagementForm {
     public void setProcessDescription(String processDescription) {
         this.processDescription = processDescription;
     }
+
+    public String[] getCookingTypesSelection() {return cookingTypesSelection; }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+    public boolean isPublicState() {
+        return publicState;
+    }
+
+    public void setPublicState(boolean publicState) {
+        this.publicState = publicState;
+    }
+
 }
