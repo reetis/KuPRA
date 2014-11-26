@@ -6,3 +6,4 @@ CREATE TABLE recipe (
   description         VARCHAR(256),
   process_description VARCHAR(512)
 );
+CREATE SEQUENCE recipe_seq;

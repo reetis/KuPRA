@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE "user" (
   user_id       varchar(24) PRIMARY KEY,
   name          varchar(64) NOT NULL,
   surname       varchar(64) NOT NULL,
@@ -10,5 +10,5 @@ CREATE TABLE password_auth (
   username      varchar(24) PRIMARY KEY,
   password      varchar(120) NOT NULL,
   user_id       varchar(24) NOT NULL UNIQUE,
-  FOREIGN KEY (user_id) REFERENCES user (user_id)
+  FOREIGN KEY (user_id) REFERENCES "user" (user_id)
 );

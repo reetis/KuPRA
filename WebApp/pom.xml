@@ -176,13 +176,39 @@
                         <artifactId>jetty-maven-plugin</artifactId>
                         <version>9.2.2.v20140723</version>
                         <configuration>
-                            <!--<webApp>
-                                <descriptor>/path/to/web.xml</descriptor>
-                            </webApp>-->
                             <systemProperties>
                                 <systemProperty>
                                     <name>KUPRA_CONFIG_DIR</name>
                                     <value>${basedir}/config/dev</value>
+                                </systemProperty>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>dev-postgres</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>9.3-1102-jdbc41</version>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <defaultGoal>jetty:run</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>9.2.2.v20140723</version>
+                        <configuration>
+                            <systemProperties>
+                                <systemProperty>
+                                    <name>KUPRA_CONFIG_DIR</name>
+                                    <value>${basedir}/config/dev-postgres</value>
                                 </systemProperty>
                             </systemProperties>
                         </configuration>

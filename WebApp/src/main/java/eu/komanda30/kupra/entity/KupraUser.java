@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name="user")
+@Table(name="`user`")
 @Entity
 public class KupraUser {
     @Id
