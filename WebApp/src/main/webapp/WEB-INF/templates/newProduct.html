@@ -6,7 +6,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{newUnitForm.title}">Regtst</title>
+    <title th:text="#{newProductForm.title}">Regtst</title>
 
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
     <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -18,31 +18,31 @@
 </head>
 <body>
 <div class="container">
-    <div th:fragment="newUnitButton">
+    <div th:fragment="newProductButton">
         <!-- Button trigger modal -->
-        <button class="btn btn-primary btn-lg" id="newUnitButton">
-            Add new unit
+        <button class="btn btn-primary btn-lg" id="newProductButton">
+            Add new product
         </button>
 
         <script type="application/javascript" th:inline="javascript">
 
 
             +function ($) {
-                var frameUrl = /*[[@{/unit/add}]]*/ '#';
-                $( "#newUnitButton" ).click( function() {
-                    $( "#newUnitModal" ).modal( "toggle" );
+                var frameUrl = /*[[@{/product/add}]]*/ '#';
+                $( "#newProductButton" ).click( function() {
+                    $( "#newProductModal" ).modal( "toggle" );
                     if (frameUrl != '#') {
-                        $("#newUnitFormContent").load(frameUrl);
+                        $("#newProductFormContent").load(frameUrl);
                     } else {
-                        $("#newUnitFormContent").empty();
-                        $("#newUnitForm").clone(true).appendTo("#newUnitFormContent");
+                        $("#newProductFormContent").empty();
+                        $("#newProductForm").clone(true).appendTo("#newProductFormContent");
                     }
                 });
             }(jQuery);
         </script>
 
         <!-- Modal -->
-        <div class="modal fade" id="newUnitModal" tabindex="-1" role="dialog" aria-labelledby="newUnitLabel" aria-hidden="true">
+        <div class="modal fade" id="newProductModal" tabindex="-1" role="dialog" aria-labelledby="newUnitLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -50,9 +50,9 @@
                             <span aria-hidden="true">&times;</span>
                             <span class="sr-only">Close</span>
                         </button>
-                        <h4 class="modal-title" id="newUnitLabel" th:text="#{newUnitForm.title}">Add new unit</h4>
+                        <h4 class="modal-title" id="newProductLabel" th:text="#{newProductForm.title}">Add new unit</h4>
                     </div>
-                    <div id="newUnitFormContent">
+                    <div id="newProductFormContent">
                     </div>
                 </div>
             </div>
@@ -61,55 +61,66 @@
 
     <div style="display:none" th:remove="all" id="templates">
         <form class="form-horizontal" role="form" action="#" method="post"
-              th:action="@{/unit}"
-              th:object="${newUnitForm}"
-              th:fragment="newUnitForm"
-              id="newUnitForm">
+              th:action="@{/product}"
+              th:object="${newProductForm}"
+              th:fragment="newProductForm"
+              id="newProductForm">
 
             <div class="modal-body">
                 <div class="form-group"
                      th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
                     <label for="name" class="control-label col-sm-2"
-                           th:text="#{newUnitForm.name}">Name</label>
+                           th:text="#{newProductForm.name}">Name</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control col-sm-8" placeholder="Name" id="name"
-                               th:field="*{name}" th:placeholder="#{newUnitForm.name}"/>
+                               th:field="*{name}" th:placeholder="#{newProductForm.name}"/>
                         <span class="help-block"
                               th:if="${#fields.hasErrors('name')}"
                               th:errors="*{name}">Validation errors</span>
                     </div>
                 </div>
 
+                <div th:attrappend="class=${#fields.hasErrors('selectedUnitId')}?' has-error'"
+                     class="dropdown">
+                    <label for="description" th:text="#{newProductForm.selectedUnitId}">Vienetas</label>
+                    <select class="form-control" th:field="*{selectedUnitId}">
+                        <option value="5"
+                                th:each="unit : ${units}"
+                                th:value="${unit.id}"
+                                th:text="${unit.name}">Vienetas</option>
+                    </select>
+                </div>
+
                 <div class="form-group"
-                     th:attrappend="class=${#fields.hasErrors('abbreviation')}?' has-error'">
-                    <label for="abbreviation" class="control-label col-sm-2"
-                           th:text="#{newUnitForm.abbreviation}">Abbreviation</label>
+                     th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
+                    <label for="description" class="control-label col-sm-2"
+                           th:text="#{newProductForm.description}">description</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Abbreviation" id="abbreviation"
-                               th:field="*{abbreviation}" th:placeholder="#{newUnitForm.abbreviation}"/>
+                        <input type="text" class="form-control" placeholder="Description" id="description"
+                               th:field="*{description}" th:placeholder="#{newProductForm.description}"/>
                         <span class="help-block"
-                              th:if="${#fields.hasErrors('abbreviation')}"
-                              th:errors="*{abbreviation}">Validation errors</span>
+                              th:if="${#fields.hasErrors('description')}"
+                              th:errors="*{description}">Validation errors</span>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="newUnitCreateButton">Create</button>
+                <button type="button" class="btn btn-primary" id="newProductCreateButton">Create</button>
             </div>
 
             <script type="application/javascript" th:inline="javascript">
 
 
                 +function($) {
-                    var submitUrl = /*[[@{/unit/add}]]*/ '#';
-                    $("#newUnitCreateButton").click(function () {
+                    var submitUrl = /*[[@{/product/add}]]*/ '#';
+                    $("#newProductCreateButton").click(function () {
                         if (submitUrl != '#') {
-                            $("#newUnitFormContent").load(submitUrl, $("#newUnitForm").serializeArray());
+                            $("#newProductFormContent").load(submitUrl, $("#newProductForm").serializeArray());
                         } else {
-                            $("#newUnitFormContent").empty();
-                            $("#unitSavedForm").clone(true).appendTo("#newUnitFormContent");
+                            $("#newProductFormContent").empty();
+                            $("#productSavedForm").clone(true).appendTo("#newProductFormContent");
                         }
                     });
                 } (jQuery);
@@ -117,24 +128,24 @@
         </form>
 
         <div class="form-horizontal" role="form"
-              th:fragment="unitSavedForm"
-              id="unitSavedForm">
+             th:fragment="productSavedForm"
+             id="productSavedForm">
 
             <div class="modal-body">
                 <div class="row">
                     <label for="name" class="col-sm-2"
-                           th:text="#{newUnitForm.name}">Name</label>
-                    <div class="col-sm-10" th:text="${newUnitForm.name}">UnitName</div>
+                           th:text="#{newProductForm.name}">Name</label>
+                    <div class="col-sm-10" th:text="${newProductForm.name}">ProductName</div>
                 </div>
 
                 <div class="row">
-                    <label for="abbreviation" class="col-sm-2"
-                           th:text="#{newUnitForm.abbreviation}">Abbreviation</label>
-                    <div class="col-sm-10" th:text="${newUnitForm.abbreviation}">UnitAbbr</div>
+                    <label for="description" class="col-sm-2"
+                           th:text="#{newProductForm.description}">description</label>
+                    <div class="col-sm-10" th:text="${newProductForm.description}">ProductAbbr</div>
                 </div>
 
                 <div class="row">
-                    <span class="help-block text-center" th:text="#{newUnitForm.successMsg}">Unit saved successfully</span>
+                    <span class="help-block text-center" th:text="#{newProductForm.successMsg}">Product saved successfully</span>
                 </div>
             </div>
 

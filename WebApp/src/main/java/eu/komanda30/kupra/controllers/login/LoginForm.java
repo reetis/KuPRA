@@ -1,5 +1,8 @@
 package eu.komanda30.kupra.controllers.login;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -8,12 +11,10 @@ import javax.validation.constraints.Size;
  */
 public class LoginForm {
 
-    @NotNull
-    @Size(min=3, max=64)
+    @Size(min=1,max = 25)
     private String username;
 
-    @NotNull
-    @Size(min=3, max=64)
+    @Size(min=1,max = 25)
     private String password;
 
     private boolean rememberMe;

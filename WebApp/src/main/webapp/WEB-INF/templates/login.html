@@ -30,7 +30,8 @@
                            th:text="#{loginForm.username}">Prisijungimo vardas</label>
                 </div>
             </div>
-            <div  class="col-sm-6 form-group">
+            <div  class="col-sm-6 form-group"
+                  th:attrappend="class=${#fields.hasErrors('username')}?' has-error'">
                 <input type="text" class="form-control" placeholder="Username" id="username"
                        th:field="*{username}" th:placeholder="#{loginForm.username}"/>
                     <span class="help-block"
@@ -46,7 +47,8 @@
                            th:text="#{loginForm.password}">Slaptažodis</label>
                 </div>
             </div>
-            <div class="col-sm-6 form-group">
+            <div class="col-sm-6 form-group"
+                th:attrappend="class=${#fields.hasErrors('password')}?' has-error'">
                 <input type="password" class="form-control" placeholder="Password" id="password"
                        th:field="*{password}" th:placeholder="#{loginForm.password}"/>
                     <span class="help-block"
