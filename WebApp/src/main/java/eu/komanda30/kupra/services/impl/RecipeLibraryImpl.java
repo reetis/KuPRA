@@ -33,5 +33,4 @@ public class RecipeLibraryImpl implements RecipeLibrary {
 
         recipes.save(recipe);
     }
-
 }
