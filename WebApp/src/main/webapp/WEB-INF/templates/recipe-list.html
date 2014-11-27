@@ -33,11 +33,21 @@
             </div>
             <div class="row">
                 <div class="col-md-11">
-
+                    <div class="btn-group">
+                        <button class="btn btn-default" th:text="#{recipe-list.my}">
+                            Mnao
+                        </button>
+                        <button class="btn btn-default" th:text="#{recipe-list.friends}">
+                            Dravgo
+                        </button>
+                        <button class="btn btn-primary" th:text="#{recipe-list.all}">
+                            Vsii
+                        </button>
+                    </div>
                 </div>
                 <div class="col-md-1">
                     <a href="recipe_form.html" th:href="@{~/recipe_create}">
-                    <button class="btn"
+                    <button class="btn btn-default"
                             data-toggle="tooltip" data-placement="bottom"
                             title="Tooltip on bottom" th:title="#{recipe-list.add_recipe}">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -48,13 +58,20 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6" th:each="rcp : ${recipesList.recipes}">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <p th:text="${rcp.name}">Pvdn</p>
-                    <p th:text="${rcp.description}">Dscr</p>
-                    <p th:text="${rcp.publicAccess}">asVS</p>
+        <div th:if="!${#lists.isEmpty(recipesList.recipes)}">
+            <div class="col-md-6" th:each="rcp : ${recipesList.recipes}">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p th:text="${rcp.name}">Pvdn</p>
+                        <p th:text="${rcp.description}">Dscr</p>
+                        <p th:text="${rcp.publicAccess}">asVS</p>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(recipesList.recipes)}">
+            <div class="col-md-12">
+                <p th:text="#{recipe-list.no_recipes}">Nrė rceptų</p>
             </div>
         </div>
     </div>
