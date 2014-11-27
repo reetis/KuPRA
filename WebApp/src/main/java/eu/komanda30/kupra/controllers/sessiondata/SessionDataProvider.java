@@ -24,7 +24,12 @@ public class SessionDataProvider {
         final UserDetails result = new UserDetails();
         result.setName(user.getUserProfile().getName());
         result.setSurname(user.getUserProfile().getSurname());
-        result.setAdmin(auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")));
+        result.setAdmin(isLoggedUserAdmin());
         return result;
+    }
+
+    public boolean isLoggedUserAdmin() {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
     }
 }
