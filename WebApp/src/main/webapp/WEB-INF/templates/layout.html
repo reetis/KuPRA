@@ -27,7 +27,7 @@
                 <div class="cstm-navbar">
 
                     <div class="navbar-logo">
-                        <a class="navbar-brand">KuPRA</a>
+                        <a class="navbar-brand" href="/" th:href="@{~/}">KuPRA</a>
                     </div>
 
                     <div class="navbar-search">
@@ -41,10 +41,14 @@
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.filter}"/>
                         <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.profile}"/>
+                        <a href="recipe-list.html" th:href="@{~/recipes}">
                         <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.recipes}"/>
+                        </a>
+                        <a href="friends_list.html" th:href="@{~/friends/list}">
                         <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.friends}"/>
+                        </a>
                         <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.fridge}"/>
                         <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png" class="navbarImage linkImage"

@@ -3,7 +3,7 @@ package eu.komanda30.kupra.controllers.recipelist;
 import java.util.LinkedList;
 
 /**
- * Created by Ignas on 10/23/2014.
+ * Created by Rytis on 2014-11-27
  */
 public class RecipesList {
     private LinkedList<RecipePreview> recipes = new LinkedList<>();

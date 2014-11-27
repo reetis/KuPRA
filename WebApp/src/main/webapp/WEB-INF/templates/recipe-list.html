@@ -25,10 +25,37 @@
 
 <div class="container">
     <div class="row">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1 th:text="#{recipe-list.title}">Pavadinimas</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11">
+
+                </div>
+                <div class="col-md-1">
+                    <a href="recipe_form.html" th:href="@{~/recipe_create}">
+                    <button class="btn"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Tooltip on bottom" th:title="#{recipe-list.add_recipe}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6" th:each="rcp : ${recipesList.recipes}">
-            <p th:text="${rcp.name}">Pvdn</p>
-            <p th:text="${rcp.description}">Dscr</p>
-            <p th:text="${rcp.publicAccess}">asVS</p>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p th:text="${rcp.name}">Pvdn</p>
+                    <p th:text="${rcp.description}">Dscr</p>
+                    <p th:text="${rcp.publicAccess}">asVS</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
