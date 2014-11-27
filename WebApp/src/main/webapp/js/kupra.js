@@ -1,38 +1,37 @@
-var $j = jQuery.noConflict();
-
-$j(function() {
-    $j(".linkImage").hover(function() {
-        $j(this).animate({
++function($) {
+    $(".linkImage").hover(function() {
+        $(this).animate({
             opacity: 0.5
         }, 100);
     }, function() {
-        $j(this).stop(true, true).animate({
+        $(this).stop(true, true).animate({
             opacity: 1
         }, 100);
     });
-    $j('.btn-toggle').click(function(event) {
+    $('.btn-toggle').click(function(event) {
         event.preventDefault();
-        $j(this).find('.btn').toggleClass('active');
+        $(this).find('.btn').toggleClass('active');
         console.log("RANDOM");
-        if ($j(this).find('.btn-primary').size()>0) {
-            $j(this).find('.btn').toggleClass('btn-primary');
+        if ($(this).find('.btn-primary').size()>0) {
+            $(this).find('.btn').toggleClass('btn-primary');
         }
-        if ($j(this).find('.btn-danger').size()>0) {
-            $j(this).find('.btn').toggleClass('btn-danger');
+        if ($(this).find('.btn-danger').size()>0) {
+            $(this).find('.btn').toggleClass('btn-danger');
         }
-        if ($j(this).find('.btn-success').size()>0) {
-            $j(this).find('.btn').toggleClass('btn-success');
+        if ($(this).find('.btn-success').size()>0) {
+            $(this).find('.btn').toggleClass('btn-success');
         }
-        if ($j(this).find('.btn-info').size()>0) {
-            $j(this).find('.btn').toggleClass('btn-info');
+        if ($(this).find('.btn-info').size()>0) {
+            $(this).find('.btn').toggleClass('btn-info');
         }
 
-        $j(this).find('.btn').toggleClass('btn-default');
+        $(this).find('.btn').toggleClass('btn-default');
 
     });
-});
+    $(document).ready(function() {
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    });
+}(jQuery);
 
-$j(document).ready(function() {
-    $j("body").tooltip({ selector: '[data-toggle=tooltip]' });
-});
+
    
