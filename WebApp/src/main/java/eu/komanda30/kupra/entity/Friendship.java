@@ -12,33 +12,47 @@ import javax.persistence.*;
 public class Friendship {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="friendshipIdSequence")
-    private int friendship_id;
+    private int friendshipId;
 
-    private String source_id;
+    @ManyToOne
+    @JoinColumn(name="source_id")
+    private KupraUser source;
 
-    private String target_id;
+    @ManyToOne
+    @JoinColumn(name="target_id")
+    private KupraUser target;
 
-    public int getFriendship_id() {
-        return friendship_id;
+    public boolean isFriendshipStatus() {
+        return friendshipStatus;
     }
 
-    public void setFriendship_id(int friendship_id) {
-        this.friendship_id = friendship_id;
+    public void setFriendshipStatus(boolean friendshipStatus) {
+        this.friendshipStatus = friendshipStatus;
     }
 
-    public String getSourche_id() {
-        return source_id;
+    private boolean friendshipStatus;
+
+    public int getFriendshipId() {
+        return friendshipId;
     }
 
-    public void setSourche_id(String sourche_id) {
-        this.source_id = sourche_id;
+    public void setFriendshipId(int friendshipId) {
+        this.friendshipId = friendshipId;
     }
 
-    public String getTarget_id() {
-        return target_id;
+    public KupraUser getSource() {
+        return source;
     }
 
-    public void setTarget_id(String target_id) {
-        this.target_id = target_id;
+    public void setSource(KupraUser source) {
+        this.source = source;
+    }
+
+    public KupraUser getTarget() {
+        return target;
+    }
+
+    public void setTarget(KupraUser target) {
+        this.target = target;
     }
 }
