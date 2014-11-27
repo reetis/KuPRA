@@ -4,12 +4,13 @@ import eu.komanda30.kupra.controllers.recipemanagement.RecipeManagementForm;
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.services.RecipeLibrary;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RecipeLibraryImpl implements RecipeLibrary {
@@ -30,7 +31,6 @@ public class RecipeLibraryImpl implements RecipeLibrary {
         recipe.setPublicAccess(recipeForm.isPublicAccess());
         recipe.setServings(recipeForm.getServings());
 
-        LOG.debug("IGNO LOGAS ACCESSED SEVICE METHOD");
         recipes.save(recipe);
     }
 
