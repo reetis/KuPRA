@@ -1,3 +1,6 @@
+--User: admin
+--Pass: adminadmin
+
 INSERT INTO "user" (user_id, name, surname, email, is_admin)
     VALUES ('admin','admin','admin','admin@admin.lt',true);
 
