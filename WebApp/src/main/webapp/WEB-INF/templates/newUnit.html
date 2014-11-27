@@ -27,15 +27,17 @@
         <script type="application/javascript" th:inline="javascript">
             var frameUrl = /*[[@{/unit/add}]]*/ '#';
 
-            $( "#newUnitButton" ).click( function() {
-                $( "#newUnitModal" ).modal( "toggle" );
-                if (frameUrl != '#') {
-                    $("#newUnitFormContent").load(frameUrl);
-                } else {
-                    $("#newUnitFormContent").empty();
-                    $("#newUnitForm").clone(true).appendTo("#newUnitFormContent");
-                }
-            });
+            +function ($) {
+                $( "#newUnitButton" ).click( function() {
+                    $( "#newUnitModal" ).modal( "toggle" );
+                    if (frameUrl != '#') {
+                        $("#newUnitFormContent").load(frameUrl);
+                    } else {
+                        $("#newUnitFormContent").empty();
+                        $("#newUnitForm").clone(true).appendTo("#newUnitFormContent");
+                    }
+                });
+            }(jQuery);
         </script>
 
         <!-- Modal -->
@@ -99,14 +101,16 @@
             <script type="application/javascript" th:inline="javascript">
                 var submitUrl = /*[[@{/unit/add}]]*/ '#';
 
-                $( "#newUnitCreateButton" ).click( function() {
-                    if (submitUrl != '#') {
-                        $("#newUnitFormContent").load(submitUrl, $("#newUnitForm").serializeArray());
-                    } else {
-                        $("#newUnitFormContent").empty();
-                        $("#unitSavedForm").clone(true).appendTo("#newUnitFormContent");
-                    }
-                });
+                +function($) {
+                    $("#newUnitCreateButton").click(function () {
+                        if (submitUrl != '#') {
+                            $("#newUnitFormContent").load(submitUrl, $("#newUnitForm").serializeArray());
+                        } else {
+                            $("#newUnitFormContent").empty();
+                            $("#unitSavedForm").clone(true).appendTo("#newUnitFormContent");
+                        }
+                    });
+                } (jQuery);
             </script>
         </form>
 
