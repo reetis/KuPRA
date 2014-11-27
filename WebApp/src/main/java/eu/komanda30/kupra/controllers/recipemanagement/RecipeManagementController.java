@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * Created by Ignas on 10/23/2014.
- */
 @Controller
+@RequestMapping("/recipe")
 public class RecipeManagementController {
     @Resource
     private RecipeManagementFormValidator recipeManagementFormValidator;
@@ -28,12 +26,12 @@ public class RecipeManagementController {
         binder.addValidators(recipeManagementFormValidator);
     }
 
-    @RequestMapping(value="/recipe_create", method = RequestMethod.GET)
+    @RequestMapping(value="create", method = RequestMethod.GET)
     public String showNewRecipeForm(final RecipeManagementForm form) {
         return "recipe_form";
     }
 
-    @RequestMapping(value="/recipe_create", method = RequestMethod.POST)
+    @RequestMapping(value="create", method = RequestMethod.POST)
     public String createRecipe(@Valid final RecipeManagementForm recipeManagementForm,
                          final BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
