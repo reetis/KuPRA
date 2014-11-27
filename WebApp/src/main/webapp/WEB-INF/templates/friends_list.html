@@ -6,7 +6,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{registration.title}">Regtst</title>
+    <title th:text="#{friendsListForm.title}">Regtst</title>
 
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -25,18 +25,17 @@
 <div class="container">
 
     <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
-    <h2 th:text="#{recipeCreateForm.title}">Recipe</h2>
-    <form class="recipe_management_form" role="form" action="#" method="post"
-          th:action="@{/recipe_create}"
-          th:object="${recipeManagementForm}">
+    <div class="page-header">
+        <h1 th:text="#{friendsListForm.title}">This Doesn't Have TH:TEXT</h1>
+    </div>
 
         <div class="row">
             <div class="col-sm-6">
-              HAHAHAHA
+              <div th:each="user : ${friendListForm.friendListUnits}" >
+                  <p th:text="${user.name} + ${user.surname}"></p>
+              </div>
             </div>
         </div>
-
-    </form>
 
 </div>
 <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>

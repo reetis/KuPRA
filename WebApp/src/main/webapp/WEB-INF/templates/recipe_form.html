@@ -29,6 +29,11 @@
         <form class="recipe_management_form" role="form" action="#" method="post"
               th:action="@{/recipe_create}"
               th:object="${recipeManagementForm}">
+            INSERT INTO public."user" (user_id, name, surname, email, is_admin) VALUES ('admin', 'admin', 'admin', 'admin@admin.lt', true);
+            INSERT INTO public."user" (user_id, name, surname, email, is_admin) VALUES ('Hudas', 'Ignas', 'Bobinas', 'hudas@asdfasdf.lt', false);
+            INSERT INTO public."user" (user_id, name, surname, email, is_admin) VALUES ('rytis_stankus', 'Rytis', 'Stankus', 'rytis_stankus@gmail.com', false);
+            INSERT INTO public."user" (user_id, name, surname, email, is_admin) VALUES ('gintare_stalygaite', 'Gintare', 'Stalygaite', 'gintare_stalygaite@gmail.com', false);
+            INSERT INTO public."user" (user_id, name, surname, email, is_admin) VALUES ('lukas_babelis', 'Lukas', 'Babelis', 'lukas_babelis@gmail.com', false);
 
             <div class="row">
                 <div class="col-sm-6">

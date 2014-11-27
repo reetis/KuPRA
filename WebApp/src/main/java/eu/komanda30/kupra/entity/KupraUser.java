@@ -18,6 +18,7 @@ public class KupraUser {
 
     //for hibernate
     protected KupraUser() {
+
     }
 
     public KupraUser(UserId userId, UserProfile profile) {
