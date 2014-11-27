@@ -29,10 +29,6 @@ public class RecipeManagementForm {
     @Min(1)
     private int servings = 1;
 
-    private boolean publicState;
-
-    private String[] cookingTypesSelection = {"5","10","15"};
-
     public String getName() {
         return name;
     }
@@ -73,22 +69,12 @@ public class RecipeManagementForm {
         this.processDescription = processDescription;
     }
 
-    public String[] getCookingTypesSelection() {return cookingTypesSelection; }
-
     public int getServings() {
         return servings;
     }
 
     public void setServings(int servings) {
         this.servings = servings;
-    }
-
-    public boolean isPublicState() {
-        return publicState;
-    }
-
-    public void setPublicState(boolean publicState) {
-        this.publicState = publicState;
     }
 
 }

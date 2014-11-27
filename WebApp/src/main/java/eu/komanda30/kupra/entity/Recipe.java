@@ -24,12 +24,15 @@ public class Recipe {
     private int cookingTime;
 
     @Column(nullable = false)
-    private boolean publicAccess;
+    private boolean publicAccess = false;
 
     private String description;
 
     @Column(nullable = false)
     private String processDescription;
+
+    @Column(nullable = false)
+    private int servings;
 
     public Integer getRecipe_id() {
         return recipe_id;
@@ -77,5 +80,13 @@ public class Recipe {
 
     public void setProcessDescription(String processDescription) {
         this.processDescription = processDescription;
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
     }
 }

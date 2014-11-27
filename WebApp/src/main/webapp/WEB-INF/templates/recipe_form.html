@@ -6,7 +6,8 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{registration.title}">Regtst</title>
+    <title th:text="#{
+    .title}">Regtst</title>
 
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -78,12 +79,13 @@
                         </div>
 
                         <div class="btn-group btn-toggle">
-                            <button class="btn btn-default" th:text="#{recipeCreateForm.public}">ON</button>
-                            <button class="btn btn-primary active" th:text="#{recipeCreateForm.private}">OFF</button>
+                            <button id="public_access" class="btn btn-default" th:text="#{recipeCreateForm.public}">ON</button>
+                            <button id="private_access" class="btn btn-primary active" th:text="#{recipeCreateForm.private}">OFF</button>
+                            <input type="hidden" th:field="*{publicAccess}" value="0" id="public_access_value"/>
                         </div>
 
                         <div>
-                            <input class="form-control" type="file" id="exampleInputFile"/>
+                            <input class="form-control" type="file" name="photo" id="photo"/>
                         </div>
 
                         <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
@@ -108,5 +110,6 @@
 
 <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+<script th:src="@{/js/recipe_management.js}" src="../../js/recipe_management.js" type="text/javascript"></script>
 </body>
 </html>

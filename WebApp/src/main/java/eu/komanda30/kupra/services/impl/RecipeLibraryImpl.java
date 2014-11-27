@@ -26,8 +26,11 @@ public class RecipeLibraryImpl implements RecipeLibrary {
         recipe.setName(recipeForm.getName());
         recipe.setDescription(recipeForm.getDescription());
         recipe.setProcessDescription(recipeForm.getProcessDescription());
+        recipe.setCookingTime(recipeForm.getCookingTime());
+        recipe.setPublicAccess(recipeForm.isPublicAccess());
+        recipe.setServings(recipeForm.getServings());
+
         LOG.debug("IGNO LOGAS ACCESSED SEVICE METHOD");
-        /* Cia turetu but apdorotas Kurimas */
         recipes.save(recipe);
     }
 

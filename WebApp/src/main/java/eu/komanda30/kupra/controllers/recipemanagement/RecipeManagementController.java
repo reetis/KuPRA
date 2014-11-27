@@ -40,13 +40,12 @@ public class RecipeManagementController {
     @RequestMapping(value="/recipe_create", method = RequestMethod.POST)
     public String createRecipe(@Valid final RecipeManagementForm recipeManagementForm,
                          final BindingResult bindingResult) {
+
         LOG.debug("IGNO LOGAS: ACCESSED POST METHOD<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         if (bindingResult.hasErrors()){
             LOG.debug("IGNO LOGAS: ACCESSED EROORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 
         }
-        LOG.debug(String.valueOf(bindingResult.getFieldError("name")));
-        bindingResult.getFieldError("name");
         recipeLibrary.addRecipe(recipeManagementForm);
         return "recipe_form";
     }
