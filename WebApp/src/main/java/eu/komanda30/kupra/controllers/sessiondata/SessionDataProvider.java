@@ -7,6 +7,7 @@ import eu.komanda30.kupra.repositories.KupraUsers;
 import javax.annotation.Resource;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class SessionDataProvider {
         final UserDetails result = new UserDetails();
         result.setName(user.getUserProfile().getName());
         result.setSurname(user.getUserProfile().getSurname());
+        result.setAdmin(auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")));
         return result;
     }
 }
