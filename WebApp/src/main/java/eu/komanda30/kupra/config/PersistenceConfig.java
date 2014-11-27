@@ -55,9 +55,13 @@ public class PersistenceConfig {
             throw Throwables.propagate(e);
         }
 
+        final String[] migrationDirs = environment
+                .getRequiredProperty("flyway.migrations", String[].class);
+
         final Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
         flyway.setInitOnMigrate(true);
+        flyway.setLocations(migrationDirs);
         flyway.migrate();
 
         return dataSource;
