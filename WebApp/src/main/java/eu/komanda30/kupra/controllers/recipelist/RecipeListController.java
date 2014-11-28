@@ -19,7 +19,7 @@ public class RecipeListController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showRecipes(final RecipesList list) {
-        Iterable<Recipe> allRecipes = recipes.findAll();
+        Iterable<Recipe> allRecipes = recipes.findByPublic();
         for (Recipe r: allRecipes) {
             RecipePreview recipePreview = new RecipePreview();
             recipePreview.setName(r.getName());
@@ -28,5 +28,18 @@ public class RecipeListController {
             list.addRecipe(recipePreview);
         }
         return "recipe-list";
+    }
+
+    @RequestMapping(value = "/personal", method = RequestMethod.GET)
+    public String showPersonalRecipes(final RecipesList list) {
+        Iterable<Recipe> allRecipes = recipes.findAll();
+        for (Recipe r: allRecipes) {
+            RecipePreview recipePreview = new RecipePreview();
+            recipePreview.setName(r.getName());
+            recipePreview.setDescription(r.getDescription());
+            recipePreview.setPublicAccess(r.isPublicAccess());
+            list.addRecipe(recipePreview);
+        }
+        return "recipe-list-personal";
     }
 }
