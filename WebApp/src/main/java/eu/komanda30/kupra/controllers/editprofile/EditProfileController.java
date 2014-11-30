@@ -79,7 +79,7 @@ public class EditProfileController {
        /* Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userRegistrar.editProfile(UserId.forUsername(auth.getName()), form.getNewPassword(), form.getName(),
                                 form.getSurname(), form.getEmail(), form.getDescription());*/
-        return "editProfile";
+        return "redirect:/";
 
     }
 

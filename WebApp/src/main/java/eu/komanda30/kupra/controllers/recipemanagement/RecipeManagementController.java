@@ -49,6 +49,6 @@ public class RecipeManagementController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         recipeLibrary.addRecipe(recipeManagementForm, UserId.forUsername(auth.getName()));
 
-        return "recipe_form";
+        return "redirect:/recipes";
     }
 }
