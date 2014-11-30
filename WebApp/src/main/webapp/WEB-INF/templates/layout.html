@@ -57,6 +57,10 @@
                         <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.ingredients}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
+                        <img th:src="@{/images/logout_white.png}" src="../../images/logout_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.logout}"
+                             onclick="document.getElementById('logout').submit();"/>
+                        <form th:action="@{~/logout}" method="post" id="logout"></form>
                     </div>
                 </div>
             </div>
