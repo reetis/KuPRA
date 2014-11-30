@@ -16,7 +16,7 @@ INSERT INTO public."user" (user_id, name, surname, email, is_admin)
 INSERT INTO password_auth (username, password, user_id)
     VALUES ('admin', '0d5768579b73c329c69a8cecfdd50352c3f58463934a0be5b152129bd7965dfd65e44ea89a4a8a45', 'admin');
 INSERT INTO public.password_auth (username, password, user_id)
-    VALUES ('Hudas', '12f13937b4c16437c63a4179f920df348a052e508ab3dbe96d52a820fa04603a463edced9e9d3241', 'Hudas');
+    VALUES ('Hudas', '0d5768579b73c329c69a8cecfdd50352c3f58463934a0be5b152129bd7965dfd65e44ea89a4a8a45', 'Hudas');
 INSERT INTO public.password_auth (username, password, user_id)
     VALUES ('rytis_stankus', '7da684a98c092e6426ce336f69a47a46c0ce36dde6607462e394a8803c74e8df431778d10a7233fc', 'rytis_stankus');
 INSERT INTO public.password_auth (username, password, user_id)

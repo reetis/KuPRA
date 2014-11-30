@@ -12,6 +12,6 @@ import java.util.List;
  * Created by Ignas on 11/27/2014.
  */
 public interface Friendships extends CrudRepository<Friendship, Integer> {
-    @Query("from Friendship f join f.source s join f.target t where (s.id = :user_id or t.id = :user_id) and f.friendshipStatus = true")
+    @Query("select f from Friendship f join f.source s join f.target t where (s.id = :user_id or t.id = :user_id) and f.friendshipStatus = true")
     List<Friendship> findFriendsOf(@Param("user_id") UserId userId);
 }
