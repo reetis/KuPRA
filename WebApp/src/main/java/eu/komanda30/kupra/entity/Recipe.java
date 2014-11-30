@@ -34,6 +34,12 @@ public class Recipe {
     @Column(nullable = false)
     private int servings;
 
+    @AttributeOverrides( {
+            @AttributeOverride(name="userId", column = @Column(name="author") ),
+    } )
+    @Column(name = "author", nullable = false)
+    private UserId author;
+
     public Integer getRecipe_id() {
         return recipe_id;
     }
@@ -88,5 +94,13 @@ public class Recipe {
 
     public void setServings(int servings) {
         this.servings = servings;
+    }
+
+    public UserId getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(UserId author) {
+        this.author = author;
     }
 }

@@ -1,20 +1,19 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
-import eu.komanda30.kupra.controllers.recipelist.RecipePreview;
-import eu.komanda30.kupra.controllers.recipelist.RecipesList;
-import eu.komanda30.kupra.entity.Recipe;
+import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.services.RecipeLibrary;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * Created by Ignas on 10/23/2014.
@@ -47,7 +46,9 @@ public class RecipeManagementController {
             return "recipe_form";
         }
 
-        recipeLibrary.addRecipe(recipeManagementForm);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        recipeLibrary.addRecipe(recipeManagementForm, UserId.forUsername(auth.getName()));
+
         return "recipe_form";
     }
 }

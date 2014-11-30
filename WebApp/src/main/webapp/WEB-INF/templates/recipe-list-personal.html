@@ -34,15 +34,12 @@
             <div class="row">
                 <div class="col-md-11">
                     <div class="btn-group">
-                        <button class="btn btn-primary" th:text="#{recipe-list.all}">
-                            Vsii
-                        </button>
-                        <button class="btn btn-default" th:text="#{recipe-list.my}">
-                            Mnao
-                        </button>
-                        <button class="btn btn-default" th:text="#{recipe-list.friends}">
-                            Dravgo
-                        </button>
+                        <a href="recipe-list.html" th:href="@{~/recipes}"
+                           class="btn btn-default" th:text="#{recipe-list.all}">Vsii</a>
+                        <a href="recipe-list.html" th:href="@{~/recipes/personal}"
+                           class="btn btn-primary" th:text="#{recipe-list.my}">Mnao</a>
+                        <a href="#"
+                           class="btn btn-default" th:text="#{recipe-list.friends}">Dravgo</a>
                     </div>
                 </div>
                 <div class="col-md-1">

@@ -2,15 +2,15 @@ package eu.komanda30.kupra.services.impl;
 
 import eu.komanda30.kupra.controllers.recipemanagement.RecipeManagementForm;
 import eu.komanda30.kupra.entity.Recipe;
+import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.services.RecipeLibrary;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 @Service
 public class RecipeLibraryImpl implements RecipeLibrary {
@@ -21,7 +21,7 @@ public class RecipeLibraryImpl implements RecipeLibrary {
 
     @Transactional
     @Override
-    public void addRecipe(RecipeManagementForm recipeForm) {
+    public void addRecipe(RecipeManagementForm recipeForm, UserId author) {
         Recipe recipe = new Recipe();
 
         recipe.setName(recipeForm.getName());
@@ -30,6 +30,7 @@ public class RecipeLibraryImpl implements RecipeLibrary {
         recipe.setCookingTime(recipeForm.getCookingTime());
         recipe.setPublicAccess(recipeForm.isPublicAccess());
         recipe.setServings(recipeForm.getServings());
+        recipe.setAuthor(author);
 
         recipes.save(recipe);
     }
