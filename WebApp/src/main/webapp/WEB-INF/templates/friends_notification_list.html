@@ -55,6 +55,7 @@
 
                         <form role="form" th:action="@{~/friends/unfriend}" action="#" method="POST">
                             <input name="friendshipId" type="hidden" th:value="${user.friendshipId}"/>
+                            <input name="denyAction" type="hidden" value="1"/>
                             <button type="submit" th:text="#{friendsListForm.deny}"
                                     class="btn btn-default btn-lg" >
                                 Nedraugauti

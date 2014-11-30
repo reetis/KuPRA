@@ -21,10 +21,15 @@ public class UnFriendController {
     private static final Logger LOG = LoggerFactory.getLogger(UnFriendController.class);
 
     @RequestMapping(value="/unfriend", method = RequestMethod.POST)
-    public String unfriend(@RequestParam("friendshipId") Integer friendshipId){
+    public String unfriend(@RequestParam("friendshipId") Integer friendshipId,
+                           @RequestParam("denyAction") Integer denyAction){
         Friendship friendship = friendships.findOne(friendshipId);
         friendships.delete(friendship);
 
-        return "redirect:/friends/list";
+        String redirectUrl = (denyAction != null && denyAction == 1) ?
+                "redirect:/friends/notifications" :
+                "redirect:/friends/list";
+
+        return redirectUrl;
     }
 }
