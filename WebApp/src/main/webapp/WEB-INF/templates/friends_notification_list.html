@@ -22,11 +22,10 @@
 </head>
 <body>
 <div th:replace="layout :: header"></div>
-
 <div class="container">
 
     <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
-    <th:block th:fragment="friend-list-header(place)" th:with="place='friends'">
+    <th:block th:fragment="friend-list-header(place)" th:with="place='notifications'">
 
         <div class="page-header">
             <h1 th:text="#{friendsListForm.title}">This Doesn't Have TH:TEXT</h1>
@@ -46,9 +45,10 @@
         </div>
     </th:block>
 
-    <div th:unless="${#lists.isEmpty(friendListForm.friendListUnits)}">
+
+    <div th:unless="${#lists.isEmpty(notificationListForm.notificationListUnits)}">
         <div class="row">
-            <div class="col-md-6" th:each="user : ${friendListForm.friendListUnits}" >
+            <div class="col-md-6" th:each="user : ${notificationListForm.notificationListUnits}" >
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <p th:text="${user.name} + ' ' + ${user.surname}"></p>
@@ -58,10 +58,10 @@
         </div>
     </div>
 
-    <div th:if="${#lists.isEmpty(friendListForm.friendListUnits)}">
+    <div th:if="${#lists.isEmpty(notificationListForm.notificationListUnits)}">
         <div class="row">
             <div class="col-md-12">
-              <p th:text="friendsListForm.noFriends">Tu Neturi Draugų</p>
+                <p th:text="friendsListForm.noFriends">Tu Neturi Draugų</p>
             </div>
         </div>
     </div>
