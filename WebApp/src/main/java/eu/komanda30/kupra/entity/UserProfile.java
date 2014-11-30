@@ -14,6 +14,9 @@ public class UserProfile {
     @Column(unique = true, length = 64)
     private String email;
 
+    @Column(length = 64)
+    private String description;
+
     public String getName() {
         return name;
     }
@@ -36,5 +39,13 @@ public class UserProfile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

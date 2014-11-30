@@ -46,9 +46,25 @@ public class UserRegistrarImpl implements UserRegistrar {
 
     @Transactional
     @Override
-    public void editProfile(UserId userId, String password, String name, String surname, String email,
+    public void editProfile(UserId userId, String name, String surname, String email,
                             String description){
+        final KupraUser user = kupraUsers.findOne(userId);
+
+            user.setName(name);
+            user.setSurname(surname);
+            user.setEmail(email);
+            user.setDescription(description);
+
+
+
+        LOG.trace("Atejau i saugojima");
+    }
+
+    @Transactional
+    @Override
+    public void editPassword(UserId userId, String password){
         final UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(userId);
+
         final String encodedNewPassword = passwordEncoder.encode(password);
         passwordAuth.setPassword(encodedNewPassword);
 

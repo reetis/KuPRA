@@ -3,6 +3,7 @@ CREATE TABLE "user" (
   name          varchar(64) NOT NULL,
   surname       varchar(64) NOT NULL,
   email         varchar(64) NOT NULL,
+  description   varchar(64),
   is_admin      boolean NOT NULL DEFAULT FALSE
 );
 

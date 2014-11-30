@@ -1,6 +1,8 @@
 package eu.komanda30.kupra.controllers.editprofile;
 
+import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.UserId;
+import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.services.UserRegistrar;
 
 import javax.annotation.Resource;
@@ -26,6 +28,9 @@ public class EditProfileController {
     private UserRegistrar userRegistrar;
 
     @Resource
+    private KupraUsers kupraUsers;
+
+    @Resource
     private EditProfileValidator editProfileValidator;
 
     @InitBinder
@@ -34,22 +39,46 @@ public class EditProfileController {
     }
 
     @RequestMapping(value="/edit_profile", method = RequestMethod.GET)
-    public String showForm(final EditProfileForm form) {
+    public String showForm(final EditProfileForm form, final EditPasswordForm passForm) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
+        form.setName(user.getName());
+        form.setSurname(user.getSurname());
+        form.setEmail(user.getEmail());
+        form.setDescription(user.getDescription());
         return "editProfile";
     }
 
     @RequestMapping(value="/edit_profile", method = RequestMethod.POST)
     public String submit(@Valid final EditProfileForm form,
-                         final BindingResult bindingResult) {
-
-
+                         final BindingResult bindingResult,
+                         @Valid final EditPasswordForm passForm,
+                         final BindingResult passErrors) {
         if (bindingResult.hasErrors()) {
             return "editProfile";
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+       if (!passForm.getPassword().isEmpty()) {
+           if (passErrors.hasErrors()) {
+               return "editProfile";
+           } else {
+               userRegistrar.editPassword(UserId.forUsername(auth.getName()), passForm.getNewPassword());
+           }
+       }
+
+        userRegistrar.editProfile(UserId.forUsername(auth.getName()), form.getName(), form.getSurname(),
+                form.getEmail(), form.getDescription());
+
+/*        if (bindingResult.hasErrors()) {
+            return "editProfile";
+        }*/
+
+       /* Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         userRegistrar.editProfile(UserId.forUsername(auth.getName()), form.getNewPassword(), form.getName(),
-                                form.getSurname(), form.getEmail(), form.getDescription());
+                                form.getSurname(), form.getEmail(), form.getDescription());*/
         return "editProfile";
 
     }

@@ -1,5 +1,6 @@
 package eu.komanda30.kupra.controllers.editprofile;
 
+import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.entity.UsernamePasswordAuth;
 import eu.komanda30.kupra.repositories.KupraUsers;
@@ -35,33 +36,48 @@ public class EditProfileValidator implements Validator {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+
     @Override
     public boolean supports(Class<?> clazz) {
-        return EditProfileForm.class.isAssignableFrom(clazz);
+        return EditProfileForm.class.isAssignableFrom(clazz)
+                || EditPasswordForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        final EditProfileForm form = (EditProfileForm)target;
+        if (target instanceof EditProfileForm) {
+            validateProfile((EditProfileForm) target, errors);
+        } else if (target instanceof EditPasswordForm) {
+            validatePassword((EditPasswordForm) target, errors);
+        }
+    }
+
+    private void validateProfile(EditProfileForm target, Errors errors) {
+        final EditProfileForm form = target;
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
+
+        if ((kupraUsers.findByEmail(form.getEmail()) != null) && !(form.getEmail().equals(user.getEmail()))) {
+            errors.rejectValue("email","AlreadyUsed");
+        }
+    }
+
+    public void validatePassword(Object target, Errors errors) {
+        final EditPasswordForm form = (EditPasswordForm)target;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 
-        LOG.trace("************************");
-        LOG.trace(form.getEmail());
-        LOG.trace("************************");
-
         UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(UserId.forUsername(auth.getName()));
 
-      //  String encodedPassword = passwordEncoder.encode(form.getPassword());
 
-        if (!passwordEncoder.matches(form.getPassword(), passwordAuth.getPassword())){
-            errors.rejectValue("password", "DoesNotMatch");
+        if(!form.getPassword().equals("")) {
+            if (!passwordEncoder.matches(form.getPassword(), passwordAuth.getPassword())) {
+                errors.rejectValue("password", "DoesNotMatch");
+            }
+            if (!form.getNewPassword().equals(form.getConfirmNewPassword())) {
+                errors.rejectValue("confirmNewPassword", "DoesNotMatch");
+            }
         }
-        if (!form.getNewPassword().equals(form.getConfirmNewPassword())) {
-            errors.rejectValue("confirmNewPassword", "DoesNotMatch");
-        }
-        /*if (kupraUsers.findByEmail(form.getEmail()) != null) {
-            errors.rejectValue("email","AlreadyUsed");
-        }*/
     }
 }
