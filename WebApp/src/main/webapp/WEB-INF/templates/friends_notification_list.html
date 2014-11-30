@@ -52,9 +52,20 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <p th:text="${user.name} + ' ' + ${user.surname}"></p>
-                        <button th:text="#{friendsListForm.accept}" class="btn btn-default btn-lg">
-                            Nedraugauti
-                        </button>
+
+                        <form role="form" th:action="@{~/friends/unfriend}" action="#" method="POST">
+                            <input name="friendshipId" type="hidden" th:value="${user.friendshipId}"/>
+                            <button type="submit" th:text="#{friendsListForm.deny}"
+                                    class="btn btn-default btn-lg" >
+                                Nedraugauti
+                            </button>
+                        </form>
+                        <form role="form" th:action="@{~/friends/accept_request}" action="#" method="POST">
+                            <input name="friendshipId" type="hidden" th:value="${user.friendshipId}"/>
+                            <button th:text="#{friendsListForm.accept}" class="btn btn-default btn-lg">
+                                draugauti
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -64,7 +75,7 @@
     <div th:if="${#lists.isEmpty(notificationListForm.notificationListUnits)}">
         <div class="row">
             <div class="col-md-12">
-                <p th:text="#{friendsListForm.noFriends]">Tu Neturi Draugų</p>
+                <p th:text="#{friendsListForm.noFriendRequests}">Tu Neturi Draugų</p>
             </div>
         </div>
     </div>
