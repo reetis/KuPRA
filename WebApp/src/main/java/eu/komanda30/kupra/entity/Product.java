@@ -9,26 +9,29 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * Created by Rytis on 2014-10-21.
+ * Created by Gintare on 2014-11-27.
  */
-
-@Table(name="unit")
+@Table(name="product")
 @Entity
 @SequenceGenerator(
-        name="unitIdSequence",
-        sequenceName="unit_seq",
+        name="productIdSequence",
+        sequenceName="product_seq",
         allocationSize=1
 )
-public class Unit {
+public class Product {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="unitIdSequence")
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="productIdSequence")
     private Integer id;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private String abbreviation;
+    private String description;
+
+    @Column (nullable = false)
+    private int selectedUnit;
 
     public Integer getId() {
         return id;
@@ -38,6 +41,22 @@ public class Unit {
         this.id = id;
     }
 
+    public int getSelectedUnit() {
+        return selectedUnit;
+    }
+
+    public void setSelectedUnit(int selectedUnit) {
+        this.selectedUnit = selectedUnit;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,12 +64,6 @@ public class Unit {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
-
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
-    }
 }
+
+

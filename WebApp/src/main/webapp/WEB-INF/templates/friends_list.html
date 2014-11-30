@@ -6,37 +6,42 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{registration.title}">Regtst</title>
+    <title th:text="#{friendsListForm.title}">Regtst</title>
 
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
     <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div th:replace="layout :: header"></div>
-
 <div class="container">
-    <div class="row" th:with="userDetails = ${@sessionData.loggedUserDetails}">
-        <div class="col-xs-12">
-            <div th:replace="newUnit :: newUnitButton"></div>
-            <div th:replace="newProduct :: newProductButton"></div>
-            <h2 th:text="#{frontpage.title}">Frontpage</h2>
-            <div>Frontpage will be here soon!</div>
-            <div>Welcome, <span th:text="${userDetails.name} + ' ' + ${userDetails.surname}">Username Usersurname</span></div>
-        </div>
-    </div>
-</div>
 
+    <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
+    <div class="page-header">
+        <h1 th:text="#{friendsListForm.title}">This Doesn't Have TH:TEXT</h1>
+    </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+              <div th:each="user : ${friendListForm.friendListUnits}" >
+                  <p th:text="${user.name} + ${user.surname}"></p>
+              </div>
+            </div>
+        </div>
+
+</div>
+<script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+<script th:src="@{/js/recipe_management.js}" src="../../js/recipe_management.js" type="text/javascript"></script>
 <div th:replace="layout :: footer"></div>
 
-<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

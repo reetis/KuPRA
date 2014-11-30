@@ -11,7 +11,6 @@
     $('.btn-toggle').click(function(event) {
         event.preventDefault();
         $(this).find('.btn').toggleClass('active');
-        console.log("RANDOM");
         if ($(this).find('.btn-primary').size()>0) {
             $(this).find('.btn').toggleClass('btn-primary');
         }
