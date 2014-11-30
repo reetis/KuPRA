@@ -23,15 +23,15 @@ public class EditProfileForm {
     private String confirmNewPassword;
 
     @NotNull
-    @Size(min=3, max=64)
+    @Size(min=0, max=64)
     private String name;
 
     @NotNull
-    @Size(min=3, max=64)
+    @Size(min=0, max=64)
     private String surname;
 
     @NotNull
-    @Size(min=1, max=64)
+    @Size(min=0, max=64)
     @Email
     private String email;
 

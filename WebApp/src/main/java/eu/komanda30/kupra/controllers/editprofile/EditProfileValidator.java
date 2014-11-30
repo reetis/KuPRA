@@ -7,6 +7,9 @@ import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
 
 import javax.annotation.Resource;
 
+import eu.komanda30.kupra.services.impl.UserRegistrarImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +23,8 @@ import org.springframework.validation.Validator;
 
 @Component
 public class EditProfileValidator implements Validator {
+
+    public static final Logger LOG = LoggerFactory.getLogger(UserRegistrarImpl.class.getName());
 
     @Resource
     private KupraUsers kupraUsers;
@@ -39,6 +44,12 @@ public class EditProfileValidator implements Validator {
     public void validate(Object target, Errors errors) {
         final EditProfileForm form = (EditProfileForm)target;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+        LOG.trace("************************");
+        LOG.trace(form.getEmail());
+        LOG.trace("************************");
+
         UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(UserId.forUsername(auth.getName()));
 
       //  String encodedPassword = passwordEncoder.encode(form.getPassword());
@@ -49,8 +60,8 @@ public class EditProfileValidator implements Validator {
         if (!form.getNewPassword().equals(form.getConfirmNewPassword())) {
             errors.rejectValue("confirmNewPassword", "DoesNotMatch");
         }
-        if (kupraUsers.findByEmail(form.getEmail()) != null) {
+        /*if (kupraUsers.findByEmail(form.getEmail()) != null) {
             errors.rejectValue("email","AlreadyUsed");
-        }
+        }*/
     }
 }
