@@ -14,7 +14,9 @@
 
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
 
-    <link th:href="@{/css/bootstrap-image-gallery.min.css}" href="../../css/bootstrap-image-gallery.min.css" rel="stylesheet"/>
+    <link th:href="@{/lightbox/css/lightbox.css}" href="../../lightbox/css/lightbox.css" rel="stylesheet"/>
+
+    <link th:href="@{/css/gallery.css}" href="../../css/gallery.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -31,20 +33,11 @@
               th:action="@{/recipe/create}"
               th:object="${recipeManagementForm}">
 
+            <input type="hidden" th:field="*{tmpId}"/>
+
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-
-                        <div id="blueimp-gallery" class="blueimp-gallery">
-                            <div class="slides"></div>
-                            <h3 class="title"></h3>
-                            <a class="prev">‹</a>
-                            <a class="next">›</a>
-                            <a class="close">×</a>
-                            <a class="play-pause"></a>
-                            <ol class="indicator"></ol>
-                        </div>
-
                         <div th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
                             <label for="name" class="control-label"
                                    th:text="#{recipeCreateForm.name}">Name</label>
@@ -94,14 +87,28 @@
                             <input type="hidden" th:field="*{publicAccess}" value="0" id="public_access_value"/>
                         </div>
 
-
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <span class="btn btn-primary btn-file">
-                                    Browse&hellip; <input type="file" id="exampleInputFile"/>
+                        <div th:fragment="image_list" id="image_form">
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-primary btn-file">
+                                        Browse&hellip; <input type="file" id="uploadRecipeImg" multiple="true"/>
+                                    </span>
                                 </span>
-                            </span>
-                            <input type="text" class="form-control" readonly=""/>
+                                <input type="text" class="form-control" readonly=""/>
+                            </div>
+
+                            <a th:each="img : ${images.images}"
+                               th:href="${img.imageUrl}"
+                               class="gallery-link" href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg" data-lightbox="roadtrip">
+                                <img th:src="${img.thumbUrl}"
+                                     src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                            </a>
+                            <a th:remove="all" class="gallery-link" href="http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg" data-lightbox="roadtrip">
+                                <img src="http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg"/>
+                            </a>
+                            <a th:remove="all"  class="gallery-link" href="http://upload.wikimedia.org/wikipedia/commons/b/bb/Kittyply_edit1.jpg" data-lightbox="roadtrip">
+                                <img src="http://upload.wikimedia.org/wikipedia/commons/b/bb/Kittyply_edit1.jpg"/>
+                            </a>
                         </div>
 
                         <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
@@ -125,8 +132,36 @@
 <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
 <script th:src="@{/js/recipe_management.js}" src="../../js/recipe_management.js" type="text/javascript"></script>
-<script th:src="@{/js/bootstrap-image-gallery.min.js}" src="../../js/bootstrap-image-gallery.min.js" type="text/javascript"></script>
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="../../lightbox/js/lightbox.min.js" type="text/javascript"></script>
 <div th:replace="layout :: footer"></div>
+
+<script type="text/javascript" th:inline="javascript">
+    +function($) {
+        var imgUrl = /*[[@{/recipe/uploadPhotos}]]*/ '#';
+
+        $('#uploadRecipeImg').change(function () {
+            var formData = new FormData();
+
+            var files = document.getElementById("uploadRecipeImg").files;
+            for (var i = 0; i < files.length; i++) {
+                formData.append("images", files[i]);
+            }
+
+            $.ajax({
+                url: imgUrl,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (returndata) {
+                    alert(returndata);
+                }
+            });
+        });
+    }(jQuery);
+</script>
 
 </body>
 </html>

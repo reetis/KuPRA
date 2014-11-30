@@ -16,7 +16,8 @@ public class RecipeManagementFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-            return RecipeManagementForm.class.isAssignableFrom(clazz);
+            return RecipeManagementForm.class.isAssignableFrom(clazz)
+                    || RecipeImagesForm.class.isAssignableFrom(clazz);
     }
 
     @Override

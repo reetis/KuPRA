@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
  * Created by Ignas on 10/23/2014.
  */
 public class RecipeManagementForm {
+    private String tmpId;
 
     @Size(min=1, max=256)
     private String name;
@@ -28,6 +29,14 @@ public class RecipeManagementForm {
     @NotNull
     @Min(1)
     private int servings = 1;
+
+    public String getTmpId() {
+        return tmpId;
+    }
+
+    public void setTmpId(String tmpId) {
+        this.tmpId = tmpId;
+    }
 
     public String getName() {
         return name;

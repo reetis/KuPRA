@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.DefaultMessageCodesResolver;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.support.RequestDataValueProcessor;
@@ -133,4 +137,13 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     public RequestDataValueProcessor requestDataValueProcessor() {
         return new CsrfRequestDataValueProcessor();
     }
+
+    /*static @Bean public PropertySourcesPlaceholderConfigurer myPropertySourcesPlaceholderConfigurer() {
+        PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
+        FileSystemResource[] resourceLocations = new FileSystemResource[] {
+                new FileSystemResource("${KUPRA_CONFIG_DIR}/kupra.properties")
+        };
+        p.setLocations(resourceLocations);
+        return p;
+    }*/
 }

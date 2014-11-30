@@ -5,12 +5,18 @@ import eu.komanda30.kupra.config.PersistenceConfig;
 import eu.komanda30.kupra.config.SecurityConfig;
 import eu.komanda30.kupra.config.ServiceConfig;
 
+import java.io.File;
+
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @SuppressWarnings("UnusedDeclaration")
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+    private final static long BYTES_IN_MB = 2>>20;
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] {
@@ -35,4 +41,15 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Filter[0];
     }
 
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        final MultipartConfigElement multipartConfigElement =
+                new MultipartConfigElement(
+                        UploadConfiguration.UPLOAD_DIRECTORY.getAbsolutePath(),
+                        UploadConfiguration.MAX_UPLOAD_FILE_SIZE_MB * BYTES_IN_MB,
+                        UploadConfiguration.MAX_REQUEST_SIZE_MB * BYTES_IN_MB,
+                        (int)(UploadConfiguration.MAX_FILE_THRESHOLD_MB * BYTES_IN_MB) );
+
+        registration.setMultipartConfig(multipartConfigElement);
+    }
 }

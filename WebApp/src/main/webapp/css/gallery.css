@@ -1,0 +1,19 @@
+.gallery-link:hover {
+    background-color: #4ae;
+    transition: background-color 0s;
+}
+
+.gallery-link {
+    display: inline-block;
+    line-height: 0;
+    padding:4px;
+    border-radius: 5px;
+
+    background-color: transparent;
+    transition: background-color 0.5s ease-out;
+}
+
+.gallery-link img {
+    width: 7rem;
+    border-radius: 5px;
+}
