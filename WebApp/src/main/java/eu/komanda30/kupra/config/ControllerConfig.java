@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.annotation.Resource;
 
+import eu.komanda30.kupra.locale.KupraLocaleResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,10 +20,8 @@ import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.support.RequestDataValueProcessor;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -32,7 +31,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan({ "eu.komanda30.kupra.controllers" })
+@ComponentScan({ "eu.komanda30.kupra.controllers", "eu.komanda30.kupra.locale" })
 @PropertySource("file:${KUPRA_CONFIG_DIR}/kupra.properties")
 public class ControllerConfig extends WebMvcConfigurerAdapter {
 
@@ -40,6 +39,9 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Resource
     private Environment environment;
+
+    @Resource
+    private KupraLocaleResolver kupraLocaleResolver;
 
     @Bean
     public SpringTemplateEngine templateEngine() {
@@ -71,9 +73,14 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public LocaleResolver localeResolver() {
-        final SessionLocaleResolver resolver = new SessionLocaleResolver();
-        resolver.setDefaultLocale(Locale.forLanguageTag("lt-LT"));
-        return resolver;
+        return kupraLocaleResolver;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+        registry.addInterceptor(localeChangeInterceptor);
     }
 
     @Bean
