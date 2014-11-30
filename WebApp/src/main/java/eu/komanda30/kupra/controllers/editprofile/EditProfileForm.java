@@ -11,18 +11,6 @@ import javax.validation.constraints.Size;
 public class EditProfileForm {
 
     @NotNull
-    @Size(min=8, max=64)
-    private String password;
-
-    @NotNull
-    @Size(min=8, max=64)
-    private String newPassword;
-
-    @NotNull
-    @Size(min=8, max=64)
-    private String confirmNewPassword;
-
-    @NotNull
     @Size(min=3, max=64)
     private String name;
 
@@ -31,37 +19,13 @@ public class EditProfileForm {
     private String surname;
 
     @NotNull
-    @Size(min=1, max=64)
+    @Size(min=3, max=64)
     @Email
     private String email;
 
-    @NotNull
+   /* @NotNull*/
     @Size(min=0, max=256)
     private String description;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    public String getConfirmNewPassword() {
-        return confirmNewPassword;
-    }
-
-    public void setConfirmNewPassword(String confirmNewPassword) {
-        this.confirmNewPassword = confirmNewPassword;
-    }
 
     public String getName() {
         return name;

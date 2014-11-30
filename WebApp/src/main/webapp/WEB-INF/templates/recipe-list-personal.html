@@ -24,35 +24,8 @@
 <div th:replace="layout :: header"></div>
 
 <div class="container">
-    <div class="row">
-        <div class="page-header">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 th:text="#{recipe-list.title}">Pavadinimas</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-11">
-                    <div class="btn-group">
-                        <a href="recipe-list.html" th:href="@{~/recipes}"
-                           class="btn btn-default" th:text="#{recipe-list.all}">Vsii</a>
-                        <a href="recipe-list.html" th:href="@{~/recipes/personal}"
-                           class="btn btn-primary" th:text="#{recipe-list.my}">Mnao</a>
-                        <a href="#"
-                           class="btn btn-default" th:text="#{recipe-list.friends}">Dravgo</a>
-                    </div>
-                </div>
-                <div class="col-md-1">
-                    <a href="recipe_form.html" th:href="@{~/recipe_create}">
-                    <button class="btn btn-default"
-                            data-toggle="tooltip" data-placement="bottom"
-                            title="Tooltip on bottom" th:title="#{recipe-list.add_recipe}">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    </button>
-                    </a>
-                </div>
-            </div>
-        </div>
+    <div class="row" th:include="recipe-list :: recipe-list-header('mine')">
+
     </div>
     <div class="row">
         <div th:if="!${#lists.isEmpty(recipesList.recipes)}">

@@ -25,6 +25,8 @@
 
 <div class="container">
     <div class="row">
+
+        <th:block th:fragment="recipe-list-header(place)" th:with="place='all'">
         <div class="page-header">
             <div class="row">
                 <div class="col-xs-12">
@@ -34,12 +36,12 @@
             <div class="row">
                 <div class="col-md-11">
                     <div class="btn-group">
-                        <a href="recipe-list.html" th:href="@{~/recipes}"
-                           class="btn btn-primary" th:text="#{recipe-list.all}">Vsii</a>
-                        <a href="recipe-list.html" th:href="@{~/recipes/personal}"
-                           class="btn btn-default" th:text="#{recipe-list.my}">Mnao</a>
-                        <a href="#"
-                           class="btn btn-default" th:text="#{recipe-list.friends}">Dravgo</a>
+                        <a href="recipe-list.html" th:href="@{~/recipes}" class="btn" th:text="#{recipe-list.all}"
+                           th:classappend="${place=='all'}?'btn-primary':'btn-default'">Vsii</a>
+                        <a href="recipe-list.html" th:href="@{~/recipes/personal}" class="btn" th:text="#{recipe-list.my}"
+                           th:classappend="${place=='mine'}?'btn-primary':'btn-default'">Mnao</a>
+                        <a href="#" class="btn" th:text="#{recipe-list.friends}"
+                           th:classappend="${place=='friends'}?'btn-primary':'btn-default'">Dravgo</a>
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -53,6 +55,7 @@
                 </div>
             </div>
         </div>
+        </th:block>
     </div>
     <div class="row">
         <div th:if="!${#lists.isEmpty(recipesList.recipes)}">

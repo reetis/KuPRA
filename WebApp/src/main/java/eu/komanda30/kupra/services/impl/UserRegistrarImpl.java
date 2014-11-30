@@ -11,11 +11,16 @@ import eu.komanda30.kupra.services.UserRegistrar;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+
 @Service
 public class UserRegistrarImpl implements UserRegistrar {
+    public static final Logger LOG = LoggerFactory.getLogger(UserRegistrarImpl.class.getName());
 
     @Resource
     private KupraUsers kupraUsers;
@@ -41,10 +46,28 @@ public class UserRegistrarImpl implements UserRegistrar {
 
     @Transactional
     @Override
-    public void editProfile(UserId userId, String password, String name, String surname, String email,
+    public void editProfile(UserId userId, String name, String surname, String email,
                             String description){
+        final KupraUser user = kupraUsers.findOne(userId);
+
+            user.setName(name);
+            user.setSurname(surname);
+            user.setEmail(email);
+            user.setDescription(description);
+
+
+
+        LOG.trace("Atejau i saugojima");
+    }
+
+    @Transactional
+    @Override
+    public void editPassword(UserId userId, String password){
         final UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(userId);
+
         final String encodedNewPassword = passwordEncoder.encode(password);
         passwordAuth.setPassword(encodedNewPassword);
+
+        LOG.trace("Atejau i saugojima");
     }
 }

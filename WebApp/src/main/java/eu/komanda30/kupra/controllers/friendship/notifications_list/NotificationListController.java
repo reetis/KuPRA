@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.friendship.friends_list;
+package eu.komanda30.kupra.controllers.friendship.notifications_list;
 
 import eu.komanda30.kupra.entity.Friendship;
 import eu.komanda30.kupra.entity.KupraUser;
@@ -16,40 +16,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by Ignas on 11/27/2014.
- */
 @Controller
 @RequestMapping("/friends")
-public class FriendsListController {
+public class NotificationListController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FriendsListController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NotificationListController.class);
 
     @Resource
     private Friendships friendships;
 
-    @RequestMapping(value="/list", method = RequestMethod.GET)
-    public String showFriendsList(final FriendListForm form) {
+    @RequestMapping(value="/notifications", method = RequestMethod.GET)
+    public String showNotificationsList(final NotificationListForm form) {
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String username = auth.getName();
         UserId loggedUserId = UserId.forUsername(username);
 
-        List<Friendship> friendshipsList = friendships.findFriendsOf(loggedUserId);
+        List<Friendship> friendshipsList = friendships.findNotificationsOf(loggedUserId);
 
         for (Friendship friendship : friendshipsList) {
-            FriendListUnit friendListUnit = new FriendListUnit();
+            NotificationListUnit notificationListUnit = new NotificationListUnit();
 
             KupraUser kupraUser = friendship.getFriendOf(loggedUserId);
 
             UserProfile userProfile = kupraUser.getUserProfile();
 
-            friendListUnit.setName(userProfile.getName());
-            friendListUnit.setSurname(userProfile.getSurname());
-            friendListUnit.setFriendshipId(friendship.getFriendshipId());
+            notificationListUnit.setName(userProfile.getName());
+            notificationListUnit.setSurname(userProfile.getSurname());
+            notificationListUnit.setFriendshipId(friendship.getFriendshipId());
 
-            form.addFriendListUnit(friendListUnit);
+            form.addNotificationListUnit(notificationListUnit);
         }
-        return "friends_list";
+        return "friends_notification_list";
     }
 }

@@ -39,8 +39,10 @@
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.menu}"/>
                         <img th:src="@{/images/search_white.png}" src="../../images/search_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.filter}"/>
+                        <a href="editProfile.html" th:href="@{~/edit_profile}">
                         <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.profile}"/>
+                        </a>
                         <a href="recipe-list.html" th:href="@{~/recipes}">
                         <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.recipes}"/>
@@ -57,6 +59,10 @@
                         <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.ingredients}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
+                        <img th:src="@{/images/logout_white.png}" src="../../images/logout_white.png" class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.logout}"
+                             onclick="document.getElementById('logout').submit();"/>
+                        <form th:action="@{~/logout}" method="post" id="logout"></form>
                     </div>
                 </div>
             </div>

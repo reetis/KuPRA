@@ -25,8 +25,8 @@
 
     <form class="editProfile-form" role="form" action="#" method="post"
           th:action="@{/edit_profile}"
-          th:object="${editProfileForm}">
-
+          >
+    <div th:object="${editPasswordForm}">
             <div class="form-group">
                 <label for="password" class="control-label"
                        th:text="#{editprofile.oldpw}">Password</label>
@@ -52,33 +52,34 @@
                 <span class="help-block" th:if="${#fields.hasErrors('confirmNewPassword')}"
                       th:errors="*{confirmNewPassword}">Different passwords</span>
             </div>
-
+        </div>
+        <div th:object="${editProfileForm}">
             <div class="form-group">
                 <label for="name" class="control-label"
-                       th:text="#{editprofile.name}">New password</label>
+                       th:text="#{editprofile.name}">Name</label>
                 <input type="text" class="form-control" placeholder="Name" id="name"
-                       th:field="*{name}" th:placeholder="#{editprofile.name}"/>
+                       th:value="*{name}" th:field="*{name}" th:placeholder="#{editprofile.name}"/>
             </div>
 
             <div class="form-group">
                 <label for="surname" class="control-label"
                        th:text="#{editprofile.surname}">New password</label>
                 <input type="text" class="form-control" placeholder="Name" id="surname"
-                       th:field="*{surname}" th:placeholder="#{editprofile.surname}"/>
+                       th:value="*{surname}" th:field="*{surname}" th:placeholder="#{editprofile.surname}"/>
             </div>
 
         <div class="form-group">
             <label for="email" class="control-label"
                    th:text="#{editprofile.email}">New password</label>
             <input type="email" class="form-control" placeholder="Name" id="email"
-            th:field="*{email}" th:placeholder="#{editprofile.email}"/>
+                   th:value="*{email}" th:field="*{email}" th:placeholder="#{editprofile.email}"/>
         </div>
 
         <div class="form-group">
             <label for="description" class="control-label"
                    th:text="#{editprofile.description}">New password</label>
             <input type="text" class="form-control" placeholder="Name" id="description"
-                   th:field="*{email}" th:placeholder="#{editprofile.description}"/>
+                   th:value="*{description}" th:field="*{description}" th:placeholder="#{editprofile.description}"/>
         </div>
 
         <div class="form-group">
@@ -91,7 +92,7 @@
             <button type="submit" class="btn btn-default btn-lg"
                     th:text="#{editprofile.savebtn}">Save</button>
         </div>
-
+    </div>
     </form>
 
 </div>

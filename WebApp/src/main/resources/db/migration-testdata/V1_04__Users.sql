@@ -1,6 +1,18 @@
 --User: admin
 --Pass: adminadmin
 
+--User: Hudas
+--Pass: adminadmin
+
+--User: rytis_stankus
+--Pass: rytisrytis
+
+--User: gintare_stalygaite
+--Pass: gintaregintare
+
+--User: lukas_babelis
+--Pass: lukaslukas
+
 INSERT INTO "user" (user_id, name, surname, email, is_admin)
     VALUES ('admin','admin','admin','admin@admin.lt',true);
 INSERT INTO public."user" (user_id, name, surname, email, is_admin)
