@@ -46,6 +46,7 @@ public class FriendsListController {
 
             friendListUnit.setName(userProfile.getName());
             friendListUnit.setSurname(userProfile.getSurname());
+            friendListUnit.setFriendshipId(friendship.getFriendshipId());
 
             form.addFriendListUnit(friendListUnit);
         }

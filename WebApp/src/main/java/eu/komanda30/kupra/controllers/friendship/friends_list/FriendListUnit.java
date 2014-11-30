@@ -9,6 +9,8 @@ public class FriendListUnit {
 
     private String surname;
 
+    private int friendshipId;
+
     public String getName() {
         return name;
     }
@@ -23,5 +25,13 @@ public class FriendListUnit {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public int getFriendshipId() {
+        return friendshipId;
+    }
+
+    public void setFriendshipId(int friendshipId) {
+        this.friendshipId = friendshipId;
     }
 }

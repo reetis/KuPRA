@@ -51,7 +51,14 @@
             <div class="col-md-6" th:each="user : ${friendListForm.friendListUnits}" >
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <p th:text="${user.name} + ' ' + ${user.surname}"></p>
+                        <form role="form" th:action="@{~/friends/unfriend}" action="#" method="POST">
+                            <p th:text="${user.name} + ' ' + ${user.surname}"></p>
+                            <input name="friendshipId" type="hidden" th:value="${user.friendshipId}"/>
+                            <button type="submit" th:text="#{friendsListForm.unfriend}"
+                                    class="btn btn-default btn-lg" >
+                                Nedraugauti
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -61,17 +68,38 @@
     <div th:if="${#lists.isEmpty(friendListForm.friendListUnits)}">
         <div class="row">
             <div class="col-md-12">
-              <p th:text="friendsListForm.noFriends">Tu Neturi Draugų</p>
+              <p th:text="#{friendsListForm.noFriends}">Tu Neturi Draugų</p>
             </div>
         </div>
     </div>
 
-
-
 </div>
+
+
+
 <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
-<script th:src="@{/js/recipe_management.js}" src="../../js/recipe_management.js" type="text/javascript"></script>
+<script th:src="@{/js/friend_list.js}" src="../../js/friend_list.js" type="text/javascript"></script>
+<script type="application/javascript" th:inline="javascript">
+
+    +function($) {
+        var submitUrl = /*[[@{/friends/unfriend}]]*/ '#';
+
+        unfriendButtons = $('.btn-default');
+        unfriend
+        for(var button in unfriendButtons){
+            button.click(function(event){
+                friendshipId = button.parent.find("input").val();
+                console.log(friendshipId);
+                $.ajax({
+                    url: submitUrl
+                });
+            });
+        }
+
+
+    }(jQuery);
+</script>
 <div th:replace="layout :: footer"></div>
 
 </body>

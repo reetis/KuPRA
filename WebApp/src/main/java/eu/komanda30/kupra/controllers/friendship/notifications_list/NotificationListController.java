@@ -43,6 +43,7 @@ public class NotificationListController {
 
             notificationListUnit.setName(userProfile.getName());
             notificationListUnit.setSurname(userProfile.getSurname());
+            notificationListUnit.setFriendshipId(friendship.getFriendshipId());
 
             form.addNotificationListUnit(notificationListUnit);
         }
