@@ -33,12 +33,12 @@ public class RecipeManagementController {
         binder.addValidators(recipeManagementFormValidator);
     }
 
-    @RequestMapping(value="create", method = RequestMethod.GET)
+    @RequestMapping(value="/recipe_create", method = RequestMethod.GET)
     public String showNewRecipeForm(final RecipeManagementForm form) {
         return "recipe_form";
     }
 
-    @RequestMapping(value="create", method = RequestMethod.POST)
+    @RequestMapping(value="/recipe_create", method = RequestMethod.POST)
     public String createRecipe(@Valid final RecipeManagementForm recipeManagementForm,
                          final BindingResult bindingResult) {
         if (bindingResult.hasErrors()){

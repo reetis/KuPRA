@@ -22,6 +22,14 @@ public class Friendship {
     @JoinColumn(name="target_id")
     private KupraUser target;
 
+    public KupraUser getFriendOf(UserId userId){
+        if (source.getUserId().equals(userId)){
+            return target;
+        }else{
+            return source;
+        }
+    }
+
     public boolean isFriendshipStatus() {
         return friendshipStatus;
     }
