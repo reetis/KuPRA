@@ -1,14 +1,18 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
+import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Recipes;
-import eu.komanda30.kupra.services.RecipeLibrary;
-import eu.komanda30.kupra.services.TmpUploadedFileManager;
+import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
+import eu.komanda30.kupra.uploads.UploadedImageInfo;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -17,13 +21,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/recipe")
@@ -34,13 +41,10 @@ public class RecipeManagementController {
     private RecipeManagementFormValidator recipeManagementFormValidator;
 
     @Resource
-    private RecipeLibrary recipeLibrary;
-
-    @Resource
     private Recipes recipes;
 
     @Value("${recipe.img.dir}")
-    private String recipeImgDir;
+    private File recipeImgDir;
 
     @Resource
     private TmpUploadedFileManager tmpUploadedFileManager;
@@ -51,49 +55,96 @@ public class RecipeManagementController {
     }
 
     @RequestMapping(value="/create", method = RequestMethod.GET)
-    public String showNewRecipeForm(final RecipeManagementForm form,
-                                    @ModelAttribute("images") RecipeImagesForm imagesForm) {
+    public String showNewRecipeForm(final RecipeManagementForm form) {
         form.setTmpId(UUID.randomUUID().toString());
         return "recipe_form";
     }
 
     @RequestMapping(value="/create", method = RequestMethod.POST)
-    public String createRecipe(@Valid final RecipeManagementForm recipeManagementForm,
-                         final BindingResult bindingResult) {
+    @Transactional
+    public String createRecipe(
+                @Valid final RecipeManagementForm recipeForm,
+                final BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             return "recipe_form";
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        recipeLibrary.addRecipe(recipeManagementForm, UserId.forUsername(auth.getName()));
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Recipe recipe = new Recipe();
+        recipe.setName(recipeForm.getName());
+        recipe.setDescription(recipeForm.getDescription());
+        recipe.setProcessDescription(recipeForm.getProcessDescription());
+        recipe.setCookingTime(recipeForm.getCookingTime());
+        recipe.setPublicAccess(recipeForm.isPublicAccess());
+        recipe.setServings(recipeForm.getServings());
+        recipe.setAuthor(UserId.forUsername(auth.getName()));
+
+        final String fileGroupId = recipeForm.getTmpId();
+        for (String fileId : tmpUploadedFileManager.getFileIds(fileGroupId)) {
+            final File imgFile = tmpUploadedFileManager.getFile(fileGroupId, fileId);
+            final File thumbFile = tmpUploadedFileManager.getThumbFile(fileGroupId, fileId);
+
+            recipe.addImage(copyToRecipeDir(imgFile), copyToRecipeDir(thumbFile));
+
+            tmpUploadedFileManager.deleteImageWithThumb(fileGroupId, fileId);
+        }
+        recipes.save(recipe);
 
         return "redirect:/recipes";
     }
 
+    private File copyToRecipeDir(File imgFile) {
+        if (!recipeImgDir.exists() && !recipeImgDir.mkdirs()) {
+            LOG.error("Failed to create recipe image upload directory: {}", recipeImgDir.getAbsolutePath());
+        }
+        final File outFile = new File(recipeImgDir, imgFile.getName());
+        try {
+            FileCopyUtils.copy(imgFile, outFile);
+            return outFile;
+        } catch (IOException e) {
+            LOG.error("Failed to copy image to recipe image directory!", e);
+            return null;
+        }
+    }
+
     @RequestMapping(value="uploadPhotos", method = RequestMethod.POST)
-    public String uploadPhotos(@RequestParam("tmpId") String tmpId,
-                               @RequestParam("files") Part[] files,
-                               @ModelAttribute("images") RecipeImagesForm imagesForm) {
-        if (files == null || files.length <= 0) {
-            return "Unable to upload. File is empty.";
-        }
-
-        for (Part file : files) {
+    public String uploadPhotos(@RequestParam("tmpId") String formTmpId,
+                               @RequestParam("images") MultipartFile[] files,
+                               ModelMap modelMap) {
+        for (MultipartFile file : files) {
             final String fileId = UUID.randomUUID().toString();
-
-            tmpUploadedFileManager.addTempFile(tmpId, fileId, file);
-
-            //TODO: Resize here somehow
-            tmpUploadedFileManager.addTempFile(tmpId+":thumb",fileId, file);
+            try {
+                tmpUploadedFileManager.addImageWithThumb(
+                        formTmpId, fileId, file.getInputStream(),
+                        file.getOriginalFilename());
+            } catch (IOException e) {
+                LOG.error("Failed to read uploaded file!", e);
+            }
         }
 
-        for (String fileId : tmpUploadedFileManager.getFileIds(tmpId)) {
-            final String virtualPath = tmpUploadedFileManager.getVirtualPath(tmpId, fileId);
-            final String virtualThumbPath = tmpUploadedFileManager.getVirtualPath(tmpId+":thumb", fileId);
-
-            imagesForm.addImage(virtualPath, virtualThumbPath);
-        }
-
+        loadTmpImagesToModel(formTmpId, modelMap);
         return "recipe_form :: image_list";
     }
+
+    @RequestMapping(value="deletePhoto", method = RequestMethod.POST)
+    public String deletePhoto(@RequestParam("tmpId") String formTmpId,
+                              @RequestParam("imgId") String imgId,
+                               ModelMap modelMap) {
+        tmpUploadedFileManager.deleteImageWithThumb(formTmpId, imgId);
+        loadTmpImagesToModel(formTmpId, modelMap);
+        return "recipe_form :: image_list";
+    }
+
+    private void loadTmpImagesToModel(String formTmpId, ModelMap modelMap) {
+        final List<UploadedImageInfo> imagesList = new ArrayList<>();
+        for (String fileId : tmpUploadedFileManager.getFileIds(formTmpId)) {
+            imagesList.add(new UploadedImageInfo(
+                    fileId,
+                    tmpUploadedFileManager.getVirtualPath(formTmpId, fileId),
+                    tmpUploadedFileManager.getVirtualThumbPath(formTmpId, fileId)));
+        }
+        modelMap.put("imagesList", imagesList);
+    }
+
+
 }

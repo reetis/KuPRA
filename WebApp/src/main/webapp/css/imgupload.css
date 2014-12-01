@@ -1,0 +1,10 @@
+.uploaded-img-cell {
+    display: inline-block;
+    position: relative;
+}
+
+.uploaded-img-cell .rm-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}

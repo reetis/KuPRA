@@ -1,12 +1,19 @@
 package eu.komanda30.kupra.entity;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -47,6 +54,10 @@ public class Recipe {
     } )
     @Column(name = "author", nullable = false)
     private UserId author;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="recipe_id", nullable = false)
+    private List<RecipeImage> recipeImages;
 
     public Integer getRecipe_id() {
         return recipe_id;
@@ -110,5 +121,12 @@ public class Recipe {
 
     public void setAuthor(UserId author) {
         this.author = author;
+    }
+
+    public void addImage(File imgFile, File thumbFile) {
+        if (recipeImages == null) {
+            recipeImages = new ArrayList<>();
+        }
+        recipeImages.add(new RecipeImage(imgFile, thumbFile));
     }
 }

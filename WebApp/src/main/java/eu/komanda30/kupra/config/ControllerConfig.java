@@ -1,29 +1,34 @@
 package eu.komanda30.kupra.config;
 
+import eu.komanda30.kupra.locale.KupraLocaleResolver;
+
 import java.time.Duration;
-import java.util.Locale;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.env.Environment;
 import org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.support.RequestDataValueProcessor;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -32,23 +37,29 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan({ "eu.komanda30.kupra.controllers", "eu.komanda30.kupra.locale" })
+@ComponentScan({
+        "eu.komanda30.kupra.controllers",
+        "eu.komanda30.kupra.locale",
+        "eu.komanda30.kupra.uploads"})
 @PropertySource("classpath:/kupra.properties")
 public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     public static final int SECONDS_IN_YEAR = (int) Duration.ofDays(365).getSeconds();
 
-    @Resource
-    private Environment environment;
+    @Value("${templates.enable_cache}")
+    boolean templateCacheEnabled;
+
+    @Value("${messages.enable_cache}")
+    boolean messageCacheEnabled;
+
+    @Value("${resources.enable_cache}")
+    boolean resourceCacheEnabled;
 
     @Resource
     private KupraLocaleResolver kupraLocaleResolver;
 
     @Bean
     public SpringTemplateEngine templateEngine() {
-        final boolean templateCacheEnabled = Boolean.parseBoolean(
-                environment.getProperty("templates.enable_cache", "true"));
-
         final ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
@@ -62,9 +73,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
-        final boolean templateCacheEnabled = Boolean.parseBoolean(
-                environment.getProperty("templates.enable_cache", "true"));
-
         final ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine);
         viewResolver.setCache(templateCacheEnabled);
@@ -86,9 +94,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public MessageSource messageSource() {
-        final boolean messageCacheEnabled = Boolean.parseBoolean(
-                environment.getProperty("messages.enable_cache", "true"));
-
         final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames(
                 "classpath:/messages/messages",
@@ -107,9 +112,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        final boolean resourceCacheEnabled = Boolean.parseBoolean(
-                environment.getProperty("resources.enable_cache", "true"));
-
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/css/")
                 .setCachePeriod(resourceCacheEnabled ? SECONDS_IN_YEAR : 0);
@@ -158,4 +160,9 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         p.setLocations(resourceLocations);
         return p;
     }*/
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 }
