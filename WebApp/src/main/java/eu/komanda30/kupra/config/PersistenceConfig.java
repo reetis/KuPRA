@@ -30,7 +30,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("file:${KUPRA_CONFIG_DIR}/data-sources.properties")
+@PropertySource("classpath:/data-sources.properties")
 @EnableJpaRepositories(basePackages = "eu.komanda30.kupra.repositories")
 public class PersistenceConfig {
     private static final int DATA_SOURCE_MAX_POOL_SIZE = 25;

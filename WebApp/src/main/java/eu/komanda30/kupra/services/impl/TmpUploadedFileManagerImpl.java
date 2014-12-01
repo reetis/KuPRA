@@ -12,10 +12,12 @@ import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -28,10 +30,18 @@ import com.google.common.io.ByteStreams;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value = WebApplicationContext.SCOPE_SESSION)
 public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager {
     private final static Logger LOG = LoggerFactory.getLogger(TmpUploadedFileManagerImpl.class);
-    public static final String TMP_PATH = "/img/tmp/";
 
     @Resource
     private transient ServletContext servletContext;
+
+    @Value("${tmp.file.dir}")
+    private transient File tmpFileDir;
+
+    @Value("${tmp.file.context}")
+    private transient String tmpFileContext;
+
+    @Resource
+    private transient HttpSession httpSession;
 
     private final Map<String, Map<String, File>> fileMap = new HashMap<>();
 
@@ -49,8 +59,7 @@ public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager {
             return false;
         }
 
-        final File tmpDir = new File(servletContext.getRealPath(TMP_PATH));
-        final File copyFile = new File(tmpDir, System.currentTimeMillis() + part.getSubmittedFileName());
+        final File copyFile = new File(tmpFileDir, System.currentTimeMillis() + part.getSubmittedFileName());
         copyFile.deleteOnExit();
 
         try (OutputStream outputStream = new FileOutputStream(copyFile)) {
@@ -97,13 +106,13 @@ public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager {
             return null;
         }
 
-        final File tmpDir = new File(servletContext.getRealPath(TMP_PATH));
+        final File tmpDir = tmpFileDir;
         if (!file.getAbsolutePath().startsWith(tmpDir.getAbsolutePath())) {
             LOG.error("Invalid file saved. Dir does not start with {}", tmpDir);
             return null;
         }
 
-        return file.getAbsolutePath().substring(tmpDir.getAbsolutePath().length());
+        return tmpFileContext + file.getAbsolutePath().substring(tmpDir.getAbsolutePath().length());
     }
 
     @PreDestroy

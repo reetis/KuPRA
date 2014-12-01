@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @ComponentScan({ "eu.komanda30.kupra.security" })
-@PropertySource("file:${KUPRA_CONFIG_DIR}/security.properties")
+@PropertySource("classpath:/security.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private Environment environment;

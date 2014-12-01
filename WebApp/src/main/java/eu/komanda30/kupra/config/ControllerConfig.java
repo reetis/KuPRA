@@ -14,19 +14,18 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.support.RequestDataValueProcessor;
@@ -38,7 +37,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan({ "eu.komanda30.kupra.controllers" })
-@PropertySource("file:${KUPRA_CONFIG_DIR}/kupra.properties")
+@PropertySource("classpath:/kupra.properties")
 public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     public static final int SECONDS_IN_YEAR = (int) Duration.ofDays(365).getSeconds();
@@ -140,18 +139,19 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
-        resolver.setDefaultEncoding("utf-8");
+    public MultipartResolver multipartResolver() {
+        StandardServletMultipartResolver resolver=new StandardServletMultipartResolver();
+        //resolver.setDefaultEncoding("utf-8");
         return resolver;
     }
 
-    /*static @Bean public PropertySourcesPlaceholderConfigurer myPropertySourcesPlaceholderConfigurer() {
+    @Bean
+    public PropertySourcesPlaceholderConfigurer myPropertySourcesPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
-        FileSystemResource[] resourceLocations = new FileSystemResource[] {
-                new FileSystemResource("${KUPRA_CONFIG_DIR}/kupra.properties")
+        ClassPathResource[] resourceLocations = new ClassPathResource[] {
+                new ClassPathResource("/kupra.properties")
         };
         p.setLocations(resourceLocations);
         return p;
-    }*/
+    }
 }

@@ -140,6 +140,7 @@
     +function($) {
         var imgUrl = /*[[@{/recipe/uploadPhotos}]]*/ '#';
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+        var _tmpId = /*[[${recipeManagementForm.tmpId}]]*/ 'tmp_id';
 
         $('#uploadRecipeImg').change(function () {
             var formData = new FormData();
@@ -149,7 +150,7 @@
                 formData.append("images", files[i]);
             }
 
-            formData.append("_csrf", _csrf);
+            formData.append("tmpId", _tmpId);
 
             $.ajax({
                 url: imgUrl,
@@ -159,6 +160,7 @@
                 cache: false,
                 contentType: false,
                 processData: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
                 success: function (returndata) {
                     alert(returndata);
                 }
