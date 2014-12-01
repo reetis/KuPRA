@@ -1,12 +1,12 @@
 package eu.komanda30.kupra.controllers.product;
 
-import eu.komanda30.kupra.controllers.unit.NewUnitForm;
 import eu.komanda30.kupra.repositories.Products;
+
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
-import javax.annotation.Resource;
 
 /**
  * Created by Gintare on 2014-11-27.

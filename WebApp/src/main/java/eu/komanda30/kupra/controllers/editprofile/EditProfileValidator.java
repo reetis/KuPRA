@@ -5,10 +5,10 @@ import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.entity.UsernamePasswordAuth;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
+import eu.komanda30.kupra.services.impl.UserRegistrarImpl;
 
 import javax.annotation.Resource;
 
-import eu.komanda30.kupra.services.impl.UserRegistrarImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -48,7 +48,7 @@ public class EditProfileValidator implements Validator {
         if (target instanceof EditProfileForm) {
             validateProfile((EditProfileForm) target, errors);
         } else if (target instanceof EditPasswordForm) {
-            validatePassword((EditPasswordForm) target, errors);
+            validatePassword(target, errors);
         }
     }
 

@@ -1,18 +1,13 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
-import eu.komanda30.kupra.SessionTempImages;
 import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.services.RecipeLibrary;
 import eu.komanda30.kupra.services.TmpUploadedFileManager;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
@@ -29,9 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.google.common.io.ByteStreams;
 
 @Controller
 @RequestMapping("/recipe")

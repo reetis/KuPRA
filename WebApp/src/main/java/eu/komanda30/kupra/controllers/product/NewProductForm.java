@@ -1,12 +1,7 @@
 package eu.komanda30.kupra.controllers.product;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Gintare on 2014-11-27.

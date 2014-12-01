@@ -2,11 +2,12 @@ package eu.komanda30.kupra.repositories;
 
 import eu.komanda30.kupra.entity.Friendship;
 import eu.komanda30.kupra.entity.UserId;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 /**
  * Created by Ignas on 11/27/2014.

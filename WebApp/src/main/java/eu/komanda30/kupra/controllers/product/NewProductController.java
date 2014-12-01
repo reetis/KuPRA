@@ -1,27 +1,21 @@
 package eu.komanda30.kupra.controllers.product;
 
 //import eu.komanda30.kupra.controllers.editprofile.EditProfileForm;
-import eu.komanda30.kupra.controllers.product.NewProductValidator;
+
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Unit;
-import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Units;
-import eu.komanda30.kupra.services.UserRegistrar;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by Gintare on 2014-11-27.

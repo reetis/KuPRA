@@ -1,9 +1,9 @@
 package eu.komanda30.kupra.controllers.editprofile;
 
-import org.hibernate.validator.constraints.Email;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 /**
  * Created by Lukas on 2014.10.23.

@@ -5,8 +5,6 @@ import eu.komanda30.kupra.config.PersistenceConfig;
 import eu.komanda30.kupra.config.SecurityConfig;
 import eu.komanda30.kupra.config.ServiceConfig;
 
-import java.io.File;
-
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;

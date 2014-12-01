@@ -1,8 +1,5 @@
 package eu.komanda30.kupra.controllers.recipelist;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 /**
 * Created by Rytis on 2014-11-27.
 */
