@@ -35,10 +35,14 @@
                     </div>
 
                     <div class="navbar-menu" >
+                        <a href="#">
                         <img th:src="@{/images/list_white.png}" src="../../images/list_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.menu}"/>
+                        </a>
+                        <a href="#">
                         <img th:src="@{/images/search_white.png}" src="../../images/search_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.filter}"/>
+                        </a>
                         <a href="editProfile.html" th:href="@{~/edit_profile}">
                         <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.profile}"/>
@@ -51,17 +55,25 @@
                         <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.friends}"/>
                         </a>
-                        <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.fridge}"/>
+                        <a href="#">
+                            <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.fridge}"/>
+                        </a>
+                        <a href="#">
                         <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.units}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
+                        </a>
+                        <a href="#">
                         <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.ingredients}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
+                        </a>
+                        <a href="#">
                         <img th:src="@{/images/logout_white.png}" src="../../images/logout_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.logout}"
                              onclick="document.getElementById('logout').submit();"/>
+                        </a>
                         <form th:action="@{~/logout}" method="post" id="logout"></form>
                     </div>
                 </div>
