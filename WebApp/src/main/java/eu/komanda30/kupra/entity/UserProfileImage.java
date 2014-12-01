@@ -8,25 +8,25 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="recipe_image")
+@Table(name="user_profile_image")
 @SequenceGenerator(
-        name="recipeImgIdSequence",
-        sequenceName="recipe_image_seq",
+        name="userProfileImgIdSequence",
+        sequenceName="user_profile_image_seq",
         allocationSize=1
 )
-public class RecipeImage {
+public class UserProfileImage {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipeImgIdSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userProfileImgIdSequence")
     private Integer id;
 
     private String imageUrl;
     private String thumbUrl;
 
     //For hibernate
-    protected RecipeImage() {
+    protected UserProfileImage() {
     }
 
-    public RecipeImage(String imageUrl, String thumbUrl) {
+    public UserProfileImage(String imageUrl, String thumbUrl) {
         this.imageUrl = imageUrl;
         this.thumbUrl = thumbUrl;
     }

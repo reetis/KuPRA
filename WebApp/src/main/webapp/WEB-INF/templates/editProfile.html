@@ -14,6 +14,10 @@
     <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
 
+    <link th:href="@{/lightbox/css/lightbox.css}" href="../../lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="../../css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="../../css/imgupload.css" rel="stylesheet"/>
+
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,9 +30,9 @@
     <h2 th:text="#{editprofile.title}">CP test</h2>
 
     <form class="editProfile-form" role="form" action="#" method="post"
-          th:action="@{/edit_profile}"
-          >
-    <div th:object="${editPasswordForm}">
+          th:action="@{/profile/edit}">
+
+        <div th:object="${editPasswordForm}">
             <div class="form-group">
                 <label for="password" class="control-label"
                        th:text="#{editprofile.oldpw}">Password</label>
@@ -56,6 +60,9 @@
             </div>
         </div>
         <div th:object="${editProfileForm}">
+
+            <input type="hidden" th:field="*{tmpId}"/>
+
             <div class="form-group">
                 <label for="name" class="control-label"
                        th:text="#{editprofile.name}">Name</label>
@@ -65,29 +72,42 @@
 
             <div class="form-group">
                 <label for="surname" class="control-label"
-                       th:text="#{editprofile.surname}">New password</label>
-                <input type="text" class="form-control" placeholder="Name" id="surname"
+                       th:text="#{editprofile.surname}">Surname</label>
+                <input type="text" class="form-control" placeholder="Surname" id="surname"
                        th:value="*{surname}" th:field="*{surname}" th:placeholder="#{editprofile.surname}"/>
             </div>
 
         <div class="form-group">
             <label for="email" class="control-label"
-                   th:text="#{editprofile.email}">New password</label>
-            <input type="email" class="form-control" placeholder="Name" id="email"
+                   th:text="#{editprofile.email}">Email</label>
+            <input type="email" class="form-control" placeholder="Email" id="email"
                    th:value="*{email}" th:field="*{email}" th:placeholder="#{editprofile.email}"/>
         </div>
 
         <div class="form-group">
             <label for="description" class="control-label"
-                   th:text="#{editprofile.description}">New password</label>
-            <input type="text" class="form-control" placeholder="Name" id="description"
+                   th:text="#{editprofile.description}">Description</label>
+            <input type="text" class="form-control" placeholder="Description" id="description"
                    th:value="*{description}" th:field="*{description}" th:placeholder="#{editprofile.description}"/>
+        </div>
+
+        <div th:fragment="profilePhoto" id="profilePhotoForm" class="form-group">
+            <span th:if="${profilePhotoList.mainPhoto != null}" th:with="img=${profilePhotoList.mainPhoto}" class="uploaded-img-cell">
+                <a th:href="${img.imageUrl}"
+                   class="gallery-link"
+                   href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"
+                   data-lightbox="roadtrip">
+                    <img class="thumb-lg"
+                         th:src="${img.thumbUrl}"
+                         src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                </a>
+            </span>
         </div>
 
         <div class="form-group">
             <label class="control-label"
-                   th:text="#{editprofile.photo}">New password</label>
-            <input type="file" class="form-control" id="photo"/>
+                   th:text="#{editprofile.photo}">Photo</label>
+            <input type="file" class="form-control" id="uploadProfilePhoto"/>
         </div>
 
         <div class="form-group">
@@ -96,10 +116,56 @@
         </div>
     </div>
     </form>
-
 </div>
 <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="../../lightbox/js/lightbox.min.js" type="text/javascript"></script>
 <div th:replace="layout :: footer"></div>
+
+<script type="application/javascript" th:inline="javascript">
+    // <![CDATA[
+    +function($) {
+        var imgUrl = /*[[@{/profile/uploadPhoto}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+        var _tmpId = /*[[${editProfileForm.tmpId}]]*/ 'tmp_id';
+
+        imagesLoadedHandler = function (returndata) {
+            //Init new list of images
+            var newImgForm = $(returndata);
+            //Replace old list of images with new one
+            $("#profilePhotoForm").replaceWith(newImgForm);
+
+            //Replace old upload button with new one to clear it
+            var control = $("#uploadProfilePhoto");
+            control.replaceWith( control = control.clone( true ) );
+        };
+
+        $('#uploadProfilePhoto').change(function () {
+            var formData = new FormData();
+
+            var files = $("#uploadProfilePhoto").prop('files');
+            if (files.length > 0) {
+                formData.append("profilePhoto", files[0]);
+            }
+
+            formData.append("tmpId", _tmpId);
+
+            $.ajax({
+                url: imgUrl,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+                success: imagesLoadedHandler
+            });
+
+        });
+    }(jQuery);
+    // ]]>
+</script>
+
 </body>
 </html>

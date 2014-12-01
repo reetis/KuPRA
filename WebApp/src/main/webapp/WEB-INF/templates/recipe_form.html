@@ -15,9 +15,7 @@
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
 
     <link th:href="@{/lightbox/css/lightbox.css}" href="../../lightbox/css/lightbox.css" rel="stylesheet"/>
-
     <link th:href="@{/css/gallery.css}" href="../../css/gallery.css" rel="stylesheet"/>
-
     <link th:href="@{/css/imgupload.css}" href="../../css/imgupload.css" rel="stylesheet"/>
 
     <!--[if lt IE 9]>
@@ -99,12 +97,13 @@
                         </div>
 
                         <div th:fragment="image_list" id="image_form">
-                            <span th:each="img : ${imagesList}" class="uploaded-img-cell">
+                            <span th:each="img : ${recipeImageList?.uploadedImages}" class="uploaded-img-cell">
                                 <a th:href="${img.imageUrl}"
                                    class="gallery-link"
                                    href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"
                                    data-lightbox="roadtrip">
                                     <img th:src="${img.thumbUrl}"
+                                         class="thumb"
                                          src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
                                 </a>
                                 <button type="button" class="btn btn-default btn-xs rm-btn" th:attr="img-id=${img.imgId}">
@@ -113,7 +112,8 @@
                             </span>
                             <span class="uploaded-img-cell" th:remove="all">
                                 <a th:remove="all" class="gallery-link" href="http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg" data-lightbox="roadtrip">
-                                    <img src="http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg"/>
+                                    <img class="thumb"
+                                         src="http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg"/>
                                 </a>
                                 <button type="button" class="btn btn-default btn-xs rm-btn">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -121,7 +121,7 @@
                             </span>
                             <span class="uploaded-img-cell" th:remove="all">
                                 <a class="gallery-link" href="http://upload.wikimedia.org/wikipedia/commons/b/bb/Kittyply_edit1.jpg" data-lightbox="roadtrip">
-                                    <img src="http://upload.wikimedia.org/wikipedia/commons/b/bb/Kittyply_edit1.jpg"/>
+                                    <img class="thumb" src="http://upload.wikimedia.org/wikipedia/commons/b/bb/Kittyply_edit1.jpg"/>
                                 </a>
                                 <button type="button" class="btn btn-default btn-xs rm-btn">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>

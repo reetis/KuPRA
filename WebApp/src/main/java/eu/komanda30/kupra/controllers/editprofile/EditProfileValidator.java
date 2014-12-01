@@ -40,7 +40,8 @@ public class EditProfileValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
         return EditProfileForm.class.isAssignableFrom(clazz)
-                || EditPasswordForm.class.isAssignableFrom(clazz);
+                || EditPasswordForm.class.isAssignableFrom(clazz)
+                || ProfilePhotoList.class.isAssignableFrom(clazz);
     }
 
     @Override
@@ -58,7 +59,8 @@ public class EditProfileValidator implements Validator {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
 
-        if ((kupraUsers.findByEmail(form.getEmail()) != null) && !(form.getEmail().equals(user.getEmail()))) {
+        if ((kupraUsers.findByEmail(form.getEmail()) != null) && !(form.getEmail().equals(
+                user.getUserProfile().getEmail()))) {
             errors.rejectValue("email","AlreadyUsed");
         }
     }

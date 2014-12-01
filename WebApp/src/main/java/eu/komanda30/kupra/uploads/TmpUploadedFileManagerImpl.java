@@ -1,5 +1,7 @@
 package eu.komanda30.kupra.uploads;
 
+import eu.komanda30.kupra.UploadUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -113,13 +115,7 @@ public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager {
             return null;
         }
 
-        final File tmpDir = tmpFileDir;
-        if (!file.getAbsolutePath().startsWith(tmpDir.getAbsolutePath())) {
-            LOG.error("Invalid file saved. Dir does not start with {}", tmpDir);
-            return null;
-        }
-
-        return tmpFileContext + file.getAbsolutePath().substring(tmpDir.getAbsolutePath().length()+1);
+        return UploadUtils.resolveVirtualPath(file, tmpFileDir, tmpFileContext);
     }
 
     @Override

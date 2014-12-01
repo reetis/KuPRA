@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.Email;
  */
 public class EditProfileForm {
 
+    private String tmpId;
+
     @NotNull
     @Size(min=3, max=64)
     private String name;
@@ -57,5 +59,13 @@ public class EditProfileForm {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTmpId() {
+        return tmpId;
+    }
+
+    public void setTmpId(String tmpId) {
+        this.tmpId = tmpId;
     }
 }

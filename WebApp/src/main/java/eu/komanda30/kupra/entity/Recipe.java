@@ -1,6 +1,5 @@
 package eu.komanda30.kupra.entity;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class Recipe {
     @Column(name = "author", nullable = false)
     private UserId author;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="recipe_id", nullable = false)
     private List<RecipeImage> recipeImages;
 
@@ -123,10 +122,10 @@ public class Recipe {
         this.author = author;
     }
 
-    public void addImage(File imgFile, File thumbFile) {
+    public void addImage(String imgUrl, String thumbUrl) {
         if (recipeImages == null) {
             recipeImages = new ArrayList<>();
         }
-        recipeImages.add(new RecipeImage(imgFile, thumbFile));
+        recipeImages.add(new RecipeImage(imgUrl, thumbUrl));
     }
 }

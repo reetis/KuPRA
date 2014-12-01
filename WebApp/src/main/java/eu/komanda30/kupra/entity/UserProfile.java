@@ -1,8 +1,14 @@
 package eu.komanda30.kupra.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.util.Locale;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Embeddable
 public class UserProfile {
@@ -20,6 +26,10 @@ public class UserProfile {
 
     @Column(length = 64)
     private Locale locale;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="user_id", nullable = false)
+    private List<UserProfileImage> userProfileImages;
 
     public String getName() {
         return name;
@@ -59,5 +69,17 @@ public class UserProfile {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setMainPhoto(String imgUrl, String thumbUrl) {
+        if (userProfileImages == null) {
+            userProfileImages = new ArrayList<>();
+        }
+        userProfileImages.clear();
+        userProfileImages.add(new UserProfileImage(imgUrl, thumbUrl));
+    }
+
+    public UserProfileImage getMainPhoto() {
+        return userProfileImages != null && !userProfileImages.isEmpty() ? userProfileImages.get(0) : null;
     }
 }

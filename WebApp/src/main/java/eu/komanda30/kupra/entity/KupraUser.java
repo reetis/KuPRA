@@ -43,35 +43,4 @@ public class KupraUser {
         return userId;
     }
 
-    public void setName(String name){
-        this.userProfile.setName(name);
-    }
-
-    public void setSurname(String surname){
-        this.userProfile.setSurname(surname);
-    }
-
-    public void setEmail(String email){
-        this.userProfile.setEmail(email);
-    }
-
-    public void setDescription(String description){
-        this.userProfile.setDescription(description);
-    }
-
-    public String getName(){
-        return this.userProfile.getName();
-    }
-
-    public String getSurname(){
-        return this.userProfile.getSurname();
-    }
-
-    public String getEmail(){
-        return this.userProfile.getEmail();
-    }
-
-    public String getDescription(){
-        return this.userProfile.getDescription();
-    }
 }

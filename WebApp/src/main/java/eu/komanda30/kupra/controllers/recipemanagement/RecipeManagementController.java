@@ -1,5 +1,6 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
+import eu.komanda30.kupra.UploadUtils;
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Recipes;
@@ -22,7 +23,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -45,6 +45,9 @@ public class RecipeManagementController {
 
     @Value("${recipe.img.dir}")
     private File recipeImgDir;
+
+    @Value("${recipe.img.context}")
+    private String recipeImgContext;
 
     @Resource
     private TmpUploadedFileManager tmpUploadedFileManager;
@@ -84,7 +87,15 @@ public class RecipeManagementController {
             final File imgFile = tmpUploadedFileManager.getFile(fileGroupId, fileId);
             final File thumbFile = tmpUploadedFileManager.getThumbFile(fileGroupId, fileId);
 
-            recipe.addImage(copyToRecipeDir(imgFile), copyToRecipeDir(thumbFile));
+            final File imgCopy = copyToRecipeDir(imgFile);
+            final File thumbCopy = copyToRecipeDir(thumbFile);
+
+            final String imgUrl = UploadUtils.resolveVirtualPath(
+                    imgCopy, recipeImgDir, recipeImgContext);
+            final String thumbUrl = UploadUtils.resolveVirtualPath(
+                    thumbCopy, recipeImgDir, recipeImgContext);
+
+            recipe.addImage(imgUrl, thumbUrl);
 
             tmpUploadedFileManager.deleteImageWithThumb(fileGroupId, fileId);
         }
@@ -110,7 +121,7 @@ public class RecipeManagementController {
     @RequestMapping(value="uploadPhotos", method = RequestMethod.POST)
     public String uploadPhotos(@RequestParam("tmpId") String formTmpId,
                                @RequestParam("images") MultipartFile[] files,
-                               ModelMap modelMap) {
+                               RecipeImageList imagesList) {
         for (MultipartFile file : files) {
             final String fileId = UUID.randomUUID().toString();
             try {
@@ -122,29 +133,28 @@ public class RecipeManagementController {
             }
         }
 
-        loadTmpImagesToModel(formTmpId, modelMap);
+        imagesList.addAll(getListOfTmpImages(formTmpId));
         return "recipe_form :: image_list";
     }
 
     @RequestMapping(value="deletePhoto", method = RequestMethod.POST)
     public String deletePhoto(@RequestParam("tmpId") String formTmpId,
                               @RequestParam("imgId") String imgId,
-                               ModelMap modelMap) {
+                              RecipeImageList imagesList) {
         tmpUploadedFileManager.deleteImageWithThumb(formTmpId, imgId);
-        loadTmpImagesToModel(formTmpId, modelMap);
+
+        imagesList.addAll(getListOfTmpImages(formTmpId));
         return "recipe_form :: image_list";
     }
 
-    private void loadTmpImagesToModel(String formTmpId, ModelMap modelMap) {
-        final List<UploadedImageInfo> imagesList = new ArrayList<>();
+    private List<UploadedImageInfo> getListOfTmpImages(String formTmpId) {
+        final List<UploadedImageInfo> list = new ArrayList<>();
         for (String fileId : tmpUploadedFileManager.getFileIds(formTmpId)) {
-            imagesList.add(new UploadedImageInfo(
+            list.add(new UploadedImageInfo(
                     fileId,
                     tmpUploadedFileManager.getVirtualPath(formTmpId, fileId),
                     tmpUploadedFileManager.getVirtualThumbPath(formTmpId, fileId)));
         }
-        modelMap.put("imagesList", imagesList);
+        return list;
     }
-
-
 }

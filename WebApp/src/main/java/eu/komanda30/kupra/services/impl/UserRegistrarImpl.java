@@ -7,14 +7,16 @@ import eu.komanda30.kupra.entity.UsernamePasswordAuth;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
 import eu.komanda30.kupra.services.UserRegistrar;
+
+import java.util.Locale;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.util.Locale;
 
 
 @Service
@@ -41,22 +43,6 @@ public class UserRegistrarImpl implements UserRegistrar {
         final UsernamePasswordAuth usernamePasswordAuth = new UsernamePasswordAuth(
                 username, encodedPassword, userId);
         usernamePasswordAuths.save(usernamePasswordAuth);
-    }
-
-    @Transactional
-    @Override
-    public void editProfile(UserId userId, String name, String surname, String email,
-                            String description){
-        final KupraUser user = kupraUsers.findOne(userId);
-
-            user.setName(name);
-            user.setSurname(surname);
-            user.setEmail(email);
-            user.setDescription(description);
-
-
-
-        LOG.trace("Atejau i saugojima");
     }
 
     @Transactional
