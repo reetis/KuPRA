@@ -87,16 +87,16 @@
                             <input type="hidden" th:field="*{publicAccess}" value="0" id="public_access_value"/>
                         </div>
 
-                        <div th:fragment="image_list" id="image_form">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-primary btn-file">
-                                        Browse&hellip; <input type="file" id="uploadRecipeImg" multiple="true"/>
-                                    </span>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-primary btn-file">
+                                    Browse&hellip; <input type="file" id="uploadRecipeImg" multiple="true"/>
                                 </span>
-                                <input type="text" class="form-control" readonly=""/>
-                            </div>
+                            </span>
+                            <input type="text" class="form-control" readonly=""/>
+                        </div>
 
+                        <div th:fragment="image_list" id="image_form">
                             <a th:each="img : ${images.images}"
                                th:href="${img.imageUrl}"
                                class="gallery-link" href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg" data-lightbox="roadtrip">
@@ -135,17 +135,21 @@
 <script th:src="@{/lightbox/js/lightbox.min.js}" src="../../lightbox/js/lightbox.min.js" type="text/javascript"></script>
 <div th:replace="layout :: footer"></div>
 
-<script type="text/javascript" th:inline="javascript">
+<script type="application/javascript" th:inline="javascript">
+    // <![CDATA[
     +function($) {
         var imgUrl = /*[[@{/recipe/uploadPhotos}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
         $('#uploadRecipeImg').change(function () {
             var formData = new FormData();
 
-            var files = document.getElementById("uploadRecipeImg").files;
+            var files = $("#uploadRecipeImg").prop('files');
             for (var i = 0; i < files.length; i++) {
                 formData.append("images", files[i]);
             }
+
+            formData.append("_csrf", _csrf);
 
             $.ajax({
                 url: imgUrl,
@@ -161,6 +165,7 @@
             });
         });
     }(jQuery);
+    // ]]>
 </script>
 
 </body>

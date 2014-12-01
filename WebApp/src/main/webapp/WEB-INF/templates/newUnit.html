@@ -25,8 +25,7 @@
         </button>
 
         <script type="application/javascript" th:inline="javascript">
-
-
+            // <![CDATA[
             +function ($) {
                 var frameUrl = /*[[@{/unit/add}]]*/ '#';
                 $( "#newUnitButton" ).click( function() {
@@ -39,6 +38,7 @@
                     }
                 });
             }(jQuery);
+            // ]]>
         </script>
 
         <!-- Modal -->
@@ -65,6 +65,8 @@
               th:object="${newUnitForm}"
               th:fragment="newUnitForm"
               id="newUnitForm">
+
+            <input type="hidden" th:field="*{tmpId}"/>
 
             <div class="modal-body">
                 <div class="form-group"
@@ -100,8 +102,7 @@
             </div>
 
             <script type="application/javascript" th:inline="javascript">
-
-
+                // <![CDATA[
                 +function($) {
                     var submitUrl = /*[[@{/unit/add}]]*/ '#';
                     $("#newUnitCreateButton").click(function () {
@@ -113,6 +114,7 @@
                         }
                     });
                 } (jQuery);
+                // ]]>
             </script>
         </form>
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 
