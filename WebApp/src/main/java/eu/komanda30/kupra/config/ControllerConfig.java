@@ -10,17 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -36,7 +32,7 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan({ "eu.komanda30.kupra.controllers" })
+@ComponentScan({ "eu.komanda30.kupra.controllers", "eu.komanda30.kupra.locale" })
 @PropertySource("classpath:/kupra.properties")
 public class ControllerConfig extends WebMvcConfigurerAdapter {
 
@@ -44,6 +40,9 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Resource
     private Environment environment;
+
+    @Resource
+    private KupraLocaleResolver kupraLocaleResolver;
 
     @Bean
     public SpringTemplateEngine templateEngine() {
@@ -75,9 +74,14 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public LocaleResolver localeResolver() {
-        final SessionLocaleResolver resolver = new SessionLocaleResolver();
-        resolver.setDefaultLocale(Locale.forLanguageTag("lt-LT"));
-        return resolver;
+        return kupraLocaleResolver;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+        registry.addInterceptor(localeChangeInterceptor);
     }
 
     @Bean
@@ -89,7 +93,7 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         messageSource.setBasenames(
                 "classpath:/messages/messages",
                 "classpath:/messages/validation");
-        messageSource.setCacheSeconds(messageCacheEnabled?-1:0);
+        messageSource.setCacheSeconds(messageCacheEnabled ? -1 : 0);
         messageSource.setFallbackToSystemLocale(false);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setUseCodeAsDefaultMessage(true);
@@ -108,10 +112,10 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/css/")
-                .setCachePeriod(resourceCacheEnabled?SECONDS_IN_YEAR:0);
+                .setCachePeriod(resourceCacheEnabled ? SECONDS_IN_YEAR : 0);
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("/img/")
-                .setCachePeriod(resourceCacheEnabled?SECONDS_IN_YEAR:0);
+                .setCachePeriod(resourceCacheEnabled ? SECONDS_IN_YEAR : 0);
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/js/")
                 .setCachePeriod(resourceCacheEnabled?SECONDS_IN_YEAR:0);
@@ -145,7 +149,7 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-    @Bean
+    /*@Bean
     public PropertySourcesPlaceholderConfigurer myPropertySourcesPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
         ClassPathResource[] resourceLocations = new ClassPathResource[] {
@@ -153,5 +157,5 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         };
         p.setLocations(resourceLocations);
         return p;
-    }
+    }*/
 }

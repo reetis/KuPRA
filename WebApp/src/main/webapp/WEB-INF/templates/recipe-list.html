@@ -40,7 +40,7 @@
                            th:classappend="${place=='all'}?'btn-primary':'btn-default'">Vsii</a>
                         <a href="recipe-list.html" th:href="@{~/recipes/personal}" class="btn" th:text="#{recipe-list.my}"
                            th:classappend="${place=='mine'}?'btn-primary':'btn-default'">Mnao</a>
-                        <a href="#" class="btn" th:text="#{recipe-list.friends}"
+                        <a href="recipe-list-friends.html" th:href="@{~/recipes/friends}" class="btn" th:text="#{recipe-list.friends}"
                            th:classappend="${place=='friends'}?'btn-primary':'btn-default'">Dravgo</a>
                     </div>
                 </div>

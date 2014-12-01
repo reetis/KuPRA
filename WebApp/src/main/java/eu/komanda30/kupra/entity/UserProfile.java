@@ -2,6 +2,7 @@ package eu.komanda30.kupra.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Locale;
 
 @Embeddable
 public class UserProfile {
@@ -16,6 +17,9 @@ public class UserProfile {
 
     @Column(length = 64)
     private String description;
+
+    @Column(length = 64)
+    private Locale locale;
 
     public String getName() {
         return name;
@@ -39,6 +43,14 @@ public class UserProfile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public String getDescription() {

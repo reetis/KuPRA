@@ -67,9 +67,7 @@ public class EditProfileValidator implements Validator {
         final EditPasswordForm form = (EditPasswordForm)target;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-
         UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(UserId.forUsername(auth.getName()));
-
 
         if(!form.getPassword().equals("")) {
             if (!passwordEncoder.matches(form.getPassword(), passwordAuth.getPassword())) {

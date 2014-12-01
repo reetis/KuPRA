@@ -111,8 +111,26 @@
 <div th:fragment="footer">
     <div class="container">
         <hr />
-        <div class="text-center">
-            Footer
+        <div class="row">
+            <div class="col-xs-5">
+
+            </div>
+            <div class="col-xs-2">
+                <div class="text-center">
+                    Footer
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <img src="../../images/world.png" th:src="@{/images/world.png}" class="btn-image"/> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" th:href="@{${url}(lang='en')}">English</a></li>
+                        <li><a href="#" th:href="@{${url}(lang='lt')}">Lietuvių</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
