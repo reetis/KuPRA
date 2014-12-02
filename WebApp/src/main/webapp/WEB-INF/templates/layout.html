@@ -51,9 +51,13 @@
                         <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.recipes}"/>
                         </a>
-                        <a href="friends_list.html" th:href="@{~/friends/list}">
+                        <a href="friends_list.html" th:href="@{~/friends/list}" class="link">
                         <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.friends}"/>
+                            <span class="friends-notification" th:if="${@sessionData.notificationCount > 0}"
+                                 th:text="${@sessionData.notificationCount > 99} ? '99+' : ${@sessionData.notificationCount}">
+                                1
+                            </span>
                         </a>
                         <a href="#">
                             <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"
