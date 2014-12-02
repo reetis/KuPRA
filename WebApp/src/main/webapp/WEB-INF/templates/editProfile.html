@@ -91,23 +91,33 @@
                    th:value="*{description}" th:field="*{description}" th:placeholder="#{editprofile.description}"/>
         </div>
 
-        <div th:fragment="profilePhoto" id="profilePhotoForm" class="form-group">
-            <span th:if="${profilePhotoList.mainPhoto != null}" th:with="img=${profilePhotoList.mainPhoto}" class="uploaded-img-cell">
-                <a th:href="${img.imageUrl}"
-                   class="gallery-link"
-                   href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"
-                   data-lightbox="roadtrip">
-                    <img class="thumb-lg"
-                         th:src="${img.thumbUrl}"
-                         src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
-                </a>
-            </span>
+        <div class="form-group">
+            <label for="profilePhotoForm" class="control-label"
+                   th:text="#{editprofile.photo}">Photo</label>
+            <div th:fragment="profilePhoto" id="profilePhotoForm" class="form-group">
+                <span th:if="${profilePhotoList.mainPhoto != null}" th:with="img=${profilePhotoList.mainPhoto}" class="uploaded-img-cell">
+                    <a th:href="${img.imageUrl}"
+                       class="gallery-link"
+                       href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"
+                       data-lightbox="roadtrip">
+                        <img class="thumb-lg"
+                             th:src="${img.thumbUrl}"
+                             src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                    </a>
+                </span>
+        </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label"
-                   th:text="#{editprofile.photo}">Photo</label>
-            <input type="file" class="form-control" id="uploadProfilePhoto"/>
+
+
+
+
+        <div class="input-group">
+            <span class="input-group-btn">
+                <span class="btn btn-primary btn-file">
+                    Browse&hellip; <input type="file" class="form-control" id="uploadProfilePhoto"/>
+                </span>
+            </span>
         </div>
 
         <div class="form-group">
