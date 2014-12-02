@@ -31,6 +31,8 @@ public class NewProductController {
     @Resource
     private Products products;
 
+
+
 //    @InitBinder
 //    protected void initBinder(WebDataBinder binder) {
 //        binder.addValidators(newProductValidator);
@@ -45,6 +47,8 @@ public class NewProductController {
     public Iterable<Unit> getUnits() {
         return this.units.findAll();
     }
+
+
     @Transactional
     @RequestMapping(value="add", method = RequestMethod.POST)
     public String submit(@Valid final NewProductForm form,
@@ -57,6 +61,8 @@ public class NewProductController {
         newProductEntity.setDescription(form.getDescription());
         newProductEntity.setSelectedUnit(form.getSelectedUnitId());
         products.save(newProductEntity);
+        Unit unit = units.findOne(form.getSelectedUnitId());
+        form.setUnitName(unit.getName());
         return "newProduct :: productSavedForm";
     }
 

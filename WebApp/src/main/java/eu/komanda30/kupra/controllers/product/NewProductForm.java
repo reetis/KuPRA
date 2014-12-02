@@ -17,6 +17,17 @@ public class NewProductForm {
     @Size(min = 1, max = 50)
     private String name;
 
+
+    private String unitName;
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
     public int getSelectedUnitId() {
         return selectedUnitId;
     }

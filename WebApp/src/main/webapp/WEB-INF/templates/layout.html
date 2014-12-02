@@ -63,12 +63,12 @@
                             <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"
                                  data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.fridge}"/>
                         </a>
-                        <a href="#">
+                        <a href="unit-list.html" th:href="@{~/unit-list}">
                         <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.units}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
                         </a>
-                        <a href="#">
+                        <a href="product-list.html" th:href="@{~/product-list}">
                         <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png" class="navbarImage linkImage"
                              data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.ingredients}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
