@@ -37,11 +37,11 @@
                 <div class="col-md-11">
                     <div class="btn-group">
                         <a href="recipe-list.html" th:href="@{~/recipes}" class="btn" th:text="#{recipe-list.all}"
-                           th:classappend="${place=='all'}?'btn-primary':'btn-default'">Vsii</a>
+                           th:classappend="${section=='all'}?'btn-primary':'btn-default'">Vsii</a>
                         <a href="recipe-list.html" th:href="@{~/recipes/personal}" class="btn" th:text="#{recipe-list.my}"
-                           th:classappend="${place=='mine'}?'btn-primary':'btn-default'">Mnao</a>
+                           th:classappend="${section=='personal'}?'btn-primary':'btn-default'">Mnao</a>
                         <a href="recipe-list-friends.html" th:href="@{~/recipes/friends}" class="btn" th:text="#{recipe-list.friends}"
-                           th:classappend="${place=='friends'}?'btn-primary':'btn-default'">Dravgo</a>
+                           th:classappend="${section=='friends'}?'btn-primary':'btn-default'">Dravgo</a>
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -64,6 +64,16 @@
                     <div class="panel-body">
                         <h3 th:text="${rcp.name}" class="small-title">Pvdn</h3>
                         <p th:text="${rcp.description}">Dscr</p>
+                        <div class="btn-group" th:if="${section=='personal'}">
+                            <button class="btn" th:text="#{recipeCreateForm.public}"
+                                    th:classappend="${rcp.publicAccess}?'btn-primary':'btn-default'">
+                                Vs
+                            </button>
+                            <button class="btn" th:text="#{recipeCreateForm.private}"
+                                    th:classappend="!${rcp.publicAccess}?'btn-primary':'btn-default'">
+                                Priv
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

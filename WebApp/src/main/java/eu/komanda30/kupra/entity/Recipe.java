@@ -1,20 +1,8 @@
 package eu.komanda30.kupra.entity;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 /**
  * Created by Ignas on 10/23/2014.
@@ -48,11 +36,9 @@ public class Recipe {
     @Column(nullable = false)
     private int servings;
 
-    @AttributeOverrides( {
-            @AttributeOverride(name="userId", column = @Column(name="author") ),
-    } )
-    @Column(name = "author", nullable = false)
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author", nullable = false)
+    private KupraUser author;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="recipe_id", nullable = false)
@@ -114,11 +100,11 @@ public class Recipe {
         this.servings = servings;
     }
 
-    public String getAuthor() {
+    public KupraUser getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(KupraUser author) {
         this.author = author;
     }
 

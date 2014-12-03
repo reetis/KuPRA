@@ -6,15 +6,15 @@ import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
-
-import javax.annotation.Resource;
-
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
 
 /**
  * Created by Rytis on 2014-12-02.
@@ -55,9 +55,9 @@ public class ViewProfileController {
 //        }
 
         if (showEverything) {
-            allRecipes = recipes.findByUser(friend.getUserId());
+            allRecipes = recipes.findByUser(friend, new PageRequest(0, 100)); //TODO: pataisyti
         } else {
-            allRecipes = recipes.findByUserPublic(friend.getUserId());
+            allRecipes = recipes.findByUserPublic(friend, new PageRequest(0, 100)); //TODO: pataisyti
         }
 
         for (Recipe r: allRecipes) {

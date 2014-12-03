@@ -1,6 +1,6 @@
 CREATE TABLE recipe (
   recipe_id           INT PRIMARY KEY,
-  author              VARCHAR(24) NOT NULL,
+  author              VARCHAR(24) NOT NULL REFERENCES "user"(user_id),
   name                VARCHAR(64) NOT NULL,
   cooking_time         INT         NOT NULL,
   servings             INT         NOT NULL,

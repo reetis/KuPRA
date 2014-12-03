@@ -7,6 +7,7 @@ public class RecipePreview {
     private String name;
 
     private boolean publicAccess;
+    private boolean accessible;
 
     private String description;
 
@@ -32,5 +33,13 @@ public class RecipePreview {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isAccessible() {
+        return accessible;
+    }
+
+    public void setAccessible(boolean accessible) {
+        this.accessible = accessible;
     }
 }
