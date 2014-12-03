@@ -7,7 +7,7 @@ INSERT INTO public.unit (id, name, abbreviation) VALUES (4, 'Litras', 'l');
 INSERT INTO public.product (id, name, selected_unit, description) VALUES (1, 'Ciaburiekas', 3, 'Raudonas daiktas');
 
 
-INSERT INTO public.fridge (id, user_id, product_id, amount) VALUES (1, 'Hudas', 1, 2);
+INSERT INTO public.fridge (id, user_id, product_id, amount) VALUES (1, 'lukas_babelis', 1, 2);
 
 
 

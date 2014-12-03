@@ -1,8 +1,9 @@
 package eu.komanda30.kupra.controllers.fridge;
 
-import eu.komanda30.kupra.controllers.recipelist.RecipePreview;
-import eu.komanda30.kupra.controllers.recipelist.RecipesList;
-import eu.komanda30.kupra.entity.*;
+import eu.komanda30.kupra.entity.Fridge;
+import eu.komanda30.kupra.entity.Product;
+import eu.komanda30.kupra.entity.Unit;
+import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Fridges;
 import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Units;
@@ -38,7 +39,7 @@ public class FridgeController {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String username = auth.getName();
         UserId loggedUserId = UserId.forUsername(username);
-        Iterable<Fridge> allFridges = fridges.findAllByUserId(loggedUserId);
+        Iterable<Fridge> allFridges = fridges.findAllByUserId(UserId.forUsername(auth.getName()));
     for(Fridge f : allFridges){
 
 

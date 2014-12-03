@@ -18,7 +18,7 @@ public class Fridge {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="fridgeIdSequence")
     private int id;
 
-    private String userId;
+    private UserId userId;
 
     private int productId;
 
@@ -32,11 +32,11 @@ public class Fridge {
         this.id = id;
     }
 
-    public String getUserId() {
+    public UserId getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(UserId userId) {
         this.userId = userId;
     }
 
