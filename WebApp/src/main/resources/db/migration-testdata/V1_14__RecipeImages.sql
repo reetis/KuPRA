@@ -1,0 +1,3 @@
+INSERT INTO public.recipe_image (id, recipe_id, image_url, thumb_url) VALUES (1, 1, '/uploads/recipes/fa41fd75-62b7-4178-97de-263d80254f71_download.jpg', '/uploads/recipes/768ddf4e-da86-4664-bf20-46d2cbb17426_thumb.download.jpg');
+INSERT INTO public.recipe_image (id, recipe_id, image_url, thumb_url) VALUES (2, 1, '/uploads/recipes/9c1898c1-4557-479a-b384-63b2584ff21c_adult-chiquita-banana-costume.jpg', '/uploads/recipes/ef864ec0-4cd3-4d09-aa50-e2b6d5d887be_thumb.adult-chiquita-banana-costume.jpg');
+INSERT INTO public.recipe_image (id, recipe_id, image_url, thumb_url) VALUES (3, 3, '/uploads/recipes/0e4575d4-afe3-4d6d-b98c-1e01328daaee_background.jpg', '/uploads/recipes/a7d92d6f-43a0-4e89-a8e6-63742345e2c5_thumb.background.jpg');
