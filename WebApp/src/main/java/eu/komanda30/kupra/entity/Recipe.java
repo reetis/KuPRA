@@ -36,6 +36,13 @@ public class Recipe {
     @Column(nullable = false)
     private int servings;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeProduct> recipeProductList;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="userId", column = @Column(name="author") ),
+    } )
+   
     @ManyToOne
     @JoinColumn(name = "author", nullable = false)
     private KupraUser author;
@@ -43,6 +50,14 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="recipe_id", nullable = false)
     private List<RecipeImage> recipeImages;
+
+    public List<RecipeProduct> getRecipeProductList() {
+        return recipeProductList;
+    }
+
+    public void setRecipeProductList(List<RecipeProduct> recipeProductList) {
+        this.recipeProductList = recipeProductList;
+    }
 
     public Integer getRecipe_id() {
         return recipe_id;

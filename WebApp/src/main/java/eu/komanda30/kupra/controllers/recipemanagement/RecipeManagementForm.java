@@ -1,8 +1,11 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
+import eu.komanda30.kupra.entity.Product;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 
 /**
  * Created by Ignas on 10/23/2014.
@@ -29,6 +32,26 @@ public class RecipeManagementForm {
     @NotNull
     @Min(1)
     private int servings = 1;
+
+    private ArrayList<RecipeProductListUnit> recipeProductListUnits;
+
+    private Iterable<Product> productsList;
+
+    public ArrayList<RecipeProductListUnit> getRecipeProductListUnits() {
+        return recipeProductListUnits;
+    }
+
+    public void setRecipeProductListUnits(ArrayList<RecipeProductListUnit> recipeProductListUnits) {
+        this.recipeProductListUnits = recipeProductListUnits;
+    }
+
+    public Iterable<Product> getProductsList() {
+        return productsList;
+    }
+
+    public void setProductsList(Iterable<Product> productsList) {
+        this.productsList = productsList;
+    }
 
     public String getTmpId() {
         return tmpId;

@@ -1,8 +1,12 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
 import eu.komanda30.kupra.UploadUtils;
+import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.KupraUsers;
+import eu.komanda30.kupra.entity.RecipeProduct;
+import eu.komanda30.kupra.entity.UserId;
+import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
 import eu.komanda30.kupra.uploads.UploadedImageInfo;
@@ -41,6 +45,12 @@ public class RecipeManagementController {
     @Resource
     private Recipes recipes;
 
+    @Resource
+    private RecipeProducts recipeProducts;
+
+    @Resource
+    private Products products;
+
     @Value("${recipe.img.dir}")
     private File recipeImgDir;
 
@@ -60,6 +70,9 @@ public class RecipeManagementController {
 
     @RequestMapping(value="/create", method = RequestMethod.GET)
     public String showNewRecipeForm(final RecipeManagementForm form) {
+        Iterable<Product> productIterable = products.findAll();
+        //form.setRecipeProductListUnits();
+        form.setProductsList(productIterable);
         form.setTmpId(UUID.randomUUID().toString());
         return "recipe_form";
     }
@@ -117,6 +130,17 @@ public class RecipeManagementController {
             LOG.error("Failed to copy image to recipe image directory!", e);
             return null;
         }
+    }
+
+    @RequestMapping(value="addProduct", method = RequestMethod.POST)
+    public String addProduct(@RequestParam("quantity") Integer quantity,
+                             @RequestParam("product_id") Integer product_id){
+        RecipeProduct recipeProduct = new RecipeProduct();
+        recipeProduct.setProduct(products.findOne(product_id));
+        recipeProduct.setQuantity(quantity);
+        recipeProduct.setRecipe(recipes.findOne(1));
+
+        return "recipe_form :: recipeProduct";
     }
 
     @RequestMapping(value="uploadPhotos", method = RequestMethod.POST)
