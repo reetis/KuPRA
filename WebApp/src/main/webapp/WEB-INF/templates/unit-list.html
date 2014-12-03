@@ -24,16 +24,38 @@
 <div  th:replace="layout :: header"></div>
 
 <div class="container">
-    <div class="page-header">
-    <h2 th:text="#{unitsList.title}">CP test</h2>
-        </div>
+    <div class="row">
+
+        <th:block th:fragment="recipe-list-header(place)" th:with="place='all'">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-xs-11">
+                        <h1 th:text="#{unitsList.title}">CP test</h1>
+                    </div>
+                    <div class="col-xs-1">
+                        <div th:replace="newUnit :: newUnitButton"></div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
     <div class="row" >
         <div th:if="${!units.isEmpty()}">
             <div class="col-md-6" th:each="unit : ${units}">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">Pvdn</h3>
-                        <!--<p th:text="${unit.abbreviation}">Dscr</p>-->
+                        <button class="btn-default btn" id="newProductButton" th:title="#{unit-list.delete_if_nor_used}"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Tooltip on bottom" >
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn-default btn" id="newProductButton" th:title="#{unit-list.edit}"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Tooltip on bottom" >
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -44,6 +66,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <div th:replace="layout :: footer"></div>

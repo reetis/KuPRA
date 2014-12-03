@@ -19,9 +19,11 @@
 <body>
 <div class="container">
     <div th:fragment="newProductButton">
-        <!-- Button trigger modal -->
-        <button class="btn btn-primary btn-lg" id="newProductButton">
-            Add new product
+
+        <button class="btn-default btn" id="newProductButton" th:title="#{products-list.add_product}"
+                data-toggle="tooltip" data-placement="bottom"
+                title="Tooltip on bottom" >
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
 
         <script type="application/javascript" th:inline="javascript">
@@ -162,7 +164,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:window.location.reload()">Close</button>
             </div>
         </div>
     </div>

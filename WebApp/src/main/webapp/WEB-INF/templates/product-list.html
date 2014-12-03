@@ -24,9 +24,22 @@
 <div  th:replace="layout :: header"></div>
 
 <div class="container">
-    <div class="page-header">
-        <h2 th:text="#{productList.title}">CP test</h2>
+    <div class="row">
+
+        <th:block th:fragment="recipe-list-header(place)" th:with="place='all'">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-xs-11">
+                        <h1 th:text="#{productList.title}">CP test</h1>
+                    </div>
+                    <div class="col-xs-1">
+                        <div th:replace="newProduct :: newProductButton"></div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
     </div>
+
     <div class="row" >
         <div th:if="!${#lists.isEmpty(productsListForm.items)}">
             <div class="col-md-6" th:each="product : ${productsListForm.items}">
@@ -34,6 +47,16 @@
                     <div class="panel-body">
                         <h3 th:text="${product.name}+' ('+${product.unit}+')'" class="small-title">Pvdn</h3>
                         <p th:text="${product.description}">Dscr</p>
+                        <button class="btn-default btn" id="newProductButton" th:title="#{products-list.delete_if_nor_used}"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Tooltip on bottom" >
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn-default btn" id="newProductButton" th:title="#{products-list.edit}"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Tooltip on bottom" >
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </div>
             </div>

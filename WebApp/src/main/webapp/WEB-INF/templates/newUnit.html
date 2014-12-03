@@ -20,8 +20,10 @@
 <div class="container">
     <div th:fragment="newUnitButton">
         <!-- Button trigger modal -->
-        <button class="btn btn-primary btn-lg" id="newUnitButton">
-            Add new unit
+        <button class="btn-default btn" id="newUnitButton" th:title="#{units-list.add_unit}"
+            data-toggle="tooltip" data-placement="bottom"
+            title="Tooltip on bottom" >
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
 
         <script type="application/javascript" th:inline="javascript">
@@ -111,10 +113,12 @@
                         } else {
                             $("#newUnitFormContent").empty();
                             $("#unitSavedForm").clone(true).appendTo("#newUnitFormContent");
+
                         }
                     });
                 } (jQuery);
                 // ]]>
+
             </script>
         </form>
 
@@ -141,11 +145,12 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:window.location.reload()">Close</button>
             </div>
         </div>
     </div>
 </div>
-<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript">
+</script>
 </body>
 </html>
