@@ -3,20 +3,17 @@ package eu.komanda30.kupra.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="password_auth", uniqueConstraints =
-    @UniqueConstraint(columnNames="userId")
-)
+@Table(name="password_auth")
 public class UsernamePasswordAuth {
     @Id
     private String userId;
 
-    @MapsId("userId")
+    @PrimaryKeyJoinColumn
     @OneToOne
     private KupraUser user;
 

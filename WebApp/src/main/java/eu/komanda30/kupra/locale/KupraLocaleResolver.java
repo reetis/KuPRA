@@ -20,7 +20,7 @@ import org.springframework.web.util.WebUtils;
 /**
  * Created by Rytis on 2014-11-30.
  */
-@Component
+@Component("localeResolver")
 public class KupraLocaleResolver extends AbstractLocaleContextResolver{
     private static final String DEFAULT_LOCALE = "lt-LT";
     private static final String LOCALE_SESSION_ATTRIBUTE_NAME = "Locale";
