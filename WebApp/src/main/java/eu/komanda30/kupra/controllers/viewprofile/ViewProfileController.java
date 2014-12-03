@@ -39,14 +39,14 @@ public class ViewProfileController {
         final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
         final KupraUser friend = kupraUsers.findOne(UserId.forUsername(userId));
         final UserProfile friendUserProfile = friend.getUserProfile();
-        boolean isFriends = friendships.isFriends(user, friend);
+        boolean showEverything = friendships.isFriends(user, friend) ||  userId.contentEquals(auth.getName());
         Iterable<Recipe> allRecipes;
 
         profileInfo.setName(friendUserProfile.getName());
         profileInfo.setSurname(friendUserProfile.getSurname());
         profileInfo.setEmail(friendUserProfile.getEmail());
         profileInfo.setDescription(friendUserProfile.getDescription());
-        profileInfo.setFriend(isFriends);
+        profileInfo.setFriend(friendships.isFriends(user, friend));
 
 //        final UserProfileImage mainPhoto = friendUserProfile.getMainPhoto();
 //        if (mainPhoto != null) {
@@ -54,7 +54,7 @@ public class ViewProfileController {
 //                    mainPhoto.getImageUrl(), mainPhoto.getThumbUrl()));
 //        }
 
-        if (isFriends) {
+        if (showEverything) {
             allRecipes = recipes.findByUser(friend.getUserId());
         } else {
             allRecipes = recipes.findByUserPublic(friend.getUserId());
