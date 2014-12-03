@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="#{recipeReadForm.title}">Regtst</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
+
+    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+
+    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+
+    <link th:href="@{/lightbox/css/lightbox.css}" href="../../lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="../../css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="../../css/imgupload.css" rel="stylesheet"/>
+
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+</head>
+<body>
+<div th:replace="layout :: header"></div>
+<div class="container">
+
+    <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
+    <h2 th:text="${recipeReadForm.name}">Recipe</h2>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="pub panel-body">
+                        <label for="cookingTime" th:text="#{recipeCreateForm.cookingTime}">Laikas</label>
+                        <span id="cookingTime" th:text="${recipeReadForm.cookingTime}">Random Time</span>
+                    </div>
+
+                    <div class="panel panel-body">
+                        <label for="servings" th:text="#{recipeCreateForm.servings}">Porcijos</label>
+                        <span id="servings" th:text="${recipeReadForm.servings}">Random Description</span>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div>Maisto Produktai</div>
+
+                    </div>
+
+                    <div class="panel panel-body">
+                        <label for="description" th:text="#{recipeCreateForm.description}">Aprašymas</label>
+                        <p id="description" th:text="${recipeReadForm.description}">Random Aprašas</p>
+                    </div>
+
+                    <div class="panel panel-body">
+                        <label for="processDescription" th:text="#{recipeCreateForm.processDescription}">Gamybos Aprašymas</label>
+                        <p id="processDescription" th:text="${recipeReadForm.processDescription}">Labai ilgas gamybos aprašas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+</div>
+<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+<script th:src="@{/js/recipe_management.js}" src="../../js/recipe_management.js" type="text/javascript"></script>
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="../../lightbox/js/lightbox.min.js" type="text/javascript"></script>
+
+<div th:replace="layout :: footer"></div>
+
+<script type="application/javascript" th:inline="javascript">
+    // <![CDATA[
+    +function($) {
+        var imgUrl = /*[[@{/recipe/uploadPhotos}]]*/ '#';
+        var imgDelUrl = /*[[@{/recipe/deletePhoto}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+        var _tmpId = /*[[${recipeManagementForm.tmpId}]]*/ 'tmp_id';
+
+        delImgHandler = function(imgId) {
+            $.ajax({
+                url: imgDelUrl,
+                type: 'POST',
+                data: {tmpId: _tmpId, imgId: imgId},
+                async: false,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+                success: imagesLoadedHandler
+            });
+        };
+
+        imagesLoadedHandler = function (returndata) {
+            //Init new list of images
+            var newImgForm = $(returndata);
+            $(".rm-btn", newImgForm).click(function() {
+                delImgHandler($(this).attr('img-id'));
+            });
+            //Replace old list of images with new one
+            $("#image_form").replaceWith(newImgForm);
+
+            //Replace old upload button with new one to clear it
+            var control = $("#uploadRecipeImg");
+            control.replaceWith( control = control.clone( true ) );
+        };
+
+        $('#uploadRecipeImg').change(function () {
+            var formData = new FormData();
+
+            var files = $("#uploadRecipeImg").prop('files');
+            for (var i = 0; i < files.length; i++) {
+                formData.append("images", files[i]);
+            }
+
+            formData.append("tmpId", _tmpId);
+
+            $.ajax({
+                url: imgUrl,
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+                success: imagesLoadedHandler
+            });
+
+        });
+    }(jQuery);
+    // ]]>
+</script>
+
+</body>
+</html>
