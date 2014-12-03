@@ -52,7 +52,7 @@ public class Recipe {
             @AttributeOverride(name="userId", column = @Column(name="author") ),
     } )
     @Column(name = "author", nullable = false)
-    private UserId author;
+    private String author;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="recipe_id", nullable = false)
@@ -114,11 +114,11 @@ public class Recipe {
         this.servings = servings;
     }
 
-    public UserId getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserId author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

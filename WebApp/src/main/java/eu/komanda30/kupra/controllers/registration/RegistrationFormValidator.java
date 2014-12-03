@@ -1,7 +1,6 @@
 package eu.komanda30.kupra.controllers.registration;
 
 import eu.komanda30.kupra.repositories.KupraUsers;
-import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
 
 import javax.annotation.Resource;
 
@@ -14,9 +13,6 @@ public class RegistrationFormValidator implements Validator {
     @Resource
     private KupraUsers kupraUsers;
 
-    @Resource
-    private UsernamePasswordAuths usernamePasswordAuths;
-
     @Override
     public boolean supports(Class<?> clazz) {
         return RegistrationForm.class.isAssignableFrom(clazz);
@@ -28,7 +24,7 @@ public class RegistrationFormValidator implements Validator {
         if (!form.getPassword().equals(form.getPasswordRepeat())) {
             errors.rejectValue("passwordRepeat", "DoesNotMatch");
         }
-        if (usernamePasswordAuths.findOne(form.getUsername()) != null) {
+        if (kupraUsers.findByUsername(form.getUsername()) != null) {
             errors.rejectValue("username","AlreadyUsed");
         }
         if (kupraUsers.findByEmail(form.getEmail()) != null) {

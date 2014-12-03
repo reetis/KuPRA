@@ -2,11 +2,9 @@ package eu.komanda30.kupra.controllers.editprofile;
 
 import eu.komanda30.kupra.UploadUtils;
 import eu.komanda30.kupra.entity.KupraUser;
-import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.entity.UserProfileImage;
 import eu.komanda30.kupra.repositories.KupraUsers;
-import eu.komanda30.kupra.services.UserRegistrar;
 import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
 import eu.komanda30.kupra.uploads.UploadedImageInfo;
 
@@ -22,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -43,9 +42,6 @@ public class EditProfileController {
     public static final String MAIN_PHOTO_REPO_ID = "mainPhoto";
 
     @Resource
-    private UserRegistrar userRegistrar;
-
-    @Resource
     private KupraUsers kupraUsers;
 
     @Resource
@@ -60,6 +56,9 @@ public class EditProfileController {
     @Resource
     private TmpUploadedFileManager tmpUploadedFileManager;
 
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(editProfileValidator);
@@ -72,7 +71,7 @@ public class EditProfileController {
                            final ProfilePhotoList profilePhotoList) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
+        final KupraUser user = kupraUsers.findOne(auth.getName());
         final UserProfile profile = user.getUserProfile();
 
         form.setTmpId(UUID.randomUUID().toString());
@@ -117,15 +116,16 @@ public class EditProfileController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-       if (!passForm.getPassword().isEmpty()) {
-           if (passErrors.hasErrors()) {
-               return "editProfile";
-           } else {
-               userRegistrar.editPassword(UserId.forUsername(auth.getName()), passForm.getNewPassword());
-           }
-       }
+        if (!passForm.getPassword().isEmpty() && passErrors.hasErrors()) {
+            return "editProfile";
+        }
 
-        final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
+
+        final KupraUser user = kupraUsers.findByUsername(auth.getName());
+        if (!passForm.getPassword().isEmpty()) {
+            user.setPassword(passForm.getPassword(), passwordEncoder);
+        }
+
         final UserProfile profile = user.getUserProfile();
         profile.setName(form.getName());
         profile.setSurname(form.getSurname());

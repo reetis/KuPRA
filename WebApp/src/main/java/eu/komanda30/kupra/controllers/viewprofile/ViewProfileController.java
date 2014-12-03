@@ -2,19 +2,19 @@ package eu.komanda30.kupra.controllers.viewprofile;
 
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Recipe;
-import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
+
+import javax.annotation.Resource;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
 
 /**
  * Created by Rytis on 2014-12-02.
@@ -36,8 +36,8 @@ public class ViewProfileController {
     @RequestMapping(value = " /{userId}", method= RequestMethod.GET)
     public String showRecipes(@PathVariable String userId, final ProfileInfo profileInfo) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
-        final KupraUser friend = kupraUsers.findOne(UserId.forUsername(userId));
+        final KupraUser user = kupraUsers.findOne(auth.getName());
+        final KupraUser friend = kupraUsers.findOne(userId);
         final UserProfile friendUserProfile = friend.getUserProfile();
         boolean showEverything = friendships.isFriends(user, friend) ||  userId.contentEquals(auth.getName());
         Iterable<Recipe> allRecipes;

@@ -1,9 +1,10 @@
 package eu.komanda30.kupra.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -13,26 +14,29 @@ import javax.persistence.UniqueConstraint;
 )
 public class UsernamePasswordAuth {
     @Id
-    @Column(length = 24)
+    private String userId;
+
+    @MapsId("userId")
+    @OneToOne
+    private KupraUser user;
+
+    @Column(length = 24, unique = true)
     private String username;
 
     @Column(length = 64)
     private String password;
 
-    @Embedded
-    private UserId userId;
-
     //for hibernate
     protected UsernamePasswordAuth() {}
 
-    public UsernamePasswordAuth(String username, String password, UserId userId) {
-        this.userId = userId;
+    public UsernamePasswordAuth(KupraUser user, String username, String password) {
         this.username = username;
         this.password = password;
+        this.user = user;
     }
 
-    public UserId getUserId() {
-        return userId;
+    public KupraUser getUser() {
+        return user;
     }
 
     public String getUsername() {

@@ -9,8 +9,8 @@ CREATE TABLE "user" (
 );
 
 CREATE TABLE password_auth (
-  username      varchar(24) PRIMARY KEY,
+  user_id       varchar(24) PRIMARY KEY,
+  username      varchar(24) NOT NULL UNIQUE,
   password      varchar(120) NOT NULL,
-  user_id       varchar(24) NOT NULL UNIQUE,
   FOREIGN KEY (user_id) REFERENCES "user" (user_id)
 );

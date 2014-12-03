@@ -1,11 +1,7 @@
 package eu.komanda30.kupra.controllers.editprofile;
 
 import eu.komanda30.kupra.entity.KupraUser;
-import eu.komanda30.kupra.entity.UserId;
-import eu.komanda30.kupra.entity.UsernamePasswordAuth;
 import eu.komanda30.kupra.repositories.KupraUsers;
-import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
-import eu.komanda30.kupra.services.impl.UserRegistrarImpl;
 
 import javax.annotation.Resource;
 
@@ -25,13 +21,10 @@ import org.springframework.validation.Validator;
 @Component
 public class EditProfileValidator implements Validator {
 
-    public static final Logger LOG = LoggerFactory.getLogger(UserRegistrarImpl.class.getName());
+    public static final Logger LOG = LoggerFactory.getLogger(EditProfileValidator.class.getName());
 
     @Resource
     private KupraUsers kupraUsers;
-
-    @Resource
-    private UsernamePasswordAuths usernamePasswordAuths;
 
     @Resource
     private PasswordEncoder passwordEncoder;
@@ -49,15 +42,13 @@ public class EditProfileValidator implements Validator {
         if (target instanceof EditProfileForm) {
             validateProfile((EditProfileForm) target, errors);
         } else if (target instanceof EditPasswordForm) {
-            validatePassword(target, errors);
+            validatePassword((EditPasswordForm)target, errors);
         }
     }
 
-    private void validateProfile(EditProfileForm target, Errors errors) {
-        final EditProfileForm form = target;
-
+    private void validateProfile(EditProfileForm form, Errors errors) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final KupraUser user = kupraUsers.findOne(UserId.forUsername(auth.getName()));
+        final KupraUser user = kupraUsers.findOne(auth.getName());
 
         if ((kupraUsers.findByEmail(form.getEmail()) != null) && !(form.getEmail().equals(
                 user.getUserProfile().getEmail()))) {
@@ -65,14 +56,13 @@ public class EditProfileValidator implements Validator {
         }
     }
 
-    public void validatePassword(Object target, Errors errors) {
-        final EditPasswordForm form = (EditPasswordForm)target;
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public void validatePassword(EditPasswordForm form, Errors errors) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        UsernamePasswordAuth passwordAuth = usernamePasswordAuths.findByUserId(UserId.forUsername(auth.getName()));
+        final KupraUser user = kupraUsers.findByUsername(auth.getName());
 
         if(!form.getPassword().equals("")) {
-            if (!passwordEncoder.matches(form.getPassword(), passwordAuth.getPassword())) {
+            if (!passwordEncoder.matches(form.getPassword(), user.getUsernamePasswordAuth().getPassword())) {
                 errors.rejectValue("password", "DoesNotMatch");
             }
             if (!form.getNewPassword().equals(form.getConfirmNewPassword())) {

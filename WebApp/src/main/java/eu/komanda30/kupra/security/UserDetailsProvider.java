@@ -3,7 +3,6 @@ package eu.komanda30.kupra.security;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.UsernamePasswordAuth;
 import eu.komanda30.kupra.repositories.KupraUsers;
-import eu.komanda30.kupra.repositories.UsernamePasswordAuths;
 
 import java.util.Set;
 
@@ -22,19 +21,16 @@ import com.google.common.collect.ImmutableSet;
 @Service
 public class UserDetailsProvider implements UserDetailsService {
     @Resource
-    private UsernamePasswordAuths auths;
-
-    @Resource
     private KupraUsers kupraUsers;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final UsernamePasswordAuth auth = auths.findOne(username);
-        if (auth == null) {
-            throw new UsernameNotFoundException("User is not registered");
+        final KupraUser kupraUser = kupraUsers.findByUsername(username);
+        if (kupraUser == null) {
+            throw new UsernameNotFoundException("Username not found!");
         }
 
-        final KupraUser kupraUser = kupraUsers.findOne(auth.getUserId());
+        final UsernamePasswordAuth auth = kupraUser.getUsernamePasswordAuth();
         return new User(auth.getUsername(), auth.getPassword(),
                 buildAuthorities(kupraUser.isAdmin()));
     }

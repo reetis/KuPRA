@@ -2,7 +2,6 @@ package eu.komanda30.kupra.controllers.friendship.friends_list;
 
 import eu.komanda30.kupra.entity.Friendship;
 import eu.komanda30.kupra.entity.KupraUser;
-import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.repositories.Friendships;
 
@@ -35,7 +34,7 @@ public class FriendsListController {
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String username = auth.getName();
-        UserId loggedUserId = UserId.forUsername(username);
+        String loggedUserId = username;
 
         List<Friendship> friendshipsList = friendships.findFriendsOf(loggedUserId);
 

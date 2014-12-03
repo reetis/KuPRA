@@ -1,7 +1,6 @@
 package eu.komanda30.kupra.controllers.recipelist;
 
 import eu.komanda30.kupra.entity.Recipe;
-import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Recipes;
 
 import javax.annotation.Resource;
@@ -37,7 +36,7 @@ public class RecipeListController {
     @RequestMapping(value = "/personal", method = RequestMethod.GET)
     public String showPersonalRecipes(final RecipesList list) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Iterable<Recipe> allRecipes = recipes.findByUser(UserId.forUsername(auth.getName()));
+        Iterable<Recipe> allRecipes = recipes.findByUser(auth.getName());
         for (Recipe r: allRecipes) {
             RecipePreview recipePreview = new RecipePreview();
             recipePreview.setName(r.getName());

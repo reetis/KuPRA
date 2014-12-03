@@ -1,16 +1,15 @@
 package eu.komanda30.kupra.controllers.product;
 
-import eu.komanda30.kupra.controllers.fridge.FridgesItem;
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Unit;
 import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Units;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by Gintare on 2014-12-02.

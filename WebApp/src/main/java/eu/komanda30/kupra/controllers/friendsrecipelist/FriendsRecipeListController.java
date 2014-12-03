@@ -1,19 +1,20 @@
 package eu.komanda30.kupra.controllers.friendsrecipelist;
 
-import eu.komanda30.kupra.controllers.friendship.friends_list.FriendListUnit;
-import eu.komanda30.kupra.controllers.recipelist.RecipePreview;
-import eu.komanda30.kupra.controllers.recipelist.RecipesList;
-import eu.komanda30.kupra.entity.*;
+import eu.komanda30.kupra.entity.Friendship;
+import eu.komanda30.kupra.entity.KupraUser;
+import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.Recipes;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * Created by Lukas on 2014.11.30.
@@ -45,7 +46,7 @@ public class FriendsRecipeListController {
     public String showPersonalRecipes(final FriendsRecipesList list) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String username = auth.getName();
-        UserId loggedUserId = UserId.forUsername(username);
+        String loggedUserId = username;
 
         List<Friendship> friendshipsList = friendships.findFriendsOf(loggedUserId);
 

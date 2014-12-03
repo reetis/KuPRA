@@ -1,27 +1,35 @@
 package eu.komanda30.kupra.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.Assert;
 
 @Table(name="`user`")
 @Entity
 public class KupraUser {
     @Id
-    private UserId userId;
+    private String userId;
 
     @Embedded
     private UserProfile userProfile;
 
     private boolean isAdmin;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UsernamePasswordAuth usernamePasswordAuth;
+
     //for hibernate
     protected KupraUser() {
 
     }
 
-    public KupraUser(UserId userId, UserProfile profile) {
+    public KupraUser(String userId, UserProfile profile) {
         this.userId = userId;
         this.userProfile = profile;
         this.isAdmin = false;
@@ -39,8 +47,30 @@ public class KupraUser {
         return userProfile;
     }
 
-    public UserId getUserId() {
+    public String getUserId() {
         return userId;
     }
 
+    public UsernamePasswordAuth getUsernamePasswordAuth() {
+        return usernamePasswordAuth;
+    }
+
+    public void setUsernamePasswordAuth(UsernamePasswordAuth usernamePasswordAuth) {
+        this.usernamePasswordAuth = usernamePasswordAuth;
+    }
+
+    public void setLoginDetails(String username, String password, PasswordEncoder encoder) {
+        final String encodedNewPassword = encoder.encode(password);
+
+        if (usernamePasswordAuth == null) {
+            usernamePasswordAuth = new UsernamePasswordAuth(this, username, encodedNewPassword);
+        } else {
+            setPassword(password, encoder);
+        }
+    }
+
+    public void setPassword(String password, PasswordEncoder encoder) {
+        Assert.notNull(usernamePasswordAuth);
+        usernamePasswordAuth.setPassword(encoder.encode(password));
+    }
 }

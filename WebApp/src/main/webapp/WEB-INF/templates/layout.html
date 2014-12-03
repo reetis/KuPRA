@@ -31,7 +31,15 @@
                     </div>
 
                     <div class="navbar-search">
-                        <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..." class="form-control inpt"/>
+                        <div class="dropdown" id="search-dropdown">
+                            <input id="searchinput" type="search" th:placeholder="#{layout.search}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Psk..." class="form-control inpt"/>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="navbar-menu" >
@@ -151,6 +159,12 @@
         </div>
     </div>
     <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
+
+    <script type="application/javascript">
+        $("#search-dropdown").on("show.bs.dropdown", function() {
+            alert($("#search-input").val());
+        });
+    </script>
 </div>
 
 

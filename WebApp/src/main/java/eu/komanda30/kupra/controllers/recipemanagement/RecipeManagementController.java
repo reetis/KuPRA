@@ -2,7 +2,6 @@ package eu.komanda30.kupra.controllers.recipemanagement;
 
 import eu.komanda30.kupra.UploadUtils;
 import eu.komanda30.kupra.entity.Recipe;
-import eu.komanda30.kupra.entity.UserId;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
 import eu.komanda30.kupra.uploads.UploadedImageInfo;
@@ -80,7 +79,7 @@ public class RecipeManagementController {
         recipe.setCookingTime(recipeForm.getCookingTime());
         recipe.setPublicAccess(recipeForm.isPublicAccess());
         recipe.setServings(recipeForm.getServings());
-        recipe.setAuthor(UserId.forUsername(auth.getName()));
+        recipe.setAuthor(auth.getName());
 
         final String fileGroupId = recipeForm.getTmpId();
         for (String fileId : tmpUploadedFileManager.getFileIds(fileGroupId)) {

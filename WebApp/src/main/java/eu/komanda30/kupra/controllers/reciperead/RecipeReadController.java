@@ -2,14 +2,15 @@ package eu.komanda30.kupra.controllers.reciperead;
 
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.Recipes;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
 
 @Controller
 @RequestMapping("/recipe")

@@ -29,7 +29,7 @@ public class Friendship {
     @JoinColumn(name="target_id")
     private KupraUser target;
 
-    public KupraUser getFriendOf(UserId userId){
+    public KupraUser getFriendOf(String userId){
         if (source.getUserId().equals(userId)){
             return target;
         }else{
