@@ -43,11 +43,62 @@
         </div>
         <div th:if="${#lists.isEmpty(fridgeItemsList.items)}">
             <div class="col-md-12">
-                <p th:text="#{fridge.noitems}">Nrė rceptų</p>
+                <p th:text="#{fridge.noitems}">Nrė prdtu</p>
             </div>
         </div>
     </div>
 
+    <form class="form-horizontal" role="form" action="#" method="post"
+          th:action="@{/fridge}"
+          id="fridgeAddItemForm"
+          th:object="${fridgeAddItemForm}">
+
+        <span class="modal-body  col-md-1">
+
+                    <div class="dropdown form-group">
+                        <div th:if="${!products.isEmpty()}">
+                            <select class="form-control" th:field="*{selectedItemId}">
+                                <option value="5"
+                                        th:each="product : ${products}"
+                                        th:value="${product.id}"
+                                        th:text="${product.name}">Vienetas
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+
+        </span>
+
+        <span class="form-group col-md-1">
+            <input type="text" class="form-control" placeholder="amount" id="amount"
+                   th:field="*{amount}" th:placeholder="#{fridge.amount}"/>
+
+        </span>
+
+        <span class="form-group">
+            <button type="submit" class="btn btn-default btn-lg"
+                    th:text="#{fridge.addbtn}">Save
+            </button>
+        </span>
+
+
+        <script type="application/javascript" th:inline="javascript">
+
+
+            +function ($) {
+                var submitUrl = /*[[@{/product/add}]]*/ '#';
+                $("#newProductCreateButton").click(function () {
+                    if (submitUrl != '#') {
+                        $("#newProductFormContent").load(submitUrl, $("#newProductForm").serializeArray());
+                    } else {
+                        $("#newProductFormContent").empty();
+                        $("#productSavedForm").clone(true).appendTo("#newProductFormContent");
+                    }
+                });
+            }(jQuery);
+        </script>
+    </form>
 
 </div>
 

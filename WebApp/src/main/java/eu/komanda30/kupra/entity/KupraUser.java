@@ -1,14 +1,10 @@
 package eu.komanda30.kupra.entity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Table(name="`user`")
 @Entity
@@ -20,6 +16,9 @@ public class KupraUser {
     private UserProfile userProfile;
 
     private boolean isAdmin;
+
+    @OneToMany(mappedBy = "userId")
+    private List<Fridge> fridges;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UsernamePasswordAuth usernamePasswordAuth;
@@ -72,5 +71,13 @@ public class KupraUser {
     public void setPassword(String password, PasswordEncoder encoder) {
         Assert.notNull(usernamePasswordAuth);
         usernamePasswordAuth.setPassword(encoder.encode(password));
+    }
+
+    public List<Fridge> getFridges() {
+        return fridges;
+    }
+
+    public void setFridges(List<Fridge> fridges) {
+        this.fridges = fridges;
     }
 }

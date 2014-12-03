@@ -1,11 +1,6 @@
 package eu.komanda30.kupra.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Lukas on 2014.12.02.
@@ -23,7 +18,9 @@ public class Fridge {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="fridgeIdSequence")
     private int id;
 
-    private String userId;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private KupraUser user;
 
     private int productId;
 
@@ -37,13 +34,8 @@ public class Fridge {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+
 
     public int getProductId() {
         return productId;
@@ -59,5 +51,13 @@ public class Fridge {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public KupraUser getUser() {
+        return user;
+    }
+
+    public void setUser(KupraUser user) {
+        this.user = user;
     }
 }
