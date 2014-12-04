@@ -42,6 +42,7 @@ public class FridgeController {
     private KupraUsers kupraUsers;
 
 
+    @Transactional
     @RequestMapping(method = RequestMethod.GET)
     public String showFridgeContent(final FridgeItemsList list, final FridgeAddItemForm fridgeAddItemForm) {
 
@@ -87,14 +88,12 @@ public class FridgeController {
         newFridge.setProductId(form.getSelectedItemId());
         newFridge.setAmount(form.getAmount());
         newFridge.setUser(kupraUser);
+        kupraUser.getFridges().add(newFridge);
+        kupraUsers.save(kupraUser);
 
-        fridges.save(newFridge);
 
         Product product = products.findOne(form.getSelectedItemId());
         form.setItemName(product.getName());
-
-
-        final String username = auth.getName();
 
 
         List<Fridge> fridgesList = kupraUser.getFridges();

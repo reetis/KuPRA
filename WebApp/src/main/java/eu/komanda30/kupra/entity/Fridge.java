@@ -19,7 +19,7 @@ public class Fridge {
     private int id;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "user", nullable = false)
     private KupraUser user;
 
     private int productId;

@@ -17,7 +17,7 @@ public class KupraUser {
 
     private boolean isAdmin;
 
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Fridge> fridges;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -76,6 +76,7 @@ public class KupraUser {
     public List<Fridge> getFridges() {
         return fridges;
     }
+
 
     public void setFridges(List<Fridge> fridges) {
         this.fridges = fridges;
