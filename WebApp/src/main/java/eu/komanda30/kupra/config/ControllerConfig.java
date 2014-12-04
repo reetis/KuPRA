@@ -1,10 +1,6 @@
 package eu.komanda30.kupra.config;
 
-import eu.komanda30.kupra.locale.KupraLocaleResolver;
-
 import java.time.Duration;
-
-import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -21,7 +17,6 @@ import org.springframework.validation.MessageCodesResolver;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -55,8 +50,8 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     @Value("${resources.enable_cache}")
     boolean resourceCacheEnabled;
 
-    @Resource
-    private KupraLocaleResolver kupraLocaleResolver;
+    /*@Resource
+    private KupraLocaleResolver kupraLocaleResolver;      */
 
     @Bean
     public SpringTemplateEngine templateEngine() {
@@ -80,10 +75,10 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    @Bean
+    /*@Bean
     public LocaleResolver localeResolver() {
         return kupraLocaleResolver;
-    }
+    }                     */
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

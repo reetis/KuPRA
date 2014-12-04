@@ -14,14 +14,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AbstractLocaleContextResolver;
 import org.springframework.web.util.WebUtils;
 
-/**
- * Created by Rytis on 2014-11-30.
- */
-@Component
-public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver implements KupraLocaleResolver {
+@Component("localeResolver")
+public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver implements LocaleResolver {
     private static final String DEFAULT_LOCALE = "lt-LT";
     private static final String LOCALE_SESSION_ATTRIBUTE_NAME = "Locale";
 
@@ -49,7 +47,6 @@ public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver imple
                     locale = Locale.forLanguageTag(DEFAULT_LOCALE);
                 }
                 return locale;
-
             }
         };
     }
@@ -64,5 +61,6 @@ public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver imple
         } else {
             user.getUserProfile().setLocale(localeContext.getLocale());
         }
+        kupraUsers.save(user);
     }
 }
