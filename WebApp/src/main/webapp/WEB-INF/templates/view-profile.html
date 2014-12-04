@@ -33,18 +33,12 @@
             </div>
             <div class="row">
                 <div class="col-xs-5">
-                    <!--<div th:fragment="profilePhoto" id="profilePhotoForm" class="form-group">-->
-                        <!--<span th:if="${profileInfo.mainPhoto != null}" th:with="img=${profileInfo.mainPhoto}" class="uploaded-img-cell">-->
-                            <!--<a th:href="${img.imageUrl}"-->
-                               <!--class="gallery-link"-->
-                               <!--href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"-->
-                               <!--data-lightbox="roadtrip">-->
-                                <!--<img class="thumb-lg"-->
-                                     <!--th:src="${img.thumbUrl}"-->
-                                     <!--src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>-->
-                            <!--</a>-->
-                        <!--</span>-->
-                    <!--</div>-->
+                    <span th:if="${profilePhotoList.mainPhoto != null}" th:with="img=${profilePhotoList.mainPhoto}"
+                          class="uploaded-img-cell">
+                            <img class="img-responsive"
+                                 th:src="${img.imageUrl}"
+                                 src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                    </span>
                 </div>
                 <div class="col-xs-7">
                     <p th:text="${profileInfo.description}"></p>
@@ -61,6 +55,7 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h3 th:text="${rcp.name}" class="small-title">Pvdn</h3>
+
                         <p th:text="${rcp.description}">Dscr</p>
                     </div>
                 </div>
