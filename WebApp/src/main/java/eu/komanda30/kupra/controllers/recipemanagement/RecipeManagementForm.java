@@ -33,10 +33,13 @@ public class RecipeManagementForm {
     @Min(1)
     private int servings = 1;
 
-    private ArrayList<RecipeProductListUnit> recipeProductListUnits;
+    private ArrayList<RecipeProductListUnit> recipeProductListUnits = new ArrayList<RecipeProductListUnit>();
 
     private Iterable<Product> productsList;
 
+    public void addRecipeProductListUnit(RecipeProductListUnit recipeProductListUnit){
+        recipeProductListUnits.add(recipeProductListUnit);
+    }
     public ArrayList<RecipeProductListUnit> getRecipeProductListUnits() {
         return recipeProductListUnits;
     }

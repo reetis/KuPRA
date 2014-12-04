@@ -3,9 +3,8 @@ package eu.komanda30.kupra.controllers.recipemanagement;
 import eu.komanda30.kupra.UploadUtils;
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Recipe;
-import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.entity.RecipeProduct;
-import eu.komanda30.kupra.entity.UserId;
+import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
@@ -17,13 +16,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -35,6 +33,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@SessionAttributes("unitList")
 @RequestMapping("/recipe")
 public class RecipeManagementController {
     private final static Logger LOG = LoggerFactory.getLogger(RecipeManagementController.class);
@@ -44,9 +43,6 @@ public class RecipeManagementController {
 
     @Resource
     private Recipes recipes;
-
-    @Resource
-    private RecipeProducts recipeProducts;
 
     @Resource
     private Products products;
@@ -63,17 +59,19 @@ public class RecipeManagementController {
     @Resource
     private KupraUsers kupraUsers;
 
-    @InitBinder
+    @InitBinder("recipeManagementForm")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(recipeManagementFormValidator);
     }
 
+    @ModelAttribute("productsList")
+    public Iterable<Product> getProductList() { return products.findAll();}
+
     @RequestMapping(value="/create", method = RequestMethod.GET)
-    public String showNewRecipeForm(final RecipeManagementForm form) {
-        Iterable<Product> productIterable = products.findAll();
-        //form.setRecipeProductListUnits();
-        form.setProductsList(productIterable);
+    public String showNewRecipeForm(final RecipeManagementForm form, Model model) {
         form.setTmpId(UUID.randomUUID().toString());
+
+        model.addAttribute("unitList", new ArrayList<RecipeProductListUnit>());
         return "recipe_form";
     }
 
@@ -81,7 +79,9 @@ public class RecipeManagementController {
     @Transactional
     public String createRecipe(
                 @Valid final RecipeManagementForm recipeForm,
-                final BindingResult bindingResult) {
+                final BindingResult bindingResult,
+                @ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits,
+                SessionStatus sessionStatus) {
         if (bindingResult.hasErrors()){
             return "recipe_form";
         }
@@ -113,8 +113,20 @@ public class RecipeManagementController {
 
             tmpUploadedFileManager.deleteImageWithThumb(fileGroupId, fileId);
         }
-        recipes.save(recipe);
 
+        List<RecipeProduct> productList = new ArrayList<RecipeProduct>();
+
+        for (RecipeProductListUnit productUnit : productListUnits){
+            RecipeProduct recipeProduct = new RecipeProduct();
+            recipeProduct.setProduct(productUnit.getProduct());
+            recipeProduct.setQuantity(productUnit.getQuantity());
+            recipeProduct.setRecipe(recipe);
+            productList.add(recipeProduct);
+        }
+
+        recipe.setRecipeProductList(productList);
+        recipes.save(recipe);
+        sessionStatus.setComplete();
         return "redirect:/recipes";
     }
 
@@ -133,12 +145,14 @@ public class RecipeManagementController {
     }
 
     @RequestMapping(value="addProduct", method = RequestMethod.POST)
-    public String addProduct(@RequestParam("quantity") Integer quantity,
-                             @RequestParam("product_id") Integer product_id){
-        RecipeProduct recipeProduct = new RecipeProduct();
-        recipeProduct.setProduct(products.findOne(product_id));
-        recipeProduct.setQuantity(quantity);
-        recipeProduct.setRecipe(recipes.findOne(1));
+    public String addProduct(@RequestParam("quantity") Double quantity,
+                             @RequestParam("product_id") Integer product_id,
+                             @ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits){
+
+        RecipeProductListUnit recipeProductListUnit = new RecipeProductListUnit();
+        recipeProductListUnit.setProduct(products.findOne(product_id));
+        recipeProductListUnit.setQuantity(quantity);
+        productListUnits.add(recipeProductListUnit);
 
         return "recipe_form :: recipeProduct";
     }

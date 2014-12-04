@@ -86,30 +86,24 @@
 
                             <div th:fragment="recipeProduct" id="recipeProductForm" class="from-group">
 
-                                <div th:if="${#lists.isEmpty(recipeProductListUnits)}">
-                                    <div th:each="assignedProduct : *{recipeProductListUnits}">
-                                        <span th:text="${assignedProductStat.name}">Kiauliena</span>
-                                        <span th:text="${assignedProductStat.quantiny}">56456kg</span>
-                                    </div>
+                                <div th:each="assignedProduct : ${unitList}">
+                                    <span th:text="${assignedProduct.product.name}">56456kg</span>
+                                    <span th:text="${assignedProduct.quantity}">56456kg</span>
                                 </div>
-
 
                                 <input id="product_quantity" class="form-control" type="text" value="0"/>
                                 <select id="product_select" class="form-control">
-                                    <option th:each="product : *{productsList}"
+                                    <option th:each="product : ${productsList}"
                                             th:value="${product.id}"
                                             th:text="${product.name}">5min</option>
                                 </select>
-
-                                <button id="recipeProductFormSubmit" class="btn btn-default"
-                                        type="button" data-toggle="tooltip" data-placement="bottom"
-                                        title="Tooltip on bottom" th:title="#{recipeCreateForm.addProduct}">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                </button>
-
                             </div>
 
-
+                            <button id="recipeProductFormSubmit" class="btn btn-default"
+                                    type="button" data-toggle="tooltip" data-placement="bottom"
+                                    title="Tooltip on bottom" th:title="#{recipeCreateForm.addProduct}">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </button>
 
                             <div class="hidden">
                                 <div th:replace="newProduct :: newProductButton"></div>
@@ -251,25 +245,29 @@
             });
         });
 
-        productAddedHandler = function (){
-            console.log("SUCCEEDED");
+        productAddedHandler = function (returndata){
+            $("#recipeProductForm").replaceWith($(returndata));
         };
 
         $('#recipeProductFormSubmit').click(function (){
-            productFormData = new FormData();
-            productFormData.append("product_id", $("#product_select option:selected").val());
-            productFormData.append("quantity", $("#product_quantity").val());
-            $.ajax({
-                url: productUrl,
-                type: 'POST',
-                data: productFormData,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': _csrf},
-                success: productAddedHandler
-            });
+            quantity = $("#product_quantity").val();
+
+            if (parseInt(quantity) > 0) {
+                productFormData = new FormData();
+                productFormData.append("product_id", $("#product_select option:selected").val());
+                productFormData.append("quantity", quantity);
+                $.ajax({
+                    url: productUrl,
+                    type: 'POST',
+                    data: productFormData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    headers: {'X-CSRF-TOKEN': _csrf},
+                    success: productAddedHandler
+                });
+            }
         });
     }(jQuery);
     // ]]>

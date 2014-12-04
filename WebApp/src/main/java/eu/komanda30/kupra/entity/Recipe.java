@@ -129,4 +129,8 @@ public class Recipe {
         }
         recipeImages.add(new RecipeImage(imgUrl, thumbUrl));
     }
+
+    public void addProduct(RecipeProduct product){
+        recipeProductList.add(product);
+    }
 }

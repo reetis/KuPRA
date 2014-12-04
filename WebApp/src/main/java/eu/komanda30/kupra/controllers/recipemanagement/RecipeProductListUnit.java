@@ -9,7 +9,7 @@ public class RecipeProductListUnit {
 
     private Product product;
 
-    private int quantity;
+    private Double quantity;
 
     public Product getProduct() {
         return product;
@@ -19,11 +19,11 @@ public class RecipeProductListUnit {
         this.product = product;
     }
 
-    public int getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 }
