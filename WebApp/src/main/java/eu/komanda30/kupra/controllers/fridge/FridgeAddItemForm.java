@@ -14,6 +14,8 @@ public class FridgeAddItemForm {
     @Min(0)
     private int selectedItemId;
 
+    private String action;
+
     private String itemName;
 
     public Double getAmount() {
@@ -38,5 +40,13 @@ public class FridgeAddItemForm {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }

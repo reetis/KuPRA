@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -41,6 +42,13 @@ public class FridgeController {
     @Resource
     private KupraUsers kupraUsers;
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteFridgeItem(@RequestParam(value = "delete_id") Integer deleteItemId) {
+        Fridge fridge = fridges.findOne(deleteItemId);
+        fridges.delete(fridge);
+
+        return "redirect:/fridge";
+    }
 
     @Transactional
     @RequestMapping(method = RequestMethod.GET)
@@ -59,6 +67,7 @@ public class FridgeController {
 
             FridgesItem fridgesItem = new FridgesItem();
             fridgesItem.setName(product.getName());
+            fridgesItem.setItemId(f.getProductId());
             fridgesItem.setUnit(unit.getAbbreviation());
             fridgesItem.setAmount(f.getAmount());
             list.addItem(fridgesItem);
@@ -80,6 +89,7 @@ public class FridgeController {
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
         if (bindingResult.hasErrors()) {
             return "fridge";
         }
@@ -91,10 +101,8 @@ public class FridgeController {
         kupraUser.getFridges().add(newFridge);
         kupraUsers.save(kupraUser);
 
-
         Product product = products.findOne(form.getSelectedItemId());
         form.setItemName(product.getName());
-
 
         List<Fridge> fridgesList = kupraUser.getFridges();
 
@@ -107,9 +115,11 @@ public class FridgeController {
             fridgesItem.setName(productt.getName());
             fridgesItem.setUnit(unit.getAbbreviation());
             fridgesItem.setAmount(f.getAmount());
+            fridgesItem.setItemId(f.getProductId());
             list.addItem(fridgesItem);
         }
 
         return "fridge";
     }
+
 }

@@ -7,6 +7,7 @@ public class FridgesItem {
     private String name;
     private String unit;
     private double amount;
+    private int itemId;
 
     public String getName() {
         return name;
@@ -30,5 +31,13 @@ public class FridgesItem {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 }
