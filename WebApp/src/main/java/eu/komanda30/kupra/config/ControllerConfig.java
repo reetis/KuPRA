@@ -50,9 +50,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     @Value("${resources.enable_cache}")
     boolean resourceCacheEnabled;
 
-    /*@Resource
-    private KupraLocaleResolver kupraLocaleResolver;      */
-
     @Bean
     public SpringTemplateEngine templateEngine() {
         final ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
@@ -74,11 +71,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         viewResolver.setContentType("text/html;charset=UTF-8");
         return viewResolver;
     }
-
-    /*@Bean
-    public LocaleResolver localeResolver() {
-        return kupraLocaleResolver;
-    }                     */
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
