@@ -34,9 +34,6 @@ public class Fridge {
         this.id = id;
     }
 
-
-
-
     public int getProductId() {
         return productId;
     }
