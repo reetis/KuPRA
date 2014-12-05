@@ -34,7 +34,7 @@ import java.util.UUID;
 
 @Controller
 @SessionAttributes("unitList")
-@RequestMapping("/recipe")
+@RequestMapping("/recipes")
 public class RecipeManagementController {
     private final static Logger LOG = LoggerFactory.getLogger(RecipeManagementController.class);
 

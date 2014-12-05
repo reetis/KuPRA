@@ -51,6 +51,10 @@ public class Recipe {
     @JoinColumn(name="recipe_id", nullable = false)
     private List<RecipeImage> recipeImages;
 
+    @JoinColumn(name = "recipe_id", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> recipeComments;
+
     public List<RecipeProduct> getRecipeProductList() {
         return recipeProductList;
     }
@@ -132,5 +136,20 @@ public class Recipe {
 
     public void addProduct(RecipeProduct product){
         recipeProductList.add(product);
+    }
+
+    public List<Comment> getRecipeComments() {
+        return recipeComments;
+    }
+
+    public void setRecipeComments(List<Comment> recipeComments) {
+        this.recipeComments = recipeComments;
+    }
+
+    public void addRecipeComments(Comment comment) {
+        if (recipeComments == null) {
+            recipeComments = new ArrayList<>();
+        }
+        recipeComments.add(comment);
     }
 }

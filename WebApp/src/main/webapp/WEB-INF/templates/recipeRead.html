@@ -73,6 +73,15 @@
         </div>
     </div>
 
+    <form class="addComment-form" role="form" th:action="'/recipes/create_comment/'+${recipeId}" method="post"
+          th:object="${addCommentForm}">
+        <input type="text" class="form-control" placeholder="Name" id="comment"
+               th:field="*{comment}" th:placeholder="#{addcomment.comment}"/>
+        <button type="submit" class="btn btn-default btn-lg"
+                th:text="#{addcomment.addcomment}">Comment
+        </button>
+    </form>
+
 
 </div>
 

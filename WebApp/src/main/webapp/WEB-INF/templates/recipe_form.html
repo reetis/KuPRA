@@ -39,7 +39,7 @@
     <h2 th:text="#{recipeCreateForm.title}">Recipe</h2>
 
     <form class="recipe_management_form" role="form" action="#" method="post"
-          th:action="@{/recipe/create}"
+          th:action="@{/recipes/create}"
           th:object="${recipeManagementForm}">
 
         <input type="hidden" th:field="*{tmpId}"/>
@@ -109,7 +109,7 @@
                                         th:text="${product.name}">5min
                                 </option>
                             </select>
-                        </div>
+                            </div>
 
                         <button id="recipeProductFormSubmit" class="btn btn-default"
                                 type="button" data-toggle="tooltip" data-placement="bottom"
@@ -120,7 +120,7 @@
                         <div class="hidden">
                             <div th:replace="newProduct :: newProductButton"></div>
                         </div>
-                    </div>
+                        </div>
 
                     <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
                         <label for="description" th:text="#{recipeCreateForm.description}">Aprašymas</label>
@@ -196,8 +196,8 @@
                             th:text="#{recipeCreateForm.create}">Register
                     </button>
                 </div>
+                </div>
             </div>
-        </div>
 
     </form>
 
@@ -213,7 +213,8 @@
 <script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
 
 <!-- Lightbox javascript -->
-<script th:src="@{/lightbox/js/lightbox.min.js}" src="../../lightbox/js/lightbox.min.js" type="text/javascript"></script>
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="../../lightbox/js/lightbox.min.js"
+        type="text/javascript"></script>
 
 <!--Kupra javascript-->
 <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
