@@ -51,6 +51,11 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     boolean resourceCacheEnabled;
 
     @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
     public SpringTemplateEngine templateEngine() {
         final ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
         resolver.setPrefix("/WEB-INF/templates/");
@@ -72,13 +77,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lang");
-        registry.addInterceptor(localeChangeInterceptor);
-    }
-
     @Bean
     public MessageSource messageSource() {
         final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -98,6 +96,21 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     }
 
     @Override
+    public MessageCodesResolver getMessageCodesResolver() {
+        final DefaultMessageCodesResolver resolver = new DefaultMessageCodesResolver();
+        resolver.setMessageCodeFormatter(DefaultMessageCodesResolver.Format.POSTFIX_ERROR_CODE);
+        resolver.setPrefix("error.");
+        return resolver;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+        registry.addInterceptor(localeChangeInterceptor);
+    }
+
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("/css/")
@@ -107,7 +120,7 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
                 .setCachePeriod(resourceCacheEnabled ? SECONDS_IN_YEAR : 0);
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("/js/")
-                .setCachePeriod(resourceCacheEnabled?SECONDS_IN_YEAR:0);
+                .setCachePeriod(resourceCacheEnabled ? SECONDS_IN_YEAR : 0);
         registry.addResourceHandler("/fonts/**")
                 .addResourceLocations("/fonts/")
                 .setCachePeriod(resourceCacheEnabled?SECONDS_IN_YEAR:0);
@@ -118,14 +131,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
 
-    @Override
-    public MessageCodesResolver getMessageCodesResolver() {
-        final DefaultMessageCodesResolver resolver = new DefaultMessageCodesResolver();
-        resolver.setMessageCodeFormatter(DefaultMessageCodesResolver.Format.POSTFIX_ERROR_CODE);
-        resolver.setPrefix("error.");
-        return resolver;
-    }
-
     @Bean
     public RequestDataValueProcessor requestDataValueProcessor() {
         return new CsrfRequestDataValueProcessor();
@@ -133,23 +138,6 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public MultipartResolver multipartResolver() {
-        StandardServletMultipartResolver resolver=new StandardServletMultipartResolver();
-        //resolver.setDefaultEncoding("utf-8");
-        return resolver;
-    }
-
-    /*@Bean
-    public PropertySourcesPlaceholderConfigurer myPropertySourcesPlaceholderConfigurer() {
-        PropertySourcesPlaceholderConfigurer p = new PropertySourcesPlaceholderConfigurer();
-        ClassPathResource[] resourceLocations = new ClassPathResource[] {
-                new ClassPathResource("/kupra.properties")
-        };
-        p.setLocations(resourceLocations);
-        return p;
-    }*/
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
+        return new StandardServletMultipartResolver();
     }
 }

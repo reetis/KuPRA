@@ -1,7 +1,7 @@
-CREATE TABLE recipe_product(
-  id            int PRIMARY KEY,
-  recipe_id     int NOT NULL REFERENCES recipe(recipe_id),
-  product_id    int NOT NULL REFERENCES product(id),
-  quantity      float
+CREATE TABLE recipe_product (
+  id         INT PRIMARY KEY,
+  recipe_id  INT NOT NULL REFERENCES recipe (recipe_id),
+  product_id INT NOT NULL REFERENCES product (id),
+  quantity   FLOAT
 );
 CREATE SEQUENCE recipe_product_seq;

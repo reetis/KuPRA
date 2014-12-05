@@ -1,13 +1,12 @@
 package eu.komanda30.kupra.controllers.fridge;
 
-/**
- * Created by Lukas on 2014.12.02.
- */
-public class FridgesItem {
+import java.math.BigDecimal;
+
+public class FridgeItemForm {
     private String name;
     private String unit;
-    private double amount;
-    private int itemId;
+    private BigDecimal amount;
+    private int productId;
 
     public String getName() {
         return name;
@@ -25,19 +24,20 @@ public class FridgesItem {
         this.unit = unit;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public int getItemId() {
-        return itemId;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
+
 }

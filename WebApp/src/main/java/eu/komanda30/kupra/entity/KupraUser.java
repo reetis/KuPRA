@@ -1,10 +1,22 @@
 package eu.komanda30.kupra.entity;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
-import javax.persistence.*;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 @Table(name="`user`")
 @Entity
@@ -17,8 +29,9 @@ public class KupraUser {
 
     private boolean isAdmin;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Fridge> fridges;
+    @JoinColumn(name = "user_id", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FridgeItem> fridgeContent;
 
     @OneToMany(mappedBy = "author")
     private List<Recipe> recipes;
@@ -44,10 +57,6 @@ public class KupraUser {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
     public UserProfile getUserProfile() {
         return userProfile;
     }
@@ -58,10 +67,6 @@ public class KupraUser {
 
     public UsernamePasswordAuth getUsernamePasswordAuth() {
         return usernamePasswordAuth;
-    }
-
-    public void setUsernamePasswordAuth(UsernamePasswordAuth usernamePasswordAuth) {
-        this.usernamePasswordAuth = usernamePasswordAuth;
     }
 
     public void setLoginDetails(String username, String password, PasswordEncoder encoder) {
@@ -79,12 +84,26 @@ public class KupraUser {
         usernamePasswordAuth.setPassword(encoder.encode(password));
     }
 
-    public List<Fridge> getFridges() {
-        return fridges;
+    public List<FridgeItem> getFridgeItems() {
+        return ImmutableList.copyOf(fridgeContent);
     }
 
+    public void addFridgeItem(FridgeItem fridgeItem) {
+        final Optional<FridgeItem> item = fridgeContent.stream()
+                .filter(input -> input.getProduct() == fridgeItem.getProduct())
+                .findFirst();
 
-    public void setFridges(List<Fridge> fridges) {
-        this.fridges = fridges;
+        if (item.isPresent()) {
+            item.get().increaseAmount(fridgeItem.getAmount());
+        } else {
+            fridgeContent.add(fridgeItem);
+        }
+    }
+
+    public void removeFromFridgeByProduct(int productId) {
+        final List<FridgeItem> badItems = fridgeContent.parallelStream()
+                .filter(item -> item.getProduct().getId() == productId)
+                .collect(Collectors.toList());
+        fridgeContent.removeAll(badItems);
     }
 }

@@ -5,12 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-/**
- * Created by Gintare on 2014-11-27.
- */
 @Table(name="product")
 @Entity
 @SequenceGenerator(
@@ -19,7 +17,6 @@ import javax.persistence.Table;
         allocationSize=1
 )
 public class Product {
-
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="productIdSequence")
     private Integer id;
@@ -30,8 +27,8 @@ public class Product {
     @Column(nullable = false)
     private String description;
 
-    @Column (nullable = false)
-    private int selectedUnit;
+    @ManyToOne
+    private Unit unit;
 
     public Integer getId() {
         return id;
@@ -41,12 +38,12 @@ public class Product {
         this.id = id;
     }
 
-    public int getSelectedUnit() {
-        return selectedUnit;
+    public Unit getUnit() {
+        return unit;
     }
 
-    public void setSelectedUnit(int selectedUnit) {
-        this.selectedUnit = selectedUnit;
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     public String getDescription() {

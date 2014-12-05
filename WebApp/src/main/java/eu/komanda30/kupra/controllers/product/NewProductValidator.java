@@ -8,16 +8,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * Created by Gintare on 2014-11-27.
- */
 @Component
 public class NewProductValidator implements Validator {
     @Resource
     private Products products;
+
     @Override
     public boolean supports(Class<?> aClass) {
-        return false;
+        return NewProductForm.class.isAssignableFrom(aClass);
     }
 
     @Override

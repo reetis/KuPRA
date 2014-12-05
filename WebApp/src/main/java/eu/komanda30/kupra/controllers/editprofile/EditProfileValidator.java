@@ -14,10 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * Created by Lukas on 2014.10.23.
- */
-
 @Component
 public class EditProfileValidator implements Validator {
 

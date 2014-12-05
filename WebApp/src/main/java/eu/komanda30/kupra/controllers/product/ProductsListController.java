@@ -1,7 +1,6 @@
 package eu.komanda30.kupra.controllers.product;
 
 import eu.komanda30.kupra.entity.Product;
-import eu.komanda30.kupra.entity.Unit;
 import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Units;
 
@@ -28,13 +27,9 @@ public class ProductsListController {
     public String showProducts(final ProductsListForm list) {
         Iterable<Product> allProducts = products.findAll();
         for(Product p : allProducts){
-
-
-            Unit unit = units.findOne(p.getSelectedUnit());
-
-            ProductItem fridgesItem = new ProductItem();
+            final ProductItem fridgesItem = new ProductItem();
             fridgesItem.setName(p.getName());
-            fridgesItem.setUnit(unit.getAbbreviation());
+            fridgesItem.setUnit(p.getUnit().getAbbreviation());
             fridgesItem.setDescription(p.getDescription());
             list.addItem(fridgesItem);
         }

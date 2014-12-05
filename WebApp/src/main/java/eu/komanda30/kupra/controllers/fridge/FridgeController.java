@@ -1,13 +1,15 @@
 package eu.komanda30.kupra.controllers.fridge;
 
-import eu.komanda30.kupra.entity.Fridge;
+import eu.komanda30.kupra.entity.FridgeItem;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Product;
-import eu.komanda30.kupra.entity.Unit;
-import eu.komanda30.kupra.repositories.Fridges;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Products;
-import eu.komanda30.kupra.repositories.Units;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-import java.util.List;
-
 /**
  * Created by Lukas on 2014.12.02.
  */
@@ -29,23 +26,21 @@ import java.util.List;
 @RequestMapping("/fridge")
 @Controller
 public class FridgeController {
-
     @Resource
     private Products products;
 
     @Resource
-    private Fridges fridges;
-
-    @Resource
-    private Units units;
-
-    @Resource
     private KupraUsers kupraUsers;
 
+    @Transactional
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteFridgeItem(@RequestParam(value = "delete_id") Integer deleteItemId) {
-        Fridge fridge = fridges.findOne(deleteItemId);
-        fridges.delete(fridge);
+    public String deleteFridgeItem(
+            @RequestParam(value = "product_id") Integer productId) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        kupraUser.removeFromFridgeByProduct(productId);
+        kupraUsers.save(kupraUser);
 
         return "redirect:/fridge";
     }
@@ -53,28 +48,18 @@ public class FridgeController {
     @Transactional
     @RequestMapping(method = RequestMethod.GET)
     public String showFridgeContent(final FridgeItemsList list, final FridgeAddItemForm fridgeAddItemForm) {
-
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final String username = auth.getName();
-        KupraUser kupraUser = kupraUsers.findByUsername(username);
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
-        List<Fridge> fridgesList = kupraUser.getFridges();
-
-        for (Fridge f : fridgesList) {
-
-            Product product = products.findOne(f.getProductId());
-            Unit unit = units.findOne(product.getSelectedUnit());
-
-            FridgesItem fridgesItem = new FridgesItem();
-            fridgesItem.setName(product.getName());
-            fridgesItem.setItemId(f.getProductId());
-            fridgesItem.setUnit(unit.getAbbreviation());
-            fridgesItem.setAmount(f.getAmount());
-            list.addItem(fridgesItem);
-        }
-
+        populateFridgeItemsList(list, kupraUser);
 
         return "fridge";
+    }
+
+    private void populateFridgeItemsList(FridgeItemsList list, KupraUser kupraUser) {
+        kupraUser.getFridgeItems().parallelStream()
+                .map(this::makeFridgeItemForm)
+                .forEach(list::addItem);
     }
 
     @ModelAttribute("products")
@@ -86,40 +71,29 @@ public class FridgeController {
     @RequestMapping(method = RequestMethod.POST)
     public String submit(@Valid final FridgeAddItemForm form, final FridgeItemsList list,
                          final BindingResult bindingResult) {
-
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
-
         if (bindingResult.hasErrors()) {
             return "fridge";
         }
 
-        final Fridge newFridge = new Fridge();
-        newFridge.setProductId(form.getSelectedItemId());
-        newFridge.setAmount(form.getAmount());
-        newFridge.setUser(kupraUser);
-        kupraUser.getFridges().add(newFridge);
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        final Product product = products.findOne(form.getSelectedProductId());
+        kupraUser.addFridgeItem(new FridgeItem(product, form.getAmount()));
         kupraUsers.save(kupraUser);
 
-        Product product = products.findOne(form.getSelectedItemId());
-        form.setItemName(product.getName());
-
-        List<Fridge> fridgesList = kupraUser.getFridges();
-
-        for (Fridge f : fridgesList) {
-
-            Product productt = products.findOne(f.getProductId());
-            Unit unit = units.findOne(productt.getSelectedUnit());
-
-            FridgesItem fridgesItem = new FridgesItem();
-            fridgesItem.setName(productt.getName());
-            fridgesItem.setUnit(unit.getAbbreviation());
-            fridgesItem.setAmount(f.getAmount());
-            fridgesItem.setItemId(f.getProductId());
-            list.addItem(fridgesItem);
-        }
+        populateFridgeItemsList(list, kupraUser);
 
         return "fridge";
     }
 
+    private FridgeItemForm makeFridgeItemForm(FridgeItem f) {
+        final FridgeItemForm fridgeItemForm = new FridgeItemForm();
+        final Product product = f.getProduct();
+        fridgeItemForm.setName(product.getName());
+        fridgeItemForm.setUnit(product.getUnit().getAbbreviation());
+        fridgeItemForm.setAmount(f.getAmount());
+        fridgeItemForm.setProductId(product.getId());
+        return fridgeItemForm;
+    }
 }

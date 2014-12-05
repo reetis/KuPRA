@@ -53,7 +53,7 @@
                             <span th:text="${itm.unit}">Dscr</span>
                         </span>
                         <span class="form-group">
-                            <button type="submit" th:attr="delete_id=${itm.itemId}"
+                            <button type="submit" th:attr="product_id=${itm.productId}"
                                     class="btn btn-default btn-lg remove-button"
                                     th:text="#{fridge.remove}">dlt
                             </button>
@@ -79,7 +79,7 @@
 
             <div class="dropdown form-group">
                 <div th:if="${!products.isEmpty()}">
-                    <select class="form-control" th:field="*{selectedItemId}">
+                    <select class="form-control" th:field="*{selectedProductId}">
                         <option value="5"
                                 th:each="product : ${products}"
                                 th:value="${product.id}"
@@ -128,6 +128,7 @@
     // <![CDATA[
     +function ($) {
         var deleteUrl = /*[[@{/fridge/delete}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
         $("#newProductCreateButton").click(function () {
             if (submitUrl != '#') {
                 $("#newProductFormContent").load(submitUrl, $("#newProductForm").serializeArray());
@@ -140,12 +141,12 @@
         deleteCompletedHandler = function () {
             console.log('***********************************************');
             location.reload(true);
-        }
+        };
 
         $('.remove-button').click(function (event) {
-            console.log($(this).attr('delete_id'));
+            console.log($(this).attr('product_id'));
             formData = new FormData();
-            formData.append('delete_id', $(this).attr('delete_id'));
+            formData.append('product_id', $(this).attr('product_id'));
             $.ajax({
                 url: deleteUrl,
                 type: 'POST',
@@ -157,45 +158,6 @@
                 headers: {'X-CSRF-TOKEN': _csrf},
                 success: deleteCompletedHandler
             });
-        });
-
-        var imgUrl = /*[[@{/profile/uploadPhoto}]]*/ '#';
-        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
-        //  var _tmpId = /*[[${editProfileForm.tmpId}]]*/ 'tmp_id';
-
-        imagesLoadedHandler = function (returndata) {
-            //Init new list of images
-            var newImgForm = $(returndata);
-            //Replace old list of images with new one
-            $("#profilePhotoForm").replaceWith(newImgForm);
-
-            //Replace old upload button with new one to clear it
-            var control = $("#uploadProfilePhoto");
-            control.replaceWith(control = control.clone(true));
-        };
-
-        $('#uploadProfilePhoto').change(function () {
-            var formData = new FormData();
-
-            var files = $("#uploadProfilePhoto").prop('files');
-            if (files.length > 0) {
-                formData.append("profilePhoto", files[0]);
-            }
-
-            formData.append("tmpId", _tmpId);
-
-            $.ajax({
-                url: imgUrl,
-                type: 'POST',
-                data: formData,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': _csrf},
-                success: imagesLoadedHandler
-            });
-
         });
     }(jQuery);
     // ]]>

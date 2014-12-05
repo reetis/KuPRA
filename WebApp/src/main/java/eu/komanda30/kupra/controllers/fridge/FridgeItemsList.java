@@ -6,13 +6,13 @@ import java.util.LinkedList;
  * Created by Lukas on 2014.12.02.
  */
 public class FridgeItemsList {
-    private LinkedList<FridgesItem> items = new LinkedList<FridgesItem>();
+    private LinkedList<FridgeItemForm> items = new LinkedList<FridgeItemForm>();
 
-    public void addItem(FridgesItem item){
+    public void addItem(FridgeItemForm item) {
         items.add(item);
     }
 
-    public LinkedList<FridgesItem> getItems(){
+    public LinkedList<FridgeItemForm> getItems() {
         return items;
     }
 }
