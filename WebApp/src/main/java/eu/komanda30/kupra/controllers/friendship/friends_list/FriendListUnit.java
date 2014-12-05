@@ -11,6 +11,8 @@ public class FriendListUnit {
 
     private int friendshipId;
 
+    private String userId;
+
     public String getName() {
         return name;
     }
@@ -33,5 +35,14 @@ public class FriendListUnit {
 
     public void setFriendshipId(int friendshipId) {
         this.friendshipId = friendshipId;
+    }
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
