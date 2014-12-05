@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -8,12 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{friendsListForm.title}">Regtst</title>
 
+    <!-- Bootstrap CSS -->
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
-    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+    <!-- Material design CSS -->
+    <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
 
+    <!-- Kupra CSS -->
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
 
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -48,7 +54,7 @@
 
     <div th:unless="${#lists.isEmpty(friendListForm.friendListUnits)}">
         <div class="row">
-            <div class="col-md-6" th:each="user : ${friendListForm.friendListUnits}" >
+            <div class="col-md-6" th:each="user : ${friendListForm.friendListUnits}">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form role="form" th:action="@{~/friends/unfriend}" action="#" method="POST">
@@ -58,7 +64,7 @@
                             </a>
                             <input name="denyAction" type="hidden" value="0"/>
                             <button type="submit" th:text="#{friendsListForm.unfriend}"
-                                    class="btn btn-default btn-lg" >
+                                    class="btn btn-default btn-lg">
                                 Nedraugauti
                             </button>
                         </form>
@@ -71,27 +77,35 @@
     <div th:if="${#lists.isEmpty(friendListForm.friendListUnits)}">
         <div class="row">
             <div class="col-md-12">
-              <p th:text="#{friendsListForm.noFriends}">Tu Neturi Draugų</p>
+                <p th:text="#{friendsListForm.noFriends}">Tu Neturi Draugų</p>
             </div>
         </div>
     </div>
 
 </div>
 
+<div th:replace="layout :: footer"></div>
 
-
-<script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<!-- Bootstrap javascript -->
 <script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
-<script th:src="@{/js/friend_list.js}" src="../../js/friend_list.js" type="text/javascript"></script>
+
+<!-- Material design javascript -->
+<script th:src="@{/js/ripples.min.js}" src="../../js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
+
+<!--Kupra javascript-->
+<script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
+
+<!-- Custom JS -->
 <script type="application/javascript" th:inline="javascript">
 
-    +function($) {
+    +function ($) {
         var submitUrl = /*[[@{/friends/unfriend}]]*/ '#';
 
         unfriendButtons = $('.btn-default');
         unfriend
-        for(var button in unfriendButtons){
-            button.click(function(event){
+        for (var button in unfriendButtons) {
+            button.click(function (event) {
                 friendshipId = button.parent.find("input").val();
                 console.log(friendshipId);
                 $.ajax({
@@ -103,7 +117,6 @@
 
     }(jQuery);
 </script>
-<div th:replace="layout :: footer"></div>
 
 </body>
 </html>

@@ -1,4 +1,20 @@
 +function($) {
+    $(document).ready(function() {
+        $.material.init();
+
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+
+        $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'), log = numFiles > 1 ? numFiles + ' files selected' : label;
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log)
+                    alert(log);
+            }
+        });
+    });
+
     $(".linkImage").hover(function() {
         $(this).animate({
             opacity: 0.5
@@ -8,6 +24,7 @@
             opacity: 1
         }, 100);
     });
+
     $('.btn-toggle').click(function(event) {
         event.preventDefault();
         $(this).find('.btn').toggleClass('active');
@@ -35,19 +52,6 @@
             numFiles,
             label
         ]);
-    });
-
-    $(document).ready(function() {
-        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-        $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
-            var input = $(this).parents('.input-group').find(':text'), log = numFiles > 1 ? numFiles + ' files selected' : label;
-            if (input.length) {
-                input.val(log);
-            } else {
-                if (log)
-                    alert(log);
-            }
-        });
     });
 }(jQuery);
 

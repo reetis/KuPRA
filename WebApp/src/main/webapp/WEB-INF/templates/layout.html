@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -8,10 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{registration.title}">Regtst</title>
 
+    <!-- Bootstrap CSS -->
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
-    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+    <!-- Material design CSS -->
+    <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
 
+    <!-- Kupra CSS -->
+    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -21,13 +29,13 @@
 <body>
 <div th:fragment="header">
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
-    <nav class="navbar-inverse navbar-default navbar-fixed-top" role="navigation" style="background-color: #006064">
+    <nav class="navbar-inverse navbar-default navbar-fixed-top shadow-z-2" role="navigation" style="background-color: #006064">
         <div class="container-fluid">
             <div class="visible-md visible-lg">
                 <div class="cstm-navbar">
 
                     <div class="navbar-logo">
-                        <a  href="/" th:href="@{~/}">
+                        <a href="/" th:href="@{~/}">
                             <img th:src="@{/images/kuprele.png}" src="../../images/kuprele.png" class=" linkImage"
                                  data-toggle="tooltip" data-placement="bottom" style="height: 55px; width: 90px"/>
                         </a>
@@ -35,61 +43,84 @@
 
                     <div class="navbar-search">
                         <div class="dropdown" id="search-dropdown">
-                            <input id="searchinput" type="search" th:placeholder="#{layout.search}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" placeholder="Psk..." class="form-control inpt"/>
+                            <input id="searchinput" type="search" th:placeholder="#{layout.search}"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                   placeholder="Psk..." class="form-control inpt"/>
                             <ul class="dropdown-menu" role="menu">
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a>
+                                </li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else
+                                    here</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
 
-                    <div class="navbar-menu" >
+                    <div class="navbar-menu">
                         <a href="#">
-                        <img th:src="@{/images/list_white.png}" src="../../images/list_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.menu}"/>
+                            <img th:src="@{/images/list_white.png}" src="../../images/list_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.menu}"/>
                         </a>
                         <a href="#">
-                        <img th:src="@{/images/search_white.png}" src="../../images/search_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.filter}"/>
+                            <img th:src="@{/images/search_white.png}" src="../../images/search_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.filter}"/>
                         </a>
                         <a href="editProfile.html" th:href="@{~/profile/edit}">
-                        <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.profile}"/>
+                            <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.profile}"/>
                         </a>
                         <a href="recipe-list.html" th:href="@{~/recipes}">
-                        <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.recipes}"/>
+                            <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.recipes}"/>
                         </a>
                         <a href="friends_list.html" th:href="@{~/friends/list}" class="link">
-                        <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.friends}"/>
+                            <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.friends}"/>
                             <span class="friends-notification" th:if="${@sessionData.notificationCount > 0}"
-                                 th:text="${@sessionData.notificationCount > 99} ? '99+' : ${@sessionData.notificationCount}">
+                                  th:text="${@sessionData.notificationCount > 99} ? '99+' : ${@sessionData.notificationCount}">
                                 1
                             </span>
                         </a>
                         <a href="#" th:href="@{~/fridge}">
                             <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.fridge}"/>
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.fridge}"/>
                         </a>
                         <a href="unit-list.html" th:href="@{~/unit-list}">
-                        <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.units}"
-                             th:if="${@sessionData.loggedUserAdmin}"/>
+                            <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.units}"
+                                 th:if="${@sessionData.loggedUserAdmin}"/>
                         </a>
                         <a href="product-list.html" th:href="@{~/product-list}">
-                        <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.ingredients}"
-                             th:if="${@sessionData.loggedUserAdmin}"/>
+                            <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.ingredients}"
+                                 th:if="${@sessionData.loggedUserAdmin}"/>
                         </a>
                         <a href="#">
-                        <img th:src="@{/images/logout_white.png}" src="../../images/logout_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.logout}"
-                             onclick="document.getElementById('logout').submit();"/>
+                            <img th:src="@{/images/logout_white.png}" src="../../images/logout_white.png"
+                                 class="navbarImage linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 th:title="#{layout.logout}"
+                                 onclick="document.getElementById('logout').submit();"/>
                         </a>
+
                         <form th:action="@{~/logout}" method="post" id="logout"></form>
                     </div>
                 </div>
@@ -102,43 +133,59 @@
                     </div>
 
                     <div class="col-xs-12">
-                        <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..." class="form-control inpt"/>
+                        <input type="search" th:placeholder="#{layout.search}" placeholder="Psk..."
+                               class="form-control inpt"/>
                     </div>
 
                     <div class="col-xs-12">
-                        <img th:src="@{/images/list_white.png}" src="../../images/list_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.menu}"/>
-                        <img th:src="@{/images/search_white.png}" src="../../images/search_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.filter}"/>
-                        <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.profile}"/>
-                        <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.recipes}"/>
-                        <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.friends}"/>
-                        <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.fridge}"/>
-                        <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.units}"
+                        <img th:src="@{/images/list_white.png}" src="../../images/list_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.menu}"/>
+                        <img th:src="@{/images/search_white.png}" src="../../images/search_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.filter}"/>
+                        <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.profile}"/>
+                        <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.recipes}"/>
+                        <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.friends}"/>
+                        <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.fridge}"/>
+                        <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.units}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
-                        <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png" class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom" th:title="#{layout.ingredients}"
+                        <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png"
+                             class="navbarImage linkImage"
+                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             th:title="#{layout.ingredients}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
                     </div>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
     </nav>
 
 
 </div>
 
-<script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
-<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
 
 <div th:fragment="footer">
     <div class="container">
-        <hr />
+        <hr/>
         <div class="row">
             <div class="col-xs-5">
 
@@ -151,7 +198,8 @@
             <div class="col-xs-5">
                 <div class="btn-group pull-right dropup">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <img src="../../images/world.png" th:src="@{/images/world.png}" class="btn-image"/> <span class="caret"></span>
+                        <img src="../../images/world.png" th:src="@{/images/world.png}" class="btn-image"/> <span
+                            class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#" th:href="@{${url}(lang='en')}">English</a></li>
@@ -161,15 +209,17 @@
             </div>
         </div>
     </div>
-    <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
-
-    <script type="application/javascript">
-        $("#search-dropdown").on("show.bs.dropdown", function() {
-            alert($("#search-input").val());
-        });
-    </script>
 </div>
 
+<!-- Bootstrap javascript -->
+<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Material design javascript -->
+<script th:src="@{/js/ripples.min.js}" src="../../js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
+
+<!--Kupra javascript-->
+<script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
 
 </body>
 </html>

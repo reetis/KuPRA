@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 <head>
     <meta charset="UTF-8"/>
@@ -8,17 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{registration.title}">Regtst</title>
 
+    <!-- Bootstrap CSS -->
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
-    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+    <!-- Material design CSS -->
+    <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
+
+    <!-- Kupra CSS -->
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div th:replace="layout :: header"></div>
@@ -29,14 +35,26 @@
             <div th:replace="newUnit :: newUnitButton"></div>
             <div th:replace="newProduct :: newProductButton"></div>
             <h2 th:text="#{frontpage.title}">Frontpage</h2>
+
             <div>Frontpage will be here soon!</div>
-            <div>Welcome, <span th:text="${userDetails.name} + ' ' + ${userDetails.surname}">Username Usersurname</span></div>
+            <div>Welcome, <span th:text="${userDetails.name} + ' ' + ${userDetails.surname}">Username Usersurname</span>
+            </div>
         </div>
     </div>
 </div>
 
 <div th:replace="layout :: footer"></div>
 
+<!-- Bootstrap javascript -->
 <script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Material design javascript -->
+<script th:src="@{/js/ripples.min.js}" src="../../js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
+
+<!--Kupra javascript-->
+<script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
+
+<!-- Custom JS -->
 </body>
 </html>
