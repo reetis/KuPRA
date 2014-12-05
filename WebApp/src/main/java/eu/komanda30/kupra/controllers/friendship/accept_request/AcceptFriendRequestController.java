@@ -30,11 +30,6 @@ public class AcceptFriendRequestController {
     public String confirmRequest(@RequestParam("friendshipId") Integer friendshipId){
         Friendship friendship = friendships.findOne(friendshipId);
         friendship.setFriendshipStatus(true);
-        Friendship secondLink = new Friendship();
-        secondLink.setFriendshipStatus(true);
-        secondLink.setSource(friendship.getTarget());
-        secondLink.setTarget(friendship.getSource());
-        friendships.save(secondLink);
 
         return "redirect:/friends/notifications";
     }

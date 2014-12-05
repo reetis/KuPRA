@@ -24,9 +24,7 @@ public class UnFriendController {
     public String unfriend(@RequestParam("friendshipId") Integer friendshipId,
                            @RequestParam("denyAction") Integer denyAction){
         Friendship friendship = friendships.findOne(friendshipId);
-        Friendship secondLink = friendships.findByUsers(friendship.getTarget(), friendship.getSource());
         friendships.delete(friendship);
-        friendships.delete(secondLink);
 
         String redirectUrl = (denyAction != null && denyAction == 1) ?
                 "redirect:/friends/notifications" :
