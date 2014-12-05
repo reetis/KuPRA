@@ -61,7 +61,7 @@
         <div th:if="!${#lists.isEmpty(recipesList.recipes)}">
             <div class="col-md-6" th:each="rcp : ${recipesList.recipes}">
                 <div class="panel panel-default">
-                    <a th:href="@{'/recipe/read/'+${rcp.name}}">
+                    <a th:href="@{'/recipe/read/'+${rcp.recipeId}}">
                     <div class="panel-body">
                         <h3 th:text="${rcp.name}" class="small-title">Pvdn</h3>
                         <p th:text="${rcp.description}">Dscr</p>

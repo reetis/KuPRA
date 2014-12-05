@@ -58,6 +58,7 @@ public class RecipeListController {
             recipePreview.setDescription(r.getDescription());
             recipePreview.setPublicAccess(r.isPublicAccess());
             recipePreview.setAccessible(user == r.getAuthor());
+            recipePreview.setRecipeId(r.getRecipe_id());
             list.addRecipe(recipePreview);
         }
         model.addAttribute("section", scope);

@@ -11,6 +11,8 @@ public class RecipePreview {
 
     private String description;
 
+    private int recipeId;
+
     public String getName() {
         return name;
     }
@@ -41,5 +43,13 @@ public class RecipePreview {
 
     public void setAccessible(boolean accessible) {
         this.accessible = accessible;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
     }
 }
