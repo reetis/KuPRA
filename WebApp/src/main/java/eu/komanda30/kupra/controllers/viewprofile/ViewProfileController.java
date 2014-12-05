@@ -56,6 +56,14 @@ public class ViewProfileController {
         profileInfo.setDescription(targetUserProfile.getDescription());
         profileInfo.setFriend(friendships.isFriends(user, targetUser));
         profileInfo.setPhoto(targetUserProfile.getMainPhoto());
+        profileInfo.setRequestSent(friendships.isFriends(user, targetUser));
+
+        final UserProfileImage mainPhoto = targetUser.getUserProfile().getMainPhoto();
+        if (mainPhoto != null) {
+            profilePhotoList.setMainPhoto(
+                    new UploadedImageInfo(MAIN_PHOTO_REPO_ID,
+                            mainPhoto.getImageUrl(), mainPhoto.getThumbUrl()));
+        }
 
         if (showEverything) {
             allRecipes = recipes.findByUser(targetUser, new PageRequest(0, 100)); //TODO: pataisyti

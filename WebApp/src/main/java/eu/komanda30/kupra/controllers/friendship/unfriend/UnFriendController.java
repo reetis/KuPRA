@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -21,10 +22,10 @@ public class UnFriendController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UnFriendController.class);
 
+    @ResponseBody
     @Transactional
     @RequestMapping(value="/unfriend", method = RequestMethod.POST)
-    public String unfriend(@RequestParam("friendshipId") Integer friendshipId,
-                           @RequestParam("denyAction") Integer denyAction){
+    public Boolean unfriend(@RequestParam("user_id") Integer friendshipId){
 
         Friendship friendship = friendships.findOne(friendshipId);
         if (friendship.isFriendshipStatus()){
@@ -34,10 +35,6 @@ public class UnFriendController {
 
         friendships.delete(friendship);
 
-        String redirectUrl = (denyAction != null && denyAction == 1) ?
-                "redirect:/friends/notifications" :
-                "redirect:/friends/list";
-
-        return redirectUrl;
+        return true;
     }
 }

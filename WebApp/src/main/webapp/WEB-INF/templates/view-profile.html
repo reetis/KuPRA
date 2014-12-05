@@ -37,12 +37,23 @@
                     <h1 th:text="${profileInfo.name}+' '+${profileInfo.surname}">Pavadinimas</h1>
                 </div>
                 <div class="col-xs-4">
-                    <form th:action="@{~/friends/sendRequest}" action="#" method="POST">
-                        <input type="hidden" name="friend_id" th:value="${profileInfo.userId}"/>
-                        <button class="btn btn-default btn-lg" th:text="#{viewProfile.sendRequest}">
-                            Susidraugauti
-                        </button>
-                    </form>
+                   <div th:fragment="buttonFragment">
+                       <input id="friend_id" type="hidden" name="friend_id" th:value="${profileInfo.userId}"/>
+                       <div th:if="${profileInfo.friend == true}">
+                           <button id="unfriend_button" class="btn btn-default btn-lg" th:text="#{viewProfile.unFriend}">
+                               Nedraugauti
+                           </button>
+                       </div>
+                            Nusiunciau Requesta
+                       <div th:if="${profileInfo.requestSent == true and profileInfo.friend == false}">
+                           <span th:text="#{viewProfile.friendRequestSent}">Tekstukas</span>
+                       </div>
+                       <div th:if="${profileInfo.requestSent == false and profileInfo.friend == false}">
+                           <button id="send_request_button" class="btn btn-default btn-lg" th:text="#{viewProfile.sendRequest}">
+                               Susidraugauti
+                           </button>
+                       </div>
+                   </div>
                 </div>
             </div>
             <div class="row">
@@ -94,5 +105,51 @@
 <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
 
 <!-- Custom JS -->
+<script type="application/javascript" th:inline="javascript">
+    +function ($) {
+        var requestUrl = /*[[@{/friends/sendRequest}]]*/ '#';
+        var unfriendUrl = /*[[@{/friends/unfriend}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+        unfriendButton = $("#unfriend_button");
+        sendRequestButton = $("#send_request_button");
+
+        onSuccesCallback = function(){
+            console.log("741852963sucess");
+        }
+
+        if (unfriendButton != null){
+            unfriendButton.click(function (event){
+                $.ajax({
+                    url: requestUrl,
+                    type: 'POST',
+                    data: {'friend_id':$("#friend_id").val()},
+                    async: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf},
+                    success: onSuccesCallback
+                });
+            });
+        }
+
+        if (sendRequestButton != null){
+            sendRequestButton.click(function (event){
+                console.log("bbbbbbbbbbbbb");
+                $.ajax({
+                    url: unfriendUrl,
+                    type: 'POST',
+                    data: formData,
+                    async: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf},
+                    success: onSuccesCallback
+                });
+            });
+        }
+
+
+    }(jQuery);
+</script>
+
 </body>
 </html>
