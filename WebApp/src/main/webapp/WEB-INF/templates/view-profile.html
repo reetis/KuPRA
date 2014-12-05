@@ -47,7 +47,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-5">
-                    <span th:if="${profilePhotoList.mainPhoto != null}" th:with="img=${profilePhotoList.mainPhoto}"
+                    <span th:if="${profileInfo.photo != null}" th:with="img=${profileInfo.photo}"
                           class="uploaded-img-cell">
                             <img class="img-responsive"
                                  th:src="${img.imageUrl}"

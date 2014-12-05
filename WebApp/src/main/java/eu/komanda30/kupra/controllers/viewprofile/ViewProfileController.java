@@ -4,11 +4,9 @@ import eu.komanda30.kupra.controllers.editprofile.ProfilePhotoList;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.entity.UserProfile;
-import eu.komanda30.kupra.entity.UserProfileImage;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
-import eu.komanda30.kupra.uploads.UploadedImageInfo;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,22 +41,16 @@ public class ViewProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser user = kupraUsers.findOne(auth.getName());
         final KupraUser targetUser = kupraUsers.findOne(userId);
-        final UserProfile friendUserProfile = targetUser.getUserProfile();
+        final UserProfile targetUserProfile = targetUser.getUserProfile();
         boolean showEverything = friendships.isFriends(user, targetUser) || userId.contentEquals(auth.getName());
         Iterable<Recipe> allRecipes;
 
-        profileInfo.setName(friendUserProfile.getName());
-        profileInfo.setSurname(friendUserProfile.getSurname());
-        profileInfo.setEmail(friendUserProfile.getEmail());
-        profileInfo.setDescription(friendUserProfile.getDescription());
+        profileInfo.setName(targetUserProfile.getName());
+        profileInfo.setSurname(targetUserProfile.getSurname());
+        profileInfo.setEmail(targetUserProfile.getEmail());
+        profileInfo.setDescription(targetUserProfile.getDescription());
         profileInfo.setFriend(friendships.isFriends(user, targetUser));
-
-        final UserProfileImage mainPhoto = targetUser.getUserProfile().getMainPhoto();
-        if (mainPhoto != null) {
-            profilePhotoList.setMainPhoto(
-                    new UploadedImageInfo(MAIN_PHOTO_REPO_ID,
-                            mainPhoto.getImageUrl(), mainPhoto.getThumbUrl()));
-        }
+        profileInfo.setPhoto(targetUserProfile.getMainPhoto());
 
         if (showEverything) {
             allRecipes = recipes.findByUser(targetUser, new PageRequest(0, 100)); //TODO: pataisyti
