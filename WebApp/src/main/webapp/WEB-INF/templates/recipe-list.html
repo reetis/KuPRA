@@ -6,7 +6,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{registration.title}">Regtst</title>
+    <title th:text="#{recipe-list.title}">Regtst</title>
 
     <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
 
@@ -61,6 +61,7 @@
         <div th:if="!${#lists.isEmpty(recipesList.recipes)}">
             <div class="col-md-6" th:each="rcp : ${recipesList.recipes}">
                 <div class="panel panel-default">
+                    <a th:href="@{'/recipe/read/'+${rcp.name}}">
                     <div class="panel-body">
                         <h3 th:text="${rcp.name}" class="small-title">Pvdn</h3>
                         <p th:text="${rcp.description}">Dscr</p>
@@ -75,6 +76,7 @@
                             </button>
                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
         </div>

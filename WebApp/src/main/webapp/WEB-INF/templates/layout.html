@@ -21,13 +21,16 @@
 <body>
 <div th:fragment="header">
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
-    <nav class="navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar-inverse navbar-default navbar-fixed-top" role="navigation" style="background-color: #006064">
         <div class="container-fluid">
             <div class="visible-md visible-lg">
                 <div class="cstm-navbar">
 
                     <div class="navbar-logo">
-                        <a class="navbar-brand" href="/" th:href="@{~/}">KuPRA</a>
+                        <a  href="/" th:href="@{~/}">
+                            <img th:src="@{/images/kuprele.png}" src="../../images/kuprele.png" class=" linkImage"
+                                 data-toggle="tooltip" data-placement="bottom" style="height: 55px; width: 90px"/>
+                        </a>
                     </div>
 
                     <div class="navbar-search">

@@ -25,7 +25,6 @@ public class UnitListController {
     @RequestMapping(method = RequestMethod.GET)
     public String showUnits() {
 
-//        Iterable<Unit> units = unitsa.findAll();
         return "unit-list";
     }
 
@@ -33,6 +32,7 @@ public class UnitListController {
     public Iterable<Unit> getUnits() {
         return this.units.findAll();
     }
+
 
     }
 
