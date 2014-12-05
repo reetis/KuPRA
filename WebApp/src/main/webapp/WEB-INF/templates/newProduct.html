@@ -105,8 +105,9 @@
                     <label for="description" class="control-label col-sm-2"
                            th:text="#{newProductForm.description}">description</label>
                     <div class="col-sm-10" >
-                        <input type="text" class="form-control" placeholder="Description" id="description"
-                               th:field="*{description}" th:placeholder="#{newProductForm.description}"/>
+                        <textarea type="text" class="form-control" placeholder="Description" id="description"
+                               th:field="*{description}" th:placeholder="#{newProductForm.description}">
+                            </textarea>
                         <span class="help-block"
                               th:if="${#fields.hasErrors('description')}"
                               th:errors="*{description}">Validation errors</span>
