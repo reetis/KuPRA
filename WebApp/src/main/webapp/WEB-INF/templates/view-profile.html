@@ -27,8 +27,16 @@
     <div class="row">
         <div class="page-header">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-8">
                     <h1 th:text="${profileInfo.name}+' '+${profileInfo.surname}">Pavadinimas</h1>
+                </div>
+                <div class="col-xs-4">
+                    <form th:action="@{~/friends/sendRequest}" action="#" method="POST">
+                        <input type="hidden" name="friend_id" th:value="${profileInfo.userId}"/>
+                        <button class="btn btn-default btn-lg" th:text="#{viewProfile.sendRequest}">
+                            Susidraugauti
+                        </button>
+                    </form>
                 </div>
             </div>
             <div class="row">
