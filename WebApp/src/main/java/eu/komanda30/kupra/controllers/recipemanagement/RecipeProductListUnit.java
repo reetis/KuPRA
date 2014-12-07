@@ -1,22 +1,31 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
-import eu.komanda30.kupra.entity.Product;
+import java.io.Serializable;
 
 /**
  * Created by Ignas on 12/3/2014.
  */
-public class RecipeProductListUnit {
+public class RecipeProductListUnit implements Serializable {
 
-    private Product product;
+    private int productId;
+    private String productName;
 
     private Double quantity;
 
-    public Product getProduct() {
-        return product;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Double getQuantity() {

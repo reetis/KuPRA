@@ -98,7 +98,7 @@
                         <div th:fragment="recipeProduct" id="recipeProductForm" class="from-group">
 
                             <div th:each="assignedProduct : ${unitList}">
-                                <span th:text="${assignedProduct.product.name}">56456kg</span>
+                                <span th:text="${assignedProduct.productName}">56456kg</span>
                                 <span th:text="${assignedProduct.quantity}">56456kg</span>
                             </div>
 
@@ -223,9 +223,9 @@
 <script type="application/javascript" th:inline="javascript">
     // <![CDATA[
     +function ($) {
-        var imgUrl = /*[[@{/recipe/uploadPhotos}]]*/ '#';
-        var imgDelUrl = /*[[@{/recipe/deletePhoto}]]*/ '#';
-        var productUrl = /*[[@{/recipe/addProduct}]]*/ '#';
+        var imgUrl = /*[[@{/recipes/uploadPhotos}]]*/ '#';
+        var imgDelUrl = /*[[@{/recipes/deletePhoto}]]*/ '#';
+        var productUrl = /*[[@{/recipes/addProduct}]]*/ '#';
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
         var _tmpId = /*[[${recipeManagementForm.tmpId}]]*/ 'tmp_id';
 

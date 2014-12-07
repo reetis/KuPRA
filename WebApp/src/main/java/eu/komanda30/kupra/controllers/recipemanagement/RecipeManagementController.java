@@ -9,6 +9,16 @@ import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
 import eu.komanda30.kupra.uploads.UploadedImageInfo;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,17 +30,14 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 @SessionAttributes("unitList")
@@ -81,8 +88,10 @@ public class RecipeManagementController {
                 @Valid final RecipeManagementForm recipeForm,
                 final BindingResult bindingResult,
                 @ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits,
+                @ModelAttribute RecipeImageList imagesList,
                 SessionStatus sessionStatus) {
         if (bindingResult.hasErrors()){
+            imagesList.addAll(getListOfTmpImages(recipeForm.getTmpId()));
             return "recipe_form";
         }
 
@@ -118,7 +127,7 @@ public class RecipeManagementController {
 
         for (RecipeProductListUnit productUnit : productListUnits){
             RecipeProduct recipeProduct = new RecipeProduct();
-            recipeProduct.setProduct(productUnit.getProduct());
+            recipeProduct.setProduct(products.findOne(productUnit.getProductId()));
             recipeProduct.setQuantity(productUnit.getQuantity());
             recipeProduct.setRecipe(recipe);
             productList.add(recipeProduct);
@@ -128,6 +137,17 @@ public class RecipeManagementController {
         recipes.save(recipe);
         sessionStatus.setComplete();
         return "redirect:/recipes";
+    }
+
+    private List<UploadedImageInfo> getListOfTmpImages(String formTmpId) {
+        final List<UploadedImageInfo> list = new ArrayList<>();
+        for (String fileId : tmpUploadedFileManager.getFileIds(formTmpId)) {
+            list.add(new UploadedImageInfo(
+                    fileId,
+                    tmpUploadedFileManager.getVirtualPath(formTmpId, fileId),
+                    tmpUploadedFileManager.getVirtualThumbPath(formTmpId, fileId)));
+        }
+        return list;
     }
 
     private File copyToRecipeDir(File imgFile) {
@@ -148,11 +168,13 @@ public class RecipeManagementController {
     public String addProduct(@RequestParam("quantity") Double quantity,
                              @RequestParam("product_id") Integer product_id,
                              @ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits){
+        final Product product = products.findOne(product_id);
 
-        RecipeProductListUnit recipeProductListUnit = new RecipeProductListUnit();
-        recipeProductListUnit.setProduct(products.findOne(product_id));
-        recipeProductListUnit.setQuantity(quantity);
-        productListUnits.add(recipeProductListUnit);
+        final RecipeProductListUnit unit = new RecipeProductListUnit();
+        unit.setProductId(product.getId());
+        unit.setProductName(product.getName());
+        unit.setQuantity(quantity);
+        productListUnits.add(unit);
 
         return "recipe_form :: recipeProduct";
     }
@@ -184,16 +206,5 @@ public class RecipeManagementController {
 
         imagesList.addAll(getListOfTmpImages(formTmpId));
         return "recipe_form :: image_list";
-    }
-
-    private List<UploadedImageInfo> getListOfTmpImages(String formTmpId) {
-        final List<UploadedImageInfo> list = new ArrayList<>();
-        for (String fileId : tmpUploadedFileManager.getFileIds(formTmpId)) {
-            list.add(new UploadedImageInfo(
-                    fileId,
-                    tmpUploadedFileManager.getVirtualPath(formTmpId, fileId),
-                    tmpUploadedFileManager.getVirtualThumbPath(formTmpId, fileId)));
-        }
-        return list;
     }
 }

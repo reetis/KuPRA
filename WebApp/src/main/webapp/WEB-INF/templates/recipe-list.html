@@ -43,13 +43,13 @@
                     <div class="col-md-11">
                         <div class="btn-group">
                             <a href="recipe-list.html" th:href="@{~/recipes}" class="btn" th:text="#{recipe-list.all}"
-                               th:classappend="${section=='all'}?'btn-primary':'btn-default'">Vsii</a>
+                               th:classappend="${section=='all'}?'btn-primary':'btn-default'">Visi</a>
                             <a href="recipe-list.html" th:href="@{~/recipes/personal}" class="btn"
                                th:text="#{recipe-list.my}"
-                               th:classappend="${section=='personal'}?'btn-primary':'btn-default'">Mnao</a>
+                               th:classappend="${section=='personal'}?'btn-primary':'btn-default'">Mano</a>
                             <a href="recipe-list-friends.html" th:href="@{~/recipes/friends}" class="btn"
                                th:text="#{recipe-list.friends}"
-                               th:classappend="${section=='friends'}?'btn-primary':'btn-default'">Dravgo</a>
+                               th:classappend="${section=='friends'}?'btn-primary':'btn-default'">Draugo</a>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -73,25 +73,16 @@
                         <div class="panel-body">
                             <h3 th:text="${rcp.name}" class="small-title">Pvdn</h3>
 
-                            <!--<div class="col-xs-5">-->
-                    <!--<span th:if="${profileInfo.photo != null}" th:with="img=${profileInfo.photo}"-->
-                          <!--class="uploaded-img-cell">-->
-                            <!--<img class="img-responsive"-->
-                                 <!--th:src="${img.imageUrl}"-->
-                                 <!--src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>-->
-                    <!--</span>-->
-                            <!--</div>-->
-
-                            <p th:text="${rcp.description}">Dscr</p>
+                            <p th:text="${rcp.description}">Description</p>
 
                             <div class="btn-group" th:if="${section=='personal'}">
                                 <button class="btn" th:text="#{recipeCreateForm.public}"
                                         th:classappend="${rcp.publicAccess}?'btn-primary':'btn-default'">
-                                    Vs
+                                    Viesas
                                 </button>
                                 <button class="btn" th:text="#{recipeCreateForm.private}"
                                         th:classappend="!${rcp.publicAccess}?'btn-primary':'btn-default'">
-                                    Priv
+                                    Privatus
                                 </button>
                             </div>
                         </div>
@@ -101,7 +92,7 @@
         </div>
         <div th:if="${#lists.isEmpty(recipesList.recipes)}">
             <div class="col-md-12">
-                <p th:text="#{recipe-list.no_recipes}">Nrė rceptų</p>
+                <p th:text="#{recipe-list.no_recipes}">Nera receptų</p>
             </div>
         </div>
     </div>

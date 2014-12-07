@@ -2,15 +2,13 @@ package eu.komanda30.kupra.repositories;
 
 import eu.komanda30.kupra.entity.Friendship;
 import eu.komanda30.kupra.entity.KupraUser;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
-/**
- * Created by Ignas on 11/27/2014.
- */
 public interface Friendships extends CrudRepository<Friendship, Integer> {
     @Query("select f from Friendship f join f.target s where (s.id = :user_id) and f.friendshipStatus = true")
     List<Friendship> findFriendsOf(@Param("user_id") String userId);
@@ -21,8 +19,8 @@ public interface Friendships extends CrudRepository<Friendship, Integer> {
     @Query("select count(*) from Friendship where target = :user and friendshipStatus = false")
     int getNotificationCount(@Param("user") KupraUser user);
 
-    @Query("select (count(*) > 0) from Friendship " +
-            "where ((source = :user1 and target = :user2) or (source = :user2 and target = :user1)) and friendshipStatus = true")
+    @Query("select 1 from Friendship " +
+            "where source = :user1 and target = :user2 and friendshipStatus = true")
     boolean isFriends(@Param("user1") KupraUser user, @Param("user2") KupraUser friend);
 
     @Query("from Friendship f where f.source = :user1 and f.target = :user2")

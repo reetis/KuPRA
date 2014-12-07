@@ -7,59 +7,46 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
 
 @Component
-@Scope(proxyMode = ScopedProxyMode.INTERFACES, value = WebApplicationContext.SCOPE_SESSION)
-public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager, Serializable {
+public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager {
     public static final int THUMB_MAX_WIDTH = 200;
     public static final int THUMB_MAX_HEIGHT = 200;
     private final static Logger LOG = LoggerFactory.getLogger(TmpUploadedFileManagerImpl.class);
-    private final Map<String, Map<String, File>> fileMap = new HashMap<>();
+
+    @Resource
+    private TmpUploadedFileData fileData;
+
     @Value("${tmp.file.dir}")
-    private transient File tmpFileDir;
+    private File tmpFileDir;
+
     @Value("${tmp.file.context}")
-    private transient String tmpFileContext;
+    private String tmpFileContext;
 
     @PreDestroy
     public void preDestroy() {
         //Delete all temp files
-        for (Map<String, File> files : fileMap.values()) {
-            for (File f : files.values()) {
-                if (f.exists() && !f.delete()) {
-                    LOG.error("Failed to delete temporary uploaded file: {}", f);
-                }
-            }
-        }
+        fileData.allFiles().parallelStream()
+                .filter(it -> (it.exists() && !it.delete()))
+                .forEach(it -> LOG.error("Failed to delete temporary uploaded file: {}", it));
     }
 
     private File prepareFileForNewUpload(String groupId, String fileId, String fileName) {
-        Map<String, File> groupFileMap = fileMap.get(groupId);
-        if (groupFileMap == null) {
-            groupFileMap = new HashMap<>();
-            fileMap.put(groupId, groupFileMap);
-        }
-
-        final File file = groupFileMap.get(fileId);
-        if (file != null && file.exists() && !file.delete()) {
+        final File oldFile = fileData.get(groupId, fileId);
+        if (oldFile != null && oldFile.exists() && !oldFile.delete()) {
             LOG.error("Failed to delete file from session");
             return null;
         }
@@ -71,8 +58,7 @@ public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager, Seria
 
         final String uniquePrefix = UUID.randomUUID().toString();
         final File copyFile = new File(tmpFileDir, uniquePrefix+ "_" + fileName);
-        //copyFile.deleteOnExit();
-        groupFileMap.put(fileId, copyFile);
+        fileData.put(groupId, fileId, copyFile);
         return copyFile;
     }
 
@@ -94,38 +80,18 @@ public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager, Seria
 
     @Override
     public Iterable<String> getFileIds(String groupId) {
-        final Map<String, File> groupMap = fileMap.get(groupId);
-        return groupMap != null ? ImmutableList.copyOf(groupMap.keySet()) : ImmutableList.of();
+        return fileData.allFileIds(groupId);
     }
 
     @Override
     public File getFile(String groupId, String fileId) {
-        final Map<String, File> groupMap = fileMap.get(groupId);
-        if (groupMap == null) {
-            return null;
-        }
-
-        final File file = groupMap.get(fileId);
-        if (file == null) {
-            return null;
-        }
-
-        return file;
+        return fileData.get(groupId, fileId);
     }
 
     @Override
     public String getVirtualPath(String groupId, String fileId) {
-        final Map<String, File> groupMap = fileMap.get(groupId);
-        if (groupMap == null) {
-            return null;
-        }
-
-        final File file = groupMap.get(fileId);
-        if (file == null) {
-            return null;
-        }
-
-        return UploadUtils.resolveVirtualPath(file, tmpFileDir, tmpFileContext);
+        return UploadUtils.resolveVirtualPath(
+                fileData.get(groupId, fileId), tmpFileDir, tmpFileContext);
     }
 
     @Override
@@ -160,16 +126,13 @@ public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager, Seria
 
     @Override
     public void deleteFile(String groupId, String fileId) {
-        Map<String, File> groupFileMap = fileMap.get(groupId);
-        if (groupFileMap != null) {
-            final File file = groupFileMap.get(fileId);
-            if (file != null && file.exists() && !file.delete()) {
+        final File file = fileData.get(groupId, fileId);
+        if (file != null) {
+            if (file.exists() && !file.delete()) {
                 LOG.error("Failed to delete file from session: " + file);
             }
-            groupFileMap.remove(fileId);
-            if (groupFileMap.isEmpty()) {
-                fileMap.remove(groupId);
-            }
+
+            fileData.remove(groupId, fileId);
         }
     }
 
