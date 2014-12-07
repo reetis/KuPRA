@@ -111,25 +111,21 @@
                        th:text="#{editprofile.photo}">Photo</label>
 
                 <div th:fragment="profilePhoto" id="profilePhotoForm" class="form-group">
-                <span th:if="${profilePhotoList.mainPhoto != null}" th:with="img=${profilePhotoList.mainPhoto}"
-                      class="uploaded-img-cell">
-                    <a th:href="${img.imageUrl}"
-                       class="gallery-link"
-                       href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"
-                       data-lightbox="roadtrip">
-                        <img class="thumb-lg"
-                             th:src="${img.thumbUrl}"
-                             src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
-                    </a>
-                </span>
+                    <span th:if="${profilePhotoList.mainPhoto != null}" th:with="img=${profilePhotoList.mainPhoto}"
+                          class="uploaded-img-cell">
+                        <a th:href="${img.imageUrl}"
+                           class="gallery-link"
+                           href="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"
+                           data-lightbox="roadtrip">
+                            <img class="thumb-lg"
+                                 th:src="${img.thumbUrl}"
+                                 src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                        </a>
+                    </span>
                 </div>
-            </div>
 
-            <div class="form-control-wrapper fileinput">
-                <input type="text" readonly="" class="form-control empty"/>
+                <input type="text" readonly="" class="form-control floating-label" placeholder="Browse..."/>
                 <input type="file" id="uploadProfilePhoto" multiple=""/>
-                <div class="floating-label">Browse...</div>
-                <span class="material-input"></span>
             </div>
 
             <div class="row">

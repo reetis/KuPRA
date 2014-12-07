@@ -30,8 +30,6 @@
 <div th:replace="layout :: header"></div>
 
 <div class="container">
-    <div class="row">
-
         <th:block th:fragment="recipe-list-header(place)" th:with="place='all'">
             <div class="page-header">
                 <div class="row">
@@ -40,7 +38,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-11">
+                    <div class="col-xs-11">
                         <div class="btn-group">
                             <a href="recipe-list.html" th:href="@{~/recipes}" class="btn" th:text="#{recipe-list.all}"
                                th:classappend="${section=='all'}?'btn-primary':'btn-default'">Visi</a>
@@ -52,9 +50,9 @@
                                th:classappend="${section=='friends'}?'btn-primary':'btn-default'">Draugo</a>
                         </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-xs-1">
                         <a href="recipe_form.html" th:href="@{~/recipes/create}">
-                            <button class="btn btn-default"
+                            <button class="btn btn-default btn-raised"
                                     data-toggle="tooltip" data-placement="bottom"
                                     title="Tooltip on bottom" th:title="#{recipe-list.add_recipe}">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -64,7 +62,6 @@
                 </div>
             </div>
         </th:block>
-    </div>
     <div class="row">
         <div th:if="!${#lists.isEmpty(recipesList.recipes)}">
             <div class="col-md-6" th:each="rcp : ${recipesList.recipes}">
