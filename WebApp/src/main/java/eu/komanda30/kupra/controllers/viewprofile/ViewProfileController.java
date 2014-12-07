@@ -8,12 +8,14 @@ import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -41,6 +43,9 @@ public class ViewProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser user = kupraUsers.findOne(auth.getName());
         final KupraUser targetUser = kupraUsers.findOne(userId);
+        if (targetUser == null) {
+            throw new ResourceNotFoundException();
+        }
         final UserProfile targetUserProfile = targetUser.getUserProfile();
         boolean showEverything = friendships.isFriends(user, targetUser) || userId.contentEquals(auth.getName());
         Iterable<Recipe> allRecipes;
@@ -69,4 +74,6 @@ public class ViewProfileController {
         return "view-profile";
     }
 
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public class ResourceNotFoundException extends RuntimeException {}
 }
