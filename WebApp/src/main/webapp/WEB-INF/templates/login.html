@@ -72,9 +72,9 @@
                           th:if="${#fields.hasErrors('password')}"
                           th:errors="*{password}">Password error</span>
 
-                <div class="checkbox ">
+                <div class="checkbox col-xs-4 row">
                     <label>
-                        <input type="checkbox" th:field="*{rememberMe}"/> <span th:text="#{loginForm.rememberMe}">Remember me</span>
+                        <input type="checkbox" th:field="*{rememberMe}"/> <p th:text="#{loginForm.rememberMe}">Remember me</p>
                     </label>
                 </div>
 <!--<p>-->
