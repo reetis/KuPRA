@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 /**
  * Created by Rytis on 2014-11-27
@@ -29,11 +30,13 @@ public class RecipeListController {
     @Resource
     private KupraUsers kupraUsers;
 
+    @Transactional
     @RequestMapping(method = RequestMethod.GET)
     public String showRecipesDefault(final RecipesList list, Model model) {
         return showRecipes("all", list, model);
     }
 
+    @Transactional
     @RequestMapping(value = "/{scope}", method = RequestMethod.GET)
     public String showRecipes(@PathVariable String scope, final RecipesList list, Model model) {
         Iterable<Recipe> allRecipes;
@@ -59,7 +62,11 @@ public class RecipeListController {
             recipePreview.setPublicAccess(r.isPublicAccess());
             recipePreview.setAccessible(user == r.getAuthor());
             recipePreview.setRecipeId(r.getRecipe_id());
-//            recipePreview.setPhoto(getMainPhoto());
+
+            if (!r.getRecipeImages().isEmpty()) {
+                recipePreview.setRecipeImage(r.getRecipeImages().get(0));
+            }
+
             list.addRecipe(recipePreview);
         }
         model.addAttribute("section", scope);

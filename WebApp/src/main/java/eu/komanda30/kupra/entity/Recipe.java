@@ -152,4 +152,8 @@ public class Recipe {
         }
         recipeComments.add(comment);
     }
+
+    public List<RecipeImage> getRecipeImages() {
+        return recipeImages;
+    }
 }

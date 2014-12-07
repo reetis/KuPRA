@@ -1,5 +1,7 @@
 package eu.komanda30.kupra.controllers.recipelist;
 
+import eu.komanda30.kupra.entity.RecipeImage;
+
 /**
 * Created by Rytis on 2014-11-27.
 */
@@ -13,6 +15,8 @@ public class RecipePreview {
     private String description;
 
     private int recipeId;
+
+    private RecipeImage recipeImage;
 
     public String getName() {
         return name;
@@ -52,5 +56,13 @@ public class RecipePreview {
 
     public void setRecipeId(int recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public RecipeImage getRecipeImage() {
+        return recipeImage;
+    }
+
+    public void setRecipeImage(RecipeImage recipeImage) {
+        this.recipeImage = recipeImage;
     }
 }
