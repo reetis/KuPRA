@@ -1,10 +1,14 @@
 package eu.komanda30.kupra.controllers.reciperead;
 
 import eu.komanda30.kupra.entity.Comment;
+import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Recipe;
+import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +24,9 @@ public class RecipeReadController {
 
     @Resource
     private Recipes recipes;
+
+    @Resource
+    private KupraUsers kupraUsers;
 
     private static final Logger LOG = LoggerFactory.getLogger(RecipeReadController.class);
 
@@ -43,8 +50,10 @@ public class RecipeReadController {
     public String submit(@Valid final AddCommentForm addCommentForm, final RecipeReadForm form,
                          @PathVariable Integer recipeId) {
 
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
-        recipes.findOne(recipeId).addRecipeComments(new Comment(addCommentForm.getComment()));
+        recipes.findOne(recipeId).addRecipeComments(new Comment(addCommentForm.getComment(), kupraUser));
 
 
 

@@ -17,12 +17,16 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commentIdSequence")
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "author", nullable = false)
+    private KupraUser author;
 
     @Column(nullable = false)
     private String comment;
 
-    public Comment(String comment) {
+    public Comment(String comment, KupraUser author) {
         this.comment = comment;
+        this.author = author;
     }
 
     protected Comment() {
@@ -36,5 +40,9 @@ public class Comment {
         return comment;
     }
 
+
+    public KupraUser getAuthor() {
+        return author;
+    }
 
 }
