@@ -194,9 +194,19 @@
                         <artifactId>jetty-maven-plugin</artifactId>
                         <version>9.2.2.v20140723</version>
                         <configuration>
-                            <webApp>
+                            <webAppConfig
+                                    implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
                                 <extraClasspath>${basedir}/config/dev</extraClasspath>
-                            </webApp>
+                                <sessionHandler
+                                        implementation="org.eclipse.jetty.server.session.SessionHandler">
+                                    <sessionManager
+                                            implementation="org.eclipse.jetty.server.session.HashSessionManager">
+                                        <storeDirectory>${project.basedir}/target/jetty-sessions
+                                        </storeDirectory>
+                                        <idleSavePeriod>1</idleSavePeriod>
+                                    </sessionManager>
+                                </sessionHandler>
+                            </webAppConfig>
 
                             <contextHandlers>
                                 <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
@@ -227,9 +237,19 @@
                         <artifactId>jetty-maven-plugin</artifactId>
                         <version>9.2.2.v20140723</version>
                         <configuration>
-                            <webApp>
-                                <extraClasspath>${basedir}/config/dev-postgres</extraClasspath>
-                            </webApp>
+                            <webAppConfig
+                                    implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+                                <extraClasspath>${basedir}/config/dev</extraClasspath>
+                                <sessionHandler
+                                        implementation="org.eclipse.jetty.server.session.SessionHandler">
+                                    <sessionManager
+                                            implementation="org.eclipse.jetty.server.session.HashSessionManager">
+                                        <storeDirectory>${project.basedir}/target/jetty-sessions
+                                        </storeDirectory>
+                                        <idleSavePeriod>1</idleSavePeriod>
+                                    </sessionManager>
+                                </sessionHandler>
+                            </webAppConfig>
 
                             <contextHandlers>
                                 <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
