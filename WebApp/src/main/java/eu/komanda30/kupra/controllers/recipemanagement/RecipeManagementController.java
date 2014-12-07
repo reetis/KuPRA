@@ -39,6 +39,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.collect.ImmutableList;
+
 @Controller
 @SessionAttributes("unitList")
 @RequestMapping("/recipes")
@@ -106,7 +108,7 @@ public class RecipeManagementController {
         recipe.setAuthor(kupraUsers.findByUsername(auth.getName()));
 
         final String fileGroupId = recipeForm.getTmpId();
-        for (String fileId : tmpUploadedFileManager.getFileIds(fileGroupId)) {
+        for (String fileId : ImmutableList.copyOf(tmpUploadedFileManager.getFileIds(fileGroupId))) {
             final File imgFile = tmpUploadedFileManager.getFile(fileGroupId, fileId);
             final File thumbFile = tmpUploadedFileManager.getThumbFile(fileGroupId, fileId);
 
