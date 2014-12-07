@@ -38,9 +38,10 @@
 <body>
 <div th:replace="layout :: header"></div>
 <div class="container ">
-    <h2 th:text="#{fridge.title}">CP test</h2>
 
-    <div class="row well" th:fragment="fridge-content" id="fridge-content">
+    <h2 th:text="#{fridge.title}">CP test</h2>
+<div class="row well">
+    <div class="row " th:fragment="fridge-content" id="fridge-content">
         <div th:if="!${#lists.isEmpty(fridgeItemsList.items)}">
             <div class="col-md-12" th:each="itm : ${fridgeItemsList.items}">
                 <div class="panel-body">
@@ -70,7 +71,7 @@
           id="fridgeAddItemForm"
           th:object="${fridgeAddItemForm}">
 
-        <span class="form-group col-md-4">
+        <span class="form-group col-md-3">
             <div class="dropdown form-group">
                 <div th:if="${!products.isEmpty()}">
                     <select id="product-select" class="form-control"
@@ -85,22 +86,26 @@
                 </div>
             </div>
         </span>
+  <span class="form-group col-md-1">
 
-        <span class="form-group col-md-2">
+        </span>
+        <span class="form-group col-md-1">
             <input type="text" class="form-control" placeholder="amount" id="amount"
                    th:field="*{amount}" th:placeholder="#{fridge.amount}"/>
         </span>
 
-        <span class="form-group col-md-4">
+
+        <span class="form-group col-md-1">
             <span id="product-unit" th:text="${products[0].unit.abbreviation}"></span>
         </span>
 
-        <span class="form-group col-md-2">
+        <span class="form-group col-md-1">
             <button type="submit" class="btn btn-default btn-lg"
                     th:text="#{fridge.addbtn}">Save
             </button>
         </span>
     </form>
+</div>
 </div>
 
 <div th:replace="layout :: footer"></div>

@@ -1,5 +1,6 @@
 package eu.komanda30.kupra.entity;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -109,4 +110,5 @@ public class KupraUser {
                 .collect(Collectors.toList());
         fridgeContent.removeAll(badItems);
     }
+
 }
