@@ -58,7 +58,8 @@
             <div class="col-md-6" th:each="unit : ${notificationListForm.notificationListUnits}">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <p th:text="${unit.name} + ' ' + ${unit.surname}"></p>
+                        <div><a th:href="@{'/user/'+${unit.userId}}" th:text="${unit.name} + ' ' + ${unit.surname}"></a>
+                        </div>
                         <input name="source_id" type="hidden" th:value="${unit.sourceId}"/>
                         <button th:text="#{friendsListForm.accept}" class="btn btn-default btn-lg accept_request_button">
                             draugauti

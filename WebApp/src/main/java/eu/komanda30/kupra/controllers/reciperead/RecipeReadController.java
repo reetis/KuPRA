@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +44,20 @@ public class RecipeReadController {
     public String readRecipe(final RecipeReadForm form, final AddCommentForm addCommentForm,
                            @PathVariable Integer recipeId){
         Recipe recipe = recipes.findOne(recipeId);
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        if (friendships.isFriends(kupraUser, recipe.getAuthor()) || recipe.getAuthor().equals(kupraUser)) {
+
+            form.setRecipeAuthor(recipe.getAuthor().getUserProfile().getName() + " "
+                    + recipe.getAuthor().getUserProfile().getSurname());
+
+        } else {
+            form.setRecipeAuthor(recipe.getAuthor().getUserId());
+        }
+
+        form.setRecipeAuthorId(recipe.getAuthor().getUserId());
+
         form.setName(recipe.getName());
         form.setServings(recipe.getServings());
         form.setCookingTime(recipe.getCookingTime());
@@ -59,10 +74,8 @@ public class RecipeReadController {
 
             commentUnit.setDate(comment.getDate());
 
-            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
-            if (friendships.isFriends(kupraUser, recipe.getAuthor()) || comment.getAuthor().equals(kupraUser)) {
+            if (friendships.isFriends(kupraUser, comment.getAuthor()) || comment.getAuthor().equals(kupraUser)) {
 
                 commentUnit.setAuthor(comment.getAuthor().getUserProfile().getName() + " "
                         + comment.getAuthor().getUserProfile().getSurname() + ": ");
@@ -82,8 +95,13 @@ public class RecipeReadController {
 
     @Transactional
     @RequestMapping(value = "/create_comment/{recipeId}", method = RequestMethod.POST)
-    public String submit(@Valid final AddCommentForm addCommentForm, final RecipeReadForm form,
+    public String submit(@Valid final AddCommentForm addCommentForm, final BindingResult bindingResult,
+                         final RecipeReadForm form,
                          @PathVariable Integer recipeId) {
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/recipes/read/{recipeId}";
+        }
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());

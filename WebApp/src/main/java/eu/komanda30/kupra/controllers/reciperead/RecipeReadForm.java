@@ -24,6 +24,10 @@ public class RecipeReadForm {
 
     private ArrayList<CommentUnit> comments = new ArrayList<CommentUnit>();
 
+    private String recipeAuthor;
+
+    private String recipeAuthorId;
+
     public KupraUser getKupraUser() {
         return kupraUser;
     }
@@ -89,4 +93,19 @@ public class RecipeReadForm {
     }
 
 
+    public String getRecipeAuthor() {
+        return recipeAuthor;
+    }
+
+    public void setRecipeAuthor(String recipeAuthor) {
+        this.recipeAuthor = recipeAuthor;
+    }
+
+    public void setRecipeAuthorId(String recipeAuthorId) {
+        this.recipeAuthorId = recipeAuthorId;
+    }
+
+    public String getRecipeAuthorId() {
+        return recipeAuthorId;
+    }
 }

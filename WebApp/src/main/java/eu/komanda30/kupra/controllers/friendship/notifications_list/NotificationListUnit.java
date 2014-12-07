@@ -11,6 +11,8 @@ public class NotificationListUnit {
 
     private String sourceId;
 
+    private String userId;
+
     public String getName() {
         return name;
     }
@@ -33,5 +35,13 @@ public class NotificationListUnit {
 
     public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

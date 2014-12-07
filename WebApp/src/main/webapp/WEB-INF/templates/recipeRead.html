@@ -41,6 +41,13 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group well">
+
+                <div class="pub panel-body">
+                    <label for="recipeAuthor" th:text="#{recipeReadForm.author}">Autorius</label>
+                    <a th:href="@{'/user/'+${recipeReadForm.recipeAuthorId}}" id="recipeAuthor"
+                       th:text="${recipeReadForm.recipeAuthor}">Mr. X</a>
+                </div>
+
                 <div class="pub panel-body">
                     <label for="cookingTime" th:text="#{recipeCreateForm.cookingTime}">Laikas</label>
                     <span id="cookingTime" th:text="${recipeReadForm.cookingTime}">Random Time</span>
@@ -75,8 +82,12 @@
 
     <form class="addComment-form" role="form" th:action="'/recipes/create_comment/'+${recipeId}" method="post"
           th:object="${addCommentForm}">
-        <input type="text" class="form-control" placeholder="Name" id="comment"
-               th:field="*{comment}" th:placeholder="#{addcomment.comment}"/>
+        <!--<input type="text" class="form-control" placeholder="Name" id="comment"-->
+        <!--th:field="*{comment}" th:placeholder="#{addcomment.comment}"/>-->
+        <textarea id="comment" placeholder="KOmentaras" th:field="*{comment}"
+                  th:placeholder="#{addcomment.comment}" class="form-control"
+                  rows="5"/>
+
         <button type="submit" class="btn btn-default btn-lg"
                 th:text="#{addcomment.addcomment}">Comment
         </button>
