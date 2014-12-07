@@ -37,7 +37,7 @@
                     <h1 th:text="${profileInfo.name}+' '+${profileInfo.surname}">Pavadinimas</h1>
                 </div>
                 <div class="col-xs-4">
-                   <div th:fragment="buttonFragment">
+                   <div th:fragment="buttonFragment" th:unless="${profileInfo.personal}">
                        <input id="source_id" type="hidden" name="friend_id" th:value="${profileInfo.userId}"/>
                        <div th:if="${profileInfo.friend == true}">
                            <button id="unfriend_button" class="btn btn-default btn-lg" th:text="#{viewProfile.unFriend}">

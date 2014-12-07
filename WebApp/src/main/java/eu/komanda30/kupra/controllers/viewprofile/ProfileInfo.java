@@ -19,6 +19,7 @@ public class ProfileInfo {
     private boolean friend;
     private boolean requestSent;
     private boolean requestReceived;
+    private boolean personal;
     private UserProfileImage photo;
 
     private List<RecipePreview> recipes = new ArrayList<>();
@@ -105,5 +106,13 @@ public class ProfileInfo {
 
     public void setRequestReceived(boolean requestReceived) {
         this.requestReceived = requestReceived;
+    }
+
+    public boolean isPersonal() {
+        return personal;
+    }
+
+    public void setPersonal(boolean personal) {
+        this.personal = personal;
     }
 }
