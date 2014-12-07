@@ -213,6 +213,10 @@
                                     <contextPath>/uploads</contextPath>
                                     <resourceBase>${project.build.directory}/uploads</resourceBase>
                                 </contextHandler>
+                                <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
+                                    <contextPath>/test-uploads</contextPath>
+                                    <resourceBase>${project.basedir}/test-uploads</resourceBase>
+                                </contextHandler>
                             </contextHandlers>
                         </configuration>
                     </plugin>
@@ -255,6 +259,10 @@
                                 <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
                                     <contextPath>/uploads</contextPath>
                                     <resourceBase>${project.build.directory}/uploads</resourceBase>
+                                </contextHandler>
+                                <contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
+                                    <contextPath>/test-uploads</contextPath>
+                                    <resourceBase>${project.basedir}/test-uploads</resourceBase>
                                 </contextHandler>
                             </contextHandlers>
                         </configuration>

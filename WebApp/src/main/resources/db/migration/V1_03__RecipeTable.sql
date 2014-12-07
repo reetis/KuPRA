@@ -7,5 +7,5 @@ CREATE TABLE recipe (
   servings      INT         NOT NULL,
   public_access BOOLEAN     NOT NULL,
   description         VARCHAR(256),
-  process_description VARCHAR(512)
+  process_description TEXT
 );
