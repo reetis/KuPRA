@@ -37,7 +37,9 @@
              data-toggle="tooltip" data-placement="bottom"
              style="height: 440px; width: 720px; display: block; margin: auto"/>
 
-        <div th:text="#{errors.accessdenied}" style=" font-size: 300%; font-weight: bold; text-align: center"/>
+
+        <a th:href="@{'/login'}" th:text="#{errors.accessdenied}"
+           style=" font-size: 300%; font-weight: bold; text-align: center"/>
     </div>
 </div>
 <div th:replace="layout :: footer"></div>
