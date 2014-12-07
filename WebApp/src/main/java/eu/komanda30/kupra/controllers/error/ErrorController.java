@@ -8,38 +8,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/error/")
 public class ErrorController {
     @RequestMapping("auth")
-    @ResponseBody
+    //@ResponseBody
     public String authError() {
-        return "Authentication error!";
+        return "authenticationError";
     }
 
     @RequestMapping("access_denied")
-    @ResponseBody
     public String accessDeniedError() {
-        return "Access denied!";
+        return "accessDeniedError";
     }
 
     @RequestMapping("notfound")
-    @ResponseBody
+    //@ResponseBody
     public String notFoundError() {
-        return "Page not found!";
+        return "pageNotFoundError";
     }
 
     @RequestMapping("system")
-    @ResponseBody
     public String systemError() {
-        return "System error!";
+        return "systemError";
     }
 
     @RequestMapping("unsupported")
     @ResponseBody
     public String methodNotSupportedError() {
-        return "Method not supported!";
+        return "unsupprotedError";
     }
 
     @RequestMapping("generic")
     @ResponseBody
     public String genericError() {
-        return "Unknown server error!";
+        return "genericError";
     }
 }

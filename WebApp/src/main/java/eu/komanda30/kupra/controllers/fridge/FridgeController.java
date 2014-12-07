@@ -5,11 +5,6 @@ import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Products;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @RequestMapping("/fridge")
 @Controller
@@ -79,7 +78,6 @@ public class FridgeController {
         kupraUsers.save(kupraUser);
 
         populateFridgeItemsList(list, kupraUser);
-
         return "fridge";
     }
 

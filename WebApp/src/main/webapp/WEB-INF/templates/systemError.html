@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+<head lang="en">
+    <title th:text="#{errors.system}">Error</title>
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Material design CSS -->
+    <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
+
+    <!-- Lightbox CSS -->
+    <link th:href="@{/lightbox/css/lightbox.css}" href="../../lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="../../css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="../../css/imgupload.css" rel="stylesheet"/>
+
+    <!-- Kupra CSS -->
+    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+
+    <!-- Custom page CSS -->
+    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div style="width: 100%">
+    <div style="margin-left: auto; margin-right: auto">
+        <img th:src="@{/images/kuprele.png}" src="../../images/kuprele.png" class="Image"
+             data-toggle="tooltip" data-placement="bottom"
+             style="height: 440px; width: 720px; display: block; margin: auto"/>
+
+        <div th:text="#{errors.system}" style=" font-size: 300%; font-weight: bold; text-align: center"/>
+    </div>
+</div>
+</body>
+<div th:replace="layout :: footer"></div>
+
+<!-- Bootstrap javascript -->
+<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Material design javascript -->
+<script th:src="@{/js/ripples.min.js}" src="../../js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
+
+<!--Kupra javascript-->
+<script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
+</html>
