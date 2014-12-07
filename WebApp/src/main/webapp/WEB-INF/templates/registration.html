@@ -36,7 +36,7 @@
     <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
     <h2 th:text="#{registration.title}">Registration</h2>
 
-    <form class="registration-form" role="form" action="#" method="post"
+    <form class="registration-form well" role="form" action="#" method="post"
           th:action="@{/registration}"
           th:object="${registrationForm}">
 
@@ -117,13 +117,22 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <button type="submit" class="btn btn-default btn-lg"
                             th:text="#{registration.register}">Register
                     </button>
-                </div>
             </div>
+            </div>
+            <div class="col-sm-9">
+            <div class="form-group">
+                <a href="/login">
+                <button type="button" class="btn btn-default btn-lg"
+                        th:text="#{registration.atsaukti}">At6aukti
+                </button>
+                </a>
+            </div>
+        </div>
         </div>
     </form>
 </div>
