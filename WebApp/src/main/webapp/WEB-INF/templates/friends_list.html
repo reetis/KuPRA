@@ -54,20 +54,17 @@
 
     <div th:unless="${#lists.isEmpty(friendListForm.friendListUnits)}">
         <div class="row">
-            <div class="col-md-6" th:each="user : ${friendListForm.friendListUnits}">
+            <div class="col-md-6" th:each="unit : ${friendListForm.friendListUnits}">
                 <div class="panel panel-default">
-                    <div class="panel-body">
-                        <form role="form" th:action="@{~/friends/unfriend}" action="#" method="POST">
-                            <a th:href="@{'/user/'+${user.userId}}">
-                                <p th:text="${user.name} + ' ' + ${user.surname}"></p>
-                                <input name="friendshipId" type="hidden" th:value="${user.friendshipId}"/>
-                            </a>
-                            <input name="denyAction" type="hidden" value="0"/>
-                            <button type="submit" th:text="#{friendsListForm.unfriend}"
-                                    class="btn btn-default btn-lg">
-                                Nedraugauti
-                            </button>
-                        </form>
+                    <div class="panel-body" id="Test_id">
+                        <a th:href="@{'/user/'+${unit.userId}}">
+                            <p th:text="${unit.name} + ' ' + ${unit.surname}"></p>
+                            <input class="source_id" name="source_id" type="hidden" th:value="${unit.sourceId}"/>
+                        </a>
+                        <button type="button" th:text="#{friendsListForm.unfriend}"
+                                class="btn btn-default btn-lg unfriend_button">
+                            Nedraugauti
+                        </button>
                     </div>
                 </div>
             </div>
@@ -100,17 +97,29 @@
 <script type="application/javascript" th:inline="javascript">
 
     +function ($) {
-        var submitUrl = /*[[@{/friends/unfriend}]]*/ '#';
+        var unfriendUrl = /*[[@{/friends/unfriend}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
-        unfriendButtons = $('.btn-default');
-        unfriend
-        for (var button in unfriendButtons) {
-            button.click(function (event) {
-                friendshipId = button.parent.find("input").val();
-                console.log(friendshipId);
+        unfriendButtons = $('.unfriend_button');
+
+        onSuccesCallback = function(){
+            location.reload();
+        }
+
+        if (unfriendButtons != null){
+            unfriendButtons.click(function (event){
+                source_id = $(this).parent().find('input').val();
+
                 $.ajax({
-                    url: submitUrl
+                    url: unfriendUrl,
+                    type: 'POST',
+                    data: {'source_id': source_id},
+                    async: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf},
+                    success: onSuccesCallback
                 });
+
             });
         }
 

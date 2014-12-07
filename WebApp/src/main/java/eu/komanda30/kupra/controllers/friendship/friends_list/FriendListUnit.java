@@ -1,5 +1,7 @@
 package eu.komanda30.kupra.controllers.friendship.friends_list;
 
+import eu.komanda30.kupra.entity.Friendship;
+
 /**
  * Created by Ignas on 11/27/2014.
  */
@@ -9,9 +11,11 @@ public class FriendListUnit {
 
     private String surname;
 
-    private int friendshipId;
+    private Friendship friendship;
 
     private String userId;
+
+    private String sourceId;
 
     public String getName() {
         return name;
@@ -29,20 +33,27 @@ public class FriendListUnit {
         this.surname = surname;
     }
 
-    public int getFriendshipId() {
-        return friendshipId;
-    }
-
-    public void setFriendshipId(int friendshipId) {
-        this.friendshipId = friendshipId;
-    }
-
-
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Friendship getFriendship() {
+        return friendship;
+    }
+
+    public void setFriendship(Friendship friendship) {
+        this.friendship = friendship;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 }

@@ -239,7 +239,7 @@
                         <configuration>
                             <webAppConfig
                                     implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
-                                <extraClasspath>${basedir}/config/dev</extraClasspath>
+                                <extraClasspath>${basedir}/config/dev-postgres</extraClasspath>
                                 <sessionHandler
                                         implementation="org.eclipse.jetty.server.session.SessionHandler">
                                     <sessionManager

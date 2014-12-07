@@ -54,25 +54,18 @@
 
     <div th:unless="${#lists.isEmpty(notificationListForm.notificationListUnits)}">
         <div class="row">
-            <div class="col-md-6" th:each="user : ${notificationListForm.notificationListUnits}">
+            <div class="col-md-6" th:each="unit : ${notificationListForm.notificationListUnits}">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <p th:text="${user.name} + ' ' + ${user.surname}"></p>
-
-                        <form role="form" th:action="@{~/friends/unfriend}" action="#" method="POST">
-                            <input name="friendshipId" type="hidden" th:value="${user.friendshipId}"/>
-                            <input name="denyAction" type="hidden" value="1"/>
-                            <button type="submit" th:text="#{friendsListForm.deny}"
-                                    class="btn btn-default btn-lg">
-                                Nedraugauti
-                            </button>
-                        </form>
-                        <form role="form" th:action="@{~/friends/accept_request}" action="#" method="POST">
-                            <input name="friendshipId" type="hidden" th:value="${user.friendshipId}"/>
-                            <button th:text="#{friendsListForm.accept}" class="btn btn-default btn-lg">
-                                draugauti
-                            </button>
-                        </form>
+                        <p th:text="${unit.name} + ' ' + ${unit.surname}"></p>
+                        <input name="source_id" type="hidden" th:value="${unit.sourceId}"/>
+                        <button th:text="#{friendsListForm.accept}" class="btn btn-default btn-lg accept_request_button">
+                            draugauti
+                        </button>
+                        <button type="submit" th:text="#{friendsListForm.deny}"
+                                class="btn btn-default btn-lg deny_request_button">
+                            Nedraugauti
+                        </button>
                     </div>
                 </div>
             </div>
@@ -106,6 +99,57 @@
 <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
 
 <!-- Custom JS -->
+<script type="application/javascript" th:inline="javascript">
+
+    +function ($) {
+        var denyUrl = /*[[@{/friends/unfriend}]]*/ '#';
+        var acceptUrl = /*[[@{/friends/accept_request}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+        onSuccesCallback = function(){
+            location.reload();
+        }
+
+        denyRequestButtons = $('.deny_request_button');
+
+        if (denyRequestButtons != null){
+            denyRequestButtons.click(function (event){
+                source_id = $(this).parent().find('input').val();
+                console.log(source_id);
+                $.ajax({
+                    url: denyUrl,
+                    type: 'POST',
+                    data: {'source_id':source_id},
+                    async: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf},
+                    success: onSuccesCallback
+                });
+            });
+        }
+
+        acceptRequestButtons = $('.accept_request_button');
+
+        if (acceptRequestButtons != null){
+            acceptRequestButtons.click(function (event){
+                source_id = $(this).parent().find('input').val();
+                console.log(source_id);
+
+                $.ajax({
+                    url: acceptUrl,
+                    type: 'POST',
+                    data: {'source_id':source_id},
+                    async: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf},
+                    success: onSuccesCallback
+                });
+            });
+        }
+
+
+    }(jQuery);
+</script>
 
 </body>
 </html>

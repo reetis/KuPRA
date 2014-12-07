@@ -9,7 +9,7 @@ public class NotificationListUnit {
 
     private String surname;
 
-    private int friendshipId;
+    private String sourceId;
 
     public String getName() {
         return name;
@@ -27,11 +27,11 @@ public class NotificationListUnit {
         this.surname = surname;
     }
 
-    public int getFriendshipId() {
-        return friendshipId;
+    public String getSourceId() {
+        return sourceId;
     }
 
-    public void setFriendshipId(int friendshipId) {
-        this.friendshipId = friendshipId;
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 }
