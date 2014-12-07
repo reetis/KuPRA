@@ -1,6 +1,7 @@
 package eu.komanda30.kupra.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by Lukas on 2014.12.05.
@@ -24,9 +25,14 @@ public class Comment {
     @Column(nullable = false)
     private String comment;
 
-    public Comment(String comment, KupraUser author) {
+
+    @Column(nullable = false)
+    private Date comment_date;
+
+    public Comment(String comment, KupraUser author, Date date) {
         this.comment = comment;
         this.author = author;
+        this.comment_date = date;
     }
 
     protected Comment() {
@@ -43,6 +49,10 @@ public class Comment {
 
     public KupraUser getAuthor() {
         return author;
+    }
+
+    public Date getDate() {
+        return comment_date;
     }
 
 }

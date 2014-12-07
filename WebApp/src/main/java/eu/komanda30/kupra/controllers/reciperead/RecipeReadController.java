@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -54,6 +57,8 @@ public class RecipeReadController {
 
             commentUnit.setComment(comment.getComment());
 
+            commentUnit.setDate(comment.getDate());
+
             final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
@@ -83,7 +88,12 @@ public class RecipeReadController {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
-        recipes.findOne(recipeId).addRecipeComments(new Comment(addCommentForm.getComment(), kupraUser));
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date date = new Date();
+        dateFormat.format(date);
+
+
+        recipes.findOne(recipeId).addRecipeComments(new Comment(addCommentForm.getComment(), kupraUser, date));
 
 
         return "redirect:/recipes/read/{recipeId}";

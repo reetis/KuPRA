@@ -88,9 +88,10 @@
             <div class="col-md-12" th:each="comment : ${recipeReadForm.comments}">
 
                 <div class="panel-body">
-                    <a th:href="@{'/user/'+${comment.commentAuthorId}}">
-                        <span class="col-md-3" th:text="${comment.author}" style=" font-weight: bold">Pvdn</span>
-                    </a>
+                    <a th:href="@{'/user/'+${comment.commentAuthorId}}" th:text="${comment.author}"
+                       style="font-weight: bold"/>
+                    <span th:text="${#calendars.format(comment.date,'dd MMMM yyyy HH:mm:ss')}"
+                          style=" color: #7a7777; "/>
                     <span class="col-md-10">
                         <span th:text="${comment.comment}">Dscr</span>
                     </span>
