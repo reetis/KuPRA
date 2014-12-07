@@ -51,8 +51,9 @@
             <div class="col-md-6" th:each="unit : ${units}">
                 <div class="panel panel-default">
                     <div class="panel-body">
+                        <input type="hidden" th:value="${unit.id}"/>
                         <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">Pvdn</h3>
-                        <button class="btn-default btn" id="newProductButton" th:title="#{unit-list.delete_if_nor_used}"
+                        <button class="btn-default btn unitDeleteButton" id="newProductButton" th:title="#{unit-list.delete_if_nor_used}"
                                 data-toggle="tooltip" data-placement="bottom"
                                 title="Tooltip on bottom">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
@@ -91,5 +92,36 @@
 <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
 
 <!-- Custom JS -->
+<script type="application/javascript" th:inline="javascript">
+    +function($){
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+        unitDeleteUrl = /*[[@{/unit/delete}]]*/ '#'
+        unitDeleteButtons = $(".unitDeleteButton");
+
+        onSuccessCalldabck = function(response){
+            console.log(response);
+            location.reload();
+        }
+
+        if (unitDeleteButtons != null){
+            unitDeleteButtons.click(function(){
+                unitId = $(this).parent().find('input').val();
+                console.log(unitId);
+                $.ajax({
+                    url: unitDeleteUrl,
+                    type: 'POST',
+                    data: {'unit_id': unitId},
+                    asynch: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf}
+                }).done(function(){
+                    location.reload();
+                });
+
+            });
+        }
+    }(jQuery);
+</script>
 </body>
 </html>
