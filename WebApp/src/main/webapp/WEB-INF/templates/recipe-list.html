@@ -52,10 +52,9 @@
                     </div>
                     <div class="col-xs-1">
                         <a href="recipe_form.html" th:href="@{~/recipes/create}">
-                            <button class="btn btn-default btn-raised"
+                            <button class="btn btn-default btn-raised mdi-content-add btn-fab"
                                     data-toggle="tooltip" data-placement="bottom"
                                     title="Tooltip on bottom" th:title="#{recipe-list.add_recipe}">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                             </button>
                         </a>
                     </div>
@@ -66,39 +65,45 @@
         <div id="grid" class="container">
             <div id="posts" th:if="!${#lists.isEmpty(recipesList.recipes)}">
                 <div class="post" th:each="rcp : ${recipesList.recipes}">
-                    <div class="panel panel-default">
-                        <a th:href="@{'/recipes/read/'+${rcp.recipeId}}">
-                            <div class="panel-body">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <span th:if="${rcp.recipeImage != null}" th:with="img=${rcp.recipeImage}"
-                                                  class="uploaded-img-cell">
-                                                <img class="img-responsive"
-                                                     th:src="${img.thumbUrl}"
-                                                     src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
-                                            </span>
-                                        </div>
-                                        <div class="col-xs-8">
-                                            <h3 th:text="${rcp.name}" class="small-title">Pvdn</h3>
-
-                                            <p th:text="${rcp.description}">Dscr</p>
-
-                                            <div class="btn-group" th:if="${section=='personal'}">
-                                                <button class="btn" th:text="#{recipeCreateForm.public}"
-                                                        th:classappend="${rcp.publicAccess}?'btn-primary':'btn-default'">
-                                                    Vs
-                                                </button>
-                                                <button class="btn" th:text="#{recipeCreateForm.private}"
-                                                        th:classappend="!${rcp.publicAccess}?'btn-primary':'btn-default'">
-                                                    Priv
-                                                </button>
-                                            </div>
-                                        </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-xs-10">
+                                        <a th:href="@{'/recipes/read/'+${rcp.recipeId}}" class="panel-title">
+                                            <h3 th:text="${rcp.name}" >Pvdn</h3>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <img th:src="@{/images/addlist_white.png}" src="../../images/addlist_white.png"
+                                             class="panel-header-image linkImage"
+                                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                             th:title="#{recipe-list.addToMenu}"/>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
+                        <div class="panel-body">
+                            <a th:href="@{'/recipes/read/'+${rcp.recipeId}}">
+                                <img class="panel-image" th:if="${rcp.recipeImage != null}"
+                                     th:src="${rcp.recipeImage.thumbUrl}"
+                                     src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                            </a>
+
+                            <p th:text="${rcp.description}">Dscr</p>
+                        </div>
+                        <div class="panel-footer" th:if="${section=='personal'}">
+                            <div class="btn-group">
+                                <button class="btn" th:text="#{recipeCreateForm.public}"
+                                        th:classappend="${rcp.publicAccess}?'btn-primary':'btn-default'">
+                                    Vs
+                                </button>
+                                <button class="btn" th:text="#{recipeCreateForm.private}"
+                                        th:classappend="!${rcp.publicAccess}?'btn-primary':'btn-default'">
+                                    Priv
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
