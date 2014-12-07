@@ -3,6 +3,7 @@ package eu.komanda30.kupra.controllers.reciperead;
 import eu.komanda30.kupra.entity.Comment;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Recipe;
+import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/recipes")
@@ -28,8 +30,12 @@ public class RecipeReadController {
     @Resource
     private KupraUsers kupraUsers;
 
+    @Resource
+    private Friendships friendships;
+
     private static final Logger LOG = LoggerFactory.getLogger(RecipeReadController.class);
 
+    @Transactional
     @RequestMapping(value = "/read/{recipeId}", method = RequestMethod.GET)
     public String readRecipe(final RecipeReadForm form, final AddCommentForm addCommentForm,
                            @PathVariable Integer recipeId){
@@ -40,6 +46,30 @@ public class RecipeReadController {
         form.setDescription(recipe.getDescription());
         form.setPublicAccess(recipe.isPublicAccess());
         form.setProcessDescription(recipe.getProcessDescription());
+
+        List<Comment> commentList = recipe.getRecipeComments();
+
+        for (Comment comment : commentList) {
+            CommentUnit commentUnit = new CommentUnit();
+
+            commentUnit.setComment(comment.getComment());
+
+            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+            if (friendships.isFriends(kupraUser, recipe.getAuthor()) || comment.getAuthor().equals(kupraUser)) {
+
+                commentUnit.setAuthor(comment.getAuthor().getUserProfile().getName() + " "
+                        + comment.getAuthor().getUserProfile().getSurname() + ": ");
+
+            } else {
+                commentUnit.setAuthor(comment.getAuthor().getUserId());
+            }
+
+            commentUnit.setCommentAuthorId(comment.getAuthor().getUserId());
+
+            form.addComment(commentUnit);
+        }
 
         return "recipeRead";
     }
@@ -56,8 +86,6 @@ public class RecipeReadController {
         recipes.findOne(recipeId).addRecipeComments(new Comment(addCommentForm.getComment(), kupraUser));
 
 
-
-
-        return "recipeRead";
+        return "redirect:/recipes/read/{recipeId}";
     }
 }

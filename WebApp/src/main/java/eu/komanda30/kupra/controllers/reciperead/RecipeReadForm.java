@@ -2,6 +2,8 @@ package eu.komanda30.kupra.controllers.reciperead;
 
 import eu.komanda30.kupra.entity.KupraUser;
 
+import java.util.ArrayList;
+
 /**
  * Created by Ignas on 12/2/2014.
  */
@@ -19,6 +21,8 @@ public class RecipeReadForm {
     private int servings;
 
     private KupraUser kupraUser;
+
+    private ArrayList<CommentUnit> comments = new ArrayList<CommentUnit>();
 
     public KupraUser getKupraUser() {
         return kupraUser;
@@ -75,4 +79,14 @@ public class RecipeReadForm {
     public void setServings(int servings) {
         this.servings = servings;
     }
+
+    public ArrayList<CommentUnit> getComments() {
+        return comments;
+    }
+
+    public void addComment(CommentUnit comment) {
+        comments.add(comment);
+    }
+
+
 }
