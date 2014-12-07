@@ -1,5 +1,6 @@
 package eu.komanda30.kupra.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,7 +89,9 @@ public class KupraUser {
         return ImmutableList.copyOf(fridgeContent);
     }
 
-    public void addFridgeItem(FridgeItem fridgeItem) {
+    public void addFridgeItem(Product product, BigDecimal amount) {
+        final FridgeItem fridgeItem = new FridgeItem(product, amount);
+
         final Optional<FridgeItem> item = fridgeContent.stream()
                 .filter(input -> input.getProduct() == fridgeItem.getProduct())
                 .findFirst();

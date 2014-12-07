@@ -19,10 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Created by Lukas on 2014.12.02.
- */
-
 @RequestMapping("/fridge")
 @Controller
 public class FridgeController {
@@ -79,7 +75,7 @@ public class FridgeController {
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
         final Product product = products.findOne(form.getSelectedProductId());
-        kupraUser.addFridgeItem(new FridgeItem(product, form.getAmount()));
+        kupraUser.addFridgeItem(product, form.getAmount());
         kupraUsers.save(kupraUser);
 
         populateFridgeItemsList(list, kupraUser);

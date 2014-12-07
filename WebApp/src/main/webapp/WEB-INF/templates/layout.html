@@ -224,6 +224,7 @@
 
                 if (acTimer) {
                     clearTimeout(acTimer);
+                    acTimer = undefined;
                 }
 
                 if ($("#search-input").val().length < acMinLength) {

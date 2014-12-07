@@ -1,4 +1,4 @@
-CREATE SEQUENCE recipe_seq;
+CREATE SEQUENCE recipe_seq START WITH 1;
 CREATE TABLE recipe (
   recipe_id           INT PRIMARY KEY DEFAULT nextval('recipe_seq'),
   author        VARCHAR(24) NOT NULL REFERENCES "user" (user_id),

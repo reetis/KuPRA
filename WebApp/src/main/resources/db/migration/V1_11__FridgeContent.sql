@@ -1,5 +1,4 @@
-CREATE SEQUENCE fridge_item_seq;
-
+CREATE SEQUENCE fridge_item_seq START WITH 1;
 CREATE TABLE fridge_item (
   id         INT PRIMARY KEY DEFAULT nextval('fridge_item_seq'),
   user_id    VARCHAR(64) REFERENCES "user" (user_id) NOT NULL,
