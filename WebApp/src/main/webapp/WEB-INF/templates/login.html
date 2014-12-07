@@ -27,27 +27,22 @@
     <![endif]-->
 </head>
 <body>
-<div class="container center-block ">
+<div class="container-fluid center-block ">
 <div class="row center-block" style="max-width: 53em">
+    <div class="col-xs-2 "></div>
+
     <div class="col-xs-8 ">
         <div class="form-group">
     <img th:src="@{/images/kuprele.png}" src="../../images/kuprele.png"
-         data-toggle="tooltip" data-placement="bottom" style="height: 300px; width: 600px"/>
-    <h2 th:text="#{loginForm.title}">Prisijungti</h2>
+         data-toggle="tooltip" data-placement="bottom" class="img-responsive  centered-container"/>
+    <h2 th:text="#{loginForm.title}" class="text-center">Prisijungti</h2>
 
     <form class="unit-form" role="form" action="#" method="post"
           th:action="@{/login}"
           th:object="${loginForm}">
 
         <div class="row">
-            <div class="col-xs-4">
-                <div class="form-group"
-                     th:attrappend="class=${#fields.hasErrors('username')}?' has-error'">
-                    <label for="username" class="control-label"
-                           th:text="#{loginForm.username}">Prisijungimo vardas</label>
-                </div>
-            </div>
-            <div class="col-xs-8 form-group"
+            <div class="col-xs-12 form-group"
                  th:attrappend="class=${#fields.hasErrors('username')}?' has-error'">
                 <input type="text" class="form-control" placeholder="Username" id="username"
                        th:field="*{username}" th:placeholder="#{loginForm.username}"/>
@@ -57,50 +52,53 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-4">
-                <div class="form-group"
-                     th:attrappend="class=${#fields.hasErrors('password')}?' has-error'">
-                    <label for="password" class="control-label"
-                           th:text="#{loginForm.password}">Slaptažodis</label>
-                </div>
-            </div>
-            <div class="col-xs-8 form-group"
+            <div class="col-xs-12 form-group"
                  th:attrappend="class=${#fields.hasErrors('password')}?' has-error'">
                 <input type="password" class="form-control" placeholder="Password" id="password"
                        th:field="*{password}" th:placeholder="#{loginForm.password}"/>
                     <span class="help-block"
                           th:if="${#fields.hasErrors('password')}"
-                          th:errors="*{password}">Password error</span>
-
-                <div class="checkbox col-xs-4 row">
-                    <label>
-                        <input type="checkbox" th:field="*{rememberMe}"/> <p th:text="#{loginForm.rememberMe}">Remember me</p>
-                    </label>
-                </div>
-<!--<p>-->
+                          th:errors="*{password}">Password error</span><!--<p>-->
                 <!--<a th:text="#{loginForm.forgotPassword}">Forgot your password?</a>-->
 <!--</p>-->
             </div>
         </div>
 
         <div class="row" th:if="${#fields.hasGlobalErrors()}">
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">Authentication error</p>
+
         </div>
 
         <div class="row">
             <div class="col-sm-6">
-                <a class="btn btn-default  btn-lg" th:href="@{/registration}"
-                   th:text="#{loginForm.registrationButton}"
-                   type="registrationButtom">
-                    Užsiregistruoti
-                </a>
+
+               <span class="checkbox">
+                    <label>
+                        <input type="checkbox" th:field="*{rememberMe}"/>
+                    </label>
+                    <span th:text="#{loginForm.rememberMe}">Remember me</span>
+               </span>
             </div>
+            <div class="col-sm-6">
+                <p class="text-center" th:each="err : ${#fields.globalErrors()}" th:text="${err}"
+                        >
+                    Authentication error</p>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
                     <button type="submit" class="btn btn-default btn-lg"
                             th:text="#{loginForm.connectButton}">Prisijungti
                     </button>
                 </div>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-default  btn-lg" th:href="@{/registration}"
+                   th:text="#{loginForm.registrationButton}"
+                   type="registrationButtom">
+                    Užsiregistruoti
+                </a>
             </div>
         </div>
     </form>
