@@ -7,6 +7,7 @@ public class RecipePreview {
     private String name;
 
     private boolean publicAccess;
+
     private boolean accessible;
 
     private String description;
