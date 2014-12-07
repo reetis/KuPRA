@@ -24,8 +24,8 @@ public interface Friendships extends CrudRepository<Friendship, Integer> {
     boolean isFriends(@Param("user1") KupraUser user, @Param("user2") KupraUser friend);
 
     @Query("select (count(*) > 0) from Friendship " +
-            "where ((source = :user1 and target = :user2) or (source = :user2 and target = :user1)) and friendshipStatus = false")
-    boolean isRequestSent(@Param("user1") KupraUser user, @Param("user2") KupraUser friend);
+            "where ((source = :user1 and target = :user2)) and friendshipStatus = false")
+    boolean isRequestSent(@Param("user1") KupraUser source, @Param("user2") KupraUser target);
 
     @Query("from Friendship f where f.source = :user1 and f.target = :user2")
     Friendship findByUsers(@Param("user1")KupraUser source, @Param("user2") KupraUser target);

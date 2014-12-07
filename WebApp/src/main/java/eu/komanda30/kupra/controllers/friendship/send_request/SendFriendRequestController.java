@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -30,19 +31,19 @@ public class SendFriendRequestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(SendFriendRequestController.class);
 
+    @ResponseBody
     @Transactional
     @RequestMapping(value="/sendRequest", method = RequestMethod.POST)
-    public String sendRequest(@RequestParam("friend_id") String friendshipId){
+    public String sendRequest(@RequestParam("source_id") String targetId){
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final String username = auth.getName();
-        String loggedUserId = username;
 
         Friendship friendship = new Friendship();
-        friendship.setTarget(kupraUsers.findOne(friendshipId));
+        friendship.setTarget(kupraUsers.findOne(targetId));
         friendship.setSource(kupraUsers.findByUsername(username));
         friendship.setFriendshipStatus(false);
         friendships.save(friendship);
 
-        return "redirect:/user/" + friendshipId;
+        return "true";
     }
 }

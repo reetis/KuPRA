@@ -38,19 +38,23 @@
                 </div>
                 <div class="col-xs-4">
                    <div th:fragment="buttonFragment">
-                       <input id="friend_id" type="hidden" name="friend_id" th:value="${profileInfo.userId}"/>
+                       <input id="source_id" type="hidden" name="friend_id" th:value="${profileInfo.userId}"/>
                        <div th:if="${profileInfo.friend == true}">
                            <button id="unfriend_button" class="btn btn-default btn-lg" th:text="#{viewProfile.unFriend}">
                                Nedraugauti
                            </button>
                        </div>
-                            Nusiunciau Requesta
                        <div th:if="${profileInfo.requestSent == true and profileInfo.friend == false}">
                            <span th:text="#{viewProfile.friendRequestSent}">Tekstukas</span>
                        </div>
-                       <div th:if="${profileInfo.requestSent == false and profileInfo.friend == false}">
+                       <div th:if="${profileInfo.requestSent == false and profileInfo.friend == false and profileInfo.requestReceived == false}">
                            <button id="send_request_button" class="btn btn-default btn-lg" th:text="#{viewProfile.sendRequest}">
                                Susidraugauti
+                           </button>
+                       </div>
+                       <div th:if="${profileInfo.requestReceived == true and profileInfo.friend == false}">
+                           <button id="accept_request_button" class="btn btn-default btn-lg" th:text="#{viewProfile.acceptRequest}">
+                               Priimti
                            </button>
                        </div>
                    </div>
@@ -109,21 +113,24 @@
     +function ($) {
         var requestUrl = /*[[@{/friends/sendRequest}]]*/ '#';
         var unfriendUrl = /*[[@{/friends/unfriend}]]*/ '#';
+        var acceptUrl = /*[[@{/friends/accept_request}]]*/ '#';
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
         unfriendButton = $("#unfriend_button");
         sendRequestButton = $("#send_request_button");
+        acceptRequestButton = $("#accept_request_button");
 
         onSuccesCallback = function(){
-            console.log("741852963sucess");
+            location.reload();
         }
 
         if (unfriendButton != null){
             unfriendButton.click(function (event){
+
                 $.ajax({
-                    url: requestUrl,
+                    url: unfriendUrl,
                     type: 'POST',
-                    data: {'friend_id':$("#friend_id").val()},
+                    data: {'source_id':$("#source_id").val()},
                     async: true,
                     cache: false,
                     headers: {'X-CSRF-TOKEN': _csrf},
@@ -134,11 +141,26 @@
 
         if (sendRequestButton != null){
             sendRequestButton.click(function (event){
-                console.log("bbbbbbbbbbbbb");
+
                 $.ajax({
-                    url: unfriendUrl,
+                    url: requestUrl,
                     type: 'POST',
-                    data: formData,
+                    data: {'source_id':$("#source_id").val()},
+                    async: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf},
+                    success: onSuccesCallback
+                });
+            });
+        }
+
+        if (acceptRequestButton != null){
+            acceptRequestButton.click(function (event){
+
+                $.ajax({
+                    url: acceptUrl,
+                    type: 'POST',
+                    data: {'source_id':$("#source_id").val()},
                     async: true,
                     cache: false,
                     headers: {'X-CSRF-TOKEN': _csrf},

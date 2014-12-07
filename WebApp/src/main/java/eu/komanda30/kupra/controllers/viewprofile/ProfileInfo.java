@@ -1,6 +1,6 @@
 package eu.komanda30.kupra.controllers.viewprofile;
 
-import eu.komanda30.kupra.uploads.UploadedImageInfo;
+import eu.komanda30.kupra.entity.UserProfileImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,9 @@ public class ProfileInfo {
     private String description;
     private boolean friend;
     private boolean requestSent;
-    private UploadedImageInfo photo;
+    private boolean requestReceived;
+    private UserProfileImage photo;
+
     private List<RecipePreview> recipes = new ArrayList<>();
 
     public String getUserId() {
@@ -81,6 +83,14 @@ public class ProfileInfo {
         this.recipes.add(recipe);
     }
 
+    public UserProfileImage getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(UserProfileImage photo) {
+        this.photo = photo;
+    }
+
     public boolean isRequestSent() {
         return requestSent;
     }
@@ -89,4 +99,11 @@ public class ProfileInfo {
         this.requestSent = requestSent;
     }
 
+    public boolean isRequestReceived() {
+        return requestReceived;
+    }
+
+    public void setRequestReceived(boolean requestReceived) {
+        this.requestReceived = requestReceived;
+    }
 }

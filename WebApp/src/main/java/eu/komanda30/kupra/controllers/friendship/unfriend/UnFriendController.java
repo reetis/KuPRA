@@ -1,9 +1,13 @@
 package eu.komanda30.kupra.controllers.friendship.unfriend;
 
 import eu.komanda30.kupra.entity.Friendship;
+import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.repositories.Friendships;
+import eu.komanda30.kupra.repositories.KupraUsers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,21 +24,28 @@ public class UnFriendController {
     @Resource
     private Friendships friendships;
 
+    @Resource
+    private KupraUsers kupraUsers;
+
     private static final Logger LOG = LoggerFactory.getLogger(UnFriendController.class);
 
     @ResponseBody
     @Transactional
     @RequestMapping(value="/unfriend", method = RequestMethod.POST)
-    public Boolean unfriend(@RequestParam("user_id") Integer friendshipId){
+    public String unfriend(@RequestParam("source_id") String sourceId){
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        KupraUser loggedUser = kupraUsers.findByUsername(auth.getName());
 
-        Friendship friendship = friendships.findOne(friendshipId);
+        Friendship friendship = friendships.findByUsers(kupraUsers.findOne(sourceId), loggedUser);
         if (friendship.isFriendshipStatus()){
             Friendship secondLink = friendships.findByUsers(friendship.getTarget(), friendship.getSource());
-            friendships.delete(secondLink);
+            if (secondLink != null){
+                friendships.delete(secondLink);
+            }
         }
 
         friendships.delete(friendship);
 
-        return true;
+        return "true";
     }
 }
