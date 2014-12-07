@@ -30,6 +30,7 @@ public class FridgeController {
     @Transactional
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteFridgeItem(
+            final FridgeItemsList list,
             @RequestParam(value = "product_id") Integer productId) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
@@ -37,7 +38,15 @@ public class FridgeController {
         kupraUser.removeFromFridgeByProduct(productId);
         kupraUsers.save(kupraUser);
 
-        return "redirect:/fridge";
+        populateFridgeItemsList(list, kupraUser);
+
+        return "fridge :: fridge-content";
+    }
+
+    private void populateFridgeItemsList(FridgeItemsList list, KupraUser kupraUser) {
+        kupraUser.getFridgeItems().parallelStream()
+                .map(this::makeFridgeItemForm)
+                .forEach(list::addItem);
     }
 
     @Transactional
@@ -51,12 +60,6 @@ public class FridgeController {
         return "fridge";
     }
 
-    private void populateFridgeItemsList(FridgeItemsList list, KupraUser kupraUser) {
-        kupraUser.getFridgeItems().parallelStream()
-                .map(this::makeFridgeItemForm)
-                .forEach(list::addItem);
-    }
-
     @ModelAttribute("products")
     public Iterable<Product> getProducts() {
         return this.products.findAll();
@@ -64,7 +67,8 @@ public class FridgeController {
 
     @Transactional
     @RequestMapping(method = RequestMethod.POST)
-    public String submit(@Valid final FridgeAddItemForm form, final FridgeItemsList list,
+    public String addItem(@Valid final FridgeAddItemForm form,
+                          final FridgeItemsList list,
                          final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "fridge";

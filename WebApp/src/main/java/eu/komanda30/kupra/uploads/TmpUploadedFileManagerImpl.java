@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -28,18 +29,27 @@ import com.google.common.io.ByteStreams;
 
 @Component
 @Scope(proxyMode = ScopedProxyMode.INTERFACES, value = WebApplicationContext.SCOPE_SESSION)
-public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager {
-    private final static Logger LOG = LoggerFactory.getLogger(TmpUploadedFileManagerImpl.class);
+public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager, Serializable {
     public static final int THUMB_MAX_WIDTH = 200;
     public static final int THUMB_MAX_HEIGHT = 200;
-
+    private final static Logger LOG = LoggerFactory.getLogger(TmpUploadedFileManagerImpl.class);
+    private final Map<String, Map<String, File>> fileMap = new HashMap<>();
     @Value("${tmp.file.dir}")
     private transient File tmpFileDir;
-
     @Value("${tmp.file.context}")
     private transient String tmpFileContext;
 
-    private final Map<String, Map<String, File>> fileMap = new HashMap<>();
+    @PreDestroy
+    public void preDestroy() {
+        //Delete all temp files
+        for (Map<String, File> files : fileMap.values()) {
+            for (File f : files.values()) {
+                if (f.exists() && !f.delete()) {
+                    LOG.error("Failed to delete temporary uploaded file: {}", f);
+                }
+            }
+        }
+    }
 
     private File prepareFileForNewUpload(String groupId, String fileId, String fileName) {
         Map<String, File> groupFileMap = fileMap.get(groupId);
@@ -123,17 +133,6 @@ public class TmpUploadedFileManagerImpl implements TmpUploadedFileManager {
         return getVirtualPath(groupId+":thumb", fileId);
     }
 
-    @PreDestroy
-    public void preDestroy() {
-        //Delete all temp files
-        for (Map<String, File> files : fileMap.values()) {
-            for (File f : files.values()) {
-                if (f.exists() && !f.delete()) {
-                    LOG.error("Failed to delete temporary uploaded file: {}", f);
-                }
-            }
-        }
-    }
 
     @Override
     public boolean addImageWithThumb(String groupId, String fileId, InputStream stream,

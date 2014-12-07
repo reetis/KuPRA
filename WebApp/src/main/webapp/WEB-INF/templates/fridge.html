@@ -38,33 +38,29 @@
 <body>
 <div th:replace="layout :: header"></div>
 <div class="container">
-    <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
     <h2 th:text="#{fridge.title}">CP test</h2>
 
-
-    <div class="row">
+    <div class="row" th:fragment="fridge-content" id="fridge-content">
         <div th:if="!${#lists.isEmpty(fridgeItemsList.items)}">
             <div class="col-md-12" th:each="itm : ${fridgeItemsList.items}">
-
                 <div class="panel-body">
-                    <span class="col-md-3" th:text="${itm.name}">Pvdn</span>
+                    <span class="col-md-3" th:text="${itm.name}">Bulves</span>
                         <span class="col-md-2">
-                            <span th:text="${itm.amount}">Dscr</span>
-                            <span th:text="${itm.unit}">Dscr</span>
+                            <span th:text="${#numbers.formatDecimal(itm.amount, 0, 2)}">10.00</span>
+                            <span th:text="${itm.unit}">Kg</span>
                         </span>
                         <span class="form-group">
                             <button type="submit" th:attr="product_id=${itm.productId}"
                                     class="btn btn-default btn-lg remove-button"
-                                    th:text="#{fridge.remove}">dlt
+                                    th:text="#{fridge.remove}">Remove
                             </button>
                         </span>
                 </div>
-
             </div>
         </div>
         <div th:if="${#lists.isEmpty(fridgeItemsList.items)}">
             <div class="col-md-12">
-                <p th:text="#{fridge.noitems}">Nrė prdtu</p>
+                <p th:text="#{fridge.noitems}">Nera pridetu</p>
             </div>
         </div>
     </div>
@@ -74,41 +70,37 @@
           id="fridgeAddItemForm"
           th:object="${fridgeAddItemForm}">
 
-        <span class="modal-body  col-md-3">
-
-
+        <span class="form-group col-md-4">
             <div class="dropdown form-group">
                 <div th:if="${!products.isEmpty()}">
-                    <select class="form-control" th:field="*{selectedProductId}">
+                    <select id="product-select" class="form-control"
+                            th:field="*{selectedProductId}">
                         <option value="5"
                                 th:each="product : ${products}"
                                 th:value="${product.id}"
-                                th:text="${product.name}">Vienetas
+                                th:text="${product.name}"
+                                th:attr="kupra-unit=${product.unit.abbreviation}">Vienetas
                         </option>
                     </select>
-
                 </div>
             </div>
-
         </span>
 
-        <span class="form-group col-md-1">
+        <span class="form-group col-md-2">
             <input type="text" class="form-control" placeholder="amount" id="amount"
                    th:field="*{amount}" th:placeholder="#{fridge.amount}"/>
-
         </span>
 
+        <span class="form-group col-md-4">
+            <span id="product-unit" th:text="${products[0].unit.abbreviation}"></span>
+        </span>
 
-        <span class="form-group">
-            <input type="hidden" name="action1" id="action1" value="add"/>
+        <span class="form-group col-md-2">
             <button type="submit" class="btn btn-default btn-lg"
                     th:text="#{fridge.addbtn}">Save
             </button>
         </span>
-
-
     </form>
-
 </div>
 
 <div th:replace="layout :: footer"></div>
@@ -128,6 +120,7 @@
     // <![CDATA[
     +function ($) {
         var deleteUrl = /*[[@{/fridge/delete}]]*/ '#';
+        var addItemUrl = /*[[@{/fridge}]]*/ '#';
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
         $("#newProductCreateButton").click(function () {
             if (submitUrl != '#') {
@@ -138,13 +131,7 @@
             }
         });
 
-        deleteCompletedHandler = function () {
-            console.log('***********************************************');
-            location.reload(true);
-        };
-
         $('.remove-button').click(function (event) {
-            console.log($(this).attr('product_id'));
             formData = new FormData();
             formData.append('product_id', $(this).attr('product_id'));
             $.ajax({
@@ -155,9 +142,14 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                headers: {'X-CSRF-TOKEN': _csrf},
-                success: deleteCompletedHandler
+                headers: {'X-CSRF-TOKEN': _csrf}
+            }).done(function (data) {
+                $('#fridge-content').replaceWith($(data));
             });
+        });
+
+        $('#product-select').change(function () {
+            $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
         });
     }(jQuery);
     // ]]>
