@@ -19,7 +19,7 @@ public interface Friendships extends CrudRepository<Friendship, Integer> {
     @Query("select count(*) from Friendship where target = :user and friendshipStatus = false")
     int getNotificationCount(@Param("user") KupraUser user);
 
-    @Query("select 1 from Friendship " +
+    @Query("select (count(*)>0) from Friendship " +
             "where source = :user1 and target = :user2 and friendshipStatus = true")
     boolean isFriends(@Param("user1") KupraUser user, @Param("user2") KupraUser friend);
 
