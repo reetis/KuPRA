@@ -57,11 +57,12 @@ public class ViewProfileController {
         profileInfo.setFriend(friendships.isFriends(user, targetUser));
         profileInfo.setRequestSent(friendships.isRequestSent(user, targetUser));
         profileInfo.setRequestReceived(friendships.isRequestSent(targetUser, user));
-        profileInfo.setPhoto(targetUserProfile.getMainPhoto());
         profileInfo.setPersonal(user.equals(targetUser));
 
         if (showEverything) {
             allRecipes = recipes.findByUser(targetUser, new PageRequest(0, 100)); //TODO: pataisyti
+
+            profileInfo.setPhoto(targetUserProfile.getMainPhoto());
         } else {
             allRecipes = recipes.findByUserPublic(targetUser, new PageRequest(0, 100)); //TODO: pataisyti
         }

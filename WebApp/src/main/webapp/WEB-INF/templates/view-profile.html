@@ -68,6 +68,12 @@
                                  th:src="${img.imageUrl}"
                                  src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
                     </span>
+                    <span th:if="${profileInfo.photo == null}"
+                          class="uploaded-img-cell">
+                            <img class="img-responsive"
+                                 th:src="@{'~/test-uploads/empty_prof_thumb.jpg'}"
+                                 src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                    </span>
                 </div>
                 <div class="col-xs-7">
                     <p th:text="${profileInfo.description}"></p>
@@ -122,7 +128,7 @@
 
         onSuccesCallback = function(){
             location.reload();
-        }
+        };
 
         if (unfriendButton != null){
             unfriendButton.click(function (event){
