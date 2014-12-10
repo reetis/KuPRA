@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import eu.komanda30.kupra.controllers.menu.MenuItemForm;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
@@ -34,6 +35,10 @@ public class KupraUser {
     @JoinColumn(name = "user_id", nullable = false)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FridgeItem> fridgeContent;
+
+    @JoinColumn(name = "user_id", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Menu> menuListas;
 
     @OneToMany(mappedBy = "author")
     private List<Recipe> recipes;
@@ -109,6 +114,11 @@ public class KupraUser {
                 .filter(item -> item.getProduct().getId() == productId)
                 .collect(Collectors.toList());
         fridgeContent.removeAll(badItems);
+    }
+
+
+    public void addMeniuItem(Menu menuListas) {
+        this.menuListas.add(menuListas);
     }
 
 }

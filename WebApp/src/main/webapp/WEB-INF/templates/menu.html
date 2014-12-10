@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title th:text="#{menu.title}">KstPfr</title>
+
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Material design CSS -->
+    <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
+
+    <!-- Lightbox CSS -->
+    <link th:href="@{/lightbox/css/lightbox.css}" href="../../lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="../../css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="../../css/imgupload.css" rel="stylesheet"/>
+
+    <!-- Kupra CSS -->
+    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+
+    <!-- Custom page CSS -->
+    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js"
+            type="application/javascript"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div th:replace="layout :: header"></div>
+<div class="container">
+    <div class="row">
+        <!--<th:block th:fragment="recipe-list-header(place)" th:with="place='all'">-->
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h1 th:text="#{menu.title}">CP test</h1>
+                    </div>
+                    <div class="col-xs-4">
+                        <button class="btn-default btn" id="newUnitButton" th:title="#{menu.find.products}"
+                                data-toggle="tooltip" data-placement="bottom"
+                                th:text="#{menu.find.products}"
+                                title="Tooltip on bottom">
+                            <!--dfghjkl-->
+                            <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>-->
+                        </button>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="row well">
+
+    </div>
+</div>
+
+    <!--<h2 th:text="#{fridge.title}">CP test</h2>-->
+    <!--<div class="row well">-->
+        <!--<div class="row " th:fragment="fridge-content" id="fridge-content">-->
+            <!--<div th:if="!${#lists.isEmpty(fridgeItemsList.items)}">-->
+                <!--<div class="col-md-12" th:each="itm : ${fridgeItemsList.items}">-->
+                    <!--<div class="panel-body">-->
+                        <!--<span class="col-md-3" th:text="${itm.name}">Bulves</span>-->
+                        <!--<span class="col-md-2">-->
+                            <!--<span th:text="${#numbers.formatDecimal(itm.amount, 0, 2)}">10.00</span>-->
+                            <!--<span th:text="${itm.unit}">Kg</span>-->
+                        <!--</span>-->
+                        <!--<span class="form-group">-->
+                            <!--<button type="submit" th:attr="product_id=${itm.productId}"-->
+                                    <!--class="btn btn-default btn-lg remove-button"-->
+                                    <!--th:text="#{fridge.remove}">Remove-->
+                            <!--</button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div th:if="${#lists.isEmpty(fridgeItemsList.items)}">-->
+                <!--<div class="col-md-12">-->
+                    <!--<p th:text="#{fridge.noitems}">Nera pridetu</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<form class="row well form-horizontal" role="form" action="#" method="post"-->
+              <!--th:action="@{/fridge}"-->
+              <!--id="fridgeAddItemForm"-->
+              <!--th:object="${fridgeAddItemForm}">-->
+
+        <!--<span class="form-group col-md-3">-->
+            <!--<div class="dropdown form-group">-->
+                <!--<div th:if="${!products.isEmpty()}">-->
+                    <!--<select id="product-select" class="form-control"-->
+                            <!--th:field="*{selectedProductId}">-->
+                        <!--<option value="5"-->
+                                <!--th:each="product : ${products}"-->
+                                <!--th:value="${product.id}"-->
+                                <!--th:text="${product.name}"-->
+                                <!--th:attr="kupra-unit=${product.unit.abbreviation}">Vienetas-->
+                        <!--</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</span>-->
+  <!--<span class="form-group col-md-1">-->
+
+        <!--</span>-->
+        <!--<span class="form-group col-md-1">-->
+            <!--<input type="text" class="form-control" placeholder="amount" id="amount"-->
+                   <!--th:field="*{amount}" th:placeholder="#{fridge.amount}"/>-->
+        <!--</span>-->
+
+
+        <!--<span class="form-group col-md-1">-->
+            <!--<span id="product-unit" th:text="${products[0].unit.abbreviation}"></span>-->
+        <!--</span>-->
+
+        <!--<span class="form-group col-md-1">-->
+            <!--<button type="submit" class="btn btn-default btn-lg"-->
+                    <!--th:text="#{fridge.addbtn}">Save-->
+            <!--</button>-->
+        <!--</span>-->
+        <!--</form>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div th:replace="layout :: footer"></div>
+
+<!-- Bootstrap javascript -->
+<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js"
+        type="application/javascript"></script>
+
+<!-- Material design javascript -->
+<script th:src="@{/js/ripples.min.js}" src="../../js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
+
+<!--Kupra javascript-->
+<script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="application/javascript"></script>
+
+<!-- Custom JS -->
+<script type="application/javascript" th:inline="javascript">
+    // <![CDATA[
+    +function ($) {
+        var deleteUrl = /*[[@{/fridge/delete}]]*/ '#';
+        var addItemUrl = /*[[@{/fridge}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+        $("#newProductCreateButton").click(function () {
+            if (submitUrl != '#') {
+                $("#newProductFormContent").load(submitUrl, $("#newProductForm").serializeArray());
+            } else {
+                $("#newProductFormContent").empty();
+                $("#productSavedForm").clone(true).appendTo("#newProductFormContent");
+            }
+        });
+
+        $('.remove-button').click(function (event) {
+            formData = new FormData();
+            formData.append('product_id', $(this).attr('product_id'));
+            $.ajax({
+                url: deleteUrl,
+                type: 'POST',
+                data: formData,
+                async: true,
+                cache: false,
+                contentType: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': _csrf}
+            }).done(function (data) {
+                $('#fridge-content').replaceWith($(data));
+            });
+        });
+
+        $('#product-select').change(function () {
+            $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
+        });
+    }(jQuery);
+    // ]]>
+</script>
+
+</body>
+</html>
