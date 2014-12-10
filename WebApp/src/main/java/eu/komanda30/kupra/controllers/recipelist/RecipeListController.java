@@ -10,10 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
@@ -72,6 +69,23 @@ public class RecipeListController {
         model.addAttribute("section", scope);
         return "recipe-list";
     }
+
+    @Transactional
+    @RequestMapping(value = "/changePrivacy", method = RequestMethod.POST)
+    public String changePrivacy(@RequestParam("recipe_id") Integer recipeId,
+                                @RequestParam("make_public") Boolean makePublic,
+                                @ModelAttribute("rcp") RecipePreview recipePreview) {
+        Recipe recipe = recipes.findOne(recipeId);
+        if (makePublic) {
+            recipe.setPublicAccess(true);
+        } else {
+            recipe.setPublicAccess(false);
+        }
+        recipePreview.setPublicAccess(recipe.isPublicAccess());
+        recipePreview.setRecipeId(recipe.getRecipe_id());
+        return "recipe-list :: privacyButtons";
+    }
+
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public class ResourceNotFoundException extends RuntimeException {}
