@@ -80,6 +80,9 @@ public class RecipeReadController {
                 commentUnit.setAuthor(comment.getAuthor().getUserProfile().getName() + " "
                         + comment.getAuthor().getUserProfile().getSurname() + ": ");
 
+
+                commentUnit.setImage(comment.getAuthor().getUserProfile().getMainPhoto());
+
             } else {
                 commentUnit.setAuthor(comment.getAuthor().getUserId());
             }
@@ -109,7 +112,6 @@ public class RecipeReadController {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date date = new Date();
         dateFormat.format(date);
-
 
         recipes.findOne(recipeId).addRecipeComments(new Comment(addCommentForm.getComment(), kupraUser, date));
 
