@@ -47,17 +47,17 @@
     </div>
 
     <div class="row">
-        <div th:if="${!units.isEmpty()}">
-            <div class="col-md-6" th:each="unit : ${units}">
+        <div th:if="${!#lists.isEmpty(unitsListForm.unitListItemArrayList)}">
+            <div class="col-md-6" th:each="unit : ${unitsListForm.unitListItemArrayList}">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <input type="hidden" th:value="${unit.id}"/>
                         <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">Pvdn</h3>
-                        <button class="btn-default btn unitDeleteButton" id="newProductButton" th:title="#{unit-list.delete_if_nor_used}"
+                        <button class="btn-default btn unitDeleteButton" id="newProductButton"
                                 data-toggle="tooltip" data-placement="bottom"
                                 title="Tooltip on bottom"
-                                th:classappend="${product.isUsed}? 'disabled'"
-                                th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_nor_used}">
+                                th:classappend="${unit.isUsed}? 'disabled'"
+                                th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_nor_used}">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
                         <button class="btn-default btn" id="newProductButton" th:title="#{unit-list.edit}"
@@ -69,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <div th:if="${units.isEmpty()}">
+        <div th:if="${#lists.isEmpty(unitsListForm.unitListItemArrayList)}">
             <div class="col-md-12">
                 <p th:text="#{unitsList.no_units}">Nrė rceptų</p>
             </div>
