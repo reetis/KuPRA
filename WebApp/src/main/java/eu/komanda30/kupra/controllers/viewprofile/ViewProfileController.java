@@ -7,6 +7,10 @@ import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -16,9 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 /**
  * Created by Rytis on 2014-12-02.
@@ -46,23 +47,24 @@ public class ViewProfileController {
         if (targetUser == null) {
             throw new ResourceNotFoundException();
         }
-        final UserProfile targetUserProfile = targetUser.getUserProfile();
+        final UserProfile profile = targetUser.getProfile();
         boolean showEverything = friendships.isFriends(user, targetUser) || userId.contentEquals(auth.getName());
         Iterable<Recipe> allRecipes;
 
-        profileInfo.setName(targetUserProfile.getName());
-        profileInfo.setSurname(targetUserProfile.getSurname());
-        profileInfo.setEmail(targetUserProfile.getEmail());
-        profileInfo.setDescription(targetUserProfile.getDescription());
+        profileInfo.setName(profile.getName());
+        profileInfo.setSurname(profile.getSurname());
+        profileInfo.setEmail(profile.getEmail());
+        profileInfo.setDescription(profile.getDescription());
         profileInfo.setFriend(friendships.isFriends(user, targetUser));
         profileInfo.setRequestSent(friendships.isRequestSent(user, targetUser));
         profileInfo.setRequestReceived(friendships.isRequestSent(targetUser, user));
+        profileInfo.setPhoto(profile.getMainPhoto().orElse(null));
         profileInfo.setPersonal(user.equals(targetUser));
 
         if (showEverything) {
             allRecipes = recipes.findByUser(targetUser, new PageRequest(0, 100)); //TODO: pataisyti
 
-            profileInfo.setPhoto(targetUserProfile.getMainPhoto());
+            profileInfo.setPhoto(profile.getMainPhoto().orElse(null));
         } else {
             allRecipes = recipes.findByUserPublic(targetUser, new PageRequest(0, 100)); //TODO: pataisyti
         }

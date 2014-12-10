@@ -12,6 +12,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.google.common.collect.ImmutableList;
+
 @Component
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS, value = WebApplicationContext.SCOPE_SESSION)
 public class TmpUploadedFileData implements Serializable {
@@ -50,7 +52,7 @@ public class TmpUploadedFileData implements Serializable {
 
     public Collection<String> allFileIds(String groupId) {
         final Map<String, File> map = fileMap.get(groupId);
-        return map != null ? map.keySet() : null;
+        return map != null ? map.keySet() : ImmutableList.of();
     }
 
     public void remove(String groupId, String fileId) {

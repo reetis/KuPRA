@@ -3,12 +3,16 @@ package eu.komanda30.kupra.entity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import org.hibernate.search.annotations.Boost;
+import org.hibernate.search.annotations.Field;
 
 @Embeddable
 public class UserProfile {
@@ -18,10 +22,13 @@ public class UserProfile {
     @Column(length = 64)
     private String surname;
 
+    @Field
     @Column(unique = true, length = 64)
     private String email;
 
+    @Field
     @Column(length = 64)
+    @Boost(0.7f)
     private String description;
 
     @Column(length = 64)
@@ -30,6 +37,11 @@ public class UserProfile {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="user_id", nullable = false)
     private List<UserProfileImage> userProfileImages;
+
+    @Field
+    public String getFullName() {
+        return name + " " + surname;
+    }
 
     public String getName() {
         return name;
@@ -79,7 +91,7 @@ public class UserProfile {
         userProfileImages.add(new UserProfileImage(imgUrl, thumbUrl));
     }
 
-    public UserProfileImage getMainPhoto() {
-        return userProfileImages != null && !userProfileImages.isEmpty() ? userProfileImages.get(0) : null;
+    public Optional<UserProfileImage> getMainPhoto() {
+        return userProfileImages.stream().findFirst();
     }
 }

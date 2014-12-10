@@ -25,8 +25,8 @@ public class SessionDataProvider {
         final KupraUser user = kupraUsers.findOne(username);
 
         final UserDetails result = new UserDetails();
-        result.setName(user.getUserProfile().getName());
-        result.setSurname(user.getUserProfile().getSurname());
+        result.setName(user.getProfile().getName());
+        result.setSurname(user.getProfile().getSurname());
         result.setAdmin(isLoggedUserAdmin());
         return result;
     }

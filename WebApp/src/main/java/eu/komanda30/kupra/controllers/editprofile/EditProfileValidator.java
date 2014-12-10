@@ -47,7 +47,7 @@ public class EditProfileValidator implements Validator {
         final KupraUser user = kupraUsers.findOne(auth.getName());
 
         if ((kupraUsers.findByEmail(form.getEmail()) != null) && !(form.getEmail().equals(
-                user.getUserProfile().getEmail()))) {
+                user.getProfile().getEmail()))) {
             errors.rejectValue("email","AlreadyUsed");
         }
     }

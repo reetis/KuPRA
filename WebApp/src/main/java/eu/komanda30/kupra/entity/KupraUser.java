@@ -1,6 +1,5 @@
 package eu.komanda30.kupra.entity;
 
-import java.awt.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import eu.komanda30.kupra.controllers.menu.MenuItemForm;
+import org.hibernate.search.annotations.Boost;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
@@ -23,12 +25,15 @@ import com.google.common.collect.ImmutableList;
 
 @Table(name="`user`")
 @Entity
+@Indexed
 public class KupraUser {
     @Id
+    @Field(name = "username", boost = @Boost(1.5f))
     private String userId;
 
+    @IndexedEmbedded
     @Embedded
-    private UserProfile userProfile;
+    private UserProfile profile;
 
     private boolean isAdmin;
 
@@ -56,7 +61,7 @@ public class KupraUser {
 
     public KupraUser(String userId, UserProfile profile) {
         this.userId = userId;
-        this.userProfile = profile;
+        this.profile = profile;
         this.isAdmin = false;
     }
 
@@ -64,8 +69,8 @@ public class KupraUser {
         return isAdmin;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
+    public UserProfile getProfile() {
+        return profile;
     }
 
     public String getUserId() {

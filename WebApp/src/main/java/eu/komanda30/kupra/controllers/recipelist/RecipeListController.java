@@ -4,16 +4,22 @@ import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Created by Rytis on 2014-11-27
@@ -58,7 +64,7 @@ public class RecipeListController {
             recipePreview.setDescription(r.getDescription());
             recipePreview.setPublicAccess(r.isPublicAccess());
             recipePreview.setAccessible(user == r.getAuthor());
-            recipePreview.setRecipeId(r.getRecipe_id());
+            recipePreview.setRecipeId(r.getRecipeId());
 
             if (!r.getRecipeImages().isEmpty()) {
                 recipePreview.setRecipeImage(r.getRecipeImages().get(0));
@@ -82,7 +88,7 @@ public class RecipeListController {
             recipe.setPublicAccess(false);
         }
         recipePreview.setPublicAccess(recipe.isPublicAccess());
-        recipePreview.setRecipeId(recipe.getRecipe_id());
+        recipePreview.setRecipeId(recipe.getRecipeId());
         return "recipe-list :: privacyButtons";
     }
 

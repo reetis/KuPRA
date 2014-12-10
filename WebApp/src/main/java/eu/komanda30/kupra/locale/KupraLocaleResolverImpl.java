@@ -28,27 +28,48 @@ public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver imple
 
     @Override
     public LocaleContext resolveLocaleContext(HttpServletRequest httpServletRequest) {
-        return new LocaleContext() {
-            @Override
-            public Locale getLocale() {
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                KupraUser user = kupraUsers.findOne(auth.getName());
-                if (user == null) {
-                    Locale sessionLocale = (Locale) WebUtils.getSessionAttribute(httpServletRequest, LOCALE_SESSION_ATTRIBUTE_NAME);
-                    if (sessionLocale == null) {
-                        return Locale.forLanguageTag(DEFAULT_LOCALE);
-                    } else {
-                        return sessionLocale;
-                    }
-                }
+        return () -> resolveLocaleFromRequest(httpServletRequest);
+    }
 
-                Locale locale = user.getUserProfile().getLocale();
-                if (locale == null) {
-                    locale = Locale.forLanguageTag(DEFAULT_LOCALE);
-                }
-                return locale;
-            }
-        };
+    private Locale resolveLocaleFromRequest(HttpServletRequest httpServletRequest) {
+        Locale locale = getLocaleFromSession(httpServletRequest);
+        if (locale != null) {
+            return locale;
+        }
+
+        locale = getLocaleFromAuth();
+        if (locale != null) {
+            saveLocaleInSession(httpServletRequest, locale);
+            return locale;
+        }
+
+        locale = Locale.forLanguageTag(DEFAULT_LOCALE);
+        saveLocaleInSession(httpServletRequest, locale);
+        return locale;
+    }
+
+    private Locale getLocaleFromSession(HttpServletRequest httpServletRequest) {
+        return (Locale) WebUtils.getSessionAttribute(
+                httpServletRequest, LOCALE_SESSION_ATTRIBUTE_NAME);
+    }
+
+    private Locale getLocaleFromAuth() {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+
+        final KupraUser user = kupraUsers.findOne(auth.getName());
+        if (user == null) {
+            return null;
+        }
+
+        return user.getProfile().getLocale();
+    }
+
+    private void saveLocaleInSession(HttpServletRequest httpServletRequest, Locale locale) {
+        WebUtils.setSessionAttribute(httpServletRequest,
+                LOCALE_SESSION_ATTRIBUTE_NAME, locale);
     }
 
     @Transactional
@@ -57,9 +78,9 @@ public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver imple
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         KupraUser user = kupraUsers.findOne(auth.getName());
         if (user==null) {
-            WebUtils.setSessionAttribute(httpServletRequest, "Locale", localeContext.getLocale());
+            saveLocaleInSession(httpServletRequest, localeContext.getLocale());
         } else {
-            user.getUserProfile().setLocale(localeContext.getLocale());
+            user.getProfile().setLocale(localeContext.getLocale());
         }
         kupraUsers.save(user);
     }

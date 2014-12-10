@@ -1,8 +1,10 @@
 package eu.komanda30.kupra.controllers.unit;
 
-import eu.komanda30.kupra.services.ProductManager;
+import eu.komanda30.kupra.entity.Unit;
+import eu.komanda30.kupra.repositories.Units;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,7 @@ public class UnitController {
     private NewUnitFormValidator newUnitFormValidator;
 
     @Resource
-    private ProductManager productManager;
+    private Units units;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -34,6 +36,7 @@ public class UnitController {
         return "newUnit :: newUnitForm";
     }
 
+    @Transactional
     @RequestMapping(value="add", method = RequestMethod.POST)
     public String submit(@Valid final NewUnitForm form,
                          final BindingResult bindingResult) {
@@ -41,7 +44,11 @@ public class UnitController {
             return "newUnit :: newUnitForm";
         }
 
-        productManager.addProductUnit(form.getName(), form.getAbbreviation());
+        final Unit newUnit = new Unit();
+        newUnit.setName(form.getName());
+        newUnit.setAbbreviation(form.getAbbreviation());
+        units.save(newUnit);
+
         return "newUnit :: unitSavedForm";
     }
 }

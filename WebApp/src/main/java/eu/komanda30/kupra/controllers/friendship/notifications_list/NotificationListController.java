@@ -4,6 +4,11 @@ import eu.komanda30.kupra.entity.Friendship;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.repositories.Friendships;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -11,9 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @Controller
 @RequestMapping("/friends")
@@ -38,7 +40,7 @@ public class NotificationListController {
 
             KupraUser kupraUser = friendship.getFriendOf(loggedUserId);
 
-            UserProfile userProfile = kupraUser.getUserProfile();
+            UserProfile userProfile = kupraUser.getProfile();
 
             notificationListUnit.setName(userProfile.getName());
             notificationListUnit.setSurname(userProfile.getSurname());

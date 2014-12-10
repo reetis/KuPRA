@@ -84,6 +84,12 @@ public class PersistenceConfig {
         props.put(AvailableSettings.CACHE_REGION_FACTORY, EhCacheRegionFactory.class.getName());
         props.put(AvailableSettings.RELEASE_CONNECTIONS, "after_transaction");
         props.put(org.hibernate.jpa.AvailableSettings.NAMING_STRATEGY, ImprovedNamingStrategy.class.getName());
+
+        props.put("hibernate.search.default.directory_provider",
+                environment.getRequiredProperty("hibernate.search.default.directory_provider"));
+        props.put("hibernate.search.default.indexBase",
+                environment.getRequiredProperty("hibernate.search.default.indexBase"));
+
         bean.setJpaPropertyMap(props);
 
         bean.setPackagesToScan("eu.komanda30.kupra.entity");

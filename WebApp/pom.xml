@@ -163,6 +163,12 @@
             <version>0.7-groovy-2.0</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>4.5.2.Final</version>
+        </dependency>
     </dependencies>
 
     <profiles>

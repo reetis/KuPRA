@@ -3,7 +3,6 @@ package eu.komanda30.kupra.controllers.editprofile;
 import eu.komanda30.kupra.UploadUtils;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.UserProfile;
-import eu.komanda30.kupra.entity.UserProfileImage;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
 import eu.komanda30.kupra.uploads.UploadedImageInfo;
@@ -38,9 +37,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/profile")
 @Controller
 public class EditProfileController {
-    private final static Logger LOG = LoggerFactory.getLogger(EditProfileController.class);
     public static final String MAIN_PHOTO_REPO_ID = "mainPhoto";
-
+    private final static Logger LOG = LoggerFactory.getLogger(EditProfileController.class);
     @Resource
     private KupraUsers kupraUsers;
 
@@ -72,7 +70,7 @@ public class EditProfileController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser user = kupraUsers.findOne(auth.getName());
-        final UserProfile profile = user.getUserProfile();
+        final UserProfile profile = user.getProfile();
 
         form.setTmpId(UUID.randomUUID().toString());
         form.setName(profile.getName());
@@ -80,28 +78,15 @@ public class EditProfileController {
         form.setEmail(profile.getEmail());
         form.setDescription(profile.getDescription());
 
-        final UserProfileImage mainPhoto = profile.getMainPhoto();
-        if (mainPhoto != null) {
-            profilePhotoList.setMainPhoto(
-                    new UploadedImageInfo(MAIN_PHOTO_REPO_ID,
-                            mainPhoto.getImageUrl(), mainPhoto.getThumbUrl()));
-        }
+        profilePhotoList.setMainPhoto(
+                profile.getMainPhoto().map(p ->
+                        new UploadedImageInfo(
+                                MAIN_PHOTO_REPO_ID,
+                                p.getImageUrl(),
+                                p.getThumbUrl()))
+                        .orElse(null));
 
         return "editProfile";
-    }
-
-    private File copyToProfileDir(File imgFile) {
-        if (!profileImgDir.exists() && !profileImgDir.mkdirs()) {
-            LOG.error("Failed to create recipe image upload directory: {}", profileImgDir.getAbsolutePath());
-        }
-        final File outFile = new File(profileImgDir, imgFile.getName());
-        try {
-            FileCopyUtils.copy(imgFile, outFile);
-            return outFile;
-        } catch (IOException e) {
-            LOG.error("Failed to copy image to recipe image directory!", e);
-            return null;
-        }
     }
 
     @Transactional
@@ -126,7 +111,7 @@ public class EditProfileController {
             user.setPassword(passForm.getPassword(), passwordEncoder);
         }
 
-        final UserProfile profile = user.getUserProfile();
+        final UserProfile profile = user.getProfile();
         profile.setName(form.getName());
         profile.setSurname(form.getSurname());
         profile.setEmail(form.getEmail());
@@ -149,6 +134,21 @@ public class EditProfileController {
         }
 
         return "redirect:/";
+    }
+
+    private File copyToProfileDir(File imgFile) {
+        if (!profileImgDir.exists() && !profileImgDir.mkdirs()) {
+            LOG.error("Failed to create recipe image upload directory: {}",
+                    profileImgDir.getAbsolutePath());
+        }
+        final File outFile = new File(profileImgDir, imgFile.getName());
+        try {
+            FileCopyUtils.copy(imgFile, outFile);
+            return outFile;
+        } catch (IOException e) {
+            LOG.error("Failed to copy image to recipe image directory!", e);
+            return null;
+        }
     }
 
     @RequestMapping(value="uploadPhoto", method = RequestMethod.POST)
