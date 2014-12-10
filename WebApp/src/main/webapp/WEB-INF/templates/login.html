@@ -59,10 +59,11 @@
                        th:field="*{password}" th:placeholder="#{loginForm.password}"/>
                     <span class="help-block"
                           th:if="${#fields.hasErrors('password')}"
-                          th:errors="*{password}">Password error</span><!--<p>-->
-                <!--<a th:text="#{loginForm.forgotPassword}">Forgot your password?</a>-->
-<!--</p>-->
+                          th:errors="*{password}">Password error</span>
             </div>
+            <p>
+                <a class="col-xs-12 form-group" th:text="#{loginForm.forgotPassword}">Forgot your password?</a>
+            </p>
         </div>
 
         <div class="row" th:if="${#fields.hasGlobalErrors()}">
