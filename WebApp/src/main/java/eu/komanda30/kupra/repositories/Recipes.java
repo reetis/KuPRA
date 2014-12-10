@@ -1,7 +1,6 @@
 package eu.komanda30.kupra.repositories;
 
 import eu.komanda30.kupra.entity.KupraUser;
-import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Recipe;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -28,7 +27,4 @@ public interface Recipes extends CrudRepository<Recipe, Integer> {
 
     @Query("select distinct r from Recipe r left join r.author.friendships f where r.author = :user or f.target = :user or r.publicAccess = true")
     List<Recipe> findAllAccessible(@Param("user") KupraUser user, Pageable pageable);
-
-    @Query("select (count(*) > 0) from RecipeProduct r where r.product = :product")
-    Boolean isUsedProduct(@Param("product") Product product);
 }

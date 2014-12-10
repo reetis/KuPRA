@@ -29,7 +29,7 @@ public class RemoveProductController {
         public String deleteUnit(@RequestParam("product_id") Integer unitId) {
             Product product = products.findOne(unitId);
             if (product != null){
-                if (recipes.isUsedProduct(product)){
+                if (products.isUsedInRecipes(product) || products.isUsedInFridge(product)){
                     return "false";
                 }else{
                     products.delete(product);

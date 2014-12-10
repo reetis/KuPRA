@@ -12,4 +12,10 @@ public interface Products extends CrudRepository<Product, Integer> {
     @Query("select (count(*) > 0) from Product p where p.unit = :unit")
     Boolean isUsedUnit(@Param("unit") Unit unit);
 
+    @Query("select (count(*) > 0) from RecipeProduct r where r.product = :product")
+    Boolean isUsedInRecipes(@Param("product") Product product);
+
+    @Query("select (count(*) > 0) from FridgeItem f where f.product = :product")
+    Boolean isUsedInFridge(@Param("product") Product product);
+
 }

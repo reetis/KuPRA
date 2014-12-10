@@ -31,7 +31,7 @@ public class ProductsListController {
         Iterable<Product> allProducts = products.findAll();
         for(Product p : allProducts){
             final ProductItem fridgesItem = new ProductItem();
-            fridgesItem.setIsUsed(recipes.isUsedProduct(p));
+            fridgesItem.setIsUsed(products.isUsedInFridge(p) || products.isUsedInRecipes(p));
             fridgesItem.setProductId(p.getId());
             fridgesItem.setName(p.getName());
             fridgesItem.setUnit(p.getUnit().getAbbreviation());
