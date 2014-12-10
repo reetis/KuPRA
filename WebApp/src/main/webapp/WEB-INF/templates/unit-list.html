@@ -55,7 +55,9 @@
                         <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">Pvdn</h3>
                         <button class="btn-default btn unitDeleteButton" id="newProductButton" th:title="#{unit-list.delete_if_nor_used}"
                                 data-toggle="tooltip" data-placement="bottom"
-                                title="Tooltip on bottom">
+                                title="Tooltip on bottom"
+                                th:classappend="${product.isUsed}? 'disabled'"
+                                th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_nor_used}">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
                         <button class="btn-default btn" id="newProductButton" th:title="#{unit-list.edit}"
@@ -98,11 +100,6 @@
 
         unitDeleteUrl = /*[[@{/unit/delete}]]*/ '#'
         unitDeleteButtons = $(".unitDeleteButton");
-
-        onSuccessCalldabck = function(response){
-            console.log(response);
-            location.reload();
-        }
 
         if (unitDeleteButtons != null){
             unitDeleteButtons.click(function(){

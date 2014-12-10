@@ -54,15 +54,16 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <h3 th:text="${product.name}+' ('+${product.unit}+')'" class="small-title">Pvdn</h3>
-
+                        <input type="hidden" th:value="${product.productId}"/>
                         <p th:text="${product.description}">Dscr</p>
-                        <button class="btn-default btn" id="newProductButton"
-                                th:title="#{products-list.delete_if_nor_used}"
+                        <button class="btn-default btn productDeleteButton" id="product-delete-button"
                                 data-toggle="tooltip" data-placement="bottom"
-                                title="Tooltip on bottom">
+                                title="Tooltip on bottom"
+                                th:classappend="${product.isUsed}? 'disabled'"
+                                th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_nor_used}">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
-                        <button class="btn-default btn" id="newProductButton" th:title="#{products-list.edit}"
+                        <button class="btn-default btn" id="product-delete-button" th:title="#{products-list.edit}"
                                 data-toggle="tooltip" data-placement="bottom"
                                 title="Tooltip on bottom">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -95,5 +96,30 @@
 <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
 
 <!-- Custom JS -->
+<script type="application/javascript" th:inline="javascript">
+    +function($){
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+        productDeleteUrl = /*[[@{/product/delete}]]*/ '#'
+        productDeleteButtons = $(".productDeleteButton");
+
+        if (productDeleteButtons != null){
+            productDeleteButtons.click(function(){
+                productId = $(this).parent().find('input').val();
+                $.ajax({
+                    url: productDeleteUrl,
+                    type: 'POST',
+                    data: {'product_id': productId},
+                    asynch: true,
+                    cache: false,
+                    headers: {'X-CSRF-TOKEN': _csrf}
+                }).done(function(){
+                    location.reload();
+                });
+
+            });
+        }
+    }(jQuery);
+</script>
 </body>
 </html>

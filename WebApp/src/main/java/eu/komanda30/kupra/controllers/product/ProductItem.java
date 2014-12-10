@@ -4,9 +4,11 @@ package eu.komanda30.kupra.controllers.product;
  * Created by Gintare on 2014-12-02.
  */
 public class ProductItem {
+    private int productId;
     private String name;
     private String unit;
     private String description;
+    private Boolean isUsed;
 
     public String getName() {
         return name;
@@ -30,5 +32,21 @@ public class ProductItem {
 
     public void setDescription(String amount) {
         this.description = amount;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public Boolean getIsUsed() {
+        return isUsed;
+    }
+
+    public void setIsUsed(Boolean isUsed) {
+        this.isUsed = isUsed;
     }
 }
