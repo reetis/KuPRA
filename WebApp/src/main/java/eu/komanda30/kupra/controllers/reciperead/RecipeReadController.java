@@ -103,7 +103,7 @@ public class RecipeReadController {
                          @PathVariable Integer recipeId) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/recipes/read/{recipeId}";
+            return "recipeRead";
         }
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
