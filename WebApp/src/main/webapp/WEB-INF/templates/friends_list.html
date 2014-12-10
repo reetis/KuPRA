@@ -59,6 +59,16 @@
                 <div class="panel panel-default">
                     <div class="panel-body" id="Test_id">
                         <a th:href="@{'/user/'+${unit.userId}}">
+                            <span class="col-md-4">
+                                <img class="img-responsive" th:if="${unit.image != null}"
+                                     th:src="${unit.image.thumbUrl}"
+                                     src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+
+                                <img class="img-responsive" th:if="${unit.image == null}"
+                                     th:src="@{'~/test-uploads/empty_prof_thumb.jpg'}"
+                                     src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+
+                            </span>
                             <p th:text="${unit.name} + ' ' + ${unit.surname}"></p>
                             <input class="source_id" name="source_id" type="hidden" th:value="${unit.sourceId}"/>
                         </a>
@@ -106,7 +116,7 @@
 
         onSuccesCallback = function(){
             location.reload();
-        }
+        };
 
         if (unfriendButtons != null){
             unfriendButtons.click(function (event){

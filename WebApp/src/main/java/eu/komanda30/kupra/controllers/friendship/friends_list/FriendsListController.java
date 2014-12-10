@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
@@ -24,6 +25,7 @@ public class FriendsListController {
     @Resource
     private Friendships friendships;
 
+    @Transactional
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public String showFriendsList(final FriendListForm form) {
 
@@ -43,6 +45,7 @@ public class FriendsListController {
             friendListUnit.setSurname(userProfile.getSurname());
             friendListUnit.setSourceId(friendship.getSource().getUserId());
             friendListUnit.setUserId(kupraUser.getUserId());
+            friendListUnit.setImage(kupraUser.getUserProfile().getMainPhoto());
 
             form.addFriendListUnit(friendListUnit);
         }
