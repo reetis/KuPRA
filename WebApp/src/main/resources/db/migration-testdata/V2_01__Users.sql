@@ -26,7 +26,7 @@ INSERT INTO public."user" (user_id, name, surname, email, is_admin)
 VALUES ('gintare_stalygaite', 'Gintare', 'Stalygaite', 'gintare_stalygaite@gmail.com', FALSE);
 
 INSERT INTO public."user" (user_id, name, surname, email, is_admin)
-VALUES ('lukas_babelis', 'Lukas', 'Babelis', 'lukas_babelis@gmail.com', FALSE);
+VALUES ('lukas_babelis', 'Lukas', 'Babelis', 'lukas_babelis@gmail.com', TRUE);
 
 
 INSERT INTO password_auth (username, password, user_id)
