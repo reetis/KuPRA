@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 public class FridgeItemForm {
     private String name;
     private String unit;
+
     private BigDecimal amount;
+
     private int productId;
 
     public String getName() {
