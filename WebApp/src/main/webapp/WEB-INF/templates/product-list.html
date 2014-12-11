@@ -57,14 +57,14 @@
                         <input type="hidden" th:value="${product.productId}"/>
                         <p th:text="${product.description}">Dscr</p>
                         <button class="btn-default btn productDeleteButton" id="product-delete-button"
-                                data-toggle="tooltip" data-placement="bottom"
+                                data-tooltip="true" data-placement="bottom"
                                 title="Tooltip on bottom"
                                 th:classappend="${product.isUsed}? 'disabled'"
                                 th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_nor_used}">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
                         <button class="btn-default btn" id="product-delete-button" th:title="#{products-list.edit}"
-                                data-toggle="tooltip" data-placement="bottom"
+                                data-tooltip="true" data-placement="bottom"
                                 title="Tooltip on bottom">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>

@@ -39,7 +39,7 @@
                     <div class="navbar-logo">
                         <a href="/" th:href="@{~/}">
                             <img th:src="@{/images/kuprele.png}" src="../../images/kuprele.png" class=" linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" style="height: 55px; width: 90px"/>
+                                 data-tooltip="true" data-placement="bottom" style="height: 55px; width: 90px"/>
                         </a>
                     </div>
 
@@ -53,31 +53,31 @@
                         <a href="menu.html" th:href="@{~/menu}" >
                             <img th:src="@{/images/list_white.png}" src="../../images/list_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.menu}"/>
                         </a>
                         <a href="#">
                             <img th:src="@{/images/search_white.png}" src="../../images/search_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.filter}"/>
                         </a>
                         <a href="editProfile.html" th:href="@{~/profile/edit}">
                             <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.profile}"/>
                         </a>
                         <a href="recipe-list.html" th:href="@{~/recipes}">
                             <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.recipes}"/>
                         </a>
                         <a href="friends_list.html" th:href="@{~/friends/list}" class="link">
                             <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.friends}"/>
                             <span class="friends-notification" th:if="${@sessionData.notificationCount > 0}"
                                   th:text="${@sessionData.notificationCount > 99} ? '99+' : ${@sessionData.notificationCount}">
@@ -87,27 +87,27 @@
                         <a href="#" th:href="@{~/fridge}">
                             <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.fridge}"/>
                         </a>
                         <a href="unit-list.html" th:href="@{~/unit-list}">
                             <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.units}"
                                  th:if="${@sessionData.loggedUserAdmin}"/>
                         </a>
                         <a href="product-list.html" th:href="@{~/product-list}">
                             <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.ingredients}"
                                  th:if="${@sessionData.loggedUserAdmin}"/>
                         </a>
                         <a href="#">
                             <img th:src="@{/images/logout_white.png}" src="../../images/logout_white.png"
                                  class="navbarImage linkImage"
-                                 data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                                 data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.logout}"
                                  onclick="document.getElementById('logout').submit();"/>
                         </a>
@@ -131,36 +131,36 @@
                     <div class="col-xs-12">
                         <img th:src="@{/images/list_white.png}" src="../../images/list_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.menu}"/>
                         <img th:src="@{/images/search_white.png}" src="../../images/search_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.filter}"/>
                         <img th:src="@{/images/profile_white.png}" src="../../images/profile_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.profile}"/>
                         <img th:src="@{/images/recipes_white.png}" src="../../images/recipes_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.recipes}"/>
                         <img th:src="@{/images/friends_white.png}" src="../../images/friends_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.friends}"/>
                         <img th:src="@{/images/fridge_white.png}" src="../../images/fridge_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.fridge}"/>
                         <img th:src="@{/images/ruler_white.png}" src="../../images/ruler_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.units}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
                         <img th:src="@{/images/meat_white.png}" src="../../images/meat_white.png"
                              class="navbarImage linkImage"
-                             data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
+                             data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
                              th:title="#{layout.ingredients}"
                              th:if="${@sessionData.loggedUserAdmin}"/>
                     </div>

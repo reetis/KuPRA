@@ -31,7 +31,7 @@
     <div th:fragment="newUnitButton">
         <!-- Button trigger modal -->
         <button class="btn-default btn" id="newUnitButton" th:title="#{units-list.add_unit}"
-                data-toggle="tooltip" data-placement="bottom"
+                data-tooltip="true" data-placement="bottom"
                 title="Tooltip on bottom">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
@@ -124,7 +124,6 @@
                         } else {
                             $("#newUnitFormContent").empty();
                             $("#unitSavedForm").clone(true).appendTo("#newUnitFormContent");
-
                         }
                     });
                 }(jQuery);

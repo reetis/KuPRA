@@ -54,14 +54,14 @@
                         <input type="hidden" th:value="${unit.id}"/>
                         <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">Pvdn</h3>
                         <button class="btn-default btn unitDeleteButton" id="newProductButton"
-                                data-toggle="tooltip" data-placement="bottom"
+                                data-tooltip="true" data-placement="bottom"
                                 title="Tooltip on bottom"
                                 th:classappend="${unit.isUsed}? 'disabled'"
                                 th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_nor_used}">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
                         <button class="btn-default btn" id="newProductButton" th:title="#{unit-list.edit}"
-                                data-toggle="tooltip" data-placement="bottom"
+                                data-tooltip="true" data-placement="bottom"
                                 title="Tooltip on bottom">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>

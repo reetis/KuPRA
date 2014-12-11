@@ -2,7 +2,7 @@
     $(document).ready(function() {
         $.material.init();
 
-        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+        $("body").tooltip({ selector: '[data-tooltip=true]' });
 
         $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
             var input = $(this).parents('.input-group').find(':text'), log = numFiles > 1 ? numFiles + ' files selected' : label;
