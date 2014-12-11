@@ -31,6 +31,8 @@ public class RecipeReadForm {
 
     private Date date;
 
+    private ArrayList<RecipeProductUnit> recipeProducts = new ArrayList<RecipeProductUnit>();
+
     public KupraUser getKupraUser() {
         return kupraUser;
     }
@@ -118,5 +120,20 @@ public class RecipeReadForm {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public void setComments(ArrayList<CommentUnit> comments) {
+        this.comments = comments;
+    }
+
+    public ArrayList<RecipeProductUnit> getRecipeProducts() {
+        return recipeProducts;
+    }
+
+    public void addRecipeProducts(RecipeProductUnit recipeProduct) {
+        if (recipeProducts.isEmpty()){
+            recipeProducts = new ArrayList<RecipeProductUnit>();
+        }
+        this.recipeProducts.add(recipeProduct);
     }
 }

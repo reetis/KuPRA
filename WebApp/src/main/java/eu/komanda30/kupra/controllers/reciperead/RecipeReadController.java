@@ -1,8 +1,6 @@
 package eu.komanda30.kupra.controllers.reciperead;
 
-import eu.komanda30.kupra.entity.Comment;
-import eu.komanda30.kupra.entity.KupraUser;
-import eu.komanda30.kupra.entity.Recipe;
+import eu.komanda30.kupra.entity.*;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
@@ -65,6 +63,16 @@ public class RecipeReadController {
         form.setDate(recipe.getRecipeDate());
 
         final List<Comment> commentList = recipe.getRecipeComments();
+        List<RecipeProduct> productList = recipe.getRecipeProductList();
+
+        for (RecipeProduct recipeProduct: productList){
+            Product product = recipeProduct.getProduct();
+            RecipeProductUnit recipeProductUnit = new RecipeProductUnit();
+            recipeProductUnit.setName(product.getName());
+            recipeProductUnit.setQuantity(recipeProduct.getQuantity());
+            recipeProductUnit.setUnit(product.getUnit().getAbbreviation());
+            form.addRecipeProducts(recipeProductUnit);
+        }
 
         for (Comment comment : commentList) {
             final CommentUnit commentUnit = new CommentUnit();
