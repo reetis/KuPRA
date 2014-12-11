@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 @SuppressWarnings("UnusedDeclaration")
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    private final static long BYTES_IN_MB = 2>>20;
+    private final static long BYTES_IN_MB = 2 << 19;
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
