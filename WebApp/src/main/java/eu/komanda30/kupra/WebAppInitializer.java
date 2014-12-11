@@ -43,7 +43,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         final MultipartConfigElement multipartConfigElement =
                 new MultipartConfigElement(
-                        UploadConfiguration.UPLOAD_DIRECTORY.getAbsolutePath(),
+                        "",
                         UploadConfiguration.MAX_UPLOAD_FILE_SIZE_MB * BYTES_IN_MB,
                         UploadConfiguration.MAX_REQUEST_SIZE_MB * BYTES_IN_MB,
                         (int)(UploadConfiguration.MAX_FILE_THRESHOLD_MB * BYTES_IN_MB) );
