@@ -8,17 +8,13 @@ import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.services.RecipeFinder;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import org.apache.avro.reflect.Nullable;
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.BooleanJunction;
 import org.hibernate.search.query.dsl.QueryBuilder;
@@ -30,8 +26,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class RecipeFinderImpl implements RecipeFinder {
+    public static final float THRESHOLD = 0.1f;
     private static final Logger LOGGER = LoggerFactory.getLogger(RecipeFinderImpl.class);
-
     @Resource
     private EntityManager entityManager;
 
@@ -54,30 +50,35 @@ public class RecipeFinderImpl implements RecipeFinder {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Transactional
     @Override
-    public List<Recipe> searchForRecipes(String searchText) {
+    public List<Recipe> searchForRecipes(String searchText, int maxResults) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser user = kupraUsers.findByUsername(auth.getName());
+        final List<Friendship> friends = friendships.findFriendsOf(user.getUserId());
+
         final FullTextEntityManager fullTextEntityManager = Search
                 .getFullTextEntityManager(entityManager);
 
         final QueryBuilder qb = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder().forEntity(Recipe.class).get();
 
-        final Query query = qb.bool()
-                .should(sharedRecipesByText(searchText, qb))
-                .should(publicRecipesByText(searchText, qb)).createQuery();
+        final Query query;
+        if (friends.isEmpty()) {
+            query = publicRecipesByText(searchText, qb);
+        } else {
+            query = qb.bool()
+                    .should(sharedRecipesByText(friends, searchText, qb))
+                    .should(publicRecipesByText(searchText, qb))
+                    .createQuery();
+        }
 
-        final FullTextQuery textQuery = fullTextEntityManager
-                .createFullTextQuery(query, Recipe.class);
+        final javax.persistence.Query jpaQuery = fullTextEntityManager
+                .createFullTextQuery(query, Recipe.class)
+                .setMaxResults(maxResults);
 
-        return textQuery.getResultList();
-    }
-
-    private Query sharedRecipesByText(String searchText, QueryBuilder qb) {
-        return qb.bool()
-                .must(sharedRecipesQuery(qb))
-                .must(allFieldsQuery(searchText, qb))
-                .createQuery();
+        return (List<Recipe>) jpaQuery.getResultList();
     }
 
     private Query publicRecipesByText(String searchText, QueryBuilder qb) {
@@ -87,22 +88,41 @@ public class RecipeFinderImpl implements RecipeFinder {
                 .createQuery();
     }
 
-    private Query sharedRecipesQuery(QueryBuilder qb) {
-        final Query friendQuery = friendRecipesQuery(qb);
-        final Query ownQuery = ownedRecipesQuery(qb);
+    private Query sharedRecipesByText(List<Friendship> friends, String searchText,
+                                      QueryBuilder qb) {
+        return qb.bool()
+                .must(sharedRecipesQuery(friends, qb))
+                .must(allFieldsQuery(searchText, qb))
+                .createQuery();
+    }
 
-        if (friendQuery == null) {
-            return ownQuery;
-        } else {
-            return qb.bool()
-                    .should(ownQuery)
-                    .should(friendQuery)
-                    .createQuery();
-        }
+    private Query publicRecipesQuery(QueryBuilder qb) {
+        return qb.keyword().onField("publicAccess")
+                .matching(Boolean.TRUE)
+                .createQuery();
+    }
+
+    private Query publicFieldsQuery(String searchText, QueryBuilder qb) {
+        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(3)
+                .onFields(
+                        "name",
+                        "description",
+                        "processDescription",
+                        "productNames",
+                        "author.username")
+                .matching(searchText.trim())
+                .createQuery();
+    }
+
+    private Query sharedRecipesQuery(List<Friendship> friends, QueryBuilder qb) {
+        return qb.bool()
+                .should(ownedRecipesQuery(qb))
+                .should(friendRecipesQuery(friends, qb))
+                .createQuery();
     }
 
     private Query allFieldsQuery(String searchText, QueryBuilder qb) {
-        return qb.keyword().fuzzy().withPrefixLength(3)
+        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(3)
                 .onFields(
                         "name",
                         "description",
@@ -114,49 +134,23 @@ public class RecipeFinderImpl implements RecipeFinder {
                 .createQuery();
     }
 
-    private Query publicRecipesQuery(QueryBuilder qb) {
-        return qb.keyword().onField("publicAccess")
-                .matching(Boolean.TRUE)
-                .createQuery();
-    }
-
-    private Query publicFieldsQuery(String searchText, QueryBuilder qb) {
-        return qb.keyword().fuzzy().withPrefixLength(3)
-                .onFields(
-                        "name",
-                        "description",
-                        "processDescription",
-                        "productNames",
-                        "author.username")
-                .matching(searchText.trim())
-                .createQuery();
-    }
-
-    @Nullable
-    private Query friendRecipesQuery(QueryBuilder qb) {
+    private Query ownedRecipesQuery(QueryBuilder qb) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        final KupraUser user = kupraUsers.findByUsername(auth.getName());
+        return qb.keyword().onField("author.username").matching(auth.getName())
+                .createQuery();
+    }
 
-        final Set<Query> queries = friendships.findFriendsOf(user.getUserId())
-                .parallelStream()
+    private Query friendRecipesQuery(List<Friendship> friends, QueryBuilder qb) {
+        final BooleanJunction<BooleanJunction> junction = qb.bool();
+
+        friends.parallelStream()
                 .map(Friendship::getTarget)
                 .map(friend -> qb.keyword()
                         .onField("author.username")
                         .matching(friend.getUserId())
                         .createQuery())
-                .collect(Collectors.toSet());
-        if (queries.isEmpty()) {
-            return null;
-        } else {
-            final BooleanJunction<BooleanJunction> junction = qb.bool();
-            queries.stream().forEach(junction::should);
-            return junction.createQuery();
-        }
-    }
+                .forEach(junction::should);
 
-    private Query ownedRecipesQuery(QueryBuilder qb) {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return qb.keyword().onField("author.username").matching(auth.getName())
-                .createQuery();
+        return junction.createQuery();
     }
 }

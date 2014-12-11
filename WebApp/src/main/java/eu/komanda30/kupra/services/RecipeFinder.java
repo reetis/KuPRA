@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface RecipeFinder {
     void indexRecipes();
-    List<Recipe> searchForRecipes(String searchText);
+    List<Recipe> searchForRecipes(String searchText, int maxResults);
 }

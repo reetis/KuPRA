@@ -10,7 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface Friendships extends CrudRepository<Friendship, Integer> {
-    @Query("select f from Friendship f join f.target s where (s.id = :user_id) and f.friendshipStatus = true")
+    @Query("select f from Friendship f join f.source s where (s.id = :user_id) and f.friendshipStatus = true")
     List<Friendship> findFriendsOf(@Param("user_id") String userId);
 
     @Query("select f from Friendship f join f.target s where (s.id = :user_id) and f.friendshipStatus = false")

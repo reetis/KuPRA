@@ -45,7 +45,7 @@ public class FriendsListController {
 
             friendListUnit.setName(userProfile.getName());
             friendListUnit.setSurname(userProfile.getSurname());
-            friendListUnit.setSourceId(friendship.getSource().getUserId());
+            friendListUnit.setSourceId(friendship.getTarget().getUserId());
             friendListUnit.setUserId(kupraUser.getUserId());
             friendListUnit.setImage(kupraUser.getProfile().getMainPhoto().orElse(null));
 

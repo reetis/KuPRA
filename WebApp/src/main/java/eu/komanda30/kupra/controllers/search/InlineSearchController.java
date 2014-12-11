@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/search")
 public class InlineSearchController {
+    public static final int USER_MAX_RESULTS = 3;
+    public static final int RECIPE_MAX_RESULTS = 3;
     @Resource
     private UserFinder userFinder;
 
@@ -29,11 +31,11 @@ public class InlineSearchController {
     @RequestMapping(method = RequestMethod.GET)
     public String showForm(@ModelAttribute("results") final InlineSearchResultForm form,
                            @RequestParam("query") final String query) {
-        userFinder.searchForUsers(query).parallelStream()
+        userFinder.searchForUsers(query, USER_MAX_RESULTS).parallelStream()
                 .map(this::userToResultRow)
                 .forEach(form::addPersonRow);
 
-        recipeFinder.searchForRecipes(query).parallelStream()
+        recipeFinder.searchForRecipes(query, RECIPE_MAX_RESULTS).parallelStream()
                 .map(this::recipeToResultRow)
                 .forEach(form::addRecipeRow);
 

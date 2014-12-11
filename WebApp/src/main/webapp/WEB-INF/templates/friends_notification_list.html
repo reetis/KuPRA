@@ -110,14 +110,13 @@
 
         onSuccesCallback = function(){
             location.reload();
-        }
+        };
 
         denyRequestButtons = $('.deny_request_button');
 
         if (denyRequestButtons != null){
             denyRequestButtons.click(function (event){
                 source_id = $(this).parent().find('input').val();
-                console.log(source_id);
                 $.ajax({
                     url: denyUrl,
                     type: 'POST',
