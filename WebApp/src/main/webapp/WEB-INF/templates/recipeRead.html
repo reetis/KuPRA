@@ -49,6 +49,13 @@
                 </div>
 
                 <div class="pub panel-body">
+                    <label for="recipeDate" th:text="#{recipeReadForm.date}">data</label>
+                    <span id="recipeDate" th:if="${recipeReadForm.date != null}"
+                          th:text="${#calendars.format(recipeReadForm.date,'dd MMMM yyyy HH:mm:ss')}"> - </span>
+                    <span id="recipeDate" th:if="${recipeReadForm.date == null}" text=" - ">  - </span>
+                </div>
+
+                <div class="pub panel-body">
                     <label for="cookingTime" th:text="#{recipeCreateForm.cookingTime}">Laikas</label>
                     <span id="cookingTime" th:text="${recipeReadForm.cookingTime}">Random Time</span>
                 </div>

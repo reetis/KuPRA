@@ -1,0 +1,1 @@
+ALTER TABLE recipe ADD COLUMN recipe_date TIMESTAMP;

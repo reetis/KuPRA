@@ -6,15 +6,6 @@ import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Recipes;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -25,6 +16,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/recipes")
@@ -64,6 +62,7 @@ public class RecipeReadController {
         form.setDescription(recipe.getDescription());
         form.setPublicAccess(recipe.isPublicAccess());
         form.setProcessDescription(recipe.getProcessDescription());
+        form.setDate(recipe.getRecipeDate());
 
         final List<Comment> commentList = recipe.getRecipeComments();
 

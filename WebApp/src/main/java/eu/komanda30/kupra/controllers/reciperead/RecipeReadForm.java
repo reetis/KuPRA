@@ -3,6 +3,7 @@ package eu.komanda30.kupra.controllers.reciperead;
 import eu.komanda30.kupra.entity.KupraUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Ignas on 12/2/2014.
@@ -27,6 +28,8 @@ public class RecipeReadForm {
     private String recipeAuthor;
 
     private String recipeAuthorId;
+
+    private Date date;
 
     public KupraUser getKupraUser() {
         return kupraUser;
@@ -107,5 +110,13 @@ public class RecipeReadForm {
 
     public String getRecipeAuthorId() {
         return recipeAuthorId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

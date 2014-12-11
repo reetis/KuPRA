@@ -24,3 +24,9 @@ VALUES ('gintare_stalygaite', 'lukas_babelis', TRUE);
 
 INSERT INTO friendship (target_id, source_id, friendship_status)
 VALUES ('lukas_babelis', 'gintare_stalygaite', TRUE);
+
+INSERT INTO friendship (target_id, source_id, friendship_status)
+VALUES ('admin', 'lukas_babelis', TRUE);
+
+INSERT INTO friendship (target_id, source_id, friendship_status)
+VALUES ('lukas_babelis', 'admin', TRUE);
