@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.search.annotations.Boost;
@@ -51,7 +52,8 @@ public class KupraUser {
     @OneToMany(mappedBy = "source")
     private List<Friendship> friendships;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private UsernamePasswordAuth usernamePasswordAuth;
 
     //for hibernate

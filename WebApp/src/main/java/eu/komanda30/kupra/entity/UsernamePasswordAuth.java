@@ -3,8 +3,9 @@ package eu.komanda30.kupra.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -13,8 +14,9 @@ public class UsernamePasswordAuth {
     @Id
     private String userId;
 
-    @PrimaryKeyJoinColumn
-    @OneToOne
+    @MapsId
+    @OneToOne(mappedBy = "usernamePasswordAuth")
+    @JoinColumn(name = "user_id")
     private KupraUser user;
 
     @Column(length = 24, unique = true)
