@@ -61,6 +61,7 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
+        resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(templateCacheEnabled);
 
         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
