@@ -26,11 +26,24 @@ public class ServiceConfig {
     public ApplicationListener<ContextRefreshedEvent> startupReindexer(
             RecipeFinder recipeFinder,
             UserFinder userFinder) {
-        return event -> {
+        return new StartupReindexer(recipeFinder, userFinder);
+    }
+
+    private class StartupReindexer implements ApplicationListener<ContextRefreshedEvent> {
+        private final RecipeFinder recipeFinder;
+        private final UserFinder userFinder;
+
+        public StartupReindexer(RecipeFinder recipeFinder, UserFinder userFinder) {
+            this.recipeFinder = recipeFinder;
+            this.userFinder = userFinder;
+        }
+
+        @Override
+        public void onApplicationEvent(ContextRefreshedEvent event) {
             if (environment.getProperty("index.reindex_on_startup", Boolean.class, false)) {
                 recipeFinder.indexRecipes();
                 userFinder.indexUsers();
             }
-        };
+        }
     }
 }
