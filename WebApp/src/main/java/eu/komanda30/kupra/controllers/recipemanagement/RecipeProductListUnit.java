@@ -35,4 +35,6 @@ public class RecipeProductListUnit implements Serializable {
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
+
+    public void increaseQuantity(Double quantity) { this.quantity += quantity; }
 }

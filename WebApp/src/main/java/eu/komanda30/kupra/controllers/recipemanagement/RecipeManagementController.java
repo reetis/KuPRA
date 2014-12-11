@@ -35,6 +35,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @SessionAttributes("unitList")
@@ -169,15 +177,25 @@ public class RecipeManagementController {
 
     @RequestMapping(value="addProduct", method = RequestMethod.POST)
     public String addProduct(@RequestParam("quantity") Double quantity,
-                             @RequestParam("product_id") Integer product_id,
+                             @RequestParam("product_id") Integer productId,
                              @ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits){
-        final Product product = products.findOne(product_id);
+        final Product product = products.findOne(productId);
 
-        final RecipeProductListUnit unit = new RecipeProductListUnit();
-        unit.setProductId(product.getId());
-        unit.setProductName(product.getName());
-        unit.setQuantity(quantity);
-        productListUnits.add(unit);
+        final Optional<RecipeProductListUnit> item = productListUnits.stream()
+                .filter(input -> input.getProductId() == productId)
+                .findFirst();
+
+        if (item.isPresent()){
+            item.get().increaseQuantity(quantity);
+        }else {
+            final RecipeProductListUnit unit = new RecipeProductListUnit();
+            unit.setProductId(product.getId());
+            unit.setProductName(product.getName());
+            unit.setQuantity(quantity);
+            productListUnits.add(unit);
+        }
+
+
 
         return "recipe_form :: recipeProduct";
     }
@@ -209,5 +227,18 @@ public class RecipeManagementController {
 
         imagesList.addAll(getListOfTmpImages(formTmpId));
         return "recipe_form :: image_list";
+    }
+
+    @RequestMapping(value="deleteProduct", method = RequestMethod.POST)
+    public String deleteProduct(@RequestParam("product_id") Integer productId,
+                                @ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits) {
+
+        final Optional<RecipeProductListUnit> item = productListUnits.stream()
+                .filter(input -> input.getProductId() == productId)
+                .findFirst();
+
+        productListUnits.remove(item.get());
+
+        return "recipe_form :: recipeProduct";
     }
 }

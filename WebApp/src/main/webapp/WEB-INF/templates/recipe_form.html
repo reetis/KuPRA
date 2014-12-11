@@ -93,13 +93,16 @@
                     </div>
 
                     <div class="panel panel-default">
-                        <div>Maisto Produktai</div>
+                        <label th:text="#{recipeCreateForm.products}">Maisto Produktai</label>
 
                         <div th:fragment="recipeProduct" id="recipeProductForm" class="from-group">
-
                             <div th:each="assignedProduct : ${unitList}">
+                                <input type="hidden" th:value="${assignedProduct.productId}"/>
                                 <span th:text="${assignedProduct.productName}">56456kg</span>
                                 <span th:text="${assignedProduct.quantity}">56456kg</span>
+                                <button type="button" class="btn btn-primary active deleteProduct">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </button>
                             </div>
 
                             <input id="product_quantity" class="form-control" type="text" value="0"/>
@@ -109,7 +112,7 @@
                                         th:text="${product.name}">5min
                                 </option>
                             </select>
-                            </div>
+                        </div>
 
                         <button id="recipeProductFormSubmit" class="btn btn-default"
                                 type="button" data-toggle="tooltip" data-placement="bottom"
@@ -226,6 +229,7 @@
         var imgUrl = /*[[@{/recipes/uploadPhotos}]]*/ '#';
         var imgDelUrl = /*[[@{/recipes/deletePhoto}]]*/ '#';
         var productUrl = /*[[@{/recipes/addProduct}]]*/ '#';
+        var productDelUrl = /*[[@{/recipes/deleteProduct}]]*/ '#';
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
         var _tmpId = /*[[${recipeManagementForm.tmpId}]]*/ 'tmp_id';
 
@@ -278,14 +282,42 @@
             });
         });
 
+        reinitializeProductDeleteButtons = function(){
+            var productDeleteButtons = $(".deleteProduct");
+
+            if (productDeleteButtons != null) {
+                productDeleteButtons.click(function () {
+                    productId = $(this).parent().find("input").val();
+                    var deleteFormData = new FormData();
+                    deleteFormData.append("product_id", productId);
+
+                    $.ajax({
+                        url: productDelUrl,
+                        type: 'POST',
+                        data: deleteFormData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        headers: {'X-CSRF-TOKEN': _csrf},
+                        success: productAddedHandler
+                    });
+
+                });
+            }
+        }
+
         productAddedHandler = function (returndata) {
             $("#recipeProductForm").replaceWith($(returndata));
+            reinitializeProductDeleteButtons();
         };
+
+        reinitializeProductDeleteButtons();
 
         $('#recipeProductFormSubmit').click(function () {
             quantity = $("#product_quantity").val();
 
-            if (parseInt(quantity) > 0) {
+            if (Number(quantity) > 0) {
                 productFormData = new FormData();
                 productFormData.append("product_id", $("#product_select option:selected").val());
                 productFormData.append("quantity", quantity);
