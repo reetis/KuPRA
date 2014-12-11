@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -41,11 +40,6 @@ public class RecipeFinderImpl implements RecipeFinder {
 
     @Resource
     private Friendships friendships;
-
-    @PostConstruct
-    public void reindexEntities() {
-        indexRecipes();
-    }
 
     @Transactional
     @Override

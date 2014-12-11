@@ -5,7 +5,6 @@ import eu.komanda30.kupra.services.UserFinder;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
@@ -25,11 +24,6 @@ public class UserFinderImpl implements UserFinder {
 
     @Autowired
     private EntityManager entityManager;
-
-    @PostConstruct
-    public void reindexEntities() {
-        indexUsers();
-    }
 
     @Transactional
     @Override
