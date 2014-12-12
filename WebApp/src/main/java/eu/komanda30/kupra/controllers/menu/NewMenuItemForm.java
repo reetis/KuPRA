@@ -5,10 +5,11 @@ import java.util.Date;
 /**
  * Created by Gintare on 2014-12-07.
  */
-public class MenuItemForm {
+public class NewMenuItemForm {
+
     private int recipe_id;
+
     private Date date_time;
-    private int id;
 
     public int getRecipe_id() {
         return recipe_id;
@@ -16,14 +17,6 @@ public class MenuItemForm {
 
     public void setRecipe_id(int recipe_id) {
         this.recipe_id = recipe_id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Date getDate_time() {

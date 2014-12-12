@@ -1,7 +1,6 @@
 package eu.komanda30.kupra.entity;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -28,6 +27,12 @@ public class Menu {
     @Column(nullable = false)
     private Date date_time;
 
+    @Column(nullable = false)
+    private boolean isCompleted;
+
+    @Column
+    private int score;
+
     public Date getDate_time() {
         return date_time;
     }
@@ -44,8 +49,6 @@ public class Menu {
         this.id = id;
     }
 
-
-
     public int getRecipe_id() {
         return recipe_id;
     }
@@ -54,5 +57,20 @@ public class Menu {
         this.recipe_id = recipe_id;
     }
 
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
 
