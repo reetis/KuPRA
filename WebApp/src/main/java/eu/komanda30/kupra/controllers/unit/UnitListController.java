@@ -1,19 +1,19 @@
 package eu.komanda30.kupra.controllers.unit;
 
-//import eu.komanda30.kupra.repositories.Recipes;
-
-import eu.komanda30.kupra.entity.Unit;
 import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Units;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.annotation.Resource;
 
-/**
- * Created by Gintare on 2014-12-02.
- */
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 @Controller
 @RequestMapping("/unit-list")
 public class UnitListController {
@@ -25,27 +25,24 @@ public class UnitListController {
     private Products products;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showUnits(UnitsListForm form) {
-        Iterable<Unit> unitsList = units.findAll();
-
-        for(Unit unit : unitsList){
-            UnitListItem unitListItem = new UnitListItem();
-            unitListItem.setIsUsed(products.isUsedUnit(unit));
-            unitListItem.setId(unit.getId());
-            unitListItem.setAbbreviation(unit.getAbbreviation());
-            unitListItem.setName(unit.getName());
-            form.addUnitListItem(unitListItem);
-        }
+    public String showUnits() {
         return "unit-list";
     }
 
-//    @ModelAttribute("units")
-//    public Iterable<Unit> getUnits() {
-//        return this.units.findAll();
-//    }
-
-
+    @ModelAttribute("units")
+    public List<UnitListItem> getUnits() {
+        return StreamSupport
+                .stream(units.findAll().spliterator(), false)
+                .map(unit -> {
+                    final UnitListItem unitListItem = new UnitListItem();
+                    unitListItem.setIsUsed(products.isUsedUnit(unit));
+                    unitListItem.setId(unit.getId());
+                    unitListItem.setAbbreviation(unit.getAbbreviation());
+                    unitListItem.setName(unit.getName());
+                    return unitListItem;
+                }).collect(Collectors.toList());
     }
+}
 
 
 

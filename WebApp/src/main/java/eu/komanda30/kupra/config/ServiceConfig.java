@@ -1,5 +1,6 @@
 package eu.komanda30.kupra.config;
 
+import eu.komanda30.kupra.email.DebugMailSender;
 import eu.komanda30.kupra.services.RecipeFinder;
 import eu.komanda30.kupra.services.UserFinder;
 
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -21,6 +24,22 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class ServiceConfig {
     @Resource
     private Environment environment;
+
+    @Bean
+    public JavaMailSender mailSender() {
+        final String protocol = environment.getRequiredProperty("email.protocol");
+        if ("DEBUG".equals(protocol)) {
+            return new DebugMailSender();
+        }
+
+        final JavaMailSenderImpl sender = new JavaMailSenderImpl();
+        sender.setHost(environment.getRequiredProperty("email.host"));
+        sender.setPort(environment.getRequiredProperty("email.port", Integer.TYPE));
+        sender.setProtocol(environment.getRequiredProperty("email.protocol"));
+        sender.setUsername(environment.getRequiredProperty("email.username"));
+        sender.setPassword(environment.getRequiredProperty("email.password"));
+        return sender;
+    }
 
     @Bean
     public ApplicationListener<ContextRefreshedEvent> startupReindexer(

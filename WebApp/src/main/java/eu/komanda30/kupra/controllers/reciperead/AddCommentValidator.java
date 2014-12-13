@@ -4,10 +4,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * Created by Lukas on 2014.12.07.
- */
-
 @Component
 public class AddCommentValidator implements Validator {
     @Override

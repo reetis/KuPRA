@@ -5,9 +5,6 @@ import eu.komanda30.kupra.entity.KupraUser;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by Ignas on 12/2/2014.
- */
 public class RecipeReadForm {
     private String name;
 
@@ -93,10 +90,13 @@ public class RecipeReadForm {
         return comments;
     }
 
+    public void setComments(ArrayList<CommentUnit> comments) {
+        this.comments = comments;
+    }
+
     public void addComment(CommentUnit comment) {
         comments.add(comment);
     }
-
 
     public String getRecipeAuthor() {
         return recipeAuthor;
@@ -106,12 +106,12 @@ public class RecipeReadForm {
         this.recipeAuthor = recipeAuthor;
     }
 
-    public void setRecipeAuthorId(String recipeAuthorId) {
-        this.recipeAuthorId = recipeAuthorId;
-    }
-
     public String getRecipeAuthorId() {
         return recipeAuthorId;
+    }
+
+    public void setRecipeAuthorId(String recipeAuthorId) {
+        this.recipeAuthorId = recipeAuthorId;
     }
 
     public Date getDate() {
@@ -120,10 +120,6 @@ public class RecipeReadForm {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public void setComments(ArrayList<CommentUnit> comments) {
-        this.comments = comments;
     }
 
     public ArrayList<RecipeProductUnit> getRecipeProducts() {

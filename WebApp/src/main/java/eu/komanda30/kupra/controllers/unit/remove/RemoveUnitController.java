@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * Created by Ignas on 12/7/2014.
- */
 @Controller
 @RequestMapping("/unit")
 public class RemoveUnitController {

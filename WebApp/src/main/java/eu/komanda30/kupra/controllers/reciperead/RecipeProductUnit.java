@@ -1,8 +1,5 @@
 package eu.komanda30.kupra.controllers.reciperead;
 
-/**
- * Created by Ignas on 12/10/2014.
- */
 public class RecipeProductUnit {
     private String name;
     private String unit;

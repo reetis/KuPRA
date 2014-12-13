@@ -4,9 +4,6 @@ import eu.komanda30.kupra.entity.UserProfileImage;
 
 import java.util.Date;
 
-/**
- * Created by Lukas on 2014.12.07.
- */
 public class CommentUnit {
     private String author;
     private String comment;

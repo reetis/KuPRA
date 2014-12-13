@@ -1,8 +1,5 @@
 package eu.komanda30.kupra.controllers.unit;
 
-/**
- * Created by Ignas on 12/10/2014.
- */
 public class UnitListItem {
 
     private Boolean isUsed;

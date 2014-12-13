@@ -2,9 +2,6 @@ package eu.komanda30.kupra.controllers.recipemanagement;
 
 import java.io.Serializable;
 
-/**
- * Created by Ignas on 12/3/2014.
- */
 public class RecipeProductListUnit implements Serializable {
 
     private int productId;

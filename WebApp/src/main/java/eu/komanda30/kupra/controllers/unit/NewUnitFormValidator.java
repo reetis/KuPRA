@@ -8,10 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * Created by Rytis on 2014-10-21.
- */
-
 @Component
 public class NewUnitFormValidator implements Validator {
     @Resource
