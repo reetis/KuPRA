@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 public class ResetPasswordChangeForm {
 
     @NotNull
+    private String token;
+
+    @NotNull
     @Size(min=8, max=64)
     private String password;
 
@@ -27,5 +30,13 @@ public class ResetPasswordChangeForm {
 
     public void setPasswordRepeat(String passwordRepeat) {
         this.passwordRepeat = passwordRepeat;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
