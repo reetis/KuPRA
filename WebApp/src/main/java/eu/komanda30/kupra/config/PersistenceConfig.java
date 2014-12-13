@@ -83,6 +83,9 @@ public class PersistenceConfig {
         props.put(AvailableSettings.USE_SECOND_LEVEL_CACHE, true);
         props.put(AvailableSettings.CACHE_REGION_FACTORY, EhCacheRegionFactory.class.getName());
         props.put(AvailableSettings.RELEASE_CONNECTIONS, "after_transaction");
+        props.put("hibernate.connection.charSet","UTF-8");
+        props.put("hibernate.connection.characterEncoding","utf8");
+
         props.put(org.hibernate.jpa.AvailableSettings.NAMING_STRATEGY, ImprovedNamingStrategy.class.getName());
 
         props.put("hibernate.search.default.directory_provider",
