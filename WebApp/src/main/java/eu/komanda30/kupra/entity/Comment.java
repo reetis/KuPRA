@@ -1,7 +1,16 @@
 package eu.komanda30.kupra.entity;
 
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Created by Lukas on 2014.12.05.
@@ -24,7 +33,6 @@ public class Comment {
 
     @Column(nullable = false)
     private String comment;
-
 
     @Column(nullable = false)
     private Date comment_date;

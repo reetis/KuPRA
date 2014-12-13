@@ -100,8 +100,9 @@
                         <div th:fragment="recipeProduct" id="recipeProductForm" class="from-group">
                             <div th:each="assignedProduct : ${unitList}">
                                 <input type="hidden" th:value="${assignedProduct.productId}"/>
-                                <span th:text="${assignedProduct.productName}">56456kg</span>
-                                <span th:text="${assignedProduct.quantity}">56456kg</span>
+                                <span th:text="${assignedProduct.productName}">Produkto pavadinimas</span>
+                                <span th:text="${assignedProduct.quantity}">556</span>
+                                <span th:text="${assignedProduct.unit}">kg.</span>
                                 <button type="button" class="btn btn-primary active deleteProduct">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </button>

@@ -133,7 +133,7 @@ public class EditProfileController {
             profile.setMainPhoto(imgUrl, thumbUrl);
         }
 
-        return "redirect:/";
+        return "editProfileSuccess";
     }
 
     private File copyToProfileDir(File imgFile) {

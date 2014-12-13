@@ -1,5 +1,7 @@
 package eu.komanda30.kupra.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,13 +34,13 @@ public class RecipeProduct {
     @JoinColumn(name="product_id")
     private Product product;
 
-    private Double quantity;
+    private BigDecimal quantity;
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

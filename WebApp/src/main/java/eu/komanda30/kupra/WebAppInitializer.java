@@ -31,13 +31,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new String[] { "/*" };
     }
 
-    /*@Override
-    protected Filter[] getServletFilters() {
-        final CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-        encodingFilter.setEncoding("UTF-8");
-        return new Filter[] {encodingFilter};
-    } */
-
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         final MultipartConfigElement multipartConfigElement =
