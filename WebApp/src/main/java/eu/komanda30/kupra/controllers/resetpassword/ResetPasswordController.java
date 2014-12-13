@@ -34,7 +34,7 @@ public class ResetPasswordController {
     @Resource
     private KupraUsers kupraUsers;
 
-    @Resource
+    @Resource(name="mailSender")
     private JavaMailSender mailSender;
 
     @Value("${email.from}")
