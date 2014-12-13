@@ -59,9 +59,9 @@ public class UsernamePasswordAuth {
         this.password = password;
     }
 
-    public String generateResetPasswordToken() {
+    public String generateResetPasswordToken(Date validTill) {
         resetPasswordToken = UUID.randomUUID().toString();
-        resetPasswordTokenValidTill = new Date();
+        resetPasswordTokenValidTill = validTill;
         return resetPasswordToken;
     }
 

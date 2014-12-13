@@ -1,9 +1,8 @@
 package eu.komanda30.kupra;
 
-import eu.komanda30.kupra.config.ControllerConfig;
 import eu.komanda30.kupra.config.PersistenceConfig;
 import eu.komanda30.kupra.config.SecurityConfig;
-import eu.komanda30.kupra.config.ServiceConfig;
+import eu.komanda30.kupra.config.WebConfig;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
@@ -19,14 +18,13 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] {
                 PersistenceConfig.class,
-                ServiceConfig.class,
                 SecurityConfig.class
         };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { ControllerConfig.class };
+        return new Class[] { WebConfig.class };
     }
 
     @Override

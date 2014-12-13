@@ -1,20 +1,21 @@
 package eu.komanda30.kupra.controllers.resetpassword;
 
+import eu.komanda30.kupra.controllers.resetpassword.email.ResetPasswordEmailSender;
 import eu.komanda30.kupra.entity.KupraUser;
-import eu.komanda30.kupra.entity.UsernamePasswordAuth;
 import eu.komanda30.kupra.repositories.KupraUsers;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailException;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -32,15 +33,15 @@ public class ResetPasswordController {
     private ResetPasswordFormValidator resetPasswordFormValidator;
 
     @Resource
+    private ResetPasswordEmailSender resetPasswordEmailSender;
+
+    @Resource
     private KupraUsers kupraUsers;
 
-    @Resource(name="mailSender")
-    private JavaMailSender mailSender;
+    @Value("${resetPassword.tokenValidMinutes}")
+    private int tokenValidMinutes;
 
-    @Value("${email.from}")
-    private String emailFrom;
-
-    @InitBinder
+    @InitBinder("resetPasswordForm")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(resetPasswordFormValidator);
     }
@@ -50,34 +51,30 @@ public class ResetPasswordController {
         return "resetPassword";
     }
 
+    @Transactional
     @RequestMapping(method = RequestMethod.POST)
     public String submit(@Valid final ResetPasswordForm form,
-                        final BindingResult bindingResult) {
+                        final BindingResult bindingResult,
+                        HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "resetPassword";
+            return "resetPassword/reset";
         }
 
         LOG.debug("Reset password request received for email: " + form.getEmail());
-        resetPasswordForEmail(form.getEmail());
+        final KupraUser user = kupraUsers.findByEmail(form.getEmail());
 
-        return "resetPasswordSuccess";
-    }
 
-    private void resetPasswordForEmail(String email) {
-        final KupraUser user = kupraUsers.findByEmail(email);
-        final UsernamePasswordAuth auth = user.getUsernamePasswordAuth();
-        final String token = auth.generateResetPasswordToken();
+        final Date tokenValidDate = DateUtils.addMinutes(new Date(), tokenValidMinutes);
+        final String token = user
+                .getUsernamePasswordAuth()
+                .generateResetPasswordToken(tokenValidDate);
+        kupraUsers.save(user);
 
-        try {
-            final MimeMessage mimeMessage = mailSender.createMimeMessage();
-            final MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-            message.setFrom(emailFrom);
-            message.setTo(email);
-            message.setSubject("Password reset");
-            message.setText("Password reset token: " + token);
-            this.mailSender.send(mimeMessage);
-        } catch (MailException | MessagingException e) {
-            LOG.error("Failed to send password reset email", e);
-        }
+        resetPasswordEmailSender.sendResetPasswordEmail(
+                request.getRemoteAddr(),
+                user, form.getEmail(),  LocaleContextHolder.getLocale(),
+                token);
+
+        return "resetPassword/reset-success";
     }
 }

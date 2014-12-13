@@ -15,7 +15,7 @@ public class DebugMailSender extends JavaMailSenderImpl {
     public void send(MimeMessage[] mimeMessages) throws MailException {
         try {
             for (MimeMessage msg : mimeMessages) {
-                LOG.debug("Mocking sending email from:\n{} to:\n{} body:\n{}", msg.getFrom(),
+                LOG.debug("Mocking sending email from:\n{} \nto:\n{} \nbody:\n{}", msg.getFrom(),
                         msg.getAllRecipients(), msg.getContent());
             }
         } catch (final Exception e) {

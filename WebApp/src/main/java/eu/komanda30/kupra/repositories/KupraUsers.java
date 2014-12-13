@@ -12,4 +12,9 @@ public interface KupraUsers extends CrudRepository<KupraUser, String> {
 
     @Query("from KupraUser where usernamePasswordAuth.username = :username")
     KupraUser findByUsername(@Param("username") String username);
+
+    @Query("from KupraUser "
+            + "where usernamePasswordAuth.resetPasswordToken = :token "
+            + "and usernamePasswordAuth.resetPasswordTokenValidTill > current_date")
+    KupraUser findByPasswordResetToken(@Param("token") String token);
 }
