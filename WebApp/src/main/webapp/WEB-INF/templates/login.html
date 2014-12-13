@@ -62,7 +62,9 @@
                           th:errors="*{password}">Password error</span>
             </div>
             <p>
-                <a class="col-xs-12 form-group" th:text="#{loginForm.forgotPassword}">Forgot your password?</a>
+                <a class="col-xs-12 form-group"
+                   th:text="#{loginForm.forgotPassword}"
+                   th:href="@{/resetPassword}">Forgot your password?</a>
             </p>
         </div>
         <div class="row">

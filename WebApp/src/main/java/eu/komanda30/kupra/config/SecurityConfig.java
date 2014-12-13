@@ -63,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login*",
                         "/error/**",
                         "/registration/**",
+                        "/resetPassword/**",
                         "/css/**",
                         "/fonts/**",
                         "/images/**",
