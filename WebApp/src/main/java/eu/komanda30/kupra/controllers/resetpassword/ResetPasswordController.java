@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -47,12 +46,12 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String get(@ModelAttribute("form") final ResetPasswordForm form) {
+    public String get(final ResetPasswordForm form) {
         return "resetPassword";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String submit(@Valid @ModelAttribute("form") final ResetPasswordForm form,
+    public String submit(@Valid final ResetPasswordForm form,
                         final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "resetPassword";
