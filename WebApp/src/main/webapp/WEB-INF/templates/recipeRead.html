@@ -121,7 +121,7 @@
 
                         <div class="col-md-1">
                             <img class="img-responsive" th:if="${comment.image != null}"
-                                 th:src="@{${comment.image.thumbUrl}"
+                                 th:src="${comment.image.thumbUrl}"
                                  src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
 
                             <img class="img-responsive" th:if="${comment.image == null}"

@@ -87,7 +87,7 @@
                         <div class="panel-body">
                             <a th:href="@{'/recipes/read/'+${rcp.recipeId}}">
                                 <img class="panel-image" th:if="${rcp.recipeImage != null}"
-                                     th:src="@{${rcp.recipeImage.thumbUrl}"
+                                     th:src="${rcp.recipeImage.thumbUrl}"
                                      src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
                             </a>
 

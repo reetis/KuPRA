@@ -89,14 +89,14 @@
 <div th:fragment="searchResults">
     <div>----- Recipes -----</div>
     <div th:each="recipe : ${results.recipes}">
-        <div><img th:src="@{${recipe.imageUrl}"/></div>
+        <div><img th:src="${recipe.imageUrl}"/></div>
         <div th:text="${recipe.name}"></div>
         <div th:text="${recipe.description}"></div>
         <div>--------------</div>
     </div>
     <div>----- Users -----</div>
     <div th:each="person : ${results.persons}">
-        <div><img th:src="@{${person.imageUrl}"/></div>
+        <div><img th:src="${person.imageUrl}"/></div>
         <div th:text="${person.name}"></div>
     </div>
 </div>

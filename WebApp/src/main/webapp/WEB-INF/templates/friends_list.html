@@ -62,7 +62,7 @@
                         <a th:href="@{'/user/'+${friend.userId}}">
                             <span class="col-md-4">
                                 <img class="img-responsive" th:if="${friend.image != null}"
-                                     th:src="@{${friend.image.thumbUrl}"
+                                     th:src="${friend.image.thumbUrl}"
                                      src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
 
                                 <img class="img-responsive" th:if="${friend.image == null}"
