@@ -47,7 +47,8 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @ComponentScan({
         "eu.komanda30.kupra.controllers",
         "eu.komanda30.kupra.locale",
-        "eu.komanda30.kupra.uploads"})
+        "eu.komanda30.kupra.uploads",
+        "eu.komanda30.kupra.services"})
 @PropertySource("classpath:/kupra.properties")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
@@ -85,24 +86,30 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public SpringTemplateEngine templateEngine() {
-        final ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
-        emailTemplateResolver.setPrefix("templates/");
-        emailTemplateResolver.setTemplateMode("HTML5");
-        emailTemplateResolver.setCharacterEncoding("UTF-8");
-        emailTemplateResolver.setCacheable(templateCacheEnabled);
-        emailTemplateResolver.setOrder(1);
-
         final ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(templateCacheEnabled);
-        resolver.setOrder(2);
 
         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.addTemplateResolver(emailTemplateResolver);
-        templateEngine.addTemplateResolver(resolver);
+        templateEngine.setTemplateResolver(resolver);
+        return templateEngine;
+    }
+
+    @Bean
+    public SpringTemplateEngine emailTemplateEngine() {
+        final ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        resolver.setPrefix("/email-templates/");
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setCacheable(templateCacheEnabled);
+        resolver.setOrder(1);
+
+        final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(resolver);
         return templateEngine;
     }
 

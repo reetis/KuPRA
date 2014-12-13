@@ -29,11 +29,11 @@ public class ResetPasswordChangeController {
     private PasswordEncoder passwordEncoder;
 
     @Resource
-    private ResetPasswordChangeFormValidator validator;
+    private ResetPasswordChangeFormValidator resetPasswordChangeFormValidator;
 
     @InitBinder("resetPasswordChangeForm")
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(validator);
+        binder.addValidators(resetPasswordChangeFormValidator);
     }
 
     @Transactional
@@ -65,6 +65,7 @@ public class ResetPasswordChangeController {
         }
 
         user.setLoginDetails(user.getUsernamePasswordAuth().getUsername(), form.getPassword(), passwordEncoder);
+        user.getUsernamePasswordAuth().invalidateResetPasswordToken();
         kupraUsers.save(user);
         return "resetPassword/change-success";
     }

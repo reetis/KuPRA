@@ -24,7 +24,7 @@
     <link th:href="@{/css/registration.css}" href="css/registration.css" rel="stylesheet"/>
 
     <!-- jQuery -->
-    <script th:src="jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script th:src="@{jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -45,12 +45,12 @@
 <div th:replace="layout :: footer"></div>
 
 <!-- Bootstrap javascript -->
-<script th:src="bootstrap.min.js}" src="js/bootstrap.min.js" type="text/javascript"></script>
+<script th:src="@{bootstrap.min.js}" src="js/bootstrap.min.js" type="text/javascript"></script>
 
 <!-- Material design javascript -->
-<script th:src="ripples.min.js}" src="js/ripples.min.js"></script>
-<script th:src="material.min.js}" src="js/material.min.js"></script>
+<script th:src="@{ripples.min.js}" src="js/ripples.min.js"></script>
+<script th:src="@{material.min.js}" src="js/material.min.js"></script>
 
 <!--Kupra javascript-->
-<script th:src="kupra.js}" src="js/kupra.js" type="text/javascript"></script>
+<script th:src="@{kupra.js}" src="js/kupra.js" type="text/javascript"></script>
 </html>

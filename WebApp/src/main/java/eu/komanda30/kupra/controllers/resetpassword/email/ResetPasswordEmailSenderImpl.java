@@ -36,7 +36,7 @@ public class ResetPasswordEmailSenderImpl implements ResetPasswordEmailSender {
     private String rootUrl;
 
     @Resource
-    private TemplateEngine templateEngine;
+    private TemplateEngine emailTemplateEngine;
 
     @Resource
     private MessageSource messageSource;
@@ -63,9 +63,8 @@ public class ResetPasswordEmailSenderImpl implements ResetPasswordEmailSender {
     }
 
     private String buildPasswordResetHtml(ResetPasswordEmailForm emailForm, Locale locale) {
-        return templateEngine.process("resetPassword/email.html",
-                new Context(locale,
-                        ImmutableMap.of("form", emailForm)));
+        return emailTemplateEngine.process("reset-password",
+                new Context(locale, ImmutableMap.of("form", emailForm)));
     }
 
     private ResetPasswordEmailForm buildPasswordResetEmailForm(String ipAddress, KupraUser user,

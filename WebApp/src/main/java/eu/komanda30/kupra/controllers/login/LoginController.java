@@ -20,8 +20,6 @@ public class LoginController {
     public String showLogin(final LoginForm form,
                             final BindingResult bindingResult,
                             @RequestParam(value = "error", required = false) final String error) {
-        LOG.debug("Login requested for user: {}", form.getUsername());
-
         //Response from spring security
         if (error != null) {
             bindingResult.reject("authFailed");
@@ -32,6 +30,8 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public String login(@Valid final LoginForm form,
                          final BindingResult bindingResult) {
+        LOG.debug("Login requested for user: {}", form.getUsername());
+
         if (bindingResult.hasErrors()) {
             return "login";
         }

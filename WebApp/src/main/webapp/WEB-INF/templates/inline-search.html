@@ -21,7 +21,7 @@
     <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
 
     <!-- jQuery -->
-    <script th:src="jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js"
+    <script th:src="@{jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js"
             type="application/javascript"></script>
 
     <!--[if lt IE 9]>
@@ -34,7 +34,7 @@
     <!-- Kupra CSS -->
     <link th:href="@{/css/search.css}" href="css/search.css" rel="stylesheet"/>
     <!-- Typeahead -->
-    <script th:src="typeahead.bundle.js}" src="js/typeahead.bundle.js"
+    <script th:src="@{typeahead.bundle.js}" src="js/typeahead.bundle.js"
             type="application/javascript"></script>
 
     <script type="application/javascript" th:inline="javascript">
@@ -89,27 +89,27 @@
 <div th:fragment="searchResults">
     <div>----- Recipes -----</div>
     <div th:each="recipe : ${results.recipes}">
-        <div><img th:src="${recipe.imageUrl}"/></div>
+        <div><img th:src="@{${recipe.imageUrl}"/></div>
         <div th:text="${recipe.name}"></div>
         <div th:text="${recipe.description}"></div>
         <div>--------------</div>
     </div>
     <div>----- Users -----</div>
     <div th:each="person : ${results.persons}">
-        <div><img th:src="${person.imageUrl}"/></div>
+        <div><img th:src="@{${person.imageUrl}"/></div>
         <div th:text="${person.name}"></div>
     </div>
 </div>
 
 <!-- Bootstrap javascript -->
-<script th:src="bootstrap.min.js}" src="js/bootstrap.min.js"
+<script th:src="@{bootstrap.min.js}" src="js/bootstrap.min.js"
         type="application/javascript"></script>
 
 <!--Kupra javascript-->
-<script th:src="kupra.js}" src="js/kupra.js" type="application/javascript"></script>
+<script th:src="@{kupra.js}" src="js/kupra.js" type="application/javascript"></script>
 
 <!-- Material design javascript -->
-<script th:src="ripples.min.js}" src="js/ripples.min.js"></script>
-<script th:src="material.min.js}" src="js/material.min.js"></script>
+<script th:src="@{ripples.min.js}" src="js/ripples.min.js"></script>
+<script th:src="@{material.min.js}" src="js/material.min.js"></script>
 </body>
 </html>

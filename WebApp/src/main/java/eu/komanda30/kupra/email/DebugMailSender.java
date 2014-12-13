@@ -1,6 +1,11 @@
 package eu.komanda30.kupra.email;
 
+import java.io.IOException;
+
+import javax.mail.BodyPart;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +20,29 @@ public class DebugMailSender extends JavaMailSenderImpl {
     public void send(MimeMessage[] mimeMessages) throws MailException {
         try {
             for (MimeMessage msg : mimeMessages) {
+                final String content;
+
                 LOG.debug("Mocking sending email from:\n{} \nto:\n{} \nbody:\n{}", msg.getFrom(),
                         msg.getAllRecipients(), msg.getContent());
             }
         } catch (final Exception e) {
             throw new MailPreparationException(e);
+        }
+    }
+
+    private String contentToString(Object content)
+            throws IOException, MessagingException {
+        if (content instanceof MimeMultipart) {
+            final StringBuilder builder = new StringBuilder();
+            final MimeMultipart multipart = (MimeMultipart) content;
+            for (int i = 0; i < multipart.getCount(); i++) {
+                final BodyPart part = multipart.getBodyPart(i);
+                builder.append("Part ").append(i).append(": {\n")
+                        .append(contentToString(part.getContent())).append("\n}\n");
+            }
+            return builder.toString();
+        } else {
+            return content.toString();
         }
     }
 }

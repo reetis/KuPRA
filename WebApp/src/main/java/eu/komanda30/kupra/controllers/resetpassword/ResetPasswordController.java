@@ -48,7 +48,7 @@ public class ResetPasswordController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String get(final ResetPasswordForm form) {
-        return "resetPassword";
+        return "resetPassword/reset";
     }
 
     @Transactional
