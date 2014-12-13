@@ -68,11 +68,16 @@ public class FridgeController {
     @Transactional
     @RequestMapping(method = RequestMethod.POST)
     public String addItem(@Valid final FridgeAddItemForm form,
-                          final FridgeItemsList list,
-                         final BindingResult bindingResult) {
+                          final BindingResult bindingResult,
+                          final FridgeItemsList list) {
+
         if (bindingResult.hasErrors()) {
+            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+            populateFridgeItemsList(list, kupraUser);
             return "fridge";
         }
+
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());

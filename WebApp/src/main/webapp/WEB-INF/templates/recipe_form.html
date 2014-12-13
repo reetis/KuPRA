@@ -105,13 +105,19 @@
                                 </button>
                             </div>
 
-                            <input id="product_quantity" class="form-control" type="text" value="0"/>
-                            <select id="product_select" class="form-control">
-                                <option th:each="product : ${productsList}"
-                                        th:value="${product.id}"
-                                        th:text="${product.name}">5min
-                                </option>
-                            </select>
+                            <div>
+                                <select id="product_select" class="form-control">
+                                    <option th:each="product : ${productsList}"
+                                            th:value="${product.id}"
+                                            th:text="${product.name}"
+                                            th:attr="kupra-unit=${product.unit.abbreviation}">5min
+                                    </option>
+                                </select>
+                                <input id="product_quantity" class="form-control" type="text" value="0"/>
+                                <span id="product-unit"
+                                      th:text="${#arrays.isEmpty(productsList)} ? '' : ${productsList[0].unit.abbreviation}"></span>
+                            </div>
+
                         </div>
 
                         <button id="recipeProductFormSubmit" class="btn btn-default"
@@ -333,6 +339,10 @@
                     success: productAddedHandler
                 });
             }
+        });
+
+        $('#product_select').change(function () {
+            $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
         });
     }(jQuery);
     // ]]>
