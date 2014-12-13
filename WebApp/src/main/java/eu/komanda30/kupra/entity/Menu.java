@@ -28,10 +28,13 @@ public class Menu {
     private Date date_time;
 
     @Column(nullable = false)
-    private boolean isCompleted;
+    private boolean completed;
 
     @Column
     private int score;
+
+    @Column
+    private int servings;
 
     public Date getDate_time() {
         return date_time;
@@ -58,11 +61,11 @@ public class Menu {
     }
 
     public boolean isCompleted() {
-        return isCompleted;
+        return completed;
     }
 
-    public void setCompleted(boolean isCompleted) {
-        this.isCompleted = isCompleted;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     public int getScore() {
@@ -71,6 +74,14 @@ public class Menu {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
     }
 }
 

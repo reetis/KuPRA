@@ -1,4 +1,4 @@
-ALTER TABLE menu
-  ADD COLUMN isCompleted BOOL NOT NULL DEFAULT false,
-  ADD COLUMN score INT,
-  ADD CONSTRAINT recipeFrgKey FOREIGN KEY (recipe_id) REFERENCES recipe (recipe_id);
+ALTER TABLE menu ADD COLUMN completed BOOLEAN NOT NULL DEFAULT false;
+ALTER TABLE menu ADD COLUMN score INT;
+ALTER TABLE menu ADD COLUMN servings INT NOT NULL DEFAULT 1;
+ALTER TABLE menu ADD CONSTRAINT recipeFrgKey FOREIGN KEY (recipe_id) REFERENCES recipe (recipe_id);

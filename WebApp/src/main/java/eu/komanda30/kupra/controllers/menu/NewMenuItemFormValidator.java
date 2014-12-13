@@ -30,6 +30,8 @@ public class NewMenuItemFormValidator implements Validator {
             errors.rejectValue("recipe_id", "RecipeNotFound");
         }
 
-        if (form.getDate_time().compareTo(currentDate))
+        if (form.getDate_time().compareTo(currentDate) <= 0) {
+            errors.rejectValue("date_time", "DateBeforeNow");
+        }
     }
 }

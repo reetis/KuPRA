@@ -15,6 +15,9 @@
     <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
     <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
 
+    <!-- Bootstrap Datetime Picker CSS -->
+    <link th:href="@{/css/bootstrap-datetimepicker.css}" href="../../css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+
     <!-- Kupra CSS -->
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
 
@@ -126,12 +129,12 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">Pvd</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="modal-body">
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Clsoe</button>
-                <button type="button" class="btn btn-primary">Sned mssaege</button>
+                <button type="button" class="btn btn-primary" id="submitButton">Sned mssaege</button>
             </div>
         </div>
     </div>
@@ -154,6 +157,13 @@
 
 <!-- Masonry javascript -->
 <script th:src="@{/js/masonry.pkgd.min.js}" src="../../js/masonry.pkgd.min.js"></script>
+
+<!-- Moment javascript -->
+<script th:src="@{/js/moment.min.js}" src="../../js/moment.min.js"></script>
+<script th:src="@{/js/lt.js}" src="../../js/lt.js"></script>
+
+<!-- Bootstrap Datetime Picker javascript -->
+<script th:src="@{/js/bootstrap-datetimepicker.min.js}" src="../../js/bootstrap-datetimepicker.min.js"></script>
 
 <!--Kupra javascript-->
 <script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
@@ -225,10 +235,25 @@
         });
 
         $('#addToMenu').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var recipeid = button.data('recipeid') // Extract info from data-* attributes
-            var modal = $(this)
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var recipeid = button.data('recipeid'); // Extract info from data-* attributes
+            var modal = $(this);
+            var frameUrl = /*[[@{/menu/add}]]*/ '#';
+            frameUrl = frameUrl + "/" + recipeid;
+            $("#modal-body").load(frameUrl);
+
         })
+
+        $('#submitButton').click(function () {
+            // <![CDATA[
+            var submitUrl = /*[[@{/menu/add}]]*/ '#';
+            $("#submitButton").click(function () {
+                if (submitUrl != '#') {
+                    $("#modal-body").load(submitUrl, $("#addToMenuForm").serializeArray());
+                }
+            });
+            // ]]>
+        });
     }(jQuery);
 </script>
 
