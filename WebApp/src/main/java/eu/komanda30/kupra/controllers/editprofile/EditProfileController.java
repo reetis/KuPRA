@@ -108,6 +108,9 @@ public class EditProfileController {
             user.setPassword(passForm.getPassword(), passwordEncoder);
         }
 
+        LOG.debug("Changing name to: "+form.getName());
+        LOG.debug("Changing surname to: "+form.getSurname());
+
         final UserProfile profile = user.getProfile();
         profile.setName(form.getName());
         profile.setSurname(form.getSurname());
