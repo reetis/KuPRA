@@ -4,11 +4,9 @@ import eu.komanda30.kupra.config.PersistenceConfig;
 import eu.komanda30.kupra.config.SecurityConfig;
 import eu.komanda30.kupra.config.WebConfig;
 
-import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @SuppressWarnings("UnusedDeclaration")
@@ -28,17 +26,17 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Class[] { WebConfig.class };
     }
 
-    /*@Override
+    @Override
     protected String[] getServletMappings() {
         return new String[] { "/*" };
-    } */
+    }
 
-    @Override
+    /*@Override
     protected Filter[] getServletFilters() {
         final CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
         encodingFilter.setEncoding("UTF-8");
         return new Filter[] {encodingFilter};
-    }
+    } */
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
