@@ -9,7 +9,11 @@ import javax.validation.Valid;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,23 +28,32 @@ public class ResetPasswordChangeController {
     @Resource
     private PasswordEncoder passwordEncoder;
 
+    @Resource
+    private ResetPasswordChangeFormValidator validator;
+
+    @InitBinder("resetPasswordChangeForm")
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(validator);
+    }
+
     @Transactional
     @RequestMapping(method = RequestMethod.GET)
     public String getPasswordChangeForm(
-            @RequestParam("token") String token,
-            ResetPasswordChangeForm form) {
+            @ModelAttribute("token") @RequestParam("token") String token,
+            ResetPasswordChangeForm form,
+            Model model) {
         final KupraUser user = kupraUsers.findByPasswordResetToken(token);
         if (user == null) {
-            return "resetPasswordTokenInvalid";
+            return "resetPassword/token-invalid";
         }
 
-        return "resetPasswordChangeForm";
+        return "resetPassword/change-form";
     }
 
     @Transactional
     @RequestMapping(method = RequestMethod.POST)
     public String submit(
-            @RequestParam("token") String token,
+            @ModelAttribute("token") @RequestParam("token") String token,
             @Valid ResetPasswordChangeForm form,
             BindingResult bindingResult) {
         final KupraUser user = kupraUsers.findByPasswordResetToken(token);

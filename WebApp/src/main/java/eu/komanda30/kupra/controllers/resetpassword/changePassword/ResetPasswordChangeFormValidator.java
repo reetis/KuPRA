@@ -2,9 +2,11 @@ package eu.komanda30.kupra.controllers.resetpassword.changePassword;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Component
 public class ResetPasswordChangeFormValidator implements Validator {
     public static final Logger LOG = LoggerFactory.getLogger(ResetPasswordChangeFormValidator.class);
 
