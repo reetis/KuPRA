@@ -2,9 +2,6 @@ package eu.komanda30.kupra.controllers.menu;
 
 import java.util.Date;
 
-/**
- * Created by Gintare on 2014-12-07.
- */
 public class MenuItemForm {
     private int recipe_id;
     private Date date_time;

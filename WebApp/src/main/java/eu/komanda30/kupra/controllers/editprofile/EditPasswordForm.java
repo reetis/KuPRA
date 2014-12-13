@@ -3,9 +3,6 @@ package eu.komanda30.kupra.controllers.editprofile;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created by Lukas on 2014.11.30.
- */
 public class EditPasswordForm {
 
 

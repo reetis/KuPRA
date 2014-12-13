@@ -31,9 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Created by Lukas on 2014.10.23.
- */
 @RequestMapping("/profile")
 @Controller
 public class EditProfileController {

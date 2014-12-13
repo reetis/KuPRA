@@ -1,8 +1,5 @@
 package eu.komanda30.kupra.controllers.friendship.notifications_list;
 
-/**
- * Created by Ignas on 11/30/2014.
- */
 public class NotificationListUnit {
 
     private String name;

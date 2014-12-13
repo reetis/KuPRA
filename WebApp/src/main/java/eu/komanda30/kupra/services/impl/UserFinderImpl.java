@@ -27,6 +27,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserFinderImpl implements UserFinder {
     public static final float THRESHOLD = 0.1f;
+    public static final int PREFIX_LENGTH = 1;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserFinderImpl.class);
     @Autowired
     private EntityManager entityManager;
@@ -82,7 +83,7 @@ public class UserFinderImpl implements UserFinder {
     }
 
     private Query publicProfilesByText(String searchText, QueryBuilder qb) {
-        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(3)
+        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(PREFIX_LENGTH)
                 .onFields("username")
                 .matching(searchText.trim())
                 .createQuery();
@@ -111,7 +112,7 @@ public class UserFinderImpl implements UserFinder {
     }
 
     private Query allFieldsQuery(String searchText, QueryBuilder qb) {
-        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(3)
+        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(PREFIX_LENGTH)
                 .onFields(
                         "username",
                         "profile.email",

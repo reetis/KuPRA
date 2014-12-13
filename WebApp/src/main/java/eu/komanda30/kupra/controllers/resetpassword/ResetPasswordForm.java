@@ -1,13 +1,16 @@
-package eu.komanda30.kupra.controllers.login;
+package eu.komanda30.kupra.controllers.resetpassword;
 
 import javax.validation.constraints.Size;
 
-public class LoginForm {
+/**
+ * Created by Gintare on 2014-10-23.
+ */
+public class ResetPasswordForm {
 
-    @Size(min=1,max = 25)
+    @Size(min = 1, max = 25)
     private String username;
 
-    @Size(min=1,max = 25)
+    @Size(min = 1, max = 25)
     private String password;
 
     private boolean rememberMe;

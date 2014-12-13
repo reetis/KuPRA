@@ -3,9 +3,6 @@ package eu.komanda30.kupra.controllers.product;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-/**
- * Created by Gintare on 2014-11-27.
- */
 public class NewProductForm {
 
     @Min(0)

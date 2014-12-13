@@ -5,9 +5,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
-/**
- * Created by Lukas on 2014.10.23.
- */
 public class EditProfileForm {
 
     private String tmpId;

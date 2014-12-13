@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.login;
+package eu.komanda30.kupra.controllers.resetpassword;
 
 import javax.validation.Valid;
 
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping("/resetPassword")
+public class ResetPasswordController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ResetPasswordController.class);
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showLogin(final LoginForm form,
+    public String showLogin(final ResetPasswordForm form,
                             final BindingResult bindingResult,
                             @RequestParam(value = "error", required = false) final String error) {
         LOG.debug("Login requested for user: {}", form.getUsername());
@@ -30,8 +30,8 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String login(@Valid final LoginForm form,
-                         final BindingResult bindingResult) {
+    public String login(@Valid final ResetPasswordForm form,
+                        final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "login";
         }

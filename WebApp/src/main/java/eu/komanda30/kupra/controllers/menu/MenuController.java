@@ -1,8 +1,12 @@
 package eu.komanda30.kupra.controllers.menu;
 
-import eu.komanda30.kupra.entity.*;
+import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Menu;
 import eu.komanda30.kupra.repositories.KupraUsers;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,13 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.awt.*;
-
-/**
- * Created by Gintare on 2014-12-07.
- */
 @RequestMapping("/menu")
 @Controller
 public class MenuController {

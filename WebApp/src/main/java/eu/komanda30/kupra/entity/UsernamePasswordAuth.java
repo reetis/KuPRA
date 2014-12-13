@@ -1,5 +1,8 @@
 package eu.komanda30.kupra.entity;
 
+import java.util.Date;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,6 +28,12 @@ public class UsernamePasswordAuth {
     @Column(length = 64)
     private String password;
 
+    @Column(length = 64)
+    private String resetPasswordToken;
+
+    @Column
+    private Date resetPasswordTokenValidTill;
+
     //for hibernate
     protected UsernamePasswordAuth() {}
 
@@ -48,5 +57,16 @@ public class UsernamePasswordAuth {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String generateResetPasswordToken() {
+        resetPasswordToken = UUID.randomUUID().toString();
+        resetPasswordTokenValidTill = new Date();
+        return resetPasswordToken;
+    }
+
+    public void invalidateResetPasswordToken() {
+        resetPasswordToken = null;
+        resetPasswordTokenValidTill = null;
     }
 }
