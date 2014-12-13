@@ -28,10 +28,10 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Class[] { WebConfig.class };
     }
 
-    @Override
+    /*@Override
     protected String[] getServletMappings() {
         return new String[] { "/*" };
-    }
+    } */
 
     @Override
     protected Filter[] getServletFilters() {
