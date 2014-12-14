@@ -16,7 +16,8 @@
     <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap Datetime Picker CSS -->
-    <link th:href="@{/css/bootstrap-datetimepicker.css}" href="../../css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap-datetimepicker.css}" href="../../css/bootstrap-datetimepicker.css"
+          rel="stylesheet"/>
 
     <!-- Kupra CSS -->
     <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
@@ -38,68 +39,170 @@
      data-toggle="modal" data-target="#addToMenu" th:attr="data-recipeid=${rcp.recipeId}"
      th:title="#{recipe-list.addToMenu}"/>
 
+<img th:src="@{/images/addlist_white.png}" src="../../images/addlist_white.png"
+     class="linkImage"
+     data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"
+     data-toggle="modal" data-target="#addToMenu2" th:attr="data-recipeid=${rcp.recipeId}"
+     th:title="#{recipe-list.addToMenu}"/>
+
 <div class="modal fade" id="addToMenu" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <h4 class="modal-title">Pvd</h4>
             </div>
-            <div class="modal-body" th:fragment="modalBody">
-                <form id="addToMenuForm">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label for="recipe_id" class="control-label col-md-2">Pavadinims</label>
-                        <div class="col-md-10">
-                            <input type="hidden" th:field="${newMenuItemForm.recipe_id}"/>
-                            <input type="text" class="form-control" value="recepts" id="recipe_id"
-                                    th:field="${newMenuItemForm.recipeName}" readonly="" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="servings_qty" class="control-label col-md-2">Porc. sk.</label>
-                        <div class="col-md-10">
-                            <input class="form-control" type="number" min="1" value="1" id="servings_qty"
-                                    th:field="${newMenuItemForm.servings}"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="datetime" class="control-label col-md-2">Data</label>
-                        <div class="col-md-10">
-                            <div class='input-group date' id='datetimepicker'>
-                                <input type='text' class="form-control" id="datetime" name="date_time"/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+            <div th:fragment="modalBodyFooter">
+                <div class="modal-body">
+                    <form id="addToMenuForm">
+                        <div class="form-horizontal">
+                            <div class="form-group" th:classappend="${#fields.hasErrors('newMenuItemForm.recipe_id')} ? ' has-error'">
+                                <label for="recipe_id" class="control-label col-md-2"
+                                        th:text="#{add-to-menu-modal.name}">Pavadinims</label>
+                                <div class="col-md-10">
+                                    <input type="hidden" th:field="${newMenuItemForm.recipe_id}"/>
+                                    <input type="text" class="form-control" value="recepts" id="recipe_id"
+                                           th:field="${newMenuItemForm.recipeName}" readonly=""/>
+                                </div>
+                                <div class="help-block col-md-10 col-md-offset-2"
+                                     th:if="${#fields.hasErrors('newMenuItemForm.recipe_id')}"
+                                     th:errors="${newMenuItemForm.recipe_id}">Validation errors</div>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('newMenuItemForm.servings')} ? ' has-error'">
+                                <label for="servings_qty" class="control-label col-md-2"
+                                       th:text="#{add-to-menu-modal.serving-qty}">Porc. sk.</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="number" min="1" value="1" id="servings_qty"
+                                           th:field="${newMenuItemForm.servings}"/>
+                                </div>
+                                <div class="help-block col-md-10 col-md-offset-2"
+                                     th:if="${#fields.hasErrors('newMenuItemForm.servings')}"
+                                     th:errors="${newMenuItemForm.servings}">Validation errors</div>
+                            </div>
+                            <div class="form-group" th:classappend="${#fields.hasErrors('newMenuItemForm.date_time')} ? ' has-error'">
+                                <label for="datetime" class="control-label col-md-2"
+                                       th:text="#{add-to-menu-modal.date}">Data</label>
+
+                                <div class="col-md-10">
+                                    <div class='input-group date' id='datetimepicker'>
+                                        <input type='text' class="form-control" id="datetime"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="help-block col-md-10 col-md-offset-2"
+                                     th:if="${#fields.hasErrors('newMenuItemForm.date_time')}"
+                                     th:errors="${newMenuItemForm.date_time}">Validation errors</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                </form>
-                <script type="text/javascript" th:inline="javascript">
-                    +function($){
-                        $(document).ready(function() {
-                            var datetimePicker = $('#datetimepicker');
-                            var currentTime = /*[[${#dates.format(newMenuItemForm.date_time, 'yyyy-MM-dd HH:mm')}]]*/;      //TODO: nėra defaultinės reikšmės (Neveikia su new Date() )
-                            datetimePicker.datetimepicker({
-                                language: /*[[${shortLocale}]]*/ 'en',
-                                defaultDate: moment(currentTime)
+                        <input type="hidden" name="date_time" id="datetimefinal"/>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    </form>
+                    <script type="text/javascript" th:inline="javascript">
+                        +function ($) {
+                            $(document).ready(function () {
+                                var datetimePicker = $('#datetimepicker');
+                                var currentTime = /*[[${#dates.format(newMenuItemForm.date_time, 'yyyy-MM-dd HH:mm')}]]*/;      //TODO: nėra defaultinės reikšmės (Neveikia su new Date() )
+                                datetimePicker.datetimepicker({
+                                    language: /*[[${shortLocale}]]*/ 'en',
+                                    defaultDate: moment(currentTime)
+                                });
+                                datetimePicker.data("DateTimePicker").setMinDate(currentTime);
                             });
-                            datetimePicker.data("DateTimePicker").setMinDate(currentTime);
-                        });
-                    }(jQuery);
-                </script>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Clsoe</button>
-                <button type="button" class="btn btn-primary">Sned mssaege</button>
+
+                            $('#submitButton').click(function () {
+                                var submitUrl = /*[[@{/menu/add}]]*/ '#';
+                                var formattedTime = moment($('#datetime').val()).format("YYYY-MM-D HH:mm");
+                                $('#datetimefinal').val(formattedTime);
+                                if (submitUrl != '#') {
+                                    $("#modal-body-footer").load(submitUrl, $("#addToMenuForm").serializeArray());
+                                }
+                            });
+                        }(jQuery);
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            th:text="#{add-to-menu-modal.close}">Clsoe</button>
+                    <button type="button" class="btn btn-primary" id="submitButton"
+                            th:text="#{add-to-menu-modal.send}">Sned mssaege</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="addToMenu2" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">Pvd</h4>
+            </div>
+            <div th:fragment="modalBodyFooterSuccess">
+                <div class="modal-body">
+                    <form id="addToMenuForm">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="recipe_id2" class="control-label col-md-2"
+                                       th:text="#{add-to-menu-modal.name}">Pavadinims</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control" value="recepts" id="recipe_id2"
+                                           th:field="${newMenuItemForm.recipeName}" disabled=""/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="servings_qty2" class="control-label col-md-2"
+                                       th:text="#{add-to-menu-modal.serving-qty}">Porc. sk.</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="number" min="1" value="1" id="servings_qty2"
+                                           th:field="${newMenuItemForm.servings}" disabled=""/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="datetime2" class="control-label col-md-2"
+                                       th:text="#{add-to-menu-modal.date}">Data</label>
 
+                                <div class="col-md-10">
+                                    <div class='input-group date' id='datetimepicker2'>
+                                        <input type='text' class="form-control" id="datetime2" disabled=""/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    <div class="col-md-12 text-center">
+                        <p class="text-success" th:text="#{add-to-menu-modal.success}">success</p>
+                    </div>
+                    <script type="text/javascript" th:inline="javascript">
+                        +function ($) {
+                            $(document).ready(function () {
+                                var datetimePicker = $('#datetimepicker2');
+                                var currentTime = /*[[${#dates.format(newMenuItemForm.date_time, 'yyyy-MM-dd HH:mm')}]]*/;      //TODO: nėra defaultinės reikšmės (Neveikia su new Date() )
+                                datetimePicker.datetimepicker({
+                                    language: /*[[${shortLocale}]]*/ 'en',
+                                    defaultDate: moment(currentTime)
+                                });
+                                datetimePicker.data("DateTimePicker").setMinDate(currentTime);
+                            });
+
+                        }(jQuery);
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            th:text="#{add-to-menu-modal.close}">Clsoe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div th:replace="layout :: footer"></div>
 

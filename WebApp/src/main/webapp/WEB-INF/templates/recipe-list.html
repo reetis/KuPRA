@@ -127,14 +127,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Pvd</h4>
+                <h4 class="modal-title" th:text="#{recipe-list.addToMenu}">Pvd</h4>
             </div>
-            <div class="modal-body" id="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Clsoe</button>
-                <button type="button" class="btn btn-primary" id="submitButton">Sned mssaege</button>
+            <div id="modal-body-footer">
             </div>
         </div>
     </div>
@@ -240,20 +235,9 @@
             var modal = $(this);
             var frameUrl = /*[[@{/menu/add}]]*/ '#';
             frameUrl = frameUrl + "/" + recipeid;
-            $("#modal-body").load(frameUrl);
+            $("#modal-body-footer").load(frameUrl);
 
         })
-
-        $('#submitButton').click(function () {
-            // <![CDATA[
-            var submitUrl = /*[[@{/menu/add}]]*/ '#';
-            $("#submitButton").click(function () {
-                if (submitUrl != '#') {
-                    $("#modal-body").load(submitUrl, $("#addToMenuForm").serializeArray());
-                }
-            });
-            // ]]>
-        });
     }(jQuery);
 </script>
 
