@@ -62,6 +62,8 @@ public class PersistenceConfig {
         flyway.setDataSource(dataSource);
         flyway.setInitOnMigrate(true);
         flyway.setLocations(migrationDirs);
+        flyway.setOutOfOrder(true);
+        flyway.setCleanOnValidationError(environment.getProperty("flyway.clean_on_error", Boolean.TYPE, false));
         flyway.migrate();
 
         return dataSource;
