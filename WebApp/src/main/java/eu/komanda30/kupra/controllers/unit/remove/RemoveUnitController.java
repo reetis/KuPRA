@@ -6,7 +6,7 @@ import eu.komanda30.kupra.repositories.Units;
 
 import javax.annotation.Resource;
 
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +23,7 @@ public class RemoveUnitController {
     @Resource
     private Units units;
 
-    @Secured("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseBody
     @RequestMapping(value="/delete", method = RequestMethod.POST)
     public String deleteUnit(@RequestParam("unit_id") Integer unitId) {

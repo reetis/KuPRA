@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.unit;
+package eu.komanda30.kupra.controllers.editunitpopup;
 
 import eu.komanda30.kupra.repositories.Units;
 
@@ -9,18 +9,18 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class NewUnitFormValidator implements Validator {
+public class UnitEditFormValidator implements Validator {
     @Resource
     private Units units;
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return NewUnitForm.class.isAssignableFrom(clazz);
+        return UnitEditForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        final NewUnitForm form = (NewUnitForm)target;
+        final UnitEditForm form = (UnitEditForm)target;
         if (units.findByName(form.getName()) != null) {
             errors.rejectValue("name","AlreadyUsed", new Object[] {form.getName()}, null);
         }

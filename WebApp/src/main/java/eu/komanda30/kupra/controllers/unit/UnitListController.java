@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class UnitListController {
     @Resource
     private Products products;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET)
     public String showUnits() {
         return "unit-list";

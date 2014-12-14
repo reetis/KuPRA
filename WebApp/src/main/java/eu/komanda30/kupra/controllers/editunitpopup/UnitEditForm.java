@@ -1,8 +1,13 @@
-package eu.komanda30.kupra.controllers.unit;
+package eu.komanda30.kupra.controllers.editunitpopup;
 
 import javax.validation.constraints.Size;
 
-public class NewUnitForm {
+import org.apache.avro.reflect.Nullable;
+
+public class UnitEditForm {
+    @Nullable
+    private Integer unitId;
+
     @Size(min=3, max=64)
     private String name;
 
@@ -23,5 +28,18 @@ public class NewUnitForm {
 
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
+    }
+
+    public void setUnitId(@Nullable Integer unitId) {
+        this.unitId = unitId;
+    }
+
+    @Nullable
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public boolean isEditForm() {
+        return unitId != null;
     }
 }

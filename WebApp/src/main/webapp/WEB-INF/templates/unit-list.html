@@ -29,6 +29,7 @@
 </head>
 <body>
 <div th:replace="layout :: header"></div>
+<div th:replace="popups/unit :: core"></div>
 
 <div class="container">
     <div class="row">
@@ -40,7 +41,23 @@
                         <h1 th:text="#{unitsList.title}">CP test</h1>
                     </div>
                     <div class="col-xs-1">
-                        <div th:replace="newUnit :: newUnitButton"></div>
+                        <button class="btn-default btn" id="newUnitButton" th:title="#{units-list.add_unit}"
+                                data-tooltip="true" data-placement="bottom"
+                                title="Tooltip on bottom">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+
+                        <script type="application/javascript" th:inline="javascript">
+                            // <![CDATA[
+                            +function ($) {
+                                $('#newUnitButton').click(function() {
+                                    openNewUnitPopup(function () {
+                                        window.location.reload();
+                                    });
+                                });
+                            }(jQuery);
+                            // ]]>
+                        </script>
                     </div>
                 </div>
             </div>
@@ -54,7 +71,7 @@
                     <input type="hidden" th:value="${unit.id}"/>
 
                     <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">
-                        Pvdn</h3>
+                        Pavadinimas vieneto (abbr)</h3>
                     <button class="btn-default btn unitDeleteButton" id="newProductButton"
                             data-toggle="tooltip" data-placement="bottom"
                             title="Tooltip on bottom"
@@ -73,11 +90,10 @@
         </div>
         <div th:if="${#lists.isEmpty(units)}">
             <div class="col-md-12">
-                <p th:text="#{unitsList.no_units}">Nrė rceptų</p>
+                <p th:text="#{unitsList.no_units}">Nėra rceptų</p>
             </div>
         </div>
     </div>
-
 </div>
 
 <div th:replace="layout :: footer"></div>

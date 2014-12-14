@@ -29,10 +29,13 @@
     <![endif]-->
 </head>
 <body>
+<div th:replace="popups/unit :: core"></div>
+
 <div class="container">
     <div th:fragment="core">
         <!-- Modal -->
-        <div class="modal fade" id="newProductModal" tabindex="-1" role="dialog" aria-labelledby="newUnitLabel"
+        <div class="modal fade" id="newProductModal" tabindex="-1" role="dialog"
+             aria-labelledby="newProductLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" id="productEditFormContent">
@@ -103,7 +106,9 @@
 
 
                 <div th:attrappend="class=${#fields.hasErrors('selectedUnitId')}?' has-error'"
-                     class="dropdown form-group">
+                         class="dropdown form-group"
+                         th:fragment="selectUnitForm"
+                         id="selectUnitForm">
                     <label for="description" class="control-label col-sm-2" th:text="#{productEditForm.selectedUnitId}">Vienetas</label>
 
                     <div class="col-sm-8" th:if="${!units.isEmpty()}">
@@ -117,7 +122,24 @@
 
                     </div>
                     <div class="col-sm-2">
-                        <div th:replace="newUnit :: newUnitButton"></div>
+                        <button class="btn-default btn" id="newUnitButton" th:title="#{units-list.add_unit}"
+                                data-tooltip="true" data-placement="bottom"
+                                title="Tooltip on bottom">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+
+                        <script type="application/javascript" th:inline="javascript">
+                            // <![CDATA[
+                            +function ($) {
+                                var frameUrl = /*[[@{/product-edit-popup/getSelectUnitForm}]]*/ '#';
+                                $('#newUnitButton').click(function() {
+                                    openNewUnitPopup(function () {
+                                        $('#selectUnitForm').load(frameUrl);
+                                    });
+                                });
+                            }(jQuery);
+                            // ]]>
+                        </script>
                     </div>
                 </div>
 
@@ -208,6 +230,8 @@
             </div>
         </div>
     </div>
+
+    <hr/>
 
     <!-- Buttons to test popups -->
     <button class="btn-default btn" id="testBtn1"

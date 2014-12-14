@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.newproductpopup;
+package eu.komanda30.kupra.controllers.editproductpopup;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;

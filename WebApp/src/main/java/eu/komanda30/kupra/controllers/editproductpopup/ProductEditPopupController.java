@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.newproductpopup;
+package eu.komanda30.kupra.controllers.editproductpopup;
 
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Unit;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ProductEditPopupController {
 
     @Resource
-    private ProductEditPopupFormValidator newProductValidator;
+    private ProductEditFormValidator newProductValidator;
 
     @Resource
     private Units units;
@@ -40,13 +40,14 @@ public class ProductEditPopupController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showNewUnitForm(final ProductEditForm form) {
-        return "popups/productEdit :: productEditForm";
+    public String showNewProductForm(final ProductEditForm form) {
+        return "popups/product :: productEditForm";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/{productId}",method = RequestMethod.GET)
-    public String showEditUnitForm(
+    @Transactional
+    public String showEditProductForm(
             @PathVariable("productId") int productId,
             final ProductEditForm form) {
         final Product product = products.findOne(productId);
@@ -58,7 +59,7 @@ public class ProductEditPopupController {
         form.setSelectedUnitId(product.getUnit().getId());
         form.setUnitName(product.getUnit().getName());
 
-        return "popups/productEdit :: productEditForm";
+        return "popups/product :: productEditForm";
     }
 
     @ModelAttribute("units")
@@ -72,7 +73,7 @@ public class ProductEditPopupController {
                              final BindingResult bindingResult,
                              HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
-            return "popups/productEdit :: productEditForm";
+            return "popups/product :: productEditForm";
         }
 
         final Product product;
@@ -90,9 +91,13 @@ public class ProductEditPopupController {
 
         final Unit unit = units.findOne(form.getSelectedUnitId());
         form.setUnitName(unit.getName());
-        return "popups/productEdit :: productSavedForm";
+        return "popups/product :: productSavedForm";
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public String getSelectUnitForm() {
+        return "popup/product :: selectUnitForm";
+    }
 }
 
 

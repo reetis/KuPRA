@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.newproductpopup;
+package eu.komanda30.kupra.controllers.editproductpopup;
 
 import eu.komanda30.kupra.repositories.Products;
 
@@ -9,7 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class ProductEditPopupFormValidator implements Validator {
+public class ProductEditFormValidator implements Validator {
     @Resource
     private Products products;
 

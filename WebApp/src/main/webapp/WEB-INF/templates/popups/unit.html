@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 <head>
-    <base href="../../" th:remove="all"/>
+    <base href="../../../" th:remove="all"/>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
@@ -30,56 +30,56 @@
 </head>
 <body>
 <div class="container">
-    <div th:fragment="newUnitButton">
-        <!-- Button trigger modal -->
-        <button class="btn-default btn" id="newUnitButton" th:title="#{units-list.add_unit}"
-                data-tooltip="true" data-placement="bottom"
-                title="Tooltip on bottom">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
-
-        <script type="application/javascript" th:inline="javascript">
-            // <![CDATA[
-            +function ($) {
-                var frameUrl = /*[[@{/unit/add}]]*/ '#';
-                $("#newUnitButton").click(function () {
-                    $("#newUnitModal").modal("toggle");
-                    if (frameUrl != '#') {
-                        $("#newUnitFormContent").load(frameUrl);
-                    } else {
-                        $("#newUnitFormContent").empty();
-                        $("#newUnitForm").clone(true).appendTo("#newUnitFormContent");
-                    }
-                });
-            }(jQuery);
-            // ]]>
-        </script>
-
+    <div th:fragment="core">
         <!-- Modal -->
-        <div class="modal fade" id="newUnitModal" tabindex="-1" role="dialog" aria-labelledby="newUnitLabel"
+        <div class="modal fade" id="newUnitModal" tabindex="-1" role="dialog"
+             aria-labelledby="newUnitLabel"
              aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span aria-hidden="true">&times;</span>
-                            <span class="sr-only">Close</span>
-                        </button>
-                        <h4 class="modal-title" id="newUnitLabel" th:text="#{newUnitForm.title}">Add new unit</h4>
-                    </div>
-                    <div id="newUnitFormContent">
-                    </div>
+                <div class="modal-content" id="unitEditFormContent">
                 </div>
             </div>
         </div>
+
+        <script type="application/javascript" th:inline="javascript">
+            // <![CDATA[
+            var openUnitEditPopup;
+            var openNewUnitPopup;
+
+            +function ($) {
+                var frameUrl = /*[[@{/unit-edit-popup/}]]*/ '#';
+
+                var $modal = $("#newUnitModal");
+                openUnitEditPopup = function (unitId, callback) {
+                    $modal.modal("toggle");
+                    $modal.on('hide.bs.modal', function() {
+                        if (callback) {
+                            callback();
+                        }
+                    });
+                    $modal.find("#unitEditFormContent").load(frameUrl+unitId);
+                };
+
+                openNewUnitPopup = function (callback) {
+                    openUnitEditPopup("",callback);
+                };
+            }(jQuery);
+            // ]]>
+        </script>
     </div>
 
-    <div style="display:none" th:remove="all" id="templates">
+    <div th:fragment="unitEditForm" id="unitEditForm" class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title" th:text="#{newUnitForm.title}">Add new unit</h4>
+        </div>
+
         <form class="form-horizontal" role="form" action="#" method="post"
               th:action="@{/unit}"
-              th:object="${newUnitForm}"
-              th:fragment="newUnitForm"
-              id="newUnitForm">
+              th:object="${newUnitForm}">
 
             <div class="modal-body">
                 <div class="form-group"
@@ -133,11 +133,20 @@
 
             </script>
         </form>
+    </div>
 
-        <div class="form-horizontal" role="form"
-             th:fragment="unitSavedForm"
-             id="unitSavedForm">
+    <hr/>
 
+    <div th:fragment="unitSavedForm" id="unitSavedForm" class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title" th:text="#{newUnitForm.title}">Add new unit</h4>
+        </div>
+
+        <div class="form-horizontal" role="form">
             <div class="modal-body">
                 <div class="row">
                     <label for="name" class="col-sm-2"
@@ -166,6 +175,37 @@
             </div>
         </div>
     </div>
+
+    <hr/>
+
+    <!-- Buttons to test popups -->
+    <button class="btn-default btn" id="testBtn1"
+            data-toggle="tooltip" data-placement="bottom"
+            title="Tooltip on bottom">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 1</span>
+    </button>
+    <button class="btn-default btn" id="testBtn2"
+            data-toggle="tooltip" data-placement="bottom"
+            title="Tooltip on bottom">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 2</span>
+    </button>
+    <script type="application/javascript">
+        +function ($) {
+            var $modal = $("#newUnitModal");
+            var $modalBody = $modal.find("#unitEditFormContent");
+
+            $("#testBtn1").click(function () {
+                $modalBody.empty();
+                $modal.modal("toggle");
+                $("#unitEditForm").clone(true).appendTo($modalBody);
+            });
+            $("#testBtn2").click(function () {
+                $modalBody.empty();
+                $modal.modal("toggle");
+                $("#unitSavedForm").clone(true).appendTo($modalBody);
+            });
+        }(jQuery);
+    </script>
 </div>
 <!-- Bootstrap javascript -->
 <script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js" type="text/javascript"></script>
