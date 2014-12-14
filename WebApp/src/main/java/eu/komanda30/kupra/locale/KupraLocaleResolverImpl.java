@@ -75,11 +75,11 @@ public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver imple
     @Transactional
     @Override
     public void setLocaleContext(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, LocaleContext localeContext) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        KupraUser user = kupraUsers.findOne(auth.getName());
-        if (user==null) {
-            saveLocaleInSession(httpServletRequest, localeContext.getLocale());
-        } else {
+        saveLocaleInSession(httpServletRequest, localeContext.getLocale());
+
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser user = kupraUsers.findOne(auth.getName());
+        if (user != null) {
             user.getProfile().setLocale(localeContext.getLocale());
         }
         kupraUsers.save(user);
