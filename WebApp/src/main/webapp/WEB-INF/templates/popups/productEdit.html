@@ -31,6 +31,15 @@
 <body>
 <div class="container">
     <div th:fragment="core">
+        <!-- Modal -->
+        <div class="modal fade" id="newProductModal" tabindex="-1" role="dialog" aria-labelledby="newUnitLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" id="productEditFormContent">
+                </div>
+            </div>
+        </div>
+
         <script type="application/javascript" th:inline="javascript">
             // <![CDATA[
             var openProductEditPopup;
@@ -57,15 +66,6 @@
             }(jQuery);
             // ]]>
         </script>
-
-        <!-- Modal -->
-        <div class="modal fade" id="newProductModal" tabindex="-1" role="dialog" aria-labelledby="newUnitLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" id="productEditFormContent">
-                </div>
-            </div>
-        </div>
     </div>
 
     <div th:fragment="productEditForm" id="productEditForm" class="modal-content">
@@ -83,6 +83,8 @@
         <form class="form-horizontal" role="form" action="#" method="post"
               th:action="@{/product-edit-popup}"
               th:object="${productEditForm}">
+
+            <input type="hidden" th:field="*{productId}"/>
 
             <div class="modal-body">
                 <div class="form-group"
@@ -147,7 +149,7 @@
                     var submitUrl = /*[[@{/product-edit-popup}]]*/ '#';
                     $("#newProductCreateButton").click(function () {
                         if (submitUrl != '#') {
-                            $("#productEditFormContent").load(submitUrl, $("#productEditForm").serializeArray());
+                            $("#productEditFormContent").load(submitUrl, $("#productEditForm form").serializeArray());
                         } else {
                             $("#productEditFormContent").empty();
                             $("#productSavedForm").clone(true).appendTo("#productEditFormContent");
@@ -167,7 +169,7 @@
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
             </button>
-            <h4 class="modal-title" th:text="#{productEditForm.title}">Add new product</h4>
+            <h4 class="modal-title" th:text="${productEditForm.editForm} ? #{productEditForm.title.edit} : #{productEditForm.title.create}">Add new product</h4>
         </div>
 
         <div class="form-horizontal" role="form">

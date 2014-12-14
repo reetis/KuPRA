@@ -73,19 +73,20 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h3 th:text="${product.name}+' ('+${product.unit}+')'" class="small-title">Pvdn</h3>
-                    <input type="hidden" th:value="${product.productId}"/>
                     <p th:text="${product.description}">Dscr</p>
-                    <button class="btn-default btn productDeleteButton" id="product-delete-button"
+                    <button class="btn-default btn productDeleteButton"
                             data-toggle="tooltip" data-placement="bottom"
-                            title="Tooltip on bottom"
+                            title="Delete"
                             th:classappend="${product.isUsed}? 'disabled'"
-                            th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_not_used}">
+                            th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_not_used}"
+                            th:attr="data-productid=${product.productId}">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
-                    <button class="btn-default btn" id="product-delete-button"
+                    <button class="btn-default btn productEditButton"
                             th:title="#{products-list.edit}"
                             data-toggle="tooltip" data-placement="bottom"
-                            title="Tooltip on bottom">
+                            title="Edit"
+                            th:attr="data-productid=${product.productId}">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -118,24 +119,27 @@
 <script type="application/javascript" th:inline="javascript">
     +function($){
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+        var productDeleteUrl = /*[[@{/products/}]]*/ '#';
 
-        productDeleteUrl = /*[[@{/products/}]]*/ '#';
-        productDeleteButtons = $(".productDeleteButton");
-
-        if (productDeleteButtons != null){
-            productDeleteButtons.click(function(){
-                productId = $(this).parent().find('input').val();
-                $.ajax({
-                    url: productDeleteUrl + productId,
-                    type: 'DELETE',
-                    async: true,
-                    cache: false,
-                    headers: {'X-CSRF-TOKEN': _csrf}
-                }).done(function(){
-                    location.reload();
-                });
+        $(".productDeleteButton").click(function(){
+            productId = $(this).data('productid');
+            $.ajax({
+                url: productDeleteUrl + productId,
+                type: 'DELETE',
+                async: true,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf}
+            }).done(function(){
+                location.reload();
             });
-        }
+        });
+
+        $(".productEditButton").click(function() {
+            var productId = $(this).data('productid');
+            openProductEditPopup(productId, function() {
+                location.reload();
+            });
+        });
     }(jQuery);
 </script>
 </body>

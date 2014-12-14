@@ -21,7 +21,7 @@ public class ProductEditPopupFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         final ProductEditForm form = (ProductEditForm)target;
-        if (products.findByName(form.getName()) != null) {
+        if (!form.isEditForm() && products.findByName(form.getName()) != null) {
             errors.rejectValue("name","AlreadyUsed", new Object[] {form.getName()}, null);
         }
     }
