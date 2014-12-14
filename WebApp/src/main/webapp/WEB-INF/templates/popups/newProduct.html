@@ -35,7 +35,7 @@
             // <![CDATA[
             var openNewProductPopup;
             +function ($) {
-                var frameUrl = /*[[@{/product/add}]]*/ '#';
+                var frameUrl = /*[[@{/new-product-popup}]]*/ '#';
                 openNewProductPopup = function (callback) {
                     var $modal = $("#newProductModal");
                     $modal.modal("toggle");
@@ -69,40 +69,9 @@
         </div>
     </div>
 
-    <!-- Buttons to test static content -->
-    <div th:remove="all">
-        <button class="btn-default btn" id="testBtn1"
-                data-toggle="tooltip" data-placement="bottom"
-                title="Tooltip on bottom">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 1</span>
-        </button>
-        <button class="btn-default btn" id="testBtn2"
-                data-toggle="tooltip" data-placement="bottom"
-                title="Tooltip on bottom">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 2</span>
-        </button>
-        <script type="application/javascript">
-            +function ($) {
-                var $modal = $("#newProductModal");
-                var $modalBody = $modal.find("#newProductFormContent");
-
-                $("#testBtn1").click(function () {
-                    $modalBody.empty();
-                    $modal.modal("toggle");
-                    $("#newProductForm").clone(true).appendTo($modalBody);
-                });
-                $("#testBtn2").click(function () {
-                    $modalBody.empty();
-                    $modal.modal("toggle");
-                    $("#productSavedForm").clone(true).appendTo($modalBody);
-                });
-            }(jQuery);
-        </script>
-    </div>
-
     <div style="display:none" th:remove="all" id="templates">
         <form class="form-horizontal" role="form" action="#" method="post"
-              th:action="@{/product}"
+              th:action="@{/new-product-popup}"
               th:object="${newProductForm}"
               th:fragment="newProductForm"
               id="newProductForm">
@@ -167,7 +136,7 @@
             <script type="application/javascript" th:inline="javascript">
                 // <![CDATA[
                 +function ($) {
-                    var submitUrl = /*[[@{/product/add}]]*/ '#';
+                    var submitUrl = /*[[@{/new-product-popup}]]*/ '#';
                     $("#newProductCreateButton").click(function () {
                         if (submitUrl != '#') {
                             $("#newProductFormContent").load(submitUrl, $("#newProductForm").serializeArray());
@@ -218,6 +187,37 @@
                         th:text="#{newProductForm.close}">Close</button>
             </div>
         </div>
+    </div>
+
+    <!-- Buttons to test static content -->
+    <div th:remove="all">
+        <button class="btn-default btn" id="testBtn1"
+                data-toggle="tooltip" data-placement="bottom"
+                title="Tooltip on bottom">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 1</span>
+        </button>
+        <button class="btn-default btn" id="testBtn2"
+                data-toggle="tooltip" data-placement="bottom"
+                title="Tooltip on bottom">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 2</span>
+        </button>
+        <script type="application/javascript">
+            +function ($) {
+                var $modal = $("#newProductModal");
+                var $modalBody = $modal.find("#newProductFormContent");
+
+                $("#testBtn1").click(function () {
+                    $modalBody.empty();
+                    $modal.modal("toggle");
+                    $("#newProductForm").clone(true).appendTo($modalBody);
+                });
+                $("#testBtn2").click(function () {
+                    $modalBody.empty();
+                    $modal.modal("toggle");
+                    $("#productSavedForm").clone(true).appendTo($modalBody);
+                });
+            }(jQuery);
+        </script>
     </div>
 </div>
 <!-- Bootstrap javascript -->

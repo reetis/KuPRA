@@ -1,9 +1,9 @@
-package eu.komanda30.kupra.controllers.product;
+package eu.komanda30.kupra.controllers.newproductpopup;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-public class NewProductForm {
+public class NewProductPopupForm {
 
     @Min(0)
     private int selectedUnitId;

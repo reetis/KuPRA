@@ -1,6 +1,4 @@
-package eu.komanda30.kupra.controllers.product;
-
-//import eu.komanda30.kupra.controllers.editprofile.EditProfileForm;
+package eu.komanda30.kupra.controllers.newproductpopup;
 
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Unit;
@@ -20,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/product")
-public class NewProductController {
+@RequestMapping("/new-product-popup")
+public class NewProductPopupController {
 
     @Resource
-    private NewProductValidator newProductValidator;
+    private NewProductPopupFormValidator newProductValidator;
     @Resource
     private Units units;
     @Resource
@@ -35,8 +33,8 @@ public class NewProductController {
         binder.addValidators(newProductValidator);
     }
 
-    @RequestMapping(value="add", method = RequestMethod.GET)
-    public String showUnitFrame(final NewProductForm form) {
+    @RequestMapping(method = RequestMethod.GET)
+    public String showForm(final NewProductPopupForm form) {
         return "popups/newProduct :: newProductForm";
     }
 
@@ -46,9 +44,9 @@ public class NewProductController {
     }
 
     @Transactional
-    @RequestMapping(value="add", method = RequestMethod.POST)
-    public String submit(@Valid final NewProductForm form,
-                         final BindingResult bindingResult) {
+    @RequestMapping(method = RequestMethod.POST)
+    public String submitForm(@Valid final NewProductPopupForm form,
+                             final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "popups/newProduct :: newProductForm";
         }
