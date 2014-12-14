@@ -97,6 +97,10 @@ public class RecipeManagementController {
                 @ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits,
                 @ModelAttribute RecipeImageList imagesList,
                 SessionStatus sessionStatus) {
+        if (productListUnits.isEmpty()) {
+            bindingResult.reject("NoComponents");
+        }
+
         if (bindingResult.hasErrors()){
             imagesList.addAll(getListOfTmpImages(recipeForm.getTmpId()));
             return "recipe_form";
