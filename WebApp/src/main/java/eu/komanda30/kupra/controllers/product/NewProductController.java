@@ -37,7 +37,7 @@ public class NewProductController {
 
     @RequestMapping(value="add", method = RequestMethod.GET)
     public String showUnitFrame(final NewProductForm form) {
-        return "newProduct :: newProductForm";
+        return "popups/newProduct :: newProductForm";
     }
 
     @ModelAttribute("units")
@@ -50,7 +50,7 @@ public class NewProductController {
     public String submit(@Valid final NewProductForm form,
                          final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "newProduct :: newProductForm";
+            return "popups/newProduct :: newProductForm";
         }
         final Product newProductEntity = new Product();
         newProductEntity.setName(form.getName());
@@ -60,7 +60,7 @@ public class NewProductController {
 
         final Unit unit = units.findOne(form.getSelectedUnitId());
         form.setUnitName(unit.getName());
-        return "newProduct :: productSavedForm";
+        return "popups/newProduct :: productSavedForm";
     }
 
 }

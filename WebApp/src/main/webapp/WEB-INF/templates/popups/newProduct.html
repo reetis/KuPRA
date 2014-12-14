@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 <head>
-    <base href="../../" th:remove="all"/>
+    <base href="../../../" th:remove="all"/>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
@@ -30,29 +30,24 @@
 </head>
 <body>
 <div class="container">
-    <div th:fragment="newProductButton">
-
-        <button class="btn-default btn" id="newProductButton" th:title="#{products-list.add_product}"
-                data-toggle="tooltip" data-placement="bottom"
-                title="Tooltip on bottom">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
-
+    <div th:fragment="core">
         <script type="application/javascript" th:inline="javascript">
-
-
+            // <![CDATA[
+            var openNewProductPopup;
             +function ($) {
                 var frameUrl = /*[[@{/product/add}]]*/ '#';
-                $("#newProductButton").click(function () {
-                    $("#newProductModal").modal("toggle");
-                    if (frameUrl != '#') {
-                        $("#newProductFormContent").load(frameUrl);
-                    } else {
-                        $("#newProductFormContent").empty();
-                        $("#newProductForm").clone(true).appendTo("#newProductFormContent");
-                    }
-                });
+                openNewProductPopup = function (callback) {
+                    var $modal = $("#newProductModal");
+                    $modal.modal("toggle");
+                    $modal.on('hide.bs.modal', function() {
+                        if (callback) {
+                            callback();
+                        }
+                    });
+                    $("#newProductFormContent").load(frameUrl);
+                };
             }(jQuery);
+            // ]]>
         </script>
 
         <!-- Modal -->
@@ -72,6 +67,37 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Buttons to test static content -->
+    <div th:remove="all">
+        <button class="btn-default btn" id="testBtn1"
+                data-toggle="tooltip" data-placement="bottom"
+                title="Tooltip on bottom">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 1</span>
+        </button>
+        <button class="btn-default btn" id="testBtn2"
+                data-toggle="tooltip" data-placement="bottom"
+                title="Tooltip on bottom">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 2</span>
+        </button>
+        <script type="application/javascript">
+            +function ($) {
+                var $modal = $("#newProductModal");
+                var $modalBody = $modal.find("#newProductFormContent");
+
+                $("#testBtn1").click(function () {
+                    $modalBody.empty();
+                    $modal.modal("toggle");
+                    $("#newProductForm").clone(true).appendTo($modalBody);
+                });
+                $("#testBtn2").click(function () {
+                    $modalBody.empty();
+                    $modal.modal("toggle");
+                    $("#productSavedForm").clone(true).appendTo($modalBody);
+                });
+            }(jQuery);
+        </script>
     </div>
 
     <div style="display:none" th:remove="all" id="templates">
@@ -139,6 +165,7 @@
             </div>
 
             <script type="application/javascript" th:inline="javascript">
+                // <![CDATA[
                 +function ($) {
                     var submitUrl = /*[[@{/product/add}]]*/ '#';
                     $("#newProductCreateButton").click(function () {
@@ -150,6 +177,7 @@
                         }
                     });
                 }(jQuery);
+                // ]]>
             </script>
         </form>
 
@@ -185,9 +213,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"
-                        onclick="window.location.reload()">Close
-                </button>
+                <button type="button" class="btn btn-default" id="successCloseBtn"
+                        data-dismiss="modal"
+                        th:text="#{newProductForm.close}">Close</button>
             </div>
         </div>
     </div>

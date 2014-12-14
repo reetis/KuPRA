@@ -31,6 +31,7 @@
 </head>
 <body>
 <div th:replace="layout :: header"></div>
+<div th:replace="popups/newProduct :: core"></div>
 
 <div class="container">
     <div class="row">
@@ -42,7 +43,25 @@
                         <h1 th:text="#{productList.title}">CP test</h1>
                     </div>
                     <div class="col-xs-1">
-                        <div th:replace="newProduct :: newProductButton"></div>
+                        <button class="btn-default btn"
+                                type="button"
+                                id="newProductButton"
+                                th:title="#{products-list.add_product}"
+                                data-toggle="tooltip"
+                                data-placement="bottom"
+                                title="Tooltip on bottom">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+
+                        <script type="application/javascript" th:inline="javascript">
+                            +function ($) {
+                                $("#newProductButton").click(function () {
+                                    openNewProductPopup(function() {
+                                        window.location.reload();
+                                    });
+                                });
+                            }(jQuery);
+                        </script>
                     </div>
                 </div>
             </div>

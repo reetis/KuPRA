@@ -197,6 +197,11 @@ public class RecipeManagementController {
         return "recipe_form :: recipeProduct";
     }
 
+    @RequestMapping(value="getSelectProductForm", method = RequestMethod.GET)
+    public String getProducts(@ModelAttribute("unitList") List<RecipeProductListUnit> productListUnits) {
+        return "recipe_form :: selectProductForm";
+    }
+
     @RequestMapping(value="uploadPhotos", method = RequestMethod.POST)
     public String uploadPhotos(@RequestParam("tmpId") String formTmpId,
                                @RequestParam("images") MultipartFile[] files,

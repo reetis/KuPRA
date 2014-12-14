@@ -35,6 +35,8 @@
 </head>
 <body>
 <div th:replace="layout :: header"></div>
+<div th:replace="popups/newProduct :: core"></div>
+
 <div class="container">
 
     <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
@@ -108,7 +110,7 @@
                                 </button>
                             </div>
 
-                            <div>
+                            <div th:fragment="selectProductForm" id="selectProductForm">
                                 <select id="product_select" class="form-control">
                                     <option th:each="product : ${productsList}"
                                             th:value="${product.id}"
@@ -120,7 +122,6 @@
                                 <span id="product-unit"
                                       th:text="${#arrays.isEmpty(productsList)} ? '' : ${productsList[0].unit.abbreviation}"></span>
                             </div>
-
                         </div>
 
                         <button id="recipeProductFormSubmit" class="btn btn-default"
@@ -129,10 +130,34 @@
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </button>
 
-                        <div class="hidden">
-                            <div th:replace="newProduct :: newProductButton"></div>
+                        <div>
+                            <button class="btn-default btn"
+                                    type="button"
+                                    id="newProductButton"
+                                    th:title="#{products-list.add_product}"
+                                    data-toggle="tooltip"
+                                    data-placement="bottom"
+                                    title="Tooltip on bottom">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"
+                                      th:text="#{recipeCreateForm.createNewProduct}">
+                                    Kurti naują produktą
+                                </span>
+                            </button>
+
+                            <script type="application/javascript" th:inline="javascript">
+                                // <![CDATA[
+                                +function ($) {
+                                    var frameUrl = /*[[@{/recipes/getSelectProductForm}]]*/ '#';
+                                    $("#newProductButton").click(function () {
+                                        openNewProductPopup(function() {
+                                            $("#selectProductForm").load(frameUrl);
+                                        });
+                                    });
+                                }(jQuery);
+                                // ]]>
+                            </script>
                         </div>
-                        </div>
+                    </div>
 
                     <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
                         <label for="description" th:text="#{recipeCreateForm.description}">Aprašymas</label>
