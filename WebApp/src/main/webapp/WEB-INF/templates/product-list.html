@@ -31,7 +31,7 @@
 </head>
 <body>
 <div th:replace="layout :: header"></div>
-<div th:replace="popups/newProduct :: core"></div>
+<div th:replace="popups/productEdit :: core"></div>
 
 <div class="container">
     <div class="row">
@@ -56,7 +56,7 @@
                         <script type="application/javascript" th:inline="javascript">
                             +function ($) {
                                 $("#newProductButton").click(function () {
-                                    openNewProductPopup(function() {
+                                    openProductEditPopup(function() {
                                         window.location.reload();
                                     });
                                 });

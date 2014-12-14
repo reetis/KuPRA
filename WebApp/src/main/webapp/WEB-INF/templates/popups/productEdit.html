@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{newProductForm.title}">Regtst</title>
+    <title th:text="#{productEditForm.title}">Regtst</title>
 
     <!-- Bootstrap CSS -->
     <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
@@ -33,18 +33,21 @@
     <div th:fragment="core">
         <script type="application/javascript" th:inline="javascript">
             // <![CDATA[
-            var openNewProductPopup;
+            var openProductEditPopup;
+
             +function ($) {
-                var frameUrl = /*[[@{/new-product-popup}]]*/ '#';
-                openNewProductPopup = function (callback) {
-                    var $modal = $("#newProductModal");
+                var frameUrl = /*[[@{/product-edit-popup}]]*/ '#';
+
+                var $modal = $("#newProductModal");
+                openProductEditPopup = function (productId, callback) {
+
                     $modal.modal("toggle");
                     $modal.on('hide.bs.modal', function() {
                         if (callback) {
                             callback();
                         }
                     });
-                    $("#newProductFormContent").load(frameUrl);
+                    $modal.find("#productEditFormContent").load(frameUrl);
                 };
             }(jQuery);
             // ]]>
@@ -60,9 +63,9 @@
                             <span aria-hidden="true">&times;</span>
                             <span class="sr-only">Close</span>
                         </button>
-                        <h4 class="modal-title" id="newProductLabel" th:text="#{newProductForm.title}">Add new unit</h4>
+                        <h4 class="modal-title" id="newProductLabel" th:text="#{productEditForm.title}">Add new product</h4>
                     </div>
-                    <div id="newProductFormContent">
+                    <div id="productEditFormContent">
                     </div>
                 </div>
             </div>
@@ -71,20 +74,20 @@
 
     <div style="display:none" th:remove="all" id="templates">
         <form class="form-horizontal" role="form" action="#" method="post"
-              th:action="@{/new-product-popup}"
-              th:object="${newProductForm}"
-              th:fragment="newProductForm"
-              id="newProductForm">
+              th:action="@{/product-edit-popup}"
+              th:object="${productEditForm}"
+              th:fragment="productEditForm"
+              id="productEditForm">
 
             <div class="modal-body">
                 <div class="form-group"
                      th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
                     <label for="name" class="control-label col-sm-2"
-                           th:text="#{newProductForm.name}">Name</label>
+                           th:text="#{productEditForm.name}">Name</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control col-sm-8" placeholder="Name" id="name"
-                               th:field="*{name}" th:placeholder="#{newProductForm.name}"/>
+                               th:field="*{name}" th:placeholder="#{productEditForm.name}"/>
                         <span class="help-block"
                               th:if="${#fields.hasErrors('name')}"
                               th:errors="*{name}">Validation errors</span>
@@ -94,7 +97,7 @@
 
                 <div th:attrappend="class=${#fields.hasErrors('selectedUnitId')}?' has-error'"
                      class="dropdown form-group">
-                    <label for="description" class="control-label col-sm-2" th:text="#{newProductForm.selectedUnitId}">Vienetas</label>
+                    <label for="description" class="control-label col-sm-2" th:text="#{productEditForm.selectedUnitId}">Vienetas</label>
 
                     <div class="col-sm-8" th:if="${!units.isEmpty()}">
                         <select class="form-control col-sm-6" th:field="*{selectedUnitId}">
@@ -114,11 +117,11 @@
                 <div class="form-group"
                      th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
                     <label for="description" class="control-label col-sm-2"
-                           th:text="#{newProductForm.description}">description</label>
+                           th:text="#{productEditForm.description}">description</label>
 
                     <div class="col-sm-10">
                         <textarea type="text" class="form-control" placeholder="Description" id="description"
-                                  th:field="*{description}" th:placeholder="#{newProductForm.description}">
+                                  th:field="*{description}" th:placeholder="#{productEditForm.description}">
                         </textarea>
                         <span class="help-block"
                               th:if="${#fields.hasErrors('description')}"
@@ -129,20 +132,20 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{newProductForm.close}">Close</button>
-                <button type="button" class="btn btn-primary" id="newProductCreateButton" th:text="#{newProductForm.create}">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{productEditForm.close}">Close</button>
+                <button type="button" class="btn btn-primary" id="newProductCreateButton" th:text="#{productEditForm.create}">Create</button>
             </div>
 
             <script type="application/javascript" th:inline="javascript">
                 // <![CDATA[
                 +function ($) {
-                    var submitUrl = /*[[@{/new-product-popup}]]*/ '#';
+                    var submitUrl = /*[[@{/product-edit-popup}]]*/ '#';
                     $("#newProductCreateButton").click(function () {
                         if (submitUrl != '#') {
-                            $("#newProductFormContent").load(submitUrl, $("#newProductForm").serializeArray());
+                            $("#productEditFormContent").load(submitUrl, $("#productEditForm").serializeArray());
                         } else {
-                            $("#newProductFormContent").empty();
-                            $("#productSavedForm").clone(true).appendTo("#newProductFormContent");
+                            $("#productEditFormContent").empty();
+                            $("#productSavedForm").clone(true).appendTo("#productEditFormContent");
                         }
                     });
                 }(jQuery);
@@ -157,34 +160,34 @@
             <div class="modal-body">
                 <div class="row">
                     <label for="name" class="col-sm-2"
-                           th:text="#{newProductForm.name}">Name</label>
+                           th:text="#{productEditForm.name}">Name</label>
 
-                    <div class="col-sm-10" th:text="${newProductForm.name}">ProductName</div>
+                    <div class="col-sm-10" th:text="${productEditForm.name}">ProductName</div>
                 </div>
 
                 <div class="row">
                     <label for="description" class="col-sm-2"
-                           th:text="#{newProductForm.selectedUnitId}">selectedUnitId</label>
+                           th:text="#{productEditForm.selectedUnitId}">selectedUnitId</label>
 
-                    <div class="col-sm-10" th:text="${newProductForm.unitName}">selectedUnitId</div>
+                    <div class="col-sm-10" th:text="${productEditForm.unitName}">selectedUnitId</div>
                 </div>
 
                 <div class="row">
                     <label for="description" class="col-sm-2"
-                           th:text="#{newProductForm.description}">description</label>
+                           th:text="#{productEditForm.description}">description</label>
 
-                    <div class="col-sm-10" th:text="${newProductForm.description}">ProductAbbr</div>
+                    <div class="col-sm-10" th:text="${productEditForm.description}">ProductAbbr</div>
                 </div>
 
                 <div class="row">
-                    <span class="help-block text-center" th:text="#{newProductForm.successMsg}">Product saved successfully</span>
+                    <span class="help-block text-center" th:text="#{productEditForm.successMsg}">Product saved successfully</span>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" id="successCloseBtn"
                         data-dismiss="modal"
-                        th:text="#{newProductForm.close}">Close</button>
+                        th:text="#{productEditForm.close}">Close</button>
             </div>
         </div>
     </div>
@@ -204,12 +207,12 @@
         <script type="application/javascript">
             +function ($) {
                 var $modal = $("#newProductModal");
-                var $modalBody = $modal.find("#newProductFormContent");
+                var $modalBody = $modal.find("#productEditFormContent");
 
                 $("#testBtn1").click(function () {
                     $modalBody.empty();
                     $modal.modal("toggle");
-                    $("#newProductForm").clone(true).appendTo($modalBody);
+                    $("#productEditForm").clone(true).appendTo($modalBody);
                 });
                 $("#testBtn2").click(function () {
                     $modalBody.empty();

@@ -139,10 +139,10 @@
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
         $("#newProductCreateButton").click(function () {
             if (submitUrl != '#') {
-                $("#newProductFormContent").load(submitUrl, $("#newProductForm").serializeArray());
+                $("#productEditFormContent").load(submitUrl, $("#productEditForm").serializeArray());
             } else {
-                $("#newProductFormContent").empty();
-                $("#productSavedForm").clone(true).appendTo("#newProductFormContent");
+                $("#productEditFormContent").empty();
+                $("#productSavedForm").clone(true).appendTo("#productEditFormContent");
             }
         });
 

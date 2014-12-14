@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/new-product-popup")
-public class NewProductPopupController {
+@RequestMapping("/product-edit-popup")
+public class ProductEditPopupController {
 
     @Resource
-    private NewProductPopupFormValidator newProductValidator;
+    private ProductEditPopupFormValidator newProductValidator;
     @Resource
     private Units units;
     @Resource
@@ -35,7 +35,7 @@ public class NewProductPopupController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showForm(final NewProductPopupForm form) {
-        return "popups/newProduct :: newProductForm";
+        return "popups/productEdit :: productEditForm";
     }
 
     @ModelAttribute("units")
@@ -48,7 +48,7 @@ public class NewProductPopupController {
     public String submitForm(@Valid final NewProductPopupForm form,
                              final BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "popups/newProduct :: newProductForm";
+            return "popups/productEdit :: productEditForm";
         }
         final Product newProductEntity = new Product();
         newProductEntity.setName(form.getName());
@@ -58,7 +58,7 @@ public class NewProductPopupController {
 
         final Unit unit = units.findOne(form.getSelectedUnitId());
         form.setUnitName(unit.getName());
-        return "popups/newProduct :: productSavedForm";
+        return "popups/productEdit :: productSavedForm";
     }
 
 }

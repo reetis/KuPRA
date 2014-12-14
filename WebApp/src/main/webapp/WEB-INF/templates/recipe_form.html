@@ -35,7 +35,7 @@
 </head>
 <body>
 <div th:replace="layout :: header"></div>
-<div th:replace="popups/newProduct :: core"></div>
+<div th:replace="popups/productEdit :: core"></div>
 
 <div class="container">
 
@@ -149,7 +149,7 @@
                                 +function ($) {
                                     var frameUrl = /*[[@{/recipes/getSelectProductForm}]]*/ '#';
                                     $("#newProductButton").click(function () {
-                                        openNewProductPopup(function() {
+                                        openProductEditPopup(function() {
                                             $("#selectProductForm").load(frameUrl);
                                         });
                                     });
