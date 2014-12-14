@@ -1,0 +1,1 @@
+ALTER TABLE recipe_product ALTER quantity SET DATA TYPE NUMERIC(10,2);

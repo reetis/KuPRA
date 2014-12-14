@@ -1,8 +1,5 @@
 package eu.komanda30.kupra.controllers.product;
 
-/**
- * Created by Gintare on 2014-12-02.
- */
 public class ProductItem {
     private int productId;
     private String name;

@@ -27,6 +27,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class RecipeFinderImpl implements RecipeFinder {
     public static final float THRESHOLD = 0.1f;
+    public static final int PREFIX_LENGTH = 1;
     private static final Logger LOGGER = LoggerFactory.getLogger(RecipeFinderImpl.class);
     @Resource
     private EntityManager entityManager;
@@ -103,7 +104,7 @@ public class RecipeFinderImpl implements RecipeFinder {
     }
 
     private Query publicFieldsQuery(String searchText, QueryBuilder qb) {
-        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(3)
+        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(PREFIX_LENGTH)
                 .onFields(
                         "name",
                         "description",
@@ -122,7 +123,7 @@ public class RecipeFinderImpl implements RecipeFinder {
     }
 
     private Query allFieldsQuery(String searchText, QueryBuilder qb) {
-        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(3)
+        return qb.keyword().fuzzy().withThreshold(THRESHOLD).withPrefixLength(PREFIX_LENGTH)
                 .onFields(
                         "name",
                         "description",

@@ -3,6 +3,10 @@ package eu.komanda30.kupra.controllers.registration;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.UserProfile;
 import eu.komanda30.kupra.repositories.KupraUsers;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +15,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.annotation.Resource;
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/registration")
@@ -55,6 +56,6 @@ public class RegistrationController {
         user.setLoginDetails(form.getUsername(), form.getPassword(), encoder);
 
         kupraUsers.save(user);
-        return "redirect:/login";
+        return "registrationSuccess";
     }
 }

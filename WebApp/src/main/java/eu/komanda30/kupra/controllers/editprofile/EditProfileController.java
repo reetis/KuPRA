@@ -31,9 +31,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Created by Lukas on 2014.10.23.
- */
 @RequestMapping("/profile")
 @Controller
 public class EditProfileController {
@@ -99,7 +96,7 @@ public class EditProfileController {
             return "editProfile";
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!passForm.getPassword().isEmpty() && passErrors.hasErrors()) {
             return "editProfile";
@@ -110,6 +107,9 @@ public class EditProfileController {
         if (!passForm.getPassword().isEmpty()) {
             user.setPassword(passForm.getPassword(), passwordEncoder);
         }
+
+        LOG.debug("Changing  name to: "+form.getName());
+        LOG.debug("Changing  surname to: "+form.getSurname());
 
         final UserProfile profile = user.getProfile();
         profile.setName(form.getName());
@@ -133,7 +133,7 @@ public class EditProfileController {
             profile.setMainPhoto(imgUrl, thumbUrl);
         }
 
-        return "redirect:/";
+        return "editProfileSuccess";
     }
 
     private File copyToProfileDir(File imgFile) {

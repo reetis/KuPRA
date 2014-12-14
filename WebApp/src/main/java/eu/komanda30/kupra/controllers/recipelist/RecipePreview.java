@@ -2,9 +2,6 @@ package eu.komanda30.kupra.controllers.recipelist;
 
 import eu.komanda30.kupra.entity.RecipeImage;
 
-/**
-* Created by Rytis on 2014-11-27.
-*/
 public class RecipePreview {
     private String name;
 

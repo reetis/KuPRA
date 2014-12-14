@@ -3,9 +3,6 @@ package eu.komanda30.kupra.controllers.friendship.friends_list;
 import eu.komanda30.kupra.entity.Friendship;
 import eu.komanda30.kupra.entity.UserProfileImage;
 
-/**
- * Created by Ignas on 11/27/2014.
- */
 public class FriendListUnit {
 
     private String name;

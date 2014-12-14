@@ -1,16 +1,28 @@
 package eu.komanda30.kupra.entity;
 
-import org.hibernate.search.annotations.Boost;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.search.annotations.Boost;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 @Table(name = "recipe")
 @Entity
@@ -67,6 +79,7 @@ public class Recipe {
 
     @JoinColumn(name = "recipe_id", nullable = false)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("comment_date DESC")
     @IndexedEmbedded
     @Boost(0.2f)
     private List<Comment> recipeComments;

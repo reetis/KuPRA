@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-/**
- * Created by Rytis on 2014-11-27
- */
 @Controller
 @RequestMapping("/recipes")
 public class RecipeListController {

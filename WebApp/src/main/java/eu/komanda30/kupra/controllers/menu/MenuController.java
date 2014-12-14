@@ -3,8 +3,6 @@ package eu.komanda30.kupra.controllers.menu;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Menu;
 import eu.komanda30.kupra.repositories.KupraUsers;
-import eu.komanda30.kupra.repositories.Recipes;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;

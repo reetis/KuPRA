@@ -3,23 +3,24 @@
       xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 <head>
+    <base href="../../" th:remove="all"/>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{unitsList.title}">Regtst</title>
 
     <!-- Bootstrap CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Material design CSS -->
-    <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
-    <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/ripples.min.css}" href="css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
 
     <!-- Kupra CSS -->
-    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
 
     <!-- jQuery -->
-    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -47,29 +48,30 @@
     </div>
 
     <div class="row">
-        <div th:if="${!#lists.isEmpty(unitsListForm.unitListItemArrayList)}">
-            <div class="col-md-6" th:each="unit : ${unitsListForm.unitListItemArrayList}">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <input type="hidden" th:value="${unit.id}"/>
-                        <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">Pvdn</h3>
-                        <button class="btn-default btn unitDeleteButton" id="newProductButton"
-                                data-tooltip="true" data-placement="bottom"
-                                title="Tooltip on bottom"
-                                th:classappend="${unit.isUsed}? 'disabled'"
-                                th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_nor_used}">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </button>
-                        <button class="btn-default btn" id="newProductButton" th:title="#{unit-list.edit}"
-                                data-tooltip="true" data-placement="bottom"
-                                title="Tooltip on bottom">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </button>
-                    </div>
+        <div class="col-md-6" th:each="unit : ${units}">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <input type="hidden" th:value="${unit.id}"/>
+
+                    <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">
+                        Pvdn</h3>
+                    <button class="btn-default btn unitDeleteButton" id="newProductButton"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Tooltip on bottom"
+                            th:classappend="${unit.isUsed}? 'disabled'"
+                            th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_nor_used}">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn-default btn" id="newProductButton"
+                            th:title="#{unit-list.edit}"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Tooltip on bottom">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </button>
                 </div>
             </div>
         </div>
-        <div th:if="${#lists.isEmpty(unitsListForm.unitListItemArrayList)}">
+        <div th:if="${#lists.isEmpty(units)}">
             <div class="col-md-12">
                 <p th:text="#{unitsList.no_units}">Nrė rceptų</p>
             </div>
@@ -81,24 +83,24 @@
 <div th:replace="layout :: footer"></div>
 
 <!-- Bootstrap javascript -->
-<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js" type="text/javascript"></script>
 
 <!-- Material design javascript -->
-<script th:src="@{/js/ripples.min.js}" src="../../js/ripples.min.js"></script>
-<script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
+<script th:src="@{/js/ripples.min.js}" src="js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="js/material.min.js"></script>
 
 <!-- Lightbox javascript -->
-<script th:src="@{/lightbox/js/lightbox.min.js}" src="../../lightbox/js/lightbox.min.js" type="text/javascript"></script>
+<script th:src="@{/js//lightbox/js/lightbox.min.js}" src="lightbox/js/lightbox.min.js" type="text/javascript"></script>
 
 <!--Kupra javascript-->
-<script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="text/javascript"></script>
+<script th:src="@{/js/kupra.js}" src="js/kupra.js" type="text/javascript"></script>
 
 <!-- Custom JS -->
 <script type="application/javascript" th:inline="javascript">
     +function($){
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
-        unitDeleteUrl = /*[[@{/unit/delete}]]*/ '#'
+        unitDeleteUrl = /*[[@{/unit/delete}]]*/ '#';
         unitDeleteButtons = $(".unitDeleteButton");
 
         if (unitDeleteButtons != null){

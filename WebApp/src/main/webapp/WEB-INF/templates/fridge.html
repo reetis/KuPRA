@@ -3,32 +3,34 @@
       xmlns="http://www.w3.org/1999/xhtml"
       lang="en">
 <head>
+    <base href="../../" th:remove="all"/>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title th:text="#{fridge.title}">KstPfr</title>
 
     <!-- Bootstrap CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" href="../../css/bootstrap.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Material design CSS -->
-    <link th:href="@{/css/ripples.min.css}" href="../../css/ripples.min.css" rel="stylesheet"/>
-    <link th:href="@{/css/material-wfont.min.css}" href="../../css/material-wfont.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/ripples.min.css}" href="css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
 
     <!-- Lightbox CSS -->
-    <link th:href="@{/lightbox/css/lightbox.css}" href="../../lightbox/css/lightbox.css" rel="stylesheet"/>
-    <link th:href="@{/css/gallery.css}" href="../../css/gallery.css" rel="stylesheet"/>
-    <link th:href="@{/css/imgupload.css}" href="../../css/imgupload.css" rel="stylesheet"/>
+    <link th:href="@{/lightbox/css/lightbox.css}" href="lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="css/imgupload.css" rel="stylesheet"/>
 
     <!-- Kupra CSS -->
-    <link th:href="@{/css/kupra.css}" href="../../css/kupra.css" rel="stylesheet"/>
+    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
 
     <!-- Custom page CSS -->
-    <link th:href="@{/css/registration.css}" href="../../css/registration.css" rel="stylesheet"/>
+    <link th:href="@{/css/registration.css}" href="css/registration.css" rel="stylesheet"/>
 
     <!-- jQuery -->
-    <script th:src="@{/js/jquery-1.11.1.min.js}" src="../../js/jquery-1.11.1.min.js"
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js"
             type="application/javascript"></script>
 
     <!--[if lt IE 9]>
@@ -118,15 +120,15 @@
 <div th:replace="layout :: footer"></div>
 
 <!-- Bootstrap javascript -->
-<script th:src="@{/js/bootstrap.min.js}" src="../../js/bootstrap.min.js"
+<script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"
         type="application/javascript"></script>
 
 <!-- Material design javascript -->
-<script th:src="@{/js/ripples.min.js}" src="../../js/ripples.min.js"></script>
-<script th:src="@{/js/material.min.js}" src="../../js/material.min.js"></script>
+<script th:src="@{/js/ripples.min.js}" src="js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="js/material.min.js"></script>
 
 <!--Kupra javascript-->
-<script th:src="@{/js/kupra.js}" src="../../js/kupra.js" type="application/javascript"></script>
+<script th:src="@{/js/kupra.js}" src="js/kupra.js" type="application/javascript"></script>
 
 <!-- Custom JS -->
 <script type="application/javascript" th:inline="javascript">

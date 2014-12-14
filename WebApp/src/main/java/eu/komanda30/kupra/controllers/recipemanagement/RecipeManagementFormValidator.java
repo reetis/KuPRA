@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * Created by Ignas on 10/23/2014.
- */
 @Component
 public class RecipeManagementFormValidator implements Validator {
 

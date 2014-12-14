@@ -1,15 +1,26 @@
 package eu.komanda30.kupra.config;
 
+import eu.komanda30.kupra.email.DebugMailSender;
+import eu.komanda30.kupra.services.RecipeFinder;
+import eu.komanda30.kupra.services.UserFinder;
+
 import java.time.Duration;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.web.servlet.support.csrf.CsrfRequestDataValueProcessor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.DefaultMessageCodesResolver;
@@ -27,6 +38,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.support.RequestDataValueProcessor;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @Configuration
@@ -35,9 +47,10 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @ComponentScan({
         "eu.komanda30.kupra.controllers",
         "eu.komanda30.kupra.locale",
-        "eu.komanda30.kupra.uploads"})
+        "eu.komanda30.kupra.uploads",
+        "eu.komanda30.kupra.services"})
 @PropertySource("classpath:/kupra.properties")
-public class ControllerConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     public static final int SECONDS_IN_YEAR = (int) Duration.ofDays(365).getSeconds();
 
@@ -56,6 +69,22 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
+    public JavaMailSender mailSender() {
+        final String protocol = environment.getRequiredProperty("email.protocol");
+        if ("DEBUG".equals(protocol)) {
+            return new DebugMailSender();
+        }
+
+        final JavaMailSenderImpl sender = new JavaMailSenderImpl();
+        sender.setHost(environment.getRequiredProperty("email.host"));
+        sender.setPort(environment.getRequiredProperty("email.port", Integer.TYPE));
+        sender.setProtocol(environment.getRequiredProperty("email.protocol"));
+        sender.setUsername(environment.getRequiredProperty("email.username"));
+        sender.setPassword(environment.getRequiredProperty("email.password"));
+        return sender;
+    }
+
+    @Bean
     public SpringTemplateEngine templateEngine() {
         final ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
         resolver.setPrefix("/WEB-INF/templates/");
@@ -63,6 +92,21 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
         resolver.setTemplateMode("HTML5");
         resolver.setCharacterEncoding("UTF-8");
         resolver.setCacheable(templateCacheEnabled);
+
+        final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(resolver);
+        return templateEngine;
+    }
+
+    @Bean
+    public SpringTemplateEngine emailTemplateEngine() {
+        final ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+        resolver.setPrefix("/email-templates/");
+        resolver.setSuffix(".html");
+        resolver.setTemplateMode("HTML5");
+        resolver.setCharacterEncoding("UTF-8");
+        resolver.setCacheable(templateCacheEnabled);
+        resolver.setOrder(1);
 
         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(resolver);
@@ -141,4 +185,34 @@ public class ControllerConfig extends WebMvcConfigurerAdapter {
     public MultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
     }
+
+    @Resource
+    private Environment environment;
+
+    @Bean
+    public ApplicationListener<ContextRefreshedEvent> startupReindexer(
+            RecipeFinder recipeFinder,
+            UserFinder userFinder) {
+        return new StartupReindexer(recipeFinder, userFinder);
+    }
+
+    private class StartupReindexer implements ApplicationListener<ContextRefreshedEvent> {
+        private final RecipeFinder recipeFinder;
+        private final UserFinder userFinder;
+
+        public StartupReindexer(RecipeFinder recipeFinder, UserFinder userFinder) {
+            this.recipeFinder = recipeFinder;
+            this.userFinder = userFinder;
+        }
+
+        @Override
+        public void onApplicationEvent(ContextRefreshedEvent event) {
+            if (environment.getProperty("index.reindex_on_startup", Boolean.class, false)) {
+                recipeFinder.indexRecipes();
+                userFinder.indexUsers();
+            }
+        }
+    }
+
+
 }

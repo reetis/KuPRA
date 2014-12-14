@@ -2,14 +2,12 @@ package eu.komanda30.kupra.controllers.recipemanagement;
 
 import eu.komanda30.kupra.entity.Product;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 
-/**
- * Created by Ignas on 10/23/2014.
- */
 public class RecipeManagementForm {
     private String tmpId;
 

@@ -1,12 +1,11 @@
 package eu.komanda30.kupra.controllers.reciperead;
 
-/**
- * Created by Ignas on 12/10/2014.
- */
+import java.math.BigDecimal;
+
 public class RecipeProductUnit {
     private String name;
     private String unit;
-    private Double quantity;
+    private BigDecimal quantity;
 
     public String getName() {
         return name;
@@ -24,11 +23,11 @@ public class RecipeProductUnit {
         this.unit = unit;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 }
