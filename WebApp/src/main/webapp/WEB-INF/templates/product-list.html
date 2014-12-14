@@ -69,30 +69,28 @@
     </div>
 
     <div class="row">
-        <div th:if="!${#lists.isEmpty(productsListForm.items)}">
-            <div class="col-md-6" th:each="product : ${productsListForm.items}">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h3 th:text="${product.name}+' ('+${product.unit}+')'" class="small-title">Pvdn</h3>
-                        <input type="hidden" th:value="${product.productId}"/>
-                        <p th:text="${product.description}">Dscr</p>
-                        <button class="btn-default btn productDeleteButton" id="product-delete-button"
-                                data-tooltip="true" data-placement="bottom"
-                                title="Tooltip on bottom"
-                                th:classappend="${product.isUsed}? 'disabled'"
-                                th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_nor_used}">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </button>
-                        <button class="btn-default btn" id="product-delete-button" th:title="#{products-list.edit}"
-                                data-tooltip="true" data-placement="bottom"
-                                title="Tooltip on bottom">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </button>
-                    </div>
+        <div class="col-md-6" th:each="product : ${products}">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3 th:text="${product.name}+' ('+${product.unit}+')'" class="small-title">Pvdn</h3>
+                    <input type="hidden" th:value="${product.productId}"/>
+                    <p th:text="${product.description}">Dscr</p>
+                    <button class="btn-default btn productDeleteButton" id="product-delete-button"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Tooltip on bottom"
+                            th:classappend="${product.isUsed}? 'disabled'"
+                            th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_nor_used}">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                    <button class="btn-default btn" id="product-delete-button" th:title="#{products-list.edit}"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Tooltip on bottom">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </button>
                 </div>
             </div>
         </div>
-        <div th:if="${#lists.isEmpty(productsListForm.items)}">
+        <div th:if="${#lists.isEmpty(products)}">
             <div class="col-md-12">
                 <p th:text="#{productsList.no_products}">Nrė rceptų</p>
             </div>
@@ -120,23 +118,21 @@
     +function($){
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
-        productDeleteUrl = /*[[@{/product/delete}]]*/ '#';
+        productDeleteUrl = /*[[@{/products/}]]*/ '#';
         productDeleteButtons = $(".productDeleteButton");
 
         if (productDeleteButtons != null){
             productDeleteButtons.click(function(){
                 productId = $(this).parent().find('input').val();
                 $.ajax({
-                    url: productDeleteUrl,
-                    type: 'POST',
-                    data: {'product_id': productId},
-                    asynch: true,
+                    url: productDeleteUrl + productId,
+                    type: 'DELETE',
+                    async: true,
                     cache: false,
                     headers: {'X-CSRF-TOKEN': _csrf}
                 }).done(function(){
                     location.reload();
                 });
-
             });
         }
     }(jQuery);
