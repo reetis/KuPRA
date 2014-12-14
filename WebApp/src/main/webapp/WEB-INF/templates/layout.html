@@ -76,7 +76,7 @@
                                  data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
                                  th:title="#{layout.recipes}"/>
                         </a>
-                        <a href="friends_list.html" th:href="@{~/friends/list}" class="link">
+                        <a href="friends_list.html" th:href="${@sessionData.notificationCount > 0} ? @{~/friends/notifications} : @{~/friends/list}" class="link">
                             <img th:src="@{/images/friends_white.png}" src="images/friends_white.png"
                                  class="navbarImage linkImage"
                                  data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"
