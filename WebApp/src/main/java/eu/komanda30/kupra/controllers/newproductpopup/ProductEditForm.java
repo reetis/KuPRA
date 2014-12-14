@@ -3,10 +3,17 @@ package eu.komanda30.kupra.controllers.newproductpopup;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-public class NewProductPopupForm {
+import org.apache.avro.reflect.Nullable;
+
+public class ProductEditForm {
+
+    @Nullable
+    private Integer productId;
 
     @Min(0)
     private int selectedUnitId;
+
+    private String unitName;
 
     @Size(min = 1, max = 256)
     private String description;
@@ -14,8 +21,18 @@ public class NewProductPopupForm {
     @Size(min = 1, max = 50)
     private String name;
 
+    @Nullable
+    public Integer getProductId() {
+        return productId;
+    }
 
-    private String unitName;
+    public void setProductId(@Nullable Integer productId) {
+        this.productId = productId;
+    }
+
+    public boolean isEditForm() {
+        return productId != null;
+    }
 
     public String getUnitName() {
         return unitName;

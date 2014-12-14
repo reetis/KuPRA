@@ -6,14 +6,18 @@ import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Units;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,8 +27,10 @@ public class ProductEditPopupController {
 
     @Resource
     private ProductEditPopupFormValidator newProductValidator;
+
     @Resource
     private Units units;
+
     @Resource
     private Products products;
 
@@ -34,7 +40,24 @@ public class ProductEditPopupController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showForm(final NewProductPopupForm form) {
+    public String showNewUnitForm(final ProductEditForm form) {
+        return "popups/productEdit :: productEditForm";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value="/{productId}",method = RequestMethod.GET)
+    public String showEditUnitForm(
+            @PathVariable("productId") int productId,
+            final ProductEditForm form) {
+        final Product product = products.findOne(productId);
+        Assert.notNull(product);
+
+        form.setProductId(productId);
+        form.setName(product.getName());
+        form.setDescription(product.getDescription());
+        form.setSelectedUnitId(product.getUnit().getId());
+        form.setUnitName(product.getUnit().getName());
+
         return "popups/productEdit :: productEditForm";
     }
 
@@ -45,16 +68,25 @@ public class ProductEditPopupController {
 
     @Transactional
     @RequestMapping(method = RequestMethod.POST)
-    public String submitForm(@Valid final NewProductPopupForm form,
-                             final BindingResult bindingResult) {
+    public String submitForm(@Valid final ProductEditForm form,
+                             final BindingResult bindingResult,
+                             HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "popups/productEdit :: productEditForm";
         }
-        final Product newProductEntity = new Product();
-        newProductEntity.setName(form.getName());
-        newProductEntity.setDescription(form.getDescription());
-        newProductEntity.setUnit(units.findOne(form.getSelectedUnitId()));
-        products.save(newProductEntity);
+
+        final Product product;
+        if (form.isEditForm()) {
+            Assert.state(request.isUserInRole("ADMIN"));
+            product = products.findOne(form.getProductId());
+        } else {
+            product = new Product();
+        }
+
+        product.setName(form.getName());
+        product.setDescription(form.getDescription());
+        product.setUnit(units.findOne(form.getSelectedUnitId()));
+        products.save(product);
 
         final Unit unit = units.findOne(form.getSelectedUnitId());
         form.setUnitName(unit.getName());

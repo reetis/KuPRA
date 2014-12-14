@@ -59,7 +59,7 @@
                             data-toggle="tooltip" data-placement="bottom"
                             title="Tooltip on bottom"
                             th:classappend="${unit.isUsed}? 'disabled'"
-                            th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_nor_used}">
+                            th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_not_used}">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
                     <button class="btn-default btn" id="newProductButton"

@@ -56,7 +56,7 @@
                         <script type="application/javascript" th:inline="javascript">
                             +function ($) {
                                 $("#newProductButton").click(function () {
-                                    openProductEditPopup(function() {
+                                    openNewProductPopup(function() {
                                         window.location.reload();
                                     });
                                 });
@@ -79,10 +79,11 @@
                             data-toggle="tooltip" data-placement="bottom"
                             title="Tooltip on bottom"
                             th:classappend="${product.isUsed}? 'disabled'"
-                            th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_nor_used}">
+                            th:title="${product.isUsed}? #{products-list.used} : #{products-list.delete_if_not_used}">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
-                    <button class="btn-default btn" id="product-delete-button" th:title="#{products-list.edit}"
+                    <button class="btn-default btn" id="product-delete-button"
+                            th:title="#{products-list.edit}"
                             data-toggle="tooltip" data-placement="bottom"
                             title="Tooltip on bottom">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

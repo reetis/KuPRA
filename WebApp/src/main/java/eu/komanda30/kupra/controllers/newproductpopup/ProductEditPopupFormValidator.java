@@ -15,12 +15,12 @@ public class ProductEditPopupFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return NewProductPopupForm.class.isAssignableFrom(aClass);
+        return ProductEditForm.class.isAssignableFrom(aClass);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        final NewProductPopupForm form = (NewProductPopupForm)target;
+        final ProductEditForm form = (ProductEditForm)target;
         if (products.findByName(form.getName()) != null) {
             errors.rejectValue("name","AlreadyUsed", new Object[] {form.getName()}, null);
         }
