@@ -68,21 +68,21 @@
         <div class="col-md-6" th:each="unit : ${units}">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <input type="hidden" th:value="${unit.id}"/>
-
                     <h3 th:text="${unit.name}+' ('+ ${unit.abbreviation}+')'" class="small-title">
                         Pavadinimas vieneto (abbr)</h3>
-                    <button class="btn-default btn unitDeleteButton" id="newProductButton"
+                    <button class="btn-default btn unitDeleteButton"
                             data-toggle="tooltip" data-placement="bottom"
                             title="Tooltip on bottom"
                             th:classappend="${unit.isUsed}? 'disabled'"
-                            th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_not_used}">
+                            th:title="${unit.isUsed}? #{unit-list.used} : #{unit-list.delete_if_not_used}"
+                            th:attr="data-unitid=${unit.id}">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
-                    <button class="btn-default btn" id="newProductButton"
+                    <button class="btn-default btn unitEditButton"
                             th:title="#{unit-list.edit}"
                             data-toggle="tooltip" data-placement="bottom"
-                            title="Tooltip on bottom">
+                            title="Tooltip on bottom"
+                            th:attr="data-unitid=${unit.id}">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -106,7 +106,7 @@
 <script th:src="@{/js/material.min.js}" src="js/material.min.js"></script>
 
 <!-- Lightbox javascript -->
-<script th:src="@{/js//lightbox/js/lightbox.min.js}" src="lightbox/js/lightbox.min.js" type="text/javascript"></script>
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="lightbox/js/lightbox.min.js" type="text/javascript"></script>
 
 <!--Kupra javascript-->
 <script th:src="@{/js/kupra.js}" src="js/kupra.js" type="text/javascript"></script>
@@ -116,26 +116,26 @@
     +function($){
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
-        unitDeleteUrl = /*[[@{/unit/delete}]]*/ '#';
-        unitDeleteButtons = $(".unitDeleteButton");
-
-        if (unitDeleteButtons != null){
-            unitDeleteButtons.click(function(){
-                unitId = $(this).parent().find('input').val();
-                console.log(unitId);
-                $.ajax({
-                    url: unitDeleteUrl,
-                    type: 'POST',
-                    data: {'unit_id': unitId},
-                    asynch: true,
-                    cache: false,
-                    headers: {'X-CSRF-TOKEN': _csrf}
-                }).done(function(){
-                    location.reload();
-                });
-
+        unitDeleteUrl = /*[[@{/units/}]]*/ '#';
+        $(".unitDeleteButton").click(function(){
+            var unitId = $(this).data('unitid');
+            $.ajax({
+                url: unitDeleteUrl + unitId,
+                type: 'DELETE',
+                async: true,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf}
+            }).done(function(){
+                location.reload();
             });
-        }
+        });
+
+        $(".unitEditButton").click(function() {
+            var unitId = $(this).data('unitid');
+            openUnitEditPopup(unitId, function() {
+                window.location.reload();
+            })
+        });
     }(jQuery);
 </script>
 </body>

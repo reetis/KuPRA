@@ -94,7 +94,7 @@ public class ProductEditPopupController {
         return "popups/product :: productSavedForm";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "getSelectUnitForm", method = RequestMethod.GET)
     public String getSelectUnitForm() {
         return "popup/product :: selectUnitForm";
     }

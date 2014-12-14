@@ -21,11 +21,14 @@ public class UnitEditFormValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         final UnitEditForm form = (UnitEditForm)target;
-        if (units.findByName(form.getName()) != null) {
-            errors.rejectValue("name","AlreadyUsed", new Object[] {form.getName()}, null);
-        }
-        if (units.findByAbbreviation(form.getAbbreviation()) != null) {
-            errors.rejectValue("abbreviation","AlreadyUsed", new Object[] {form.getAbbreviation()}, null);
+        if (!form.isEditForm()) {
+            if (units.findByName(form.getName()) != null) {
+                errors.rejectValue("name", "AlreadyUsed", new Object[]{form.getName()}, null);
+            }
+            if (units.findByAbbreviation(form.getAbbreviation()) != null) {
+                errors.rejectValue("abbreviation", "AlreadyUsed",
+                        new Object[]{form.getAbbreviation()}, null);
+            }
         }
     }
 }

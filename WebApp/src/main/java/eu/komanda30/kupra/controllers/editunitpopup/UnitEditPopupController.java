@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/unit-edit-popup")
 public class UnitEditPopupController {
     @Resource
-    private UnitEditFormValidator newUnitFormValidator;
+    private UnitEditFormValidator unitEditFormValidator;
 
     @Resource
     private Units units;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(newUnitFormValidator);
+        binder.addValidators(unitEditFormValidator);
     }
 
     @RequestMapping(method = RequestMethod.GET)

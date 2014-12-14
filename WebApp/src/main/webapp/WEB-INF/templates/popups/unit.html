@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{newUnitForm.title}">Regtst</title>
+    <title th:text="#{unitEditForm.title}">Regtst</title>
 
     <!-- Bootstrap CSS -->
     <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
@@ -74,22 +74,27 @@
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
             </button>
-            <h4 class="modal-title" th:text="#{newUnitForm.title}">Add new unit</h4>
+            <h4 class="modal-title"
+                th:text="${unitEditForm.editForm} ? #{unitEditForm.title.edit} : #{unitEditForm.title.create}">
+                Add new unit
+            </h4>
         </div>
 
         <form class="form-horizontal" role="form" action="#" method="post"
               th:action="@{/unit}"
-              th:object="${newUnitForm}">
+              th:object="${unitEditForm}">
+
+            <input type="hidden" th:field="*{unitId}"/>
 
             <div class="modal-body">
                 <div class="form-group"
                      th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
                     <label for="name" class="control-label col-sm-2"
-                           th:text="#{newUnitForm.name}">Name</label>
+                           th:text="#{unitEditForm.name}">Name</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control col-sm-8" placeholder="Name" id="name"
-                               th:field="*{name}" th:placeholder="#{newUnitForm.name}"/>
+                               th:field="*{name}" th:placeholder="#{unitEditForm.name}"/>
                         <span class="help-block"
                               th:if="${#fields.hasErrors('name')}"
                               th:errors="*{name}">Validation errors</span>
@@ -99,11 +104,11 @@
                 <div class="form-group"
                      th:attrappend="class=${#fields.hasErrors('abbreviation')}?' has-error'">
                     <label for="abbreviation" class="control-label col-sm-2"
-                           th:text="#{newUnitForm.abbreviation}">Abbreviation</label>
+                           th:text="#{unitEditForm.abbreviation}">Abbreviation</label>
 
                     <div class="col-sm-10">
                         <input type="text" class="form-control" placeholder="Abbreviation" id="abbreviation"
-                               th:field="*{abbreviation}" th:placeholder="#{newUnitForm.abbreviation}"/>
+                               th:field="*{abbreviation}" th:placeholder="#{unitEditForm.abbreviation}"/>
                         <span class="help-block"
                               th:if="${#fields.hasErrors('abbreviation')}"
                               th:errors="*{abbreviation}">Validation errors</span>
@@ -119,14 +124,9 @@
             <script type="application/javascript" th:inline="javascript">
                 // <![CDATA[
                 +function ($) {
-                    var submitUrl = /*[[@{/unit/add}]]*/ '#';
+                    var submitUrl = /*[[@{/unit-edit-popup}]]*/ '#';
                     $("#newUnitCreateButton").click(function () {
-                        if (submitUrl != '#') {
-                            $("#newUnitFormContent").load(submitUrl, $("#newUnitForm").serializeArray());
-                        } else {
-                            $("#newUnitFormContent").empty();
-                            $("#unitSavedForm").clone(true).appendTo("#newUnitFormContent");
-                        }
+                        $("#unitEditFormContent").load(submitUrl, $("#unitEditForm form").serializeArray());
                     });
                 }(jQuery);
                 // ]]>
@@ -143,28 +143,31 @@
                 <span aria-hidden="true">&times;</span>
                 <span class="sr-only">Close</span>
             </button>
-            <h4 class="modal-title" th:text="#{newUnitForm.title}">Add new unit</h4>
+            <h4 class="modal-title"
+                th:text="${unitEditForm.editForm} ? #{unitEditForm.title.edit} : #{unitEditForm.title.create}">
+                Add new unit
+            </h4>
         </div>
 
         <div class="form-horizontal" role="form">
             <div class="modal-body">
                 <div class="row">
                     <label for="name" class="col-sm-2"
-                           th:text="#{newUnitForm.name}">Name</label>
+                           th:text="#{unitEditForm.name}">Name</label>
 
-                    <div class="col-sm-10" th:text="${newUnitForm.name}">UnitName</div>
+                    <div class="col-sm-10" th:text="${unitEditForm.name}">UnitName</div>
                 </div>
 
                 <div class="row">
                     <label for="abbreviation" class="col-sm-2"
-                           th:text="#{newUnitForm.abbreviation}">Abbreviation</label>
+                           th:text="#{unitEditForm.abbreviation}">Abbreviation</label>
 
-                    <div class="col-sm-10" th:text="${newUnitForm.abbreviation}">UnitAbbr</div>
+                    <div class="col-sm-10" th:text="${unitEditForm.abbreviation}">UnitAbbr</div>
                 </div>
 
                 <div class="row">
                     <span class="help-block text-center"
-                          th:text="#{newUnitForm.successMsg}">Unit saved successfully</span>
+                          th:text="#{unitEditForm.successMsg}">Unit saved successfully</span>
                 </div>
             </div>
 
@@ -215,7 +218,7 @@
 <script th:src="@{/js/material.min.js}" src="js/material.min.js"></script>
 
 <!-- Lightbox javascript -->
-<script th:src="@{/js//lightbox/js/lightbox.min.js}" src="lightbox/js/lightbox.min.js" type="text/javascript"></script>
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="lightbox/js/lightbox.min.js" type="text/javascript"></script>
 
 <!--Kupra javascript-->
 <script th:src="@{/js/kupra.js}" src="js/kupra.js" type="text/javascript"></script>
