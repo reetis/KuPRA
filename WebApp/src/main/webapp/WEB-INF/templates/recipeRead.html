@@ -102,7 +102,7 @@
         <div class="col-sm-10">
             <textarea id="comment" placeholder="KOmentaras" th:field="*{comment}"
                       th:placeholder="#{addcomment.comment}" class="form-control"
-                      rows="5"/>
+                      rows="5"></textarea>
             <span class="help-block"
                   th:if="${#fields.hasErrors('comment')}"
                   th:errors="*{comment}">Per ilgas</span>
@@ -120,7 +120,7 @@
 
                     <div class="panel-body">
 
-                        <div class="col-md-1">
+                        <a class="col-md-1" th:href="@{'/user/'+${comment.commentAuthorId}}" href="#">
                             <img class="img-responsive" th:if="${comment.image != null}"
                                  th:src="${comment.image.thumbUrl}"
                                  src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
@@ -128,14 +128,15 @@
                             <img class="img-responsive" th:if="${comment.image == null}"
                                  th:src="@{/images/empty_prof_thumb.jpg}"
                                  src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                        </a>
 
-                        </div>
-
-                        <a class="col-md-2" th:href="@{'/user/'+${comment.commentAuthorId}}" th:text="${comment.author}"
-                           style="font-weight: bold"/>
-                        <span class="col-md-6"/>
+                        <a class="col-md-2" href="#"
+                           th:href="@{'/user/'+${comment.commentAuthorId}}"
+                           th:text="${comment.author}"
+                           style="font-weight: bold">Autorius</a>
+                        <span class="col-md-6"></span>
                         <span class="col-md-3" th:text="${#calendars.format(comment.date,'dd MMMM yyyy HH:mm:ss')}"
-                              style=" color: #7a7777; "/>
+                              style=" color: #7a7777; ">28 Sausio 2014 10:30:23</span>
 
                         <div class="row">
                             <div class="col-md-8">
