@@ -38,9 +38,9 @@ public class UserDetailsProvider implements UserDetailsService {
     public Set<GrantedAuthority> buildAuthorities(boolean isAdmin) {
         final ImmutableSet.Builder<GrantedAuthority> builder
                 = new ImmutableSet.Builder<>();
-        builder.add(new SimpleGrantedAuthority("USER"));
+        builder.add(new SimpleGrantedAuthority("ROLE_USER"));
         if (isAdmin) {
-            builder.add(new SimpleGrantedAuthority("ADMIN"));
+            builder.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         return builder.build();
     }

@@ -29,10 +29,11 @@
     <![endif]-->
 </head>
 <body>
-<div th:replace="popups/unit :: core"></div>
 
 <div class="container">
     <div th:fragment="core">
+        <!-- Dependencies -->
+        <div th:replace="popups/unit :: core"></div>
         <!-- Modal -->
         <div class="modal fade" id="newProductModal" tabindex="-1" role="dialog"
              aria-labelledby="newProductLabel"
@@ -106,24 +107,27 @@
 
 
                 <div th:attrappend="class=${#fields.hasErrors('selectedUnitId')}?' has-error'"
-                         class="dropdown form-group"
-                         th:fragment="selectUnitForm"
-                         id="selectUnitForm">
+                         class="dropdown form-group">
                     <label for="description" class="control-label col-sm-2"
                            th:text="#{productEditForm.selectedUnitId}">Vienetas</label>
 
-                    <div class="col-sm-8" th:if="${!units.isEmpty()}">
-                        <select class="form-control col-sm-6" th:field="*{selectedUnitId}">
-                            <option value="5"
-                                    th:each="unit : ${units}"
-                                    th:value="${unit.id}"
-                                    th:text="${unit.name}">Vienetas
-                            </option>
+                    <div class="col-sm-8" th:if="${!units.isEmpty()}" >
+                        <select class="form-control col-sm-6" th:field="*{selectedUnitId}" id="selectUnitInput">
+                            <th:block th:fragment="selectUnitForm">
+                                <option value="5"
+                                        th:each="unit : ${units}"
+                                        th:value="${unit.id}"
+                                        th:text="${unit.name}">Vienetas
+                                </option>
+                            </th:block>
                         </select>
 
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn-default btn" id="newUnitButton" th:title="#{units-list.add_unit}"
+                        <button class="btn-default btn"
+                                type="button"
+                                id="newUnitButton"
+                                th:title="#{units-list.add_unit}"
                                 data-tooltip="true" data-placement="bottom"
                                 title="Tooltip on bottom">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -135,7 +139,7 @@
                                 var frameUrl = /*[[@{/product-edit-popup/getSelectUnitForm}]]*/ '#';
                                 $('#newUnitButton').click(function() {
                                     openNewUnitPopup(function () {
-                                        $('#selectUnitForm').load(frameUrl);
+                                        $('#selectUnitInput').load(frameUrl);
                                     });
                                 });
                             }(jQuery);

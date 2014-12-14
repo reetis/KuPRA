@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.product;
+package eu.komanda30.kupra.controllers.productlist;
 
 public class ProductItem {
     private int productId;

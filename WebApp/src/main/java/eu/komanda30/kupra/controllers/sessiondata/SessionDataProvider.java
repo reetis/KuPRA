@@ -33,7 +33,7 @@ public class SessionDataProvider {
 
     public boolean isLoggedUserAdmin() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
+        return auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
     }
 
     public int getNotificationCount(){

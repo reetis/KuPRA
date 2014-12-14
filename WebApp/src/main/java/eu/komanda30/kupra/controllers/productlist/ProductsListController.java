@@ -1,4 +1,4 @@
-package eu.komanda30.kupra.controllers.product;
+package eu.komanda30.kupra.controllers.productlist;
 
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.repositories.Products;
@@ -9,7 +9,6 @@ import java.util.stream.StreamSupport;
 
 import javax.annotation.Resource;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@PreAuthorize("hasRole('ADMIN')")
 @Controller
 @RequestMapping("/products")
 public class ProductsListController {

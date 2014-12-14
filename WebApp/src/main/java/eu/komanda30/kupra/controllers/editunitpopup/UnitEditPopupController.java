@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -37,11 +36,11 @@ public class UnitEditPopupController {
         return "popups/unit :: unitEditForm";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/{unitId}",method = RequestMethod.GET)
     public String showEditUnitForm(
             @PathVariable("unitId") int unitId,
-            final UnitEditForm form) {
+            final UnitEditForm form,
+            final HttpServletRequest request) {
         final Unit unit = units.findOne(unitId);
         Assert.notNull(unit);
 
@@ -63,7 +62,7 @@ public class UnitEditPopupController {
 
         final Unit unit;
         if (form.isEditForm()) {
-            Assert.state(request.isUserInRole("ADMIN"));
+            Assert.state(request.isUserInRole("ROLE_ADMIN"));
             unit = units.findOne(form.getUnitId());
         } else {
             unit = new Unit();

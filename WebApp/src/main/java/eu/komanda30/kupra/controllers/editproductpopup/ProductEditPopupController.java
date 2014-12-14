@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -44,7 +43,6 @@ public class ProductEditPopupController {
         return "popups/product :: productEditForm";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/{productId}",method = RequestMethod.GET)
     @Transactional
     public String showEditProductForm(
@@ -78,7 +76,7 @@ public class ProductEditPopupController {
 
         final Product product;
         if (form.isEditForm()) {
-            Assert.state(request.isUserInRole("ADMIN"));
+            Assert.state(request.isUserInRole("ROLE_ADMIN"));
             product = products.findOne(form.getProductId());
         } else {
             product = new Product();
@@ -96,7 +94,7 @@ public class ProductEditPopupController {
 
     @RequestMapping(value = "getSelectUnitForm", method = RequestMethod.GET)
     public String getSelectUnitForm() {
-        return "popup/product :: selectUnitForm";
+        return "popups/product :: selectUnitForm";
     }
 }
 
