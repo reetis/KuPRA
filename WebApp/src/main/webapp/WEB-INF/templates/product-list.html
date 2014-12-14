@@ -86,6 +86,7 @@
                             th:title="#{products-list.edit}"
                             data-toggle="tooltip" data-placement="bottom"
                             title="Edit"
+                            th:classappend="${product.isUsed}? 'disabled'"
                             th:attr="data-productid=${product.productId}">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     </button>
