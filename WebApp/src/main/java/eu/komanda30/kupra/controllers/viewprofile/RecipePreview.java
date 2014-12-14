@@ -1,8 +1,5 @@
 package eu.komanda30.kupra.controllers.viewprofile;
 
-/**
-* Created by Rytis on 2014-11-27.
-*/
 public class RecipePreview {
     private String name;
 

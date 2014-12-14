@@ -1,12 +1,15 @@
 package eu.komanda30.kupra.entity;
 
-import javax.persistence.*;
-import java.sql.Time;
 import java.util.Date;
 
-/**
- * Created by Gintare on 2014-12-07.
- */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 @Table(name="menu")
 @Entity
 @SequenceGenerator(

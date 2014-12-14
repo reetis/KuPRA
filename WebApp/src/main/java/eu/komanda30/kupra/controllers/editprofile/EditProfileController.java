@@ -96,7 +96,7 @@ public class EditProfileController {
             return "editProfile";
         }
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!passForm.getPassword().isEmpty() && passErrors.hasErrors()) {
             return "editProfile";
@@ -108,8 +108,8 @@ public class EditProfileController {
             user.setPassword(passForm.getPassword(), passwordEncoder);
         }
 
-        LOG.debug("Changing name to: "+form.getName());
-        LOG.debug("Changing surname to: "+form.getSurname());
+        LOG.debug("Changing  name to: "+form.getName());
+        LOG.debug("Changing  surname to: "+form.getSurname());
 
         final UserProfile profile = user.getProfile();
         profile.setName(form.getName());

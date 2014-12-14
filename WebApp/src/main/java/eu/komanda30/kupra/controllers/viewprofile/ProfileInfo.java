@@ -5,10 +5,6 @@ import eu.komanda30.kupra.entity.UserProfileImage;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Rytis on 2014-12-02.
- */
-
 public class ProfileInfo {
 
     private String userId;

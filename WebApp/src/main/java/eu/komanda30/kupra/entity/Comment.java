@@ -12,9 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-/**
- * Created by Lukas on 2014.12.05.
- */
 @Table(name = "comment")
 @Entity
 @SequenceGenerator(

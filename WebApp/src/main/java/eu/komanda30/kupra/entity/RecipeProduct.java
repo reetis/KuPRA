@@ -11,9 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-/**
- * Created by Ignas on 12/3/2014.
- */
 @Entity
 @Table(name="recipe_product")
 @SequenceGenerator(

@@ -8,10 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-/**
- * Created by Rytis on 2014-10-21.
- */
-
 @Table(name="unit")
 @Entity
 @SequenceGenerator(

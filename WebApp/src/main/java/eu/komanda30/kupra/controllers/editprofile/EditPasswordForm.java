@@ -18,7 +18,6 @@ public class EditPasswordForm {
     @Size(min=8, max=64)
     private String confirmNewPassword;
 
-
     public String getPassword() {
         return password;
     }

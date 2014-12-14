@@ -21,14 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-/**
- * Created by Rytis on 2014-12-02.
- */
 @Controller
 @RequestMapping("/user")
 public class ViewProfileController {
-    public static final String MAIN_PHOTO_REPO_ID = "mainPhoto";
-
     @Resource
     private KupraUsers kupraUsers;
 
@@ -39,7 +34,7 @@ public class ViewProfileController {
     private Recipes recipes;
 
     @Transactional
-    @RequestMapping(value = " /{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "{userId}", method = RequestMethod.GET)
     public String showRecipes(@PathVariable String userId, final ProfileInfo profileInfo, final ProfilePhotoList profilePhotoList) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser user = kupraUsers.findOne(auth.getName());
