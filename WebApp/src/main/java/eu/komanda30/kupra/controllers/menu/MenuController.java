@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -46,22 +43,17 @@ public class MenuController {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
         Date today = new Date();
-        String string = "2014-12-20";
-        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-        Date date = null;
-        try {
-            date = format.parse(string);
-            today = format.parse("2014-12-10");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Iterable<Menu> menusList = kupraUsers.findMenuByDate(kupraUser); //TODO: Traukiami visi item'ai sutvarkyt traukimus pagal datas
+        Iterable<Menu> menusList = kupraUsers.findMenuByDate(kupraUser,today, new Date(today.getTime()+60*60*24*1000)); //TODO: Traukiami visi item'ai sutvarkyt traukimus pagal datas
 
+        MenuListDay menuListDay = new MenuListDay();
+        menuListDay.setDay(today);
         for(Menu menuItem : menusList){
             MenuListItem menuListItem = new MenuListItem();
             menuListItem.setDateTime(menuItem.getDateTime());
             menuListItem.setRecipeName(menuItem.getRecipe().getName());
+            menuListDay.addMenuListItem(menuListItem);
         }
+        form.addMenuListDay(menuListDay);
         return "menu";
     }
 

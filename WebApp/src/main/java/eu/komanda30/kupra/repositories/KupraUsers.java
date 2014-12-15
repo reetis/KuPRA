@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface KupraUsers extends CrudRepository<KupraUser, String> {
@@ -20,6 +21,6 @@ public interface KupraUsers extends CrudRepository<KupraUser, String> {
             + "and usernamePasswordAuth.resetPasswordTokenValidTill > current_date")
     KupraUser findByPasswordResetToken(@Param("token") String token);
 
-    @Query("select m from KupraUser u left join u.menuList m where u = :user")
-    List<Menu> findMenuByDate(@Param("user") KupraUser user);
+    @Query("select m from KupraUser u left join u.menuList m where u = :user and m.dateTime between DATE(:fromDate) and DATE(:toDate)")
+    List<Menu> findMenuByDate(@Param("user") KupraUser user, @Param("fromDate") Date dateFromString, @Param("toDate") Date dateToString);
 }

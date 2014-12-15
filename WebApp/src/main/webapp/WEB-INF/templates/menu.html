@@ -12,25 +12,25 @@
     <title th:text="#{menu.title}">KstPfr</title>
 
     <!-- Bootstrap CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Material design CSS -->
-    <link th:href="@{/css/ripples.min.css}" href="css/ripples.min.css" rel="stylesheet"/>
-    <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/ripples.min.css}" href="/css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="/css/material-wfont.min.css" rel="stylesheet"/>
 
     <!-- Lightbox CSS -->
-    <link th:href="@{/lightbox/css/lightbox.css}" href="lightbox/css/lightbox.css" rel="stylesheet"/>
-    <link th:href="@{/css/gallery.css}" href="css/gallery.css" rel="stylesheet"/>
-    <link th:href="@{/css/imgupload.css}" href="css/imgupload.css" rel="stylesheet"/>
+    <link th:href="@{/lightbox/css/lightbox.css}" href="/lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="/css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="/css/imgupload.css" rel="stylesheet"/>
 
     <!-- Kupra CSS -->
-    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
+    <link th:href="@{/css/kupra.css}" href="/css/kupra.css" rel="stylesheet"/>
 
     <!-- Custom page CSS -->
-    <link th:href="@{/css/registration.css}" href="css/registration.css" rel="stylesheet"/>
+    <link th:href="@{/css/registration.css}" href="/css/registration.css" rel="stylesheet"/>
 
     <!-- jQuery -->
-    <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js"
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="/js/jquery-1.11.1.min.js"
             type="application/javascript"></script>
 
     <!--[if lt IE 9]>
@@ -62,9 +62,12 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3 panel-body">
-            <div class="menu-row"  th:each="meniuItem : ${menuListForm.menuListItems}">
-                <span th:text="${meniuItem.dateTime"></span>
+        <div class="col-md-3 panel-body panel" th:each="dayListItem : ${menuListForm.menuListDays}" >
+            <div class="menu-day-header">
+                <label th:text="${#calendars.format(dayListItem.day,'yyyy-mm-dd')}"></label>
+            </div>
+            <div class="menu-row"  th:each="meniuItem : ${dayListItem.menuListItems}">
+                <span th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')}"></span>
                 <span th:text="${meniuItem.recipeName}"></span>
             </div>
         </div>

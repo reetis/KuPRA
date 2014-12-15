@@ -6,17 +6,17 @@ import java.util.ArrayList;
  * Created by Ignas on 12/15/2014.
  */
 public class MenuListForm {
-    private ArrayList<MenuListItem> menulistItems = new ArrayList<MenuListItem>();
+    private ArrayList<MenuListDay> menuListDays = new ArrayList<>();
 
-    public ArrayList<MenuListItem> getMenulistItems() {
-        return menulistItems;
+    public ArrayList<MenuListDay> getMenuListDays() {
+        return menuListDays;
     }
 
-    public void setMenulistItems(ArrayList<MenuListItem> menulistItems) {
-        this.menulistItems = menulistItems;
+    public void setMenuListDays(ArrayList<MenuListDay> menuListDays) {
+        this.menuListDays = menuListDays;
     }
 
-    public void addMenuListItem(MenuListItem menuListItem){
-        this.menulistItems.add(menuListItem);
+    public void addMenuListDay(MenuListDay menuListDay){
+        this.menuListDays.add(menuListDay);
     }
 }
