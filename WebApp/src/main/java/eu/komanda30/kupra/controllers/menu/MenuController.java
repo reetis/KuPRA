@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -33,19 +36,32 @@ public class MenuController {
     @Resource
     private Recipes recipes;
 
-    @InitBinder
+    @InitBinder("newMenuItemForm")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(newMenuItemFormValidator);
     }
 
-    @Transactional
     @RequestMapping(method = RequestMethod.GET)
-    public String showFridgeContent() {
-//        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
-//
-////        kupraUser.addMenuItem(menuAddItemForm);
+    public String showFridgeContent(MenuListForm form) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+        Date today = new Date();
+        String string = "2014-12-20";
+        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = format.parse(string);
+            today = format.parse("2014-12-10");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Iterable<Menu> menusList = kupraUsers.findMenuByDate(kupraUser); //TODO: Traukiami visi item'ai sutvarkyt traukimus pagal datas
 
+        for(Menu menuItem : menusList){
+            MenuListItem menuListItem = new MenuListItem();
+            menuListItem.setDateTime(menuItem.getDateTime());
+            menuListItem.setRecipeName(menuItem.getRecipe().getName());
+        }
         return "menu";
     }
 
@@ -56,9 +72,9 @@ public class MenuController {
         Date currentTime = new Date();
 
         //Add 5 minutes to prevent submitting to past
-        form.setDate_time(new Date(currentTime.getTime()+5*60*1000));
+        form.setDateTime(new Date(currentTime.getTime()+5*60*1000));
 
-        form.setRecipe_id(recipeId);
+        form.setRecipeId(recipeId);
         form.setServings(2);
         return "add-to-menu-modal :: modalBodyFooter";
     }
@@ -73,8 +89,8 @@ public class MenuController {
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
         final eu.komanda30.kupra.entity.Menu newMenuEntity = new Menu();
-        newMenuEntity.setRecipe_id(form.getRecipe_id());
-        newMenuEntity.setDate_time(form.getDate_time());
+        newMenuEntity.setRecipe(recipes.findOne(form.getRecipeId()));
+        newMenuEntity.setDateTime(form.getDateTime());
         newMenuEntity.setServings(form.getServings());
         kupraUser.addMeniuItem(newMenuEntity);
         kupraUsers.save(kupraUser);

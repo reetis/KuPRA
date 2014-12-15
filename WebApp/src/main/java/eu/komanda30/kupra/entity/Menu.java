@@ -3,14 +3,6 @@ package eu.komanda30.kupra.entity;
 import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
 @Table(name="menu")
 @Entity
 @SequenceGenerator(
@@ -25,12 +17,12 @@ public class Menu {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="menuIdSequence")
     private Integer id;
 
+    @JoinColumn(name="recipe_id")
+    @ManyToOne(cascade=CascadeType.ALL)
+    private Recipe recipe;
 
     @Column(nullable = false)
-    private int recipe_id;
-
-    @Column(nullable = false)
-    private Date date_time;
+    private Date dateTime;
 
     @Column(nullable = false)
     private boolean completed;
@@ -41,28 +33,12 @@ public class Menu {
     @Column
     private int servings;
 
-    public Date getDate_time() {
-        return date_time;
-    }
-
-    public void setDate_time(Date date_time) {
-        this.date_time = date_time;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getRecipe_id() {
-        return recipe_id;
-    }
-
-    public void setRecipe_id(int recipe_id) {
-        this.recipe_id = recipe_id;
     }
 
     public boolean isCompleted() {
@@ -87,6 +63,22 @@ public class Menu {
 
     public void setServings(int servings) {
         this.servings = servings;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
     }
 }
 

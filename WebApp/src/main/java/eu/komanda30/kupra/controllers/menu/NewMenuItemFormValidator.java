@@ -26,16 +26,16 @@ public class NewMenuItemFormValidator implements Validator {
         final NewMenuItemForm form = (NewMenuItemForm)target;
         Date currentDate = new Date();
 
-        if (recipes.findOne(form.getRecipe_id()) == null) {
-            errors.rejectValue("recipe_id", "RecipeNotFound");
+        if (recipes.findOne(form.getRecipeId()) == null) {
+            errors.rejectValue("recipeId", "RecipeNotFound");
         }
 
         if (form.getServings() < 1) {
             errors.rejectValue("servings", "WrongServingsQty");
         }
 
-        if (form.getDate_time().compareTo(currentDate) <= 0) {
-            errors.rejectValue("date_time", "DateBeforeNow");
+        if (form.getDateTime().compareTo(currentDate) <= 0) {
+            errors.rejectValue("dateTime", "DateBeforeNow");
         }
     }
 }

@@ -60,79 +60,17 @@
                 </div>
             </div>
     </div>
-    <div class="row well">
 
+    <div class="row">
+        <div class="col-md-3 panel-body">
+            <div class="menu-row"  th:each="meniuItem : ${menuListForm.menuListItems}">
+                <span th:text="${meniuItem.dateTime"></span>
+                <span th:text="${meniuItem.recipeName}"></span>
+            </div>
+        </div>
     </div>
 </div>
 
-    <!--<h2 th:text="#{fridge.title}">CP test</h2>-->
-    <!--<div class="row well">-->
-        <!--<div class="row " th:fragment="fridge-content" id="fridge-content">-->
-            <!--<div th:if="!${#lists.isEmpty(fridgeItemsList.items)}">-->
-                <!--<div class="col-md-12" th:each="itm : ${fridgeItemsList.items}">-->
-                    <!--<div class="panel-body">-->
-                        <!--<span class="col-md-3" th:text="${itm.name}">Bulves</span>-->
-                        <!--<span class="col-md-2">-->
-                            <!--<span th:text="${#numbers.formatDecimal(itm.amount, 0, 2)}">10.00</span>-->
-                            <!--<span th:text="${itm.unit}">Kg</span>-->
-                        <!--</span>-->
-                        <!--<span class="form-group">-->
-                            <!--<button type="submit" th:attr="product_id=${itm.productId}"-->
-                                    <!--class="btn btn-default btn-lg remove-button"-->
-                                    <!--th:text="#{fridge.remove}">Remove-->
-                            <!--</button>-->
-                        <!--</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div th:if="${#lists.isEmpty(fridgeItemsList.items)}">-->
-                <!--<div class="col-md-12">-->
-                    <!--<p th:text="#{fridge.noitems}">Nera pridetu</p>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!--<form class="row well form-horizontal" role="form" action="#" method="post"-->
-              <!--th:action="@{/fridge}"-->
-              <!--id="fridgeAddItemForm"-->
-              <!--th:object="${fridgeAddItemForm}">-->
-
-        <!--<span class="form-group col-md-3">-->
-            <!--<div class="dropdown form-group">-->
-                <!--<div th:if="${!products.isEmpty()}">-->
-                    <!--<select id="product-select" class="form-control"-->
-                            <!--th:field="*{selectedProductId}">-->
-                        <!--<option value="5"-->
-                                <!--th:each="product : ${products}"-->
-                                <!--th:value="${product.id}"-->
-                                <!--th:text="${product.name}"-->
-                                <!--th:attr="kupra-unit=${product.unit.abbreviation}">Vienetas-->
-                        <!--</option>-->
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</span>-->
-  <!--<span class="form-group col-md-1">-->
-
-        <!--</span>-->
-        <!--<span class="form-group col-md-1">-->
-            <!--<input type="text" class="form-control" placeholder="amount" id="amount"-->
-                   <!--th:field="*{amount}" th:placeholder="#{fridge.amount}"/>-->
-        <!--</span>-->
-
-
-        <!--<span class="form-group col-md-1">-->
-            <!--<span id="product-unit" th:text="${products[0].unit.abbreviation}"></span>-->
-        <!--</span>-->
-
-        <!--<span class="form-group col-md-1">-->
-            <!--<button type="submit" class="btn btn-default btn-lg"-->
-                    <!--th:text="#{fridge.addbtn}">Save-->
-            <!--</button>-->
-        <!--</span>-->
-        <!--</form>-->
-    <!--</div>-->
-<!--</div>-->
 
 <div th:replace="layout :: footer"></div>
 
@@ -151,38 +89,7 @@
 <script type="application/javascript" th:inline="javascript">
     // <![CDATA[
     +function ($) {
-        var deleteUrl = /*[[@{/fridge/delete}]]*/ '#';
-        var addItemUrl = /*[[@{/fridge}]]*/ '#';
-        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
-        $("#newProductCreateButton").click(function () {
-            if (submitUrl != '#') {
-                $("#productEditFormContent").load(submitUrl, $("#productEditForm").serializeArray());
-            } else {
-                $("#productEditFormContent").empty();
-                $("#productSavedForm").clone(true).appendTo("#productEditFormContent");
-            }
-        });
 
-        $('.remove-button').click(function (event) {
-            formData = new FormData();
-            formData.append('product_id', $(this).attr('product_id'));
-            $.ajax({
-                url: deleteUrl,
-                type: 'POST',
-                data: formData,
-                async: true,
-                cache: false,
-                contentType: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': _csrf}
-            }).done(function (data) {
-                $('#fridge-content').replaceWith($(data));
-            });
-        });
-
-        $('#product-select').change(function () {
-            $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
-        });
     }(jQuery);
     // ]]>
 </script>

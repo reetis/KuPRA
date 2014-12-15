@@ -1,20 +1,6 @@
 package eu.komanda30.kupra.entity;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-
+import com.google.common.collect.ImmutableList;
 import org.hibernate.search.annotations.Boost;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -22,7 +8,11 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
-import com.google.common.collect.ImmutableList;
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Table(name="`user`")
 @Entity
@@ -44,7 +34,7 @@ public class KupraUser {
 
     @JoinColumn(name = "user_id", nullable = false)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Menu> menuListas;
+    private List<Menu> menuList;
 
     @OneToMany(mappedBy = "author")
     private List<Recipe> recipes;
@@ -125,7 +115,7 @@ public class KupraUser {
 
 
     public void addMeniuItem(Menu menuListas) {
-        this.menuListas.add(menuListas);
+        this.menuList.add(menuListas);
     }
 
 }
