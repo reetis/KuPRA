@@ -18,6 +18,17 @@
     <link th:href="@{/css/ripples.min.css}" href="/css/ripples.min.css" rel="stylesheet"/>
     <link th:href="@{/css/material-wfont.min.css}" href="/css/material-wfont.min.css" rel="stylesheet"/>
 
+    <!-- Bootstrap Datetime Picker CSS -->
+    <link th:href="@{/css/bootstrap-datetimepicker.css}" href="../../css/bootstrap-datetimepicker.css"
+          rel="stylesheet"/>
+
+    <!-- Masonry javascript -->
+    <script th:src="@{/js/masonry.pkgd.min.js}" src="../../js/masonry.pkgd.min.js"></script>
+
+    <!-- Moment javascript -->
+    <script th:src="@{/js/moment.min.js}" src="../../js/moment.min.js"></script>
+    <script th:src="@{/js/lt.js}" src="../../js/lt.js"></script>
+
     <!-- Lightbox CSS -->
     <link th:href="@{/lightbox/css/lightbox.css}" href="/lightbox/css/lightbox.css" rel="stylesheet"/>
     <link th:href="@{/css/gallery.css}" href="/css/gallery.css" rel="stylesheet"/>
@@ -47,6 +58,15 @@
                 <div class="row">
                     <div class="col-xs-8">
                         <h1 th:text="#{menu.title}">CP test</h1>
+                        <span th:text="#{menu.showDates}" >Dienos</span>
+                        <span class='input-group date' id='datetimepicker'>
+                            <div class='input-group date' id='datetimepicker'>
+                                <input type='text' class="form-control" id="datetime"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            </div>
+                        </span>
                     </div>
                     <div class="col-xs-4">
                         <button class="btn-default btn" id="newUnitButton" th:title="#{menu.find.products}"
@@ -88,13 +108,38 @@
 <!--Kupra javascript-->
 <script th:src="@{/js/kupra.js}" src="js/kupra.js" type="application/javascript"></script>
 
-<!-- Custom JS -->
-<script type="application/javascript" th:inline="javascript">
-    // <![CDATA[
-    +function ($) {
+<!-- Bootstrap Datetime Picker javascript -->
+<script th:src="@{/js/bootstrap-datetimepicker.min.js}" src="../../js/bootstrap-datetimepicker.min.js"></script>
 
+<!-- Masonry javascript -->
+<script th:src="@{/js/masonry.pkgd.min.js}" src="../../js/masonry.pkgd.min.js"></script>
+
+<!-- Moment javascript -->
+<script th:src="@{/js/moment.min.js}" src="../../js/moment.min.js"></script>
+<script th:src="@{/js/lt.js}" src="../../js/lt.js"></script>
+
+<!-- Custom JS -->
+<script type="text/javascript" th:inline="javascript">
+    +function ($) {
+        $(document).ready(function () {
+            var datetimePicker = $('#datetimepicker');
+            var currentTime = new Date();
+            datetimePicker.datetimepicker({
+                language: /*[[${shortLocale}]]*/ 'en',
+                defaultDate: moment(currentTime)
+            });
+            datetimePicker.data("DateTimePicker").setMinDate(currentTime);
+        });
+
+        $('#submitButton').click(function () {
+//            var submitUrl = /*[[@{/menu/add}]]*/ '#';
+//            var formattedTime = moment($('#datetime').val()).format("YYYY-MM-D HH:mm");
+//            $('#datetimefinal').val(formattedTime);
+//            if (submitUrl != '#') {
+//                $("#modal-body-footer").load(submitUrl, $("#addToMenuForm").serializeArray());
+//            }
+        });
     }(jQuery);
-    // ]]>
 </script>
 
 </body>
