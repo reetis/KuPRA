@@ -32,18 +32,26 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
-<div style="width: 100%">
-    <div style="margin-left: auto; margin-right: auto">
-        <img th:src="@{/images/kuprele.png}" src="images/kuprele.png" class="Image"
-             
-             style="height: 440px; width: 720px; display: block; margin: auto"/>
+<body class="no-navbar">
+<div class="container">
+    <div class="row center-block" style="max-width: 53em">
+        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+            <img th:src="@{/images/kuprele.png}" src="images/kuprele.png"
+                 class="img-responsive  centered-container"/>
 
-        <div th:text="#{errors.auth}" style=" font-size: 300%; font-weight: bold; text-align: center"/>
+            <h2 th:text="#{errors.error}">Err</h2>
+
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span th:text="#{errors.auth}">Auth</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
-</body>
-<div th:replace="layout :: footer"></div>
 
 <!-- Bootstrap javascript -->
 <script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"
@@ -55,4 +63,6 @@
 
 <!--Kupra javascript-->
 <script th:src="@{/js/kupra.js}" src="js/kupra.js" type="application/javascript"></script>
+
+</body>
 </html>

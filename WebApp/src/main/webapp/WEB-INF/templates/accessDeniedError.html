@@ -32,19 +32,34 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
-<div style="width: 100%">
-    <div style="margin-left: auto; margin-right: auto">
-        <img th:src="@{/images/kuprele.png}" src="images/kuprele.png" class="Image"
+<body class="no-navbar">
+<div class="container">
+    <div class="row center-block" style="max-width: 53em">
+        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+            <img th:src="@{/images/kuprele.png}" src="images/kuprele.png"
+                 class="img-responsive  centered-container"/>
 
-             style="height: 440px; width: 720px; display: block; margin: auto"/>
+            <h2 th:text="#{errors.error}">Err</h2>
 
-
-        <a th:href="@{'/login'}" th:text="#{errors.accessdenied}"
-           style=" font-size: 300%; font-weight: bold; text-align: center">Access denied</a>
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span th:text="#{errors.accessdenied}">Access denied</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 text-right">
+                        <a th:href="@{/login}">
+                            <button type="button" class="btn btn-primary btn-raised btn-lg"
+                                    th:text="#{loginForm.connectButton}">Prisijunkt
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div th:replace="layout :: footer"></div>
 
 <!-- Bootstrap javascript -->
 <script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"

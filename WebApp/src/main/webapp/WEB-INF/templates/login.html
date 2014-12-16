@@ -44,7 +44,7 @@
 <body class="no-navbar">
 <div class="container-fluid center-block ">
     <div class="row center-block" style="max-width: 53em">
-        <div class="col-xs-8 col-xs-offset-2">
+        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
             <img th:src="@{/images/kuprele.png}" src="images/kuprele.png"
                   class="img-responsive  centered-container"/>
             <h2 th:text="#{loginForm.title}">Prisijungti</h2>
@@ -95,7 +95,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xs-12 text-center">
+                            <div class="col-xs-12 text-right">
                                 <a th:href="@{/registration}">
                                     <button class="btn btn-default btn-raised btn-lg"
                                        th:text="#{loginForm.registrationButton}" type="button">
