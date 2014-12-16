@@ -21,6 +21,6 @@ public interface KupraUsers extends CrudRepository<KupraUser, String> {
             + "and usernamePasswordAuth.resetPasswordTokenValidTill > current_date")
     KupraUser findByPasswordResetToken(@Param("token") String token);
 
-    @Query("select m from KupraUser u left join u.menuList m where u = :user and m.dateTime between :fromDate and :toDate")
+    @Query("select m from KupraUser u left join u.menuList m where u = :user and m.dateTime between :fromDate and :toDate order by m.dateTime asc")
     List<Menu> findMenuByDate(@Param("user") KupraUser user, @Param("fromDate") Date dateFromString, @Param("toDate") Date dateToString);
 }
