@@ -58,15 +58,24 @@
                 <div class="row">
                     <div class="col-xs-8">
                         <h1 th:text="#{menu.title}">CP test</h1>
-                        <span th:text="#{menu.showDates}" >Dienos</span>
-                        <span class='input-group date' id='datetimepicker'>
-                            <div class='input-group date' id='datetimepicker'>
-                                <input type='text' class="form-control" id="datetime"/>
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                            </div>
-                        </span>
+                        <div class="inline">
+                            <label class="pull-left" th:text="#{menu.showDates}" >Dienos</label>
+                            <span class='input-group date pull-left' id='datetimepicker'>
+                                <div class='input-group date' id='datetimepicker'>
+                                    <input type='text' class="form-control" id="datetime"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                </div>
+                            </span>
+                            <button class="btn-default btn" id="changeDateButton" th:title="#{menu.changeDate}"
+                                    data-tooltip="true" data-placement="bottom"
+                                    th:text="#{menu.changeDate}"
+                                    title="Tooltip on bottom">
+                                <!--dfghjkl-->
+                                <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>-->
+                            </button>
+                        </div>
                     </div>
                     <div class="col-xs-4">
                         <button class="btn-default btn" id="newUnitButton" th:title="#{menu.find.products}"
@@ -82,15 +91,18 @@
     </div>
 
     <div class="row">
-        <div class="col-md-3 panel-body panel" th:each="dayListItem : ${menuListForm.menuListDays}" >
-            <div class="menu-day-header">
-                <label th:text="${#calendars.format(dayListItem.day,'yyyy-MM-dd')}"></label>
-            </div>
-            <div class="menu-row"  th:each="meniuItem : ${dayListItem.menuListItems}">
-                <span th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')}"></span>
-                <span th:text="${meniuItem.recipeName}"></span>
+        <div th:fragment="menuContainer" id="menuContainer">
+            <div class="col-md-3 panel-body panel" th:each="dayListItem : ${menuListForm.menuListDays}" >
+                <div class="menu-day-header">
+                    <label th:text="${#calendars.format(dayListItem.day,'yyyy-MM-dd')}"></label>
+                </div>
+                <div class="menu-row"  th:each="meniuItem : ${dayListItem.menuListItems}">
+                    <span th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')}"></span>
+                    <span th:text="${meniuItem.recipeName}"></span>
+                </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -126,18 +138,29 @@
             var currentTime = new Date();
             datetimePicker.datetimepicker({
                 language: /*[[${shortLocale}]]*/ 'en',
-                defaultDate: moment(currentTime)
+                defaultDate: moment(currentTime),
+                pickTime: false
             });
-            datetimePicker.data("DateTimePicker").setMinDate(currentTime);
         });
 
-        $('#submitButton').click(function () {
-//            var submitUrl = /*[[@{/menu/add}]]*/ '#';
-//            var formattedTime = moment($('#datetime').val()).format("YYYY-MM-D HH:mm");
-//            $('#datetimefinal').val(formattedTime);
-//            if (submitUrl != '#') {
-//                $("#modal-body-footer").load(submitUrl, $("#addToMenuForm").serializeArray());
-//            }
+        $('#changeDateButton').click(function () {
+            var unfriendUrl = /*[[@{/menu}]]*/ '#';
+            var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+            $.ajax({
+                url: unfriendUrl,
+                type: 'GET',
+                data: {'dateFrom': $('#datetime').val()},
+                async: true,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+            }).done(function(returndata){
+                var newImgForm = $(returndata);
+
+                //Replace old list of images with new one
+                $("#menuContainer").replaceWith(newImgForm);
+            });
+
         });
     }(jQuery);
 </script>

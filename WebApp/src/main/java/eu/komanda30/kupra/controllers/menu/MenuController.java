@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -41,15 +44,30 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showFridgeContent(MenuListForm form) {
+    public String showFridgeContent(MenuListForm form,
+                                    @RequestParam(value = "dateFrom", required = false) final String newDateFrom) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
-        Calendar c = new GregorianCalendar();
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        Date d1 = c.getTime();
-        Date dateFrom = d1;
+
+        String templateToRender = "menu";
+
+        Date dateFrom = null;
+        if (newDateFrom != null){
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            try {
+                dateFrom = format.parse(newDateFrom);
+                templateToRender = "menu :: menuContainer";
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Calendar c = new GregorianCalendar();
+            c.set(Calendar.HOUR_OF_DAY, 0);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+
+            dateFrom = c.getTime();
+        }
 
         // Hardcoded 4 Collumns now
         for(int i=0; i<4; i++){
@@ -69,7 +87,7 @@ public class MenuController {
             dateFrom = dateTo;
         }
 
-        return "menu";
+        return templateToRender;
     }
 
     @Transactional
