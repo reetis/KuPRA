@@ -75,7 +75,7 @@
                     <div class="carousel-inner" role="listbox">
                         <th:block th:each="img, iterSt: ${recipeReadForm.imagesUrls}">
                             <div class="item" th:classappend="${iterSt.first}? 'active'"
-                                    th:style="'background-image: url('+@{${img}}+')'">
+                                    th:style="'background-image: url(\''+@{${img}}+'\')'">
                             </div>
                         </th:block>
                     </div>
