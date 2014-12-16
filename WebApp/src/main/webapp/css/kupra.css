@@ -219,3 +219,13 @@ Can this be done with Masonry options? */
 .no-margin {
     margin: 0 !important;
 }
+
+.carousel-inner > .item > img {
+    margin: 0 auto;
+    max-height: 500px;
+    width: auto;
+}
+
+.carousel-inner {
+    background-color: #ffffff;
+}

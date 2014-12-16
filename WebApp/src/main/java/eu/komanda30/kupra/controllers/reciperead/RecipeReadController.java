@@ -64,6 +64,11 @@ public class RecipeReadController {
 
         final List<Comment> commentList = recipe.getRecipeComments();
         List<RecipeProduct> productList = recipe.getRecipeProductList();
+        List<RecipeImage> imageList = recipe.getRecipeImages();
+
+        for (RecipeImage recipeImage: imageList) {
+            form.addImage(recipeImage.getImageUrl());
+        }
 
         for (RecipeProduct recipeProduct: productList){
             Product product = recipeProduct.getProduct();

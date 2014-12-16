@@ -6,24 +6,24 @@
     <base href="../../" th:remove="all"/>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{recipeReadForm.title}">Regtst</title>
 
     <!-- Bootstrap CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Material design CSS -->
-    <link th:href="@{/css/ripples.min.css}" href="css/ripples.min.css" rel="stylesheet"/>
-    <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/ripples.min.css}" href="/css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="/css/material-wfont.min.css" rel="stylesheet"/>
 
     <!-- Lightbox CSS -->
-    <link th:href="@{/lightbox/css/lightbox.css}" href="lightbox/css/lightbox.css" rel="stylesheet"/>
-    <link th:href="@{/css/gallery.css}" href="css/gallery.css" rel="stylesheet"/>
-    <link th:href="@{/css/imgupload.css}" href="css/imgupload.css" rel="stylesheet"/>
+    <link th:href="@{/lightbox/css/lightbox.css}" href="/lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="/css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="/css/imgupload.css" rel="stylesheet"/>
 
     <!-- Kupra CSS -->
-    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
+    <link th:href="@{/css/kupra.css}" href="/css/kupra.css" rel="stylesheet"/>
 
     <!-- jQuery -->
     <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -37,123 +37,183 @@
 <div th:replace="layout :: header"></div>
 <div class="container">
 
-    <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
-    <h2 th:text="${recipeReadForm.name}">Recipe</h2>
+    <div class="page-header">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 th:text="${recipeReadForm.name}">Recipe</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-muted">
+                <th:block th:text="#{recipeReadForm.author}">Autorius</th:block>
+                <a th:href="@{'/user/'+${recipeReadForm.recipeAuthorId}}"
+                   th:text="${recipeReadForm.recipeAuthor}">Mr. X</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 text-muted">
+                <span th:text="${#calendars.format(recipeReadForm.date)}"> 2053-07-14 12:06:07 </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="row" th:unless="${#lists.isEmpty(recipeReadForm.imagesUrls)}">
+            <div class="col-xs-12">
+
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators" th:if="${#lists.size(recipeReadForm.imagesUrls) > 1}">
+                        <th:block th:each="img, iterSt: ${recipeReadForm.imagesUrls}">
+                            <li data-target="#carousel" th:attr="data-slide-to=${iterSt.index}"
+                                th:class="${iterSt.first}? 'active'"></li>
+                        </th:block>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <th:block th:each="img, iterSt: ${recipeReadForm.imagesUrls}">
+                            <div class="item" th:classappend="${iterSt.first}? 'active'">
+                                <img th:src="@{${img}}"/>
+                            </div>
+                        </th:block>
+                    </div>
+
+                    <!-- Controls -->
+                    <th:block th:if="${#lists.size(recipeReadForm.imagesUrls) > 1}">
+                        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </a>
+                    </th:block>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 th:text="#{recipeCreateForm.description}">Aprašymas</h3>
+
+                <label for="cookingTime" th:text="#{recipeReadForm.cookingTime}">Laikas</label>
+                <span id="cookingTime" th:text="${recipeReadForm.cookingTime}">Random Time</span> min.<br/>
+
+
+                <label for="servings" th:text="#{recipeReadForm.servings}">Porcijos</label>
+                <span id="servings" th:text="${recipeReadForm.servings}">Random Description</span>
+
+
+                <p id="description" th:text="${recipeReadForm.description}">Random Aprašas</p>
+            </div>
+            <div class="col-sm-6">
+                <h3 th:text="#{recipeReadForm.products}">Maisto Produktai</h3>
+
+                <div th:unless="${#lists.isEmpty(recipeReadForm.recipeProducts)}">
+                    <div th:each="product : ${recipeReadForm.recipeProducts}">
+                        <span th:text="${product.name}">Produkto pav</span>
+                        <span th:text="${product.quantity}">Produkto kiekis</span>
+                        <span th:text="${product.unit}">Produkto vienetas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 th:text="#{recipeReadForm.processDescription}">Gamybos
+                    Aprašymas</h3>
+            </div>
+            <div class="col-xs-12">
+                    <pre th:text="${recipeReadForm.processDescription}">
+                        Labai ilgas gamybos
+                        aprašas
+                    </pre>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
-        <div class="col-sm-6">
-            <div class="form-group well">
-
-                <div class="pub panel-body">
-                    <label for="recipeAuthor" th:text="#{recipeReadForm.author}">Autorius</label>
-                    <a th:href="@{'/user/'+${recipeReadForm.recipeAuthorId}}" id="recipeAuthor"
-                       th:text="${recipeReadForm.recipeAuthor}">Mr. X</a>
-                </div>
-
-                <div class="pub panel-body">
-                    <label for="recipeDate" th:text="#{recipeReadForm.date}">data</label>
-                    <span id="recipeDate" th:if="${recipeReadForm.date != null}"
-                          th:text="${#calendars.format(recipeReadForm.date,'dd MMMM yyyy HH:mm:ss')}"> - </span>
-                    <span id="recipeDate" th:if="${recipeReadForm.date == null}" text=" - ">  - </span>
-                </div>
-
-                <div class="pub panel-body">
-                    <label for="cookingTime" th:text="#{recipeCreateForm.cookingTime}">Laikas</label>
-                    <span id="cookingTime" th:text="${recipeReadForm.cookingTime}">Random Time</span>
-                </div>
-
-                <div class="pub panel-body">
-                    <label for="servings" th:text="#{recipeCreateForm.servings}">Porcijos</label>
-                    <span id="servings" th:text="${recipeReadForm.servings}">Random Description</span>
-                </div>
-
-                <div class="pub panel-body">
-                    <label th:text="#{recipeReadForm.products}">Maisto Produktai</label>
-                    <div th:unless="${#lists.isEmpty(recipeReadForm.recipeProducts)}">
-                        <div th:each="product : ${recipeReadForm.recipeProducts}">
-                            <span th:text="${product.name}">Produkto pav</span>
-                            <span th:text="${product.quantity}">Produkto kiekis</span>
-                            <span th:text="${product.unit}">Produkto vienetas</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pub panel-body">
-                    <label for="description" th:text="#{recipeCreateForm.description}">Aprašymas</label>
-
-                    <p id="description" th:text="${recipeReadForm.description}">Random Aprašas</p>
-                </div>
-
-                <div class="pub panel-body">
-                    <label for="processDescription" th:text="#{recipeCreateForm.processDescription}">Gamybos
-                        Aprašymas</label>
-
-                    <p id="processDescription" th:text="${recipeReadForm.processDescription}">Labai ilgas gamybos
-                        aprašas</p>
-                </div>
-            </div>
+        <div class="col-xs-12">
+            <h1 th:text="#{addcomment.comments}">Comms</h1>
         </div>
     </div>
 
-    <form class="addComment-form" role="form" th:action="'/recipes/create_comment/'+${recipeId}" method="post"
-          th:object="${addCommentForm}">
-        <!--<input type="text" class="form-control" placeholder="Name" id="comment"-->
-        <!--th:field="*{comment}" th:placeholder="#{addcomment.comment}"/>-->
-        <div class="col-sm-10">
-            <textarea id="comment" placeholder="KOmentaras" th:field="*{comment}"
-                      th:placeholder="#{addcomment.comment}" class="form-control"
-                      rows="5"></textarea>
-            <span class="help-block"
-                  th:if="${#fields.hasErrors('comment')}"
-                  th:errors="*{comment}">Per ilgas</span>
-        </div>
+    <div class="well">
+        <form class="addComment-form" role="form" th:action="'/recipes/create_comment/'+${recipeId}" method="post"
+              th:object="${addCommentForm}">
+            <div class="row">
+                <div class="col-xs-12">
+                    <textarea id="comment" placeholder="KOmentaras" th:field="*{comment}"
+                              th:placeholder="#{addcomment.comment}" class="form-control"
+                              rows="5"></textarea>
+                    <span class="help-block"
+                          th:if="${#fields.hasErrors('comment')}"
+                          th:errors="*{comment}">Per ilgas</span>
+                </div>
+            </div>
 
-        <button type="submit" class="btn btn-default btn-lg"
-                th:text="#{addcomment.addcomment}">Comment
-        </button>
-    </form>
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <button type="submit" class="btn btn-primary btn-raised btn-lg"
+                            th:text="#{addcomment.addcomment}">Comment
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-    <div class="container">
+    <th:block th:each="comment : ${recipeReadForm.comments}">
+        <div class="panel panel-default">
+            <div class="panel-body">
         <div class="row">
-            <div th:if="!${#lists.isEmpty(recipeReadForm.comments)}">
-                <div class="col-md-12 col-xs-12" th:each="comment : ${recipeReadForm.comments}">
+            <div class="col-sm-1">
+                <a th:href="@{'/user/'+${comment.commentAuthorId}}" href="#">
+                    <img class="img-responsive" th:if="${comment.image != null}"
+                         th:src="${comment.image.thumbUrl}"
+                         src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
 
-                    <div class="panel-body">
-
-                        <a class="col-md-1" th:href="@{'/user/'+${comment.commentAuthorId}}" href="#">
-                            <img class="img-responsive" th:if="${comment.image != null}"
-                                 th:src="${comment.image.thumbUrl}"
-                                 src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
-
-                            <img class="img-responsive" th:if="${comment.image == null}"
-                                 th:src="@{/images/empty_prof_thumb.jpg}"
-                                 src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
-                        </a>
-
-                        <a class="col-md-2" href="#"
-                           th:href="@{'/user/'+${comment.commentAuthorId}}"
-                           th:text="${comment.author}"
-                           style="font-weight: bold">Autorius</a>
-                        <span class="col-md-6"></span>
-                        <span class="col-md-3" th:text="${#calendars.format(comment.date,'dd MMMM yyyy HH:mm:ss')}"
-                              style=" color: #7a7777; ">28 Sausio 2014 10:30:23</span>
-
-                        <div class="row">
-                            <div class="col-md-8">
-                                <span class="col-md-4" th:text="${comment.comment}">Dscr</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                    <img class="img-responsive" th:if="${comment.image == null}"
+                         th:src="@{/images/empty_prof_thumb.jpg}"
+                         src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                </a>
             </div>
-            <div th:if="${#lists.isEmpty(recipeReadForm.comments)}">
-                <div class="col-md-12">
-                    <p th:text="#{comment.nocomments}">Nėra prdtu</p>
+            <div class="col-sm-11">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <strong>
+                            <a href="#" th:href="@{'/user/'+${comment.commentAuthorId}}"
+                               th:text="${comment.author}">Autorius</a>
+                        </strong>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <p th:text="${#calendars.format(comment.date,'dd MMMM yyyy HH:mm:ss')}"
+                              class="text-muted">28 Sausio 2014 10:30:23</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p th:text="${comment.comment}">Dscr</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+                </div>
+            </div>
+    </th:block>
+
+    <th:block th:if="${#lists.isEmpty(recipeReadForm.comments)}">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row" >
+                    <div class="col-md-12">
+                        <p th:text="#{comment.nocomments}">Nėra prdtu</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
 
 </div>
 

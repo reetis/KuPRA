@@ -4,6 +4,7 @@ import eu.komanda30.kupra.entity.KupraUser;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class RecipeReadForm {
     private String name;
@@ -29,6 +30,8 @@ public class RecipeReadForm {
     private Date date;
 
     private ArrayList<RecipeProductUnit> recipeProducts = new ArrayList<RecipeProductUnit>();
+
+    private List<String> imagesUrls = new ArrayList<>();
 
     public KupraUser getKupraUser() {
         return kupraUser;
@@ -131,5 +134,17 @@ public class RecipeReadForm {
             recipeProducts = new ArrayList<RecipeProductUnit>();
         }
         this.recipeProducts.add(recipeProduct);
+    }
+
+    public List<String> getImagesUrls() {
+        return imagesUrls;
+    }
+
+    public void setImagesUrls(List<String> imagesUrls) {
+        this.imagesUrls = imagesUrls;
+    }
+
+    public void addImage(String url) {
+        imagesUrls.add(url);
     }
 }
