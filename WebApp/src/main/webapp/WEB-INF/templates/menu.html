@@ -48,6 +48,7 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 <body>
 <div th:replace="layout :: header"></div>
@@ -96,13 +97,24 @@
                 <div class="menu-day-header">
                     <label th:text="${#calendars.format(dayListItem.day,'yyyy-MM-dd')}"></label>
                 </div>
-                <div class="menu-row"  th:each="meniuItem : ${dayListItem.menuListItems}">
+                <div class="menu-row"   th:each="meniuItem : ${dayListItem.menuListItems}"
+                     th:attr="recipeId=${meniuItem.menuItemId}">
+
                     <span th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')}"></span>
                     <span th:text="${meniuItem.recipeName}"></span>
                 </div>
             </div>
         </div>
 
+    </div>
+</div>
+
+<div class="modal fade" id="addToMenu" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="modal-body-footer">
+            </div>
+        </div>
     </div>
 </div>
 
@@ -160,7 +172,16 @@
                 //Replace old list of images with new one
                 $("#menuContainer").replaceWith(newImgForm);
             });
+        });
 
+        menuRows = $('.menu-row');
+        menuRows.click(function (event) {
+            var button = $(this); // Div that triggered the modal
+            var recipeid = button.attr('recipeid');
+            var frameUrl = /*[[@{/menu/cook}]]*/ '#';
+            frameUrl = frameUrl + "/" + recipeid;
+            $(".modal-content").load(frameUrl);
+            $(".modal").modal('show');
         });
     }(jQuery);
 </script>

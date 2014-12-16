@@ -3,6 +3,7 @@ package eu.komanda30.kupra.controllers.menu;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Menu;
 import eu.komanda30.kupra.repositories.KupraUsers;
+import eu.komanda30.kupra.repositories.Menus;
 import eu.komanda30.kupra.repositories.Recipes;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
@@ -34,6 +35,9 @@ public class MenuController {
 
     @Resource
     private KupraUsers kupraUsers;
+
+    @Resource
+    private Menus menus;
 
     @Resource
     private Recipes recipes;
@@ -81,6 +85,7 @@ public class MenuController {
                 MenuListItem menuListItem = new MenuListItem();
                 menuListItem.setDateTime(menuItem.getDateTime());
                 menuListItem.setRecipeName(menuItem.getRecipe().getName());
+                menuListItem.setMenuItemId(menuItem.getId());
                 menuListDay.addMenuListItem(menuListItem);
             }
             form.addMenuListDay(menuListDay);
@@ -89,6 +94,31 @@ public class MenuController {
 
         return templateToRender;
     }
+
+    @Transactional
+    @RequestMapping(value = "/cook/{menuItemId}", method = RequestMethod.GET)
+    public String openCookModal(@PathVariable Integer menuItemId, final RecipeCookForm form) {
+        Menu menu = menus.findOne(menuItemId);
+        form.setName(menu.getRecipe().getName());
+        form.setDateTime(menu.getDateTime());
+        form.setMenuItemId(menu.getId());
+
+        return "popups/cookRecipe :: menuCookModal";
+    }
+
+    @ResponseBody
+    @Transactional
+    @RequestMapping(value = "/remove/{menuItemId}", method = RequestMethod.POST)
+    public String removeMenuItem(@PathVariable Integer menuItemId) {
+        Menu menu = menus.findOne(menuItemId);
+        KupraUser owner = kupraUsers.findByMenu(menu);
+        owner.removeMenuItem(menu);
+        kupraUsers.save(owner);
+
+        return "";
+    }
+
+
 
     @Transactional
     @RequestMapping(value = "/add/{recipeId}", method = RequestMethod.GET)

@@ -118,4 +118,8 @@ public class KupraUser {
         this.menuList.add(menuListas);
     }
 
+    public void removeMenuItem(Menu menuItem){
+        menuList.remove(menuItem);
+    }
+
 }
