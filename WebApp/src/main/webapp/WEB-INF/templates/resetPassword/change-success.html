@@ -35,13 +35,33 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
+<body class="no-navbar">
 <div class="container">
-    <h2 th:text="#{resetPassword.title}">Reset password</h2>
+    <div class="row center-block" style="max-width: 53em">
+        <div class="col-xs-8 col-xs-offset-2">
+            <img th:src="@{/images/kuprele.png}" src="images/kuprele.png"
+                 data-toggle="tooltip" data-placement="bottom" class="img-responsive  centered-container"/>
 
-    <span th:text="#{resetPassword.change.success}">Change successful</span>
-    <a th:text="#{resetPassword.pressheretologin}" th:href="@{/login}" href="#">Press here to
-        login</a>
+            <h2 th:text="#{resetPassword.title}">Reset password</h2>
+
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span th:text="#{resetPassword.change.success}">Change successful</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 text-right">
+                        <a th:href="@{/login}">
+                            <button type="button" class="btn btn-primary btn-raised btn-lg"
+                                    th:text="#{resetPassword.pressheretologin}">Prisijunkt
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Bootstrap javascript -->

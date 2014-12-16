@@ -6,7 +6,7 @@
     <base href="../../../" th:remove="all"/>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{resetPassword.title}">Reset pass</title>
 
@@ -19,7 +19,7 @@
           rel="stylesheet"/>
 
     <!-- Kupra CSS -->
-    <!--<link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>-->
+    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
 
     <!-- jQuery -->
     <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js"
@@ -30,7 +30,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
+<body class="no-navbar">
 <!--@thymesVar id="resetPasswordChangeForm" type="eu.komanda30.kupra.controllers.resetpassword.changePassword.ResetPasswordChangeForm"-->
 <div class="container-fluid center-block">
     <div class="row center-block" style="max-width: 53em">
@@ -42,60 +42,62 @@
                      data-toggle="tooltip" data-placement="bottom"
                      class="img-responsive  centered-container"/>
 
-                <h2 th:text="#{resetPassword.title}" class="text-center">Reset password</h2>
+                <h2 th:text="#{resetPassword.title}">Reset password</h2>
 
-                <form role="form" action="#" method="post"
-                      th:action="@{/resetPassword/change}"
-                      th:object="${resetPasswordChangeForm}">
+                <div class="well">
+                    <form role="form" action="#" method="post"
+                          th:action="@{/resetPassword/change}"
+                          th:object="${resetPasswordChangeForm}">
 
-                    <input type="hidden" name="token" th:field="*{token}" value="asd-asd-asd"/>
+                        <input type="hidden" name="token" th:field="*{token}" value="asd-asd-asd"/>
 
-                    <div class="row">
-                        <div class="col-xs-12 form-group"
-                             th:attrappend="class=${#fields.hasErrors('password')}?' has-error'">
-                            <input type="password" class="form-control" placeholder="Password" id="password"
-                                   th:field="*{password}" th:placeholder="#{resetPassword.password}"/>
+                        <div class="row">
+                            <div class="col-xs-12 form-group"
+                                 th:attrappend="class=${#fields.hasErrors('password')}?' has-error'">
+                                <input type="password" class="form-control" placeholder="Password" id="password"
+                                       th:field="*{password}" th:placeholder="#{resetPassword.password}"/>
                             <span class="help-block"
-                              th:if="${#fields.hasErrors('password')}"
-                              th:errors="*{password}">Validation errors</span>
+                                  th:if="${#fields.hasErrors('password')}"
+                                  th:errors="*{password}">Validation errors</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 form-group"
-                             th:attrappend="class=${#fields.hasErrors('passwordRepeat')}?' has-error'">
-                            <input type="password" class="form-control" placeholder="Repeat password" id="repeatPassword"
-                                   th:field="*{passwordRepeat}" th:placeholder="#{resetPassword.passwordRepeat}"/>
+                        <div class="row">
+                            <div class="col-xs-12 form-group"
+                                 th:attrappend="class=${#fields.hasErrors('passwordRepeat')}?' has-error'">
+                                <input type="password" class="form-control" placeholder="Repeat password"
+                                       id="repeatPassword"
+                                       th:field="*{passwordRepeat}" th:placeholder="#{resetPassword.passwordRepeat}"/>
                             <span class="help-block"
                                   th:if="${#fields.hasErrors('passwordRepeat')}"
                                   th:errors="*{passwordRepeat}">Validation errors</span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p class="text-center" th:each="err : ${#fields.globalErrors()}"
-                               th:text="${err}">
-                                Global error
-                            </p>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p th:each="err : ${#fields.globalErrors()}"
+                                   th:text="${err}">
+                                    Global error
+                                </p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <a class="btn btn-default  btn-lg" th:href="@{/login}"
-                               th:text="#{resetPassword.cancelButton}">
-                                Cancel
-                            </a>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-default btn-lg"
-                                        th:text="#{resetPassword.changeButton}">Change password
+                        <div class="row">
+                            <div class="col-xs-12 text-right">
+
+                                <a th:href="@{/login}">
+                                    <button type="button" class="btn btn-default btn-raised btn-lg"
+                                            th:text="#{resetPassword.cancelButton}">At6aukti
+                                    </button>
+                                </a>
+
+                                <button type="submit" class="btn btn-primary btn-raised btn-lg"
+                                        th:text="#{resetPassword.changeButton}">Reset password
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
