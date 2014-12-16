@@ -6,21 +6,20 @@ import eu.komanda30.kupra.entity.RecipeImage;
 import eu.komanda30.kupra.entity.UserProfileImage;
 import eu.komanda30.kupra.services.RecipeFinder;
 import eu.komanda30.kupra.services.UserFinder;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
 @Controller
 @RequestMapping("/search")
 public class InlineSearchController {
-    public static final int USER_MAX_RESULTS = 3;
-    public static final int RECIPE_MAX_RESULTS = 3;
+    public static final int USER_MAX_RESULTS = 2;
+    public static final int RECIPE_MAX_RESULTS = 2;
     @Resource
     private UserFinder userFinder;
 
@@ -48,6 +47,7 @@ public class InlineSearchController {
         row.setImageUrl(user.getProfile().getMainPhoto()
                 .map(UserProfileImage::getThumbUrl)
                 .orElse(null));
+        row.setUserId(user.getUserId());
         return row;
     }
 
@@ -58,6 +58,7 @@ public class InlineSearchController {
         row.setImageUrl(recipe.getMainRecipeImage()
                 .map(RecipeImage::getThumbUrl)
                 .orElse(null));
+        row.setRecipeId(recipe.getRecipeId());
         return row;
     }
 }

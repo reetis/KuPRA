@@ -31,7 +31,7 @@
 </head>
 <body>
 <div th:fragment="head">
-    <!-- Kupra CSS -->
+    <!-- Search CSS -->
     <link th:href="@{/css/search.css}" href="css/search.css" rel="stylesheet"/>
     <!-- Typeahead -->
     <script th:src="@{/js/typeahead.bundle.js}" src="js/typeahead.bundle.js"
@@ -82,23 +82,48 @@
            class="form-control inpt typeahead"
            autocomplete="off"
            spellcheck="false"
+           th:placeholder="#{layout.search}"
            placeholder="Psk..."
            style="color:  #ccc"/>
 </div>
 
-<div th:fragment="searchResults">
-    <div>----- Recipes -----</div>
-    <div th:each="recipe : ${results.recipes}">
-        <div><img th:src="${recipe.imageUrl}"/></div>
-        <div th:text="${recipe.name}"></div>
-        <div th:text="${recipe.description}"></div>
-        <div>--------------</div>
-    </div>
-    <div>----- Users -----</div>
-    <div th:each="person : ${results.persons}">
-        <div><img th:src="${person.imageUrl}"/></div>
-        <div th:text="${person.name}"></div>
-    </div>
+<div th:fragment="searchResults" class="list-group">
+    <th:block th:if="!${#lists.isEmpty(results.recipes)}">
+        <h3 class="no-margin" th:text="#{layout.recipes}">Recept</h3>
+        <div class="list-group-separator"></div>
+    </th:block>
+    <th:block th:each="recipe : ${results.recipes}">
+        <div class="list-group-item">
+            <div class="row-picture">
+                <a th:href="@{'/recipes/read/'+${recipe.recipeId}}">
+                    <img th:src="${recipe.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
+                </a>
+            </div>
+            <div class="row-content">
+                <a th:href="@{'/recipes/read/'+${recipe.recipeId}}"><h4 th:text="${recipe.name}" class="list-group-item-heading">Tile with avatar</h4></a>
+                <p th:text="${recipe.description}" class="list-group-item-text hidden-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ac dolor diam. Ut tempor, mi id scelerisque dignissim, ex nunc pharetra augue, non tristique est sem eu lectus. Sed pellentesque, tellus nec facilisis malesuada, nibh ex cursus mauris nullam.</p>
+            </div>
+        </div>
+        <div class="list-group-separator"></div>
+    </th:block>
+    <th:block th:if="!${#lists.isEmpty(results.persons)}">
+        <h3 class="no-margin" th:text="#{layout.users}">Vart</h3>
+        <div class="list-group-separator"></div>
+    </th:block>
+    <th:block th:each="person : ${results.persons}">
+        <div class="list-group-item">
+            <div class="row-picture">
+                <a th:href="@{'/user/'+${person.userId}}">
+                    <img th:src="${person.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
+                </a>
+            </div>
+            <div class="row-content">
+                <a th:href="@{'/user/'+${person.userId}}"><h2 th:text="${person.name}" class="list-group-item-heading">Tile with avatar</h2></a>
+                <!--<p th:text="${recipe.description}" class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ac dolor diam. Ut tempor, mi id scelerisque dignissim, ex nunc pharetra augue, non tristique est sem eu lectus. Sed pellentesque, tellus nec facilisis malesuada, nibh ex cursus mauris nullam.</p>-->
+            </div>
+        </div>
+        <div class="list-group-separator"></div>
+    </th:block>
 </div>
 
 <!-- Bootstrap javascript -->

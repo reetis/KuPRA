@@ -1,10 +1,10 @@
-@media (max-width: 992px) {
+@media (max-width: 768px) {
     body {
         padding-top: 160px;
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
     body {
         padding-top: 60px;
     }
@@ -214,4 +214,8 @@ Can this be done with Masonry options? */
 .panel-title:hover {
     color: #ffffff;
     text-decoration: none;
+}
+
+.no-margin {
+    margin: 0 !important;
 }

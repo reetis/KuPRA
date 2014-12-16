@@ -1,9 +1,9 @@
 package eu.komanda30.kupra.controllers.search;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.collect.ImmutableList;
 
 public class InlineSearchResultForm {
     private List<RecipeRow> recipes = new ArrayList<>();
@@ -29,6 +29,7 @@ public class InlineSearchResultForm {
         private String imageUrl;
         private String name;
         private String description;
+        private int recipeId;
 
         public String getImageUrl() {
             return imageUrl;
@@ -53,11 +54,20 @@ public class InlineSearchResultForm {
         public void setDescription(String description) {
             this.description = description;
         }
+
+        public int getRecipeId() {
+            return recipeId;
+        }
+
+        public void setRecipeId(int recipe_id) {
+            this.recipeId = recipe_id;
+        }
     }
 
     public static class PersonRow {
         private String imageUrl;
         private String name;
+        private String userId;
 
         public String getImageUrl() {
             return imageUrl;
@@ -73,6 +83,14 @@ public class InlineSearchResultForm {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String user_id) {
+            this.userId = user_id;
         }
     }
 }
