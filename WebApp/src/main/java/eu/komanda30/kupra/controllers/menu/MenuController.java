@@ -43,17 +43,26 @@ public class MenuController {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
         Date today = new Date();
-        Iterable<Menu> menusList = kupraUsers.findMenuByDate(kupraUser,today, new Date(today.getTime()+60*60*24*1000)); //TODO: Traukiami visi item'ai sutvarkyt traukimus pagal datas
+        Date dateFrom = today;
 
-        MenuListDay menuListDay = new MenuListDay();
-        menuListDay.setDay(today);
-        for(Menu menuItem : menusList){
-            MenuListItem menuListItem = new MenuListItem();
-            menuListItem.setDateTime(menuItem.getDateTime());
-            menuListItem.setRecipeName(menuItem.getRecipe().getName());
-            menuListDay.addMenuListItem(menuListItem);
+        // Hardcoded 4 Collumns now
+        for(int i=0; i<4; i++){
+            // Adding 24 hour's to from date
+            Date dateTo = new Date(dateFrom.getTime()+60*60*24*1000);
+            Iterable<Menu> menusList = kupraUsers.findMenuByDate(kupraUser, dateFrom, dateTo);
+
+            MenuListDay menuListDay = new MenuListDay();
+            menuListDay.setDay(dateFrom);
+            for(Menu menuItem : menusList){
+                MenuListItem menuListItem = new MenuListItem();
+                menuListItem.setDateTime(menuItem.getDateTime());
+                menuListItem.setRecipeName(menuItem.getRecipe().getName());
+                menuListDay.addMenuListItem(menuListItem);
+            }
+            form.addMenuListDay(menuListDay);
+            dateFrom = dateTo;
         }
-        form.addMenuListDay(menuListDay);
+
         return "menu";
     }
 

@@ -64,7 +64,7 @@
     <div class="row">
         <div class="col-md-3 panel-body panel" th:each="dayListItem : ${menuListForm.menuListDays}" >
             <div class="menu-day-header">
-                <label th:text="${#calendars.format(dayListItem.day,'yyyy-mm-dd')}"></label>
+                <label th:text="${#calendars.format(dayListItem.day,'yyyy-MM-dd')}"></label>
             </div>
             <div class="menu-row"  th:each="meniuItem : ${dayListItem.menuListItems}">
                 <span th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')}"></span>
