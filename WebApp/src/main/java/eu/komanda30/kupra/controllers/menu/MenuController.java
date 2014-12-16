@@ -5,6 +5,8 @@ import eu.komanda30.kupra.entity.Menu;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Menus;
 import eu.komanda30.kupra.repositories.Recipes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +32,9 @@ import java.util.Locale;
 @RequestMapping("/menu")
 @Controller
 public class MenuController {
+
+    private final static Logger LOG = LoggerFactory.getLogger(MenuController.class);
+
     @Resource
     private NewMenuItemFormValidator newMenuItemFormValidator;
 
@@ -108,9 +113,9 @@ public class MenuController {
         menu.setServings(form.getServings());
 
         //Manage Fridge
-
-
-        kupraUsers.save(kupraUser);
+        if (kupraUser.consumeItemsFromFridge(menu)) {
+            kupraUsers.save(kupraUser);
+        }
 
         return "popups/cookRecipe :: menuCookedModal";
     }
@@ -152,7 +157,7 @@ public class MenuController {
         form.setDateTime(new Date(currentTime.getTime()+5*60*1000));
 
         form.setRecipeId(recipeId);
-        form.setServings(2);
+        form.setServings(1);
         return "add-to-menu-modal :: modalBodyFooter";
     }
 

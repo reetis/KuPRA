@@ -104,6 +104,25 @@
                     <span th:text="${meniuItem.recipeName}"></span>
                 </div>
             </div>
+            <script type="text/javascript" th:inline="javascript">
+                jQuery(document).ready(function(){
+                    +function($){
+                        console.log("AAAAAAAAA");
+
+                            menuRows = $('.menu-row');
+                            menuRows.click(function (event) {
+                                var button = $(this); // Div that triggered the modal
+                                var recipeid = button.attr('recipeid');
+                                var frameUrl = /*[[@{/menu/review}]]*/ '#';
+                                frameUrl = frameUrl + "/" + recipeid;
+                                $(".modal-content").load(frameUrl);
+                                $(".modal").modal('show');
+                            });
+
+                    }(jQuery);
+                });
+
+            </script>
         </div>
 
     </div>
@@ -145,7 +164,7 @@
 <!-- Custom JS -->
 <script type="text/javascript" th:inline="javascript">
     +function ($) {
-        $(document).ready(function () {
+        jQuery(document).ready(function () {
             var datetimePicker = $('#datetimepicker');
             var currentTime = new Date();
             datetimePicker.datetimepicker({
@@ -172,16 +191,6 @@
                 //Replace old list of images with new one
                 $("#menuContainer").replaceWith(newImgForm);
             });
-        });
-
-        menuRows = $('.menu-row');
-        menuRows.click(function (event) {
-            var button = $(this); // Div that triggered the modal
-            var recipeid = button.attr('recipeid');
-            var frameUrl = /*[[@{/menu/review}]]*/ '#';
-            frameUrl = frameUrl + "/" + recipeid;
-            $(".modal-content").load(frameUrl);
-            $(".modal").modal('show');
         });
     }(jQuery);
 </script>

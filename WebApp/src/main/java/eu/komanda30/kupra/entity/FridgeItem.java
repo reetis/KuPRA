@@ -1,15 +1,7 @@
 package eu.komanda30.kupra.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 
 @Entity
 @SequenceGenerator(
@@ -47,5 +39,9 @@ public class FridgeItem {
 
     public Product getProduct() {
         return product;
+    }
+
+    public void consumeAmount(BigDecimal amount){
+        this.amount = this.amount.subtract(amount);
     }
 }

@@ -58,7 +58,7 @@
 
                         <div class='input-group date' id='datetimepickerPopup'>
 
-                            <input type='text' class="form-control" th:value="${#calendars.format(recipeCookForm.dateTime,'yyyy-MM-dd HH:mm')}" id="datetime"/>
+                            <input type='text' class="form-control" th:value="${#calendars.format(recipeCookForm.dateTime,'yyyy-MM-dd HH:mm')}" id="datetimePopup"/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -120,7 +120,7 @@
                     $('#cookButton').click(function () {
                         var submitUrl = /*[[@{/menu/cook}]]*/ '#';
                         submitUrl = submitUrl + '/' + $("#menuItemId").val();
-                        var formattedTime = moment($('#datetime').val()).format("YYYY-MM-D HH:mm");
+                        var formattedTime = moment($('#datetimePopup').val()).format("YYYY-MM-D HH:mm");
                         $('#datetimefinal').val(formattedTime);
                         if (submitUrl != '#') {
                             $(".modal-content").load(submitUrl, $("#cookRecipeForm").serializeArray());

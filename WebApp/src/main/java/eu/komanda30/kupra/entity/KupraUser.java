@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -120,6 +121,41 @@ public class KupraUser {
 
     public void removeMenuItem(Menu menuItem){
         menuList.remove(menuItem);
+    }
+
+    public Boolean consumeItemsFromFridge(Menu menu){
+        Recipe recipe = menu.getRecipe();
+        Boolean enoughProducts = true;
+        List<RecipeProduct> recipeProducts = recipe.getRecipeProductList();
+        BigDecimal servingsDivisor = new BigDecimal(recipe.getServings());
+        BigDecimal servingsMultiplier = new BigDecimal(menu.getServings());
+
+        for(RecipeProduct recipeProduct : recipeProducts){
+            Boolean enoughProduct = false;
+            for(FridgeItem fridgeItem : fridgeContent){
+
+                BigDecimal amountPresent = fridgeItem.getAmount();
+                BigDecimal amountNeeded = recipeProduct.getQuantity().multiply(servingsMultiplier).
+                                                                        divide(servingsDivisor, 2, RoundingMode.HALF_UP);
+
+                 if (fridgeItem.getProduct().equals(recipeProduct.getProduct())
+                         && amountPresent.compareTo(amountNeeded) >= 0) {
+
+                     fridgeItem.consumeAmount(amountNeeded);
+                     enoughProduct = true;
+                     break;
+                 }
+
+            }
+
+            // If there is lack of at least one product, recipe cannot be Prepared, items cannot be removed
+            if (!enoughProduct){
+                enoughProducts = false;
+                break;
+            }
+        }
+
+        return enoughProducts;
     }
 
 }
