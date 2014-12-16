@@ -1,5 +1,7 @@
 package eu.komanda30.kupra.controllers.menu;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -7,8 +9,28 @@ import java.util.Date;
  */
 public class RecipeCookForm {
     private String name;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dateTime;
     private Integer menuItemId;
+    private Integer servings;
+    private Integer score;
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
+    }
 
     public Integer getMenuItemId() {
         return menuItemId;

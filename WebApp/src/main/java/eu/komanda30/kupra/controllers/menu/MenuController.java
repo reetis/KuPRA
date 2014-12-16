@@ -96,12 +96,34 @@ public class MenuController {
     }
 
     @Transactional
-    @RequestMapping(value = "/cook/{menuItemId}", method = RequestMethod.GET)
-    public String openCookModal(@PathVariable Integer menuItemId, final RecipeCookForm form) {
+    @RequestMapping(value = "/cook/{menuItem}", method = RequestMethod.POST)
+    public String openCookModal(final RecipeCookForm form, @PathVariable Integer menuItem) {
+        Menu menu = menus.findOne(menuItem);
+        KupraUser kupraUser = kupraUsers.findByMenu(menu);
+
+        // Manage Menu entity
+        menu.setDateTime(form.getDateTime());
+        menu.setCompleted(true);
+        menu.setScore(form.getScore());
+        menu.setServings(form.getServings());
+
+        //Manage Fridge
+
+
+        kupraUsers.save(kupraUser);
+
+        return "popups/cookRecipe :: menuCookedModal";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/review/{menuItemId}", method = RequestMethod.GET)
+    public String openReviewModal(@PathVariable Integer menuItemId, final RecipeCookForm form) {
         Menu menu = menus.findOne(menuItemId);
         form.setName(menu.getRecipe().getName());
         form.setDateTime(menu.getDateTime());
         form.setMenuItemId(menu.getId());
+        form.setServings(menu.getServings());
+        form.setScore(10);
 
         return "popups/cookRecipe :: menuCookModal";
     }

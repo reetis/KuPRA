@@ -178,7 +178,7 @@
         menuRows.click(function (event) {
             var button = $(this); // Div that triggered the modal
             var recipeid = button.attr('recipeid');
-            var frameUrl = /*[[@{/menu/cook}]]*/ '#';
+            var frameUrl = /*[[@{/menu/review}]]*/ '#';
             frameUrl = frameUrl + "/" + recipeid;
             $(".modal-content").load(frameUrl);
             $(".modal").modal('show');
