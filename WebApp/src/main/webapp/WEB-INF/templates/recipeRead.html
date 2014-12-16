@@ -11,19 +11,19 @@
     <title th:text="#{recipeReadForm.title}">Regtst</title>
 
     <!-- Bootstrap CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Material design CSS -->
-    <link th:href="@{/css/ripples.min.css}" href="/css/ripples.min.css" rel="stylesheet"/>
-    <link th:href="@{/css/material-wfont.min.css}" href="/css/material-wfont.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/ripples.min.css}" href="css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
 
     <!-- Lightbox CSS -->
-    <link th:href="@{/lightbox/css/lightbox.css}" href="/lightbox/css/lightbox.css" rel="stylesheet"/>
-    <link th:href="@{/css/gallery.css}" href="/css/gallery.css" rel="stylesheet"/>
-    <link th:href="@{/css/imgupload.css}" href="/css/imgupload.css" rel="stylesheet"/>
+    <link th:href="@{/lightbox/css/lightbox.css}" href="lightbox/css/lightbox.css" rel="stylesheet"/>
+    <link th:href="@{/css/gallery.css}" href="css/gallery.css" rel="stylesheet"/>
+    <link th:href="@{/css/imgupload.css}" href="css/imgupload.css" rel="stylesheet"/>
 
     <!-- Kupra CSS -->
-    <link th:href="@{/css/kupra.css}" href="/css/kupra.css" rel="stylesheet"/>
+    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
 
     <!-- jQuery -->
     <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -74,8 +74,8 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
                         <th:block th:each="img, iterSt: ${recipeReadForm.imagesUrls}">
-                            <div class="item" th:classappend="${iterSt.first}? 'active'">
-                                <img th:src="@{${img}}"/>
+                            <div class="item" th:classappend="${iterSt.first}? 'active'"
+                                    th:style="'background-image: url('+@{${img}}+')'">
                             </div>
                         </th:block>
                     </div>
@@ -233,66 +233,6 @@
 <script th:src="@{/js/kupra.js}" src="js/kupra.js" type="text/javascript"></script>
 
 <!-- Custom JS -->
-<script type="application/javascript" th:inline="javascript">
-    // <![CDATA[
-    +function ($) {
-        var imgUrl = /*[[@{/recipe/uploadPhotos}]]*/ '#';
-        var imgDelUrl = /*[[@{/recipe/deletePhoto}]]*/ '#';
-        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
-        var _tmpId = /*[[${recipeManagementForm.tmpId}]]*/ 'tmp_id';
-
-        delImgHandler = function (imgId) {
-            $.ajax({
-                url: imgDelUrl,
-                type: 'POST',
-                data: {tmpId: _tmpId, imgId: imgId},
-                async: false,
-                cache: false,
-                headers: {'X-CSRF-TOKEN': _csrf},
-                success: imagesLoadedHandler
-            });
-        };
-
-        imagesLoadedHandler = function (returndata) {
-            //Init new list of images
-            var newImgForm = $(returndata);
-            $(".rm-btn", newImgForm).click(function () {
-                delImgHandler($(this).attr('img-id'));
-            });
-            //Replace old list of images with new one
-            $("#image_form").replaceWith(newImgForm);
-
-            //Replace old upload button with new one to clear it
-            var control = $("#uploadRecipeImg");
-            control.replaceWith(control = control.clone(true));
-        };
-
-        $('#uploadRecipeImg').change(function () {
-            var formData = new FormData();
-
-            var files = $("#uploadRecipeImg").prop('files');
-            for (var i = 0; i < files.length; i++) {
-                formData.append("images", files[i]);
-            }
-
-            formData.append("tmpId", _tmpId);
-
-            $.ajax({
-                url: imgUrl,
-                type: 'POST',
-                data: formData,
-                async: false,
-                cache: false,
-                contentType: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': _csrf},
-                success: imagesLoadedHandler
-            });
-
-        });
-    }(jQuery);
-    // ]]>
-</script>
 
 </body>
 </html>

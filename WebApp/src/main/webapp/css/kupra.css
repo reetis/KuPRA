@@ -220,10 +220,14 @@ Can this be done with Masonry options? */
     margin: 0 !important;
 }
 
-.carousel-inner > .item > img {
-    margin: 0 auto;
-    max-height: 500px;
-    width: auto;
+.carousel-inner > .item {
+    height: 500px;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .carousel-inner {
