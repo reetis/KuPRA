@@ -26,9 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-/**
- * Created by Gintare on 2014-12-07.
- */
+
 @RequestMapping("/menu")
 @Controller
 public class MenuController {
@@ -37,6 +35,9 @@ public class MenuController {
 
     @Resource
     private NewMenuItemFormValidator newMenuItemFormValidator;
+
+    @Resource
+    private RecipeCookFormValidator recipeCookFormValidator;
 
     @Resource
     private KupraUsers kupraUsers;
@@ -50,6 +51,11 @@ public class MenuController {
     @InitBinder("newMenuItemForm")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(newMenuItemFormValidator);
+    }
+
+    @InitBinder("recipeCookForm")
+    protected void initPrepareBinder(WebDataBinder binder) {
+        binder.addValidators(recipeCookFormValidator);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -102,7 +108,11 @@ public class MenuController {
 
     @Transactional
     @RequestMapping(value = "/cook/{menuItem}", method = RequestMethod.POST)
-    public String openCookModal(final RecipeCookForm form, @PathVariable Integer menuItem) {
+    public String openCookModal(@Valid final RecipeCookForm form, final BindingResult bindingResult,
+                                @PathVariable Integer menuItem) {
+        if (bindingResult.hasErrors()) {
+            return "popups/cookRecipe :: menuCookModal";
+        }
         Menu menu = menus.findOne(menuItem);
         KupraUser kupraUser = kupraUsers.findByMenu(menu);
 
@@ -115,6 +125,9 @@ public class MenuController {
         //Manage Fridge
         if (kupraUser.consumeItemsFromFridge(menu)) {
             kupraUsers.save(kupraUser);
+        } else {
+            bindingResult.rejectValue("recipeId","notEnoughProducts");
+            return "popups/cookRecipe :: menuCookModal";
         }
 
         return "popups/cookRecipe :: menuCookedModal";
@@ -128,6 +141,7 @@ public class MenuController {
         form.setDateTime(menu.getDateTime());
         form.setMenuItemId(menu.getId());
         form.setServings(menu.getServings());
+        form.setRecipeId(menu.getRecipe().getRecipeId());
         form.setScore(10);
 
         return "popups/cookRecipe :: menuCookModal";

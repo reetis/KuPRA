@@ -45,6 +45,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
                         class="sr-only">Close</span></button>
+
                 <h4 class="modal-title" th:text="${recipeCookForm.name}">Pvd</h4>
             </div>
             <div>
@@ -53,82 +54,108 @@
                         <input id="menuItemId" type="hidden" th:value="${recipeCookForm.menuItemId}"/>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <input type="hidden" th:field="${recipeCookForm.dateTime}" name="dateTime" id="datetimefinal"/>
+                        <input type="hidden" th:field="${recipeCookForm.recipeId}" name="recipeId"/>
+                        <input type="hidden" th:field="${recipeCookForm.name}" name="recipeId"/>
 
-                        <label th:text="#{cookRecipe.date}">Dtaa</label>
 
-                        <div class='input-group date' id='datetimepickerPopup'>
+                        <div class="form-group row">
+                            <label for="datetimepickerPopup" class="control-label col-md-2"
+                                   th:text="#{cookRecipe.date}">Data</label>
 
-                            <input type='text' class="form-control" th:value="${#calendars.format(recipeCookForm.dateTime,'yyyy-MM-dd HH:mm')}" id="datetimePopup"/>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                            <div class="col-md-10">
+                                <div class='input-group date' id='datetimepickerPopup'>
+                                    <input type='text' class="form-control" id="datetimePopup"
+                                           th:value="${#calendars.format(recipeCookForm.dateTime,'yyyy-MM-dd HH:mm')}"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label th:text="#{cookRecipe.servings}">Dtaa</label>
-                            <input class="form-control" type="number" min="1" th:value="${recipeCookForm.servings}"
-                                   th:field="${recipeCookForm.servings}"
-                                   value="1" id="servings_qty"/>
+                        <div class="form-group row" th:classappend="${#fields.hasErrors('recipeCookForm.servings')} ? ' has-error'">
+                            <label for="servings_qty" class="control-label col-md-2"
+                                   th:text="#{cookRecipe.servings}">Porc. sk.</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="number" min="1" value="1" id="servings_qty"
+                                       th:value="${recipeCookForm.servings}"
+                                       th:field="${recipeCookForm.servings}"/>
+                            </div>
+                            <div class="help-block col-md-10 col-md-offset-2"
+                                 th:if="${#fields.hasErrors('recipeCookForm.servings')}"
+                                 th:errors="${recipeCookForm.servings}">Validation errors</div>
                         </div>
-                        <div>
-                            <label th:text="#{cookRecipe.score}">Dtaa</label>
-                            <input class="form-control" type="number" min="1" max="10" th:field="${recipeCookForm.score}"
-                                   value="10" id="servings_qty"/>
+                        <div class="form-group row" th:classappend="${#fields.hasErrors('recipeCookForm.score')} ? ' has-error'">
+                            <label for="score_qty" th:text="#{cookRecipe.score}" class="control-label col-md-2"
+                                    >Dtaa</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="number" min="1" max="10" th:field="${recipeCookForm.score}"
+                                   value="10" id="score_qty"/>
+                            </div>
+                            <div class="help-block col-md-10 col-md-offset-2"
+                                 th:if="${#fields.hasErrors('recipeCookForm.score')}"
+                                 th:errors="${recipeCookForm.score}">Validation errors</div>
+                        </div>
+                        <div class="col-md-12 text-center" th:classappend="${#fields.hasErrors('recipeCookForm.recipeId')} ? ' has-error'">
+                            <div class="help-block"
+                                 th:if="${#fields.hasErrors('recipeCookForm.recipeId')}"
+                                 th:errors="${recipeCookForm.recipeId}">Validation errors</div>
                         </div>
                     </form>
 
                 </div>
-                <div class="modal-footer">
+                <script type="text/javascript" th:inline="javascript">
+                    +function ($) {
+                        $(document).ready(function () {
+
+                            var datetimePicker = $('#datetimepickerPopup');
+                            datetimePicker.datetimepicker({
+                                language: /*[[${shortLocale}]]*/ 'en'
+                            });
+                        });
+
+                        // Removing From Menu Management
+
+                        var removeItemUrl = /*[[@{/menu/remove}]]*/ '#';
+                        var showMenuUrl = /*[[@{/menu}]]*/ '#';
+                        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+                        $('#removeButton').click(function (event){
+                            menuItemId = $("#menuItemId").val();
+                            removeItemUrl = removeItemUrl + '/' + menuItemId;
+
+                            $.ajax({
+                                url: removeItemUrl,
+                                type: 'POST',
+                                async: true,
+                                cache: false,
+                                headers: {'X-CSRF-TOKEN': _csrf}
+                            }).done(function (){
+                                $(".modal").modal('hide');
+                                location.reload();
+                            });
+                        });
+
+                        $('#cookButton').click(function () {
+                            console.log("clicked");
+                            var submitUrl = /*[[@{/menu/cook}]]*/ '#';
+                            submitUrl = submitUrl + '/' + $("#menuItemId").val();
+                            var formattedTime = moment($('#datetimePopup').val()).format("YYYY-MM-D HH:mm");
+                            $('#datetimefinal').val(formattedTime);
+                            if (submitUrl != '#') {
+                                $(".modal-content").load(submitUrl, $("#cookRecipeForm").serializeArray());
+                            }
+                        });
+
+
+                    }(jQuery);
+                </script>
+                <div class="modal-footer row">
                     <button type="button" class="btn btn-default" id="removeButton"
                             th:text="#{cookRecipe.remove}">Sned mssaege</button>
                     <button type="submit" class="btn btn-primary " id="cookButton"
                             th:text="#{cookRecipe.cook}">Clsoe</button>
                 </div>
             </div>
-            <script type="text/javascript" th:inline="javascript">
-                +function ($) {
-                    $(document).ready(function () {
-
-                        var datetimePicker = $('#datetimepickerPopup');
-                        datetimePicker.datetimepicker({
-                            language: /*[[${shortLocale}]]*/ 'en'
-                        });
-                    });
-
-
-                    // Removing From Menu Management
-
-                    var removeItemUrl = /*[[@{/menu/remove}]]*/ '#';
-                    var showMenuUrl = /*[[@{/menu}]]*/ '#';
-                    var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
-
-                    $('#removeButton').click(function (event){
-                        menuItemId = $("#menuItemId").val();
-                        removeItemUrl = removeItemUrl + '/' + menuItemId;
-
-                        $.ajax({
-                            url: removeItemUrl,
-                            type: 'POST',
-                            async: true,
-                            cache: false,
-                            headers: {'X-CSRF-TOKEN': _csrf}
-                        }).done(function (){
-                            $(".modal").modal('hide');
-                            location.reload();
-                        });
-                    });
-
-                    $('#cookButton').click(function () {
-                        var submitUrl = /*[[@{/menu/cook}]]*/ '#';
-                        submitUrl = submitUrl + '/' + $("#menuItemId").val();
-                        var formattedTime = moment($('#datetimePopup').val()).format("YYYY-MM-D HH:mm");
-                        $('#datetimefinal').val(formattedTime);
-                        if (submitUrl != '#') {
-                            $(".modal-content").load(submitUrl, $("#cookRecipeForm").serializeArray());
-                        }
-                    });
-
-                }(jQuery);
-            </script>
         </div>
     </div>
 </div>
@@ -144,22 +171,40 @@
                         class="sr-only">Close</span></button>
                 <h4 class="modal-title" th:text="${recipeCookForm.name}">Pvd</h4>
             </div>
-            <div>
-                <div class="modal-body">
-                    YOU DID IT
 
-                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="servings_qty2" class="control-label col-md-2"
+                                   th:text="#{cookRecipe.servings}">Porc. sk.</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="number" min="1" value="1" id="servings_qty2"
+                                       th:value="${recipeCookForm.servings}" disabled=""/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="datetime2" class="control-label col-md-2"
+                                   th:text="#{cookRecipe.date}">Data</label>
+
+                            <div class="col-md-10">
+                                <div class='input-group date' id='datetimepicker2'>
+                                    <input type='text' class="form-control" id="datetime2" disabled=""
+                                           th:value="${#calendars.format(recipeCookForm.dateTime,'yyyy-MM-dd HH:mm')}"/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <p class="text-success" th:text="#{cookRecipe.success}">success</p>
+                    </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary "  data-dismiss="modal" id="cookButton"
-                            th:text="#{cookRecipe.cook}">Clsoe</button>
+                            th:text="#{cookRecipe.done}">Clsoe</button>
                 </div>
             </div>
-            <script type="text/javascript" th:inline="javascript">
-                +function ($) {
-
-
-                }(jQuery);
-            </script>
         </div>
     </div>
 </div>

@@ -9,12 +9,20 @@ import java.util.Date;
  */
 public class RecipeCookForm {
     private String name;
-
+    private Integer recipeId;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date dateTime;
     private Integer menuItemId;
     private Integer servings;
     private Integer score;
+
+    public Integer getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(Integer recipeId) {
+        this.recipeId = recipeId;
+    }
 
     public Integer getScore() {
         return score;
