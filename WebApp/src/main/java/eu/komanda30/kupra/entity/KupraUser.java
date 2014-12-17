@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -156,6 +157,38 @@ public class KupraUser {
         }
 
         return enoughProducts;
+    }
+
+    public ArrayList<RecipeProduct> getLackingProducts(Recipe recipe){
+        ArrayList<RecipeProduct> lackingProducts = new ArrayList<RecipeProduct>();
+
+        List<RecipeProduct> productsNeeded = recipe.getRecipeProductList();
+
+        // Paklaust maxo kaip aprasyt tokias nesamones pagal best practices
+        for(RecipeProduct productInNeed : productsNeeded){
+            BigDecimal quantityNeeded = productInNeed.getQuantity();
+
+            for(FridgeItem fridgeItem : fridgeContent){
+                if (fridgeItem.getProduct().equals(productInNeed.getProduct())){
+                    if (fridgeItem.getAmount().compareTo(quantityNeeded) < 0){
+                        quantityNeeded = quantityNeeded.subtract(fridgeItem.getAmount());
+                    } else {
+                        quantityNeeded = BigDecimal.ZERO;
+                    }
+                    break;
+                }
+
+            }
+            if (quantityNeeded.compareTo(BigDecimal.ZERO) > 0){
+                // Fake RecipeProduct Object without owner or Recipe To store product/quantity
+                RecipeProduct lackingProduct = new RecipeProduct();
+                lackingProduct.setProduct(productInNeed.getProduct());
+                lackingProduct.setQuantity(quantityNeeded);
+                lackingProducts.add(lackingProduct);
+            }
+
+        }
+        return lackingProducts;
     }
 
 }

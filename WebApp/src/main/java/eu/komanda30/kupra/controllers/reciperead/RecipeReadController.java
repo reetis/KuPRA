@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -123,5 +124,31 @@ public class RecipeReadController {
 
 
         return "redirect:/recipes/read/{recipeId}";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/calculateProducts/{recipeId}", method = RequestMethod.GET)
+    public String calculateLackOfProducts(@PathVariable("recipeId") Integer recipeId, LackOfProductsForm form) {
+        Recipe recipe = recipes.findOne(recipeId);
+
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        ArrayList<RecipeProduct> productsNeeded = kupraUser.getLackingProducts(recipe);
+        form.setRecipeName(recipe.getName());
+
+        for(RecipeProduct productNeeded : productsNeeded){
+
+            LackOfProductsItem item = new LackOfProductsItem();
+
+            item.setName(productNeeded.getProduct().getName());
+            item.setAmount(productNeeded.getQuantity());
+            item.setUnit(productNeeded.getProduct().getUnit().getAbbreviation());
+
+
+            form.addLackOfProductsItem(item);
+        }
+
+        return "popups/recipeLackOfProducts :: lackOfProducts";
     }
 }
