@@ -75,7 +75,7 @@
                     <div class="carousel-inner" role="listbox">
                         <th:block th:each="img, iterSt: ${recipeReadForm.imagesUrls}">
                             <div class="item" th:classappend="${iterSt.first}? 'active'"
-                                    th:style="'background-image: url(\''+@{${img}}+'\')'">
+                                 th:style="'background-image: url(\''+@{${img}}+'\')'">
                             </div>
                         </th:block>
                     </div>
@@ -167,47 +167,47 @@
     <th:block th:each="comment : ${recipeReadForm.comments}">
         <div class="panel panel-default">
             <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-1">
-                <a th:href="@{'/user/'+${comment.commentAuthorId}}" href="#">
-                    <img class="img-responsive" th:if="${comment.image != null}"
-                         th:src="${comment.image.thumbUrl}"
-                         src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                <div class="row">
+                    <div class="col-sm-2 col-xs-4 col-md-1">
+                        <a th:href="@{'/user/'+${comment.commentAuthorId}}" href="#">
+                            <img class="img-responsive" th:if="${comment.image != null}"
+                                 th:src="${comment.image.thumbUrl}"
+                                 src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
 
-                    <img class="img-responsive" th:if="${comment.image == null}"
-                         th:src="@{/images/empty_prof_thumb.jpg}"
-                         src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
-                </a>
-            </div>
-            <div class="col-sm-11">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <strong>
-                            <a href="#" th:href="@{'/user/'+${comment.commentAuthorId}}"
-                               th:text="${comment.author}">Autorius</a>
-                        </strong>
+                            <img class="img-responsive" th:if="${comment.image == null}"
+                                 th:src="@{/images/empty_prof_thumb.jpg}"
+                                 src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                        </a>
                     </div>
-                    <div class="col-xs-6 text-right">
-                        <p th:text="${#calendars.format(comment.date,'dd MMMM yyyy HH:mm:ss')}"
-                              class="text-muted">28 Sausio 2014 10:30:23</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p th:text="${comment.comment}">Dscr</p>
+                    <div class="col-sm-10 col-xs-8 col-md-11">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <strong>
+                                    <a href="#" th:href="@{'/user/'+${comment.commentAuthorId}}"
+                                       th:text="${comment.author}">Autorius</a>
+                                </strong>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <p th:text="${#calendars.format(comment.date,'dd MMMM yyyy HH:mm:ss')}"
+                                   class="text-muted">28 Sausio 2014 10:30:23</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p th:text="${comment.comment}">Dscr</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-                </div>
-            </div>
     </th:block>
 
     <th:block th:if="${#lists.isEmpty(recipeReadForm.comments)}">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="row" >
-                    <div class="col-md-12">
+                <div class="row">
+                    <div class="col-xs-12">
                         <p th:text="#{comment.nocomments}">Nėra prdtu</p>
                     </div>
                 </div>
