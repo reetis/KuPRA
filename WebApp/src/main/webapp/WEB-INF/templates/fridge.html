@@ -40,6 +40,7 @@
 </head>
 <body>
 <div th:replace="layout :: header"></div>
+<div th:replace="popups/product :: core"></div>
 <div class="container ">
 
     <h2 th:text="#{fridge.title}">CP test</h2>
@@ -89,7 +90,7 @@
                 </div>
             </div>
         </span>
-  <span class="form-group col-md-1">
+         <span class="form-group col-md-1">
 
         </span>
         <span class="form-group col-md-1">
@@ -108,6 +109,35 @@
                     th:text="#{fridge.addbtn}">Save
             </button>
         </span>
+        <span class="form-group col-md-2"></span>
+        <div class="form-group col-md-1">
+            <button class="btn-default btn"
+                    type="button"
+                    id="newProductButton"
+                    th:title="#{products-list.add_product}"
+                    data-tooltip="true"
+                    data-placement="bottom"
+                    title="Tooltip on bottom">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"
+                                      th:text="#{recipeCreateForm.createNewProduct}">
+                                    Kurti naują produktą
+                                </span>
+            </button>
+
+            <script type="application/javascript" th:inline="javascript">
+                // <![CDATA[
+                +function ($) {
+                    var frameUrl = /*[[@{/recipes/getSelectProductForm}]]*/ '#';
+                    $("#newProductButton").click(function () {
+                        openNewProductPopup(function() {
+                            location.reload();
+                        });
+                    });
+                }(jQuery);
+                // ]]>
+            </script>
+        </div>
+
 
         <div class="help-block"
              th:if="${#fields.hasErrors('amount')}"
