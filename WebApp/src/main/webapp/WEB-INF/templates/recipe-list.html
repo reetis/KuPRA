@@ -17,7 +17,7 @@
     <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
 
     <!-- Bootstrap Datetime Picker CSS -->
-    <link th:href="@{/css/bootstrap-datetimepicker.css}" href="../../css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap-datetimepicker.css}" href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
 
     <!-- Kupra CSS -->
     <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
@@ -34,7 +34,6 @@
 <div th:replace="layout :: header"></div>
 
 <div class="container">
-        <th:block th:fragment="recipe-list-header(place)" th:with="place='all'">
             <div class="page-header">
                 <div class="row">
                     <div class="col-xs-12">
@@ -64,7 +63,6 @@
                     </div>
                 </div>
             </div>
-        </th:block>
     <div class="row">
         <div id="grid" class="container">
             <div id="posts" th:if="!${#lists.isEmpty(recipesList.recipes)}">
