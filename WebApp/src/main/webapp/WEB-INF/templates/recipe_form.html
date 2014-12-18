@@ -220,7 +220,7 @@
                                         <div class="col-xs-5 col-sm-7 col-md-5">
                                             <div class="input-group">
                                                 <input class="form-control" type="text"
-                                                       th:value="${assignedProduct.quantity}"
+                                                       th:value="${#numbers.formatDecimal(assignedProduct.quantity, 1, 2,'POINT')}"
                                                        disabled="disabled"/>
                                             <span class="input-group-addon"
                                                   th:text="${assignedProduct.unit}"></span>

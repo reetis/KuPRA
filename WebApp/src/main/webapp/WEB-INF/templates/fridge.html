@@ -51,7 +51,7 @@
                 <div class="panel-body">
                     <span class="col-md-3" th:text="${itm.name}">Bulves</span>
                         <span class="col-md-2">
-                            <span th:text="${#numbers.formatDecimal(itm.amount, 0, 2)}">10.00</span>
+                            <span th:text="${#numbers.formatDecimal(itm.amount, 1, 2,'POINT')}">10.00</span>
                             <span th:text="${itm.unit}">Kg</span>
                         </span>
                         <span class="form-group">
@@ -68,6 +68,45 @@
                 <p th:text="#{fridge.noitems}">Nera pridetu</p>
             </div>
         </div>
+        <!-- Custom JS -->
+        <script type="application/javascript" th:inline="javascript">
+            // <![CDATA[
+            +function ($) {
+                var deleteUrl = /*[[@{/fridge/delete}]]*/ '#';
+                var addItemUrl = /*[[@{/fridge}]]*/ '#';
+                var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+                $("#newProductCreateButton").click(function () {
+                    if (submitUrl != '#') {
+                        $("#productEditFormContent").load(submitUrl, $("#productEditForm").serializeArray());
+                    } else {
+                        $("#productEditFormContent").empty();
+                        $("#productSavedForm").clone(true).appendTo("#productEditFormContent");
+                    }
+                });
+
+                $('.remove-button').click(function (event) {
+                    formData = new FormData();
+                    formData.append('product_id', $(this).attr('product_id'));
+                    $.ajax({
+                        url: deleteUrl,
+                        type: 'POST',
+                        data: formData,
+                        async: true,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        headers: {'X-CSRF-TOKEN': _csrf}
+                    }).done(function (data) {
+                        $('#fridge-content').replaceWith($(data));
+                    });
+                });
+
+                $('#product-select').change(function () {
+                    $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
+                });
+            }(jQuery);
+            // ]]>
+        </script>
     </div>
 
     <form class="row well form-horizontal" role="form" action="#" method="post"
@@ -160,45 +199,7 @@
 <!--Kupra javascript-->
 <script th:src="@{/js/kupra.js}" src="js/kupra.js" type="application/javascript"></script>
 
-<!-- Custom JS -->
-<script type="application/javascript" th:inline="javascript">
-    // <![CDATA[
-    +function ($) {
-        var deleteUrl = /*[[@{/fridge/delete}]]*/ '#';
-        var addItemUrl = /*[[@{/fridge}]]*/ '#';
-        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
-        $("#newProductCreateButton").click(function () {
-            if (submitUrl != '#') {
-                $("#productEditFormContent").load(submitUrl, $("#productEditForm").serializeArray());
-            } else {
-                $("#productEditFormContent").empty();
-                $("#productSavedForm").clone(true).appendTo("#productEditFormContent");
-            }
-        });
 
-        $('.remove-button').click(function (event) {
-            formData = new FormData();
-            formData.append('product_id', $(this).attr('product_id'));
-            $.ajax({
-                url: deleteUrl,
-                type: 'POST',
-                data: formData,
-                async: true,
-                cache: false,
-                contentType: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': _csrf}
-            }).done(function (data) {
-                $('#fridge-content').replaceWith($(data));
-            });
-        });
-
-        $('#product-select').change(function () {
-            $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
-        });
-    }(jQuery);
-    // ]]>
-</script>
 
 </body>
 </html>
