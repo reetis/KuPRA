@@ -159,10 +159,9 @@ public class KupraUser {
         return enoughProducts;
     }
 
-    public ArrayList<RecipeProduct> getLackingProducts(Recipe recipe){
+    public ArrayList<RecipeProduct> getLackingProducts(List<RecipeProduct> productsNeeded){
         ArrayList<RecipeProduct> lackingProducts = new ArrayList<RecipeProduct>();
 
-        List<RecipeProduct> productsNeeded = recipe.getRecipeProductList();
 
         // Paklaust maxo kaip aprasyt tokias nesamones pagal best practices
         for(RecipeProduct productInNeed : productsNeeded){
@@ -191,4 +190,40 @@ public class KupraUser {
         return lackingProducts;
     }
 
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public ArrayList<RecipeProduct> getProductsNeededForMenu(){
+        ArrayList<RecipeProduct> productsNeeded = new ArrayList<>();
+        for(Menu menu : menuList){
+            if (!menu.isCompleted()){
+                Recipe recipe = menu.getRecipe();
+                BigDecimal recipeServings = new BigDecimal(recipe.getServings());
+                BigDecimal menuServings = new BigDecimal(menu.getServings());
+
+                for(RecipeProduct recipeProduct : recipe.getRecipeProductList()){
+                    BigDecimal amountNeeded = recipeProduct.getQuantity().divide(recipeServings, 2).multiply(menuServings);
+                    Boolean productSet = false;
+                    for(RecipeProduct neededProduct : productsNeeded){
+                        if (recipeProduct.getProduct().equals(neededProduct.getProduct())){
+                            neededProduct.addQuantity(amountNeeded);
+                            productSet = true;
+                            break;
+                        }
+                    }
+
+                    if (!productSet){
+                        RecipeProduct newProduct = new RecipeProduct();
+                        newProduct.setRecipe(recipe);
+                        newProduct.setProduct(recipeProduct.getProduct());
+                        newProduct.setQuantity(amountNeeded);
+                        productsNeeded.add(newProduct);
+                    }
+                }
+            }
+        }
+
+        return productsNeeded;
+    }
 }

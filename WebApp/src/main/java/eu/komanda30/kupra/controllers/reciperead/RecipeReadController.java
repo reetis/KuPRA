@@ -134,7 +134,7 @@ public class RecipeReadController {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
-        ArrayList<RecipeProduct> productsNeeded = kupraUser.getLackingProducts(recipe);
+        ArrayList<RecipeProduct> productsNeeded = kupraUser.getLackingProducts(recipe.getRecipeProductList());
         form.setRecipeName(recipe.getName());
 
         for(RecipeProduct productNeeded : productsNeeded){

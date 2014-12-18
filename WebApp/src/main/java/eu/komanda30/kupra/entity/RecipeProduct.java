@@ -1,15 +1,7 @@
 package eu.komanda30.kupra.entity;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 @Entity
 @Table(name="recipe_product")
@@ -39,6 +31,10 @@ public class RecipeProduct {
 
     public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
+    }
+
+    public void addQuantity(BigDecimal quantity) {
+        this.quantity = this.quantity.add(quantity);
     }
 
     public Integer getId() {

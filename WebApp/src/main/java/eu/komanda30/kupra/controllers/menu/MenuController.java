@@ -1,7 +1,10 @@
 package eu.komanda30.kupra.controllers.menu;
 
+import eu.komanda30.kupra.controllers.reciperead.LackOfProductsForm;
+import eu.komanda30.kupra.controllers.reciperead.LackOfProductsItem;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Menu;
+import eu.komanda30.kupra.entity.RecipeProduct;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Menus;
 import eu.komanda30.kupra.repositories.Recipes;
@@ -21,10 +24,7 @@ import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.*;
 
 
 @RequestMapping("/menu")
@@ -104,6 +104,31 @@ public class MenuController {
         }
 
         return templateToRender;
+    }
+
+    @Transactional
+    @RequestMapping(value = "/calculateProducts", method = RequestMethod.GET)
+    public String calculateLackOfProducts(LackOfProductsForm form) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        ArrayList<RecipeProduct> productsNeeded =  kupraUser.getProductsNeededForMenu();
+
+        ArrayList<RecipeProduct> productsLacking = kupraUser.getLackingProducts(productsNeeded);
+
+        for(RecipeProduct productNeeded : productsLacking){
+
+            LackOfProductsItem item = new LackOfProductsItem();
+
+            item.setName(productNeeded.getProduct().getName());
+            item.setAmount(productNeeded.getQuantity());
+            item.setUnit(productNeeded.getProduct().getUnit().getAbbreviation());
+
+
+            form.addLackOfProductsItem(item);
+        }
+
+        return "popups/recipeLackOfProducts :: lackOfProducts";
     }
 
     @Transactional
