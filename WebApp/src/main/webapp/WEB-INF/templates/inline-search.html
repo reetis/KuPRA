@@ -71,6 +71,22 @@
                         }
                     }
                 });
+
+                $('#mobile-search-input').typeahead({
+                    hint: false,
+                    minLength: 1
+                }, {
+                    name: 'searchResults',
+                    source: searchAjax,
+                    templates: {
+                        empty: undefined,
+                        header: undefined,
+                        footer: undefined,
+                        suggestion: function (obj) {
+                            return obj;
+                        }
+                    }
+                });
             });
         }(jQuery);
     </script>
@@ -78,6 +94,17 @@
 
 <div th:fragment="searchField" class="navbar-search">
     <input id="search-input"
+           type="text"
+           class="form-control inpt typeahead"
+           autocomplete="off"
+           spellcheck="false"
+           th:placeholder="#{layout.search}"
+           placeholder="Psk..."
+           style="color:  #ccc"/>
+</div>
+
+<div th:fragment="mobileSearchField">
+    <input id="mobile-search-input"
            type="text"
            class="form-control inpt typeahead"
            autocomplete="off"

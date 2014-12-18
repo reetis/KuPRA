@@ -58,7 +58,7 @@
 
 @media (max-width: 768px) {
     .tt-dropdown-menu {
-        width: auto;
+        width: 100%;
     }
 }
 
