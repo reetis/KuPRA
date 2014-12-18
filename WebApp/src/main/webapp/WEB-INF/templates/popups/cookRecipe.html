@@ -50,8 +50,9 @@
             </div>
             <div>
                 <div class="modal-body">
+
                     <form id="cookRecipeForm">
-                        <input id="menuItemId" type="hidden" th:value="${recipeCookForm.menuItemId}"/>
+                        <input id="menuItemId" type="hidden" th:field="${recipeCookForm.menuItemId}"/>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <input type="hidden" th:field="${recipeCookForm.dateTime}" name="dateTime" id="datetimefinal"/>
                         <input type="hidden" th:field="${recipeCookForm.recipeId}" name="recipeId"/>
@@ -101,54 +102,55 @@
                                  th:errors="${recipeCookForm.recipeId}">Validation errors</div>
                         </div>
                     </form>
+                    <script type="text/javascript" th:inline="javascript">
+                        console.log("HAHA FUCKER");
+                        +function ($) {
+                            $(document).ready(function () {
 
+                                var datetimePicker = $('#datetimepickerPopup');
+                                datetimePicker.datetimepicker({
+                                    language: /*[[${shortLocale}]]*/ 'en'
+                                });
+                            });
+
+                            // Removing From Menu Management
+
+                            var removeItemUrl = /*[[@{/menu/remove}]]*/ '#';
+                            var showMenuUrl = /*[[@{/menu}]]*/ '#';
+                            var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+                            $('#removeButton').click(function (event){
+                                menuItemId = $("#menuItemId").val();
+                                removeItemUrl = removeItemUrl + '/' + menuItemId;
+
+                                $.ajax({
+                                    url: removeItemUrl,
+                                    type: 'POST',
+                                    async: true,
+                                    cache: false,
+                                    headers: {'X-CSRF-TOKEN': _csrf}
+                                }).done(function (){
+                                    $(".modal").modal('hide');
+                                    location.reload();
+                                });
+                            });
+
+                            $('#cookButton').click(function () {
+                                console.log("clicked");
+                                var submitUrl = /*[[@{/menu/cook}]]*/ '#';
+                                submitUrl = submitUrl + '/' + $("#menuItemId").val();
+                                var formattedTime = moment($('#datetimePopup').val()).format("YYYY-MM-D HH:mm");
+                                $('#datetimefinal').val(formattedTime);
+                                if (submitUrl != '#') {
+                                    $("#coocRecipeContent").load(submitUrl, $("#cookRecipeForm").serializeArray());
+                                }
+                            });
+
+
+                        }(jQuery);
+                    </script>
                 </div>
-                <script type="text/javascript" th:inline="javascript">
-                    +function ($) {
-                        $(document).ready(function () {
 
-                            var datetimePicker = $('#datetimepickerPopup');
-                            datetimePicker.datetimepicker({
-                                language: /*[[${shortLocale}]]*/ 'en'
-                            });
-                        });
-
-                        // Removing From Menu Management
-
-                        var removeItemUrl = /*[[@{/menu/remove}]]*/ '#';
-                        var showMenuUrl = /*[[@{/menu}]]*/ '#';
-                        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
-
-                        $('#removeButton').click(function (event){
-                            menuItemId = $("#menuItemId").val();
-                            removeItemUrl = removeItemUrl + '/' + menuItemId;
-
-                            $.ajax({
-                                url: removeItemUrl,
-                                type: 'POST',
-                                async: true,
-                                cache: false,
-                                headers: {'X-CSRF-TOKEN': _csrf}
-                            }).done(function (){
-                                $(".modal").modal('hide');
-                                location.reload();
-                            });
-                        });
-
-                        $('#cookButton').click(function () {
-                            console.log("clicked");
-                            var submitUrl = /*[[@{/menu/cook}]]*/ '#';
-                            submitUrl = submitUrl + '/' + $("#menuItemId").val();
-                            var formattedTime = moment($('#datetimePopup').val()).format("YYYY-MM-D HH:mm");
-                            $('#datetimefinal').val(formattedTime);
-                            if (submitUrl != '#') {
-                                $(".modal-content").load(submitUrl, $("#cookRecipeForm").serializeArray());
-                            }
-                        });
-
-
-                    }(jQuery);
-                </script>
                 <div class="modal-footer row">
                     <button type="button" class="btn btn-default" id="removeButton"
                             th:text="#{cookRecipe.remove}">Sned mssaege</button>

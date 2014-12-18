@@ -59,7 +59,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showFridgeContent(MenuListForm form,
+    public String showMenuContent(MenuListForm form,
                                     @RequestParam(value = "dateFrom", required = false) final String newDateFrom) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
@@ -97,6 +97,7 @@ public class MenuController {
                 menuListItem.setDateTime(menuItem.getDateTime());
                 menuListItem.setRecipeName(menuItem.getRecipe().getName());
                 menuListItem.setMenuItemId(menuItem.getId());
+                menuListItem.setCooked(menuItem.isCompleted());
                 menuListDay.addMenuListItem(menuListItem);
             }
             form.addMenuListDay(menuListDay);
@@ -151,6 +152,7 @@ public class MenuController {
         if (kupraUser.consumeItemsFromFridge(menu)) {
             kupraUsers.save(kupraUser);
         } else {
+            form.setMenuItemId(menuItem);
             bindingResult.rejectValue("recipeId","notEnoughProducts");
             return "popups/cookRecipe :: menuCookModal";
         }
@@ -160,16 +162,22 @@ public class MenuController {
 
     @Transactional
     @RequestMapping(value = "/review/{menuItemId}", method = RequestMethod.GET)
-    public String openReviewModal(@PathVariable Integer menuItemId, final RecipeCookForm form) {
+    public String openRevuewModal(@PathVariable Integer menuItemId, final RecipeCookForm form) {
         Menu menu = menus.findOne(menuItemId);
+        String modalToLoad = "popups/cookRecipe :: menuCookModal";
         form.setName(menu.getRecipe().getName());
         form.setDateTime(menu.getDateTime());
         form.setMenuItemId(menu.getId());
         form.setServings(menu.getServings());
         form.setRecipeId(menu.getRecipe().getRecipeId());
         form.setScore(10);
+        form.setCompleted(menu.isCompleted());
+        if (menu.isCompleted()){
+            modalToLoad = "popups/cookRecipe :: menuCookedModal";
+            form.setScore(menu.getScore());
+        }
 
-        return "popups/cookRecipe :: menuCookModal";
+        return modalToLoad;
     }
 
     @ResponseBody

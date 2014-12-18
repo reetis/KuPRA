@@ -99,16 +99,17 @@
                     <label th:text="${#calendars.format(dayListItem.day,'yyyy-MM-dd')}"></label>
                 </div>
                 <div class="menu-row"   th:each="meniuItem : ${dayListItem.menuListItems}"
-                     th:attr="recipeId=${meniuItem.menuItemId}">
+                     th:attr="recipeId=${meniuItem.menuItemId}"
+                     th:classappend="${meniuItem.cooked}? 'text-muted'">
 
                     <span th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')}"></span>
                     <span th:text="${meniuItem.recipeName}"></span>
                 </div>
             </div>
             <script type="text/javascript" th:inline="javascript">
+                console.log("RELOAD");
                 jQuery(document).ready(function(){
                     +function($){
-                        console.log("AAAAAAAAA");
 
                             menuRows = $('.menu-row');
                             menuRows.click(function (event) {
@@ -117,7 +118,8 @@
                                 var frameUrl = /*[[@{/menu/review}]]*/ '#';
                                 frameUrl = frameUrl + "/" + recipeid;
                                 $(".modal-content").load(frameUrl);
-                                $(".modal").modal('show');
+
+                                $("#addToMenu").modal('show');
                             });
 
                     }(jQuery);
@@ -131,7 +133,7 @@
 
 <div class="modal fade" id="addToMenu" tabindex="-1" role="dialog">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" id="coocRecipeContent">
             <div id="modal-body-footer">
             </div>
         </div>
@@ -188,7 +190,7 @@
         $('#changeDateButton').click(function () {
             var unfriendUrl = /*[[@{/menu}]]*/ '#';
             var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
-
+            console.log("HOPE NOT");
             $.ajax({
                 url: unfriendUrl,
                 type: 'GET',
@@ -208,9 +210,6 @@
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
         $('#calculateModal').on('show.bs.modal', function () {
-            console.log($('#recipeIdContainer').val());
-
-
             $(".modal-content").load(productsUrl);
         });
     }(jQuery);

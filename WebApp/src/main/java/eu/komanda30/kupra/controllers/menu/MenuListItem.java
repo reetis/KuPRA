@@ -16,6 +16,16 @@ public class MenuListItem {
 
     private Integer menuItemId;
 
+    private Boolean cooked;
+
+    public Boolean getCooked() {
+        return cooked;
+    }
+
+    public void setCooked(Boolean cooked) {
+        this.cooked = cooked;
+    }
+
     public Integer getMenuItemId() {
         return menuItemId;
     }
