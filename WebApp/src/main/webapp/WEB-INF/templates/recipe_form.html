@@ -6,7 +6,7 @@
     <base href="../../" th:remove="all"/>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title th:text="#{recipeCreateForm.title}">Regtst</title>
 
@@ -38,147 +38,38 @@
 <div th:replace="popups/product :: core"></div>
 
 <div class="container">
-
-    <!--<h1 th:text="${@pageHeader.testString}">Test</h1>-->
-    <h2 th:text="#{recipeCreateForm.title}">Recipe</h2>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 th:text="#{recipeCreateForm.title}">Recipe</h1>
+        </div>
+    </div>
 
     <form class="recipe_management_form" role="form" action="#" method="post"
           th:action="@{/recipes/create}"
           th:object="${recipeManagementForm}">
-
         <input type="hidden" th:field="*{tmpId}"/>
 
-
-        <div class="row well">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <div th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
-                        <label for="name" class="control-label"
-                               th:text="#{recipeCreateForm.name}">Name</label>
-                        <input type="text" class="form-control" placeholder="Name" id="name"
-                               th:field="*{name}" th:placeholder="#{recipeCreateForm.name}"
-                                />
-                            <span class="help-block" th:if="${#fields.hasErrors('name')}"
-                                  th:errors="*{name}">Validation errors></span>
-                    </div>
-
-                    <div th:attrappend="class=${#fields.hasErrors('cookingTime')}?' has-error'"
-                         class="dropdown">
-                        <label for="description" th:text="#{recipeCreateForm.cookingTime}">Laikas</label>
-                        <select class="form-control" th:field="*{cookingTime}">
-                            <option value="5">5min</option>
-                            <option value="15">10min</option>
-                            <option value="30">30min</option>
-                            <option value="45">45min</option>
-                            <option value="60">1h</option>
-                            <option value="90">1,5h</option>
-                            <option value="120">2h</option>
-                            <option value="150">2,5h</option>
-                            <option value="180">3h+</option>
-                        </select>
-                    </div>
-
-                    <div th:attrappend="class=${#fields.hasErrors('servings')}?' has-error'"
-                         class="dropdown">
-                        <label for="description" th:text="#{recipeCreateForm.servings}">Porcijos</label>
-                        <input class="form-control" type="number" th:field="*{servings}" min="1" value="1"/>
-                             <span class="help-block" th:if="${#fields.hasErrors('servings')}"
-                                   th:errors="*{servings}">Validation errors></span>
-                    </div>
-
-                    <div class="btn-group btn-toggle">
-                        <button type="button" id="public_access" class="btn btn-default"
-                                th:text="#{recipeCreateForm.public}">ON
-                        </button>
-                        <button type="button" id="private_access" class="btn btn-primary active"
-                                th:text="#{recipeCreateForm.private}">OFF
-                        </button>
-                        <input type="hidden" th:field="*{publicAccess}" value="0" id="public_access_value"/>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <label th:text="#{recipeCreateForm.products}">Maisto Produktai</label>
-
-                        <div th:fragment="recipeProduct" id="recipeProductForm" class="from-group">
-                            <div th:each="assignedProduct : ${unitList}">
-                                <input type="hidden" th:value="${assignedProduct.productId}"/>
-                                <span th:text="${assignedProduct.productName}">Produkto pavadinimas</span>
-                                <span th:text="${assignedProduct.quantity}">556</span>
-                                <span th:text="${assignedProduct.unit}">kg.</span>
-                                <button type="button" class="btn btn-primary active deleteProduct">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                </button>
-                            </div>
-
-                            <div th:fragment="selectProductForm" id="selectProductForm">
-                                <select id="product_select" class="form-control">
-                                    <option th:each="product : ${productsList}"
-                                            th:value="${product.id}"
-                                            th:text="${product.name}"
-                                            th:attr="kupra-unit=${product.unit.abbreviation}">5min
-                                    </option>
-                                </select>
-                                <input id="product_quantity" class="form-control" type="text" value="0"/>
-                                <span id="product-unit"
-                                      th:text="${#arrays.isEmpty(productsList)} ? '' : ${productsList[0].unit.abbreviation}"></span>
-                            </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <h3 class="small-title" th:text="#{recipeCreateForm.photos}">Potos</h3>
                         </div>
-
-                        <button id="recipeProductFormSubmit" class="btn btn-default"
-                                type="button" data-tooltip="true" data-placement="bottom"
-                                title="Tooltip on bottom" th:title="#{recipeCreateForm.addProduct}">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </button>
-
-                        <div>
-                            <button class="btn-default btn"
-                                    type="button"
-                                    id="newProductButton"
-                                    th:title="#{products-list.add_product}"
-                                    data-tooltip="true"
-                                    data-placement="bottom"
-                                    title="Tooltip on bottom">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"
-                                      th:text="#{recipeCreateForm.createNewProduct}">
-                                    Kurti naują produktą
-                                </span>
-                            </button>
-
-                            <script type="application/javascript" th:inline="javascript">
-                                // <![CDATA[
-                                +function ($) {
-                                    var frameUrl = /*[[@{/recipes/getSelectProductForm}]]*/ '#';
-                                    $("#newProductButton").click(function () {
-                                        openNewProductPopup(function() {
-                                            $("#selectProductForm").load(frameUrl);
-                                        });
-                                    });
-                                }(jQuery);
-                                // ]]>
-                            </script>
-                        </div>
-                    </div>
-
-                    <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
-                        <label for="description" th:text="#{recipeCreateForm.description}">Aprašymas</label>
-                        <textarea id="description" placeholder="Aprašymas" th:field="*{description}"
-                                  th:placeholder="#{recipeCreateForm.descriptionPlaceholder}" class="form-control"
-                                  rows="3"></textarea>
-                            <span class="help-block" th:if="${#fields.hasErrors('description')}"
-                                  th:errors="*{description}">Validation errors></span>
-                    </div>
-
-
-                    <div class="input-group">
+                        <div class="col-xs-4 text-right">
+                            <div class="input-group">
                             <span class="input-group-btn">
-                                <span class="btn btn-primary btn-file">
-                                    Browse&hellip; <input type="file" id="uploadRecipeImg" multiple="true"/>
+                                <span class="btn btn-default btn-file" data-tooltip="true"
+                                        data-placement="bottom" th:title="#{recipeCreateForm.addPhotos}">
+                                    <span class="mdi-image-add-to-photos" aria-hidden="true"></span>
+                                    <input type="file" id="uploadRecipeImg" multiple="true"/>
                                 </span>
                             </span>
-                        <input type="text" class="form-control" readonly=""/>
+                            </div>
+                        </div>
                     </div>
-
-                    <div th:fragment="image_list" id="image_form">
+                    <div class="row">
+                        <div class="col-xs-12" th:fragment="image_list" id="image_form">
                             <span th:each="img : ${recipeImageList?.uploadedImages}" class="uploaded-img-cell">
                                 <a th:href="${img.imageUrl}"
                                    class="gallery-link"
@@ -188,7 +79,7 @@
                                          class="thumb"
                                          src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
                                 </a>
-                                <button type="button" class="btn btn-default btn-xs rm-btn"
+                                <button type="button" class="btn btn-primary btn-xs rm-btn btn-on-image"
                                         th:attr="img-id=${img.imgId}">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
@@ -211,36 +102,206 @@
                                     <img class="thumb"
                                          src="http://upload.wikimedia.org/wikipedia/commons/b/bb/Kittyply_edit1.jpg"/>
                                 </a>
-                                <button type="button" class="btn btn-default btn-xs rm-btn">
+                                <button type="button" class="btn btn-primary btn-xs rm-btn">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
                             </span>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
-                        <label for="description" th:text="#{recipeCreateForm.processDescription}">Gamybos
-                            Aprašymas</label>
-                        <textarea id="processDescription" placeholder="Gaminimo aprašymas"
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="small-title" th:text="#{recipeCreateForm.description}">Description</h3>
+                        </div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
+                                <div class="col-sm-4 col-xs-12">
+                                    <label for="name" class="control-label"
+                                           th:text="#{recipeCreateForm.name}">Name</label>
+                                </div>
+                                <div class="col-sm-8 col-xs-12">
+                                    <input type="text" class="form-control" placeholder="Name" id="name"
+                                           th:field="*{name}" th:placeholder="#{recipeCreateForm.name}"/>
+                                <span class="help-block" th:if="${#fields.hasErrors('name')}"
+                                      th:errors="*{name}">Validation errors></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div th:attrappend="class=${#fields.hasErrors('cookingTime')}?' has-error'"
+                                 class="dropdown">
+                                <div class="col-sm-4 col-xs-12">
+                                    <label for="description" th:text="#{recipeCreateForm.cookingTime}">Laikas</label>
+                                </div>
+                                <div class="col-sm-8 col-xs-12">
+                                    <select class="form-control" th:field="*{cookingTime}">
+                                        <option value="5">5min</option>
+                                        <option value="15">10min</option>
+                                        <option value="30">30min</option>
+                                        <option value="45">45min</option>
+                                        <option value="60">1h</option>
+                                        <option value="90">1,5h</option>
+                                        <option value="120">2h</option>
+                                        <option value="150">2,5h</option>
+                                        <option value="180">3h+</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
+                                <div class="col-sm-4 col-xs-12">
+                                    <label for="description" th:text="#{recipeCreateForm.servings}">Porcijos</label>
+                                </div>
+                                <div class="col-sm-8 col-xs-12">
+                                    <input class="form-control" type="number" th:field="*{servings}" min="1" value="1"/>
+                                <span class="help-block" th:if="${#fields.hasErrors('servings')}"
+                                      th:errors="*{servings}">Validation errors></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
+                                <div class="col-sm-4 col-xs-12">
+                                    <label th:text="#{recipeCreateForm.visibility}">Porcijos</label>
+                                </div>
+                                <div class="col-sm-8 col-xs-12">
+                                    <div class="togglebutton">
+                                        <label>
+                                            <th:block th:text="#{recipeCreateForm.private}">Priva</th:block>
+                                            <input type="checkbox" th:field="*{publicAccess}" checked=""
+                                                   id="privacy-toggle"/>
+                                            <th:block th:text="#{recipeCreateForm.public}">Viešas</th:block>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div th:attrappend="class=${#fields.hasErrors('name')}?' has-error'">
+                                <div class="col-xs-12">
+                                <textarea id="description" placeholder="Aprašymas" th:field="*{description}"
+                                          th:placeholder="#{recipeCreateForm.descriptionPlaceholder}"
+                                          class="form-control floating-label"
+                                          rows="3"></textarea>
+                                <span class="help-block" th:if="${#fields.hasErrors('description')}"
+                                      th:errors="*{description}">Validation errors></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 class="small-title" th:text="#{recipeCreateForm.products}">Products</h3>
+                        </div>
+                    </div>
+                    <div th:fragment="recipeProduct" id="recipeProductForm">
+                        <div class="row" th:each="assignedProduct, iter : ${unitList}">
+                            <div class="form-horizontal">
+                                <fieldset th:fragment="selectProductForm">
+                                    <div class="form-group" th:style="${!iter.last}?'margin-bottom: 0'">
+                                        <div class="col-xs-7 col-sm-5 col-md-7">
+                                            <input class="form-control" type="text"
+                                                   th:value="${assignedProduct.productName}"
+                                                   disabled="disabled"/>
+                                        </div>
+                                        <div class="col-xs-5 col-sm-7 col-md-5">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text"
+                                                       th:value="${assignedProduct.quantity}"
+                                                       disabled="disabled"/>
+                                            <span class="input-group-addon"
+                                                  th:text="${assignedProduct.unit}"></span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-flat btn-default deleteProduct"
+                                                        type="button" data-tooltip="true" data-placement="bottom"
+                                                        title="Tooltip on bottom"
+                                                        th:title="#{recipeCreateForm.deleteProduct}"
+                                                        th:attr="data-productid=${assignedProduct.productId}">
+                                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                </button>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-horizontal">
+                            <fieldset id="selectProductForm">
+
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn-default btn"
+                                    type="button"
+                                    id="newProductButton"
+                                    th:title="#{products-list.add_product}"
+                                    data-tooltip="true"
+                                    data-placement="bottom"
+                                    title="Tooltip on bottom">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"
+                                  th:text="#{recipeCreateForm.createNewProduct}">
+                                Kurti naują produktą
+                            </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <h3 class="small-title" th:text="#{recipeCreateForm.processDescription}">Processsssas</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div th:attrappend="class=${#fields.hasErrors('description')}?' has-error'">
+                        <textarea placeholder="Gaminimo aprašymas"
                                   th:field="*{processDescription}"
                                   th:placeholder="#{recipeCreateForm.processDescriptionPlaceholder}"
                                   class="form-control"
                                   rows="8"></textarea>
                             <span class="help-block" th:if="${#fields.hasErrors('processDescription')}"
                                   th:errors="*{processDescription}">Validation errors></span>
+                            </div>
+
+                            <p class="text-center" th:each="err : ${#fields.globalErrors()}" th:text="${err}">
+                                Generic error
+                            </p>
+                        </div>
                     </div>
-
-                    <p class="text-center" th:each="err : ${#fields.globalErrors()}" th:text="${err}">
-                        Generic error
-                    </p>
-
-                    <button type="submit" class="btn btn-default btn-lg"
-                            th:text="#{recipeCreateForm.create}">Register
-                    </button>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <button type="submit" class="btn btn-primary btn-raised btn-lg"
+                                    th:text="#{recipeCreateForm.create}">Register
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </form>
-
 </div>
 
 <div th:replace="layout :: footer"></div>
@@ -265,10 +326,11 @@
     +function ($) {
         var imgUrl = /*[[@{/recipes/uploadPhotos}]]*/ '#';
         var imgDelUrl = /*[[@{/recipes/deletePhoto}]]*/ '#';
-        var productUrl = /*[[@{/recipes/addProduct}]]*/ '#';
         var productDelUrl = /*[[@{/recipes/deleteProduct}]]*/ '#';
-        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
         var _tmpId = /*[[${recipeManagementForm.tmpId}]]*/ 'tmp_id';
+        var frameUrl = /*[[@{/recipes/getSelectProductForm}]]*/ '#';
+        var productUrl = /*[[@{/recipes/addProduct}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
         delImgHandler = function (imgId) {
             $.ajax({
@@ -319,12 +381,12 @@
             });
         });
 
-        reinitializeProductDeleteButtons = function(){
+        reinitializeProductDeleteButtons = function () {
             var productDeleteButtons = $(".deleteProduct");
 
             if (productDeleteButtons != null) {
                 productDeleteButtons.click(function () {
-                    productId = $(this).parent().find("input").val();
+                    productId = $(this).data("productid");
                     var deleteFormData = new FormData();
                     deleteFormData.append("product_id", productId);
 
@@ -351,29 +413,43 @@
 
         reinitializeProductDeleteButtons();
 
-        $('#recipeProductFormSubmit').click(function () {
-            quantity = $("#product_quantity").val();
+        initProductForm = function () {
+            $('#product_select').change(function () {
+                $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
+            });
 
-            if (Number(quantity) > 0) {
-                productFormData = new FormData();
-                productFormData.append("product_id", $("#product_select option:selected").val());
-                productFormData.append("quantity", quantity);
-                $.ajax({
-                    url: productUrl,
-                    type: 'POST',
-                    data: productFormData,
-                    async: false,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    headers: {'X-CSRF-TOKEN': _csrf},
-                    success: productAddedHandler
-                });
-            }
+            $('#recipeProductFormSubmit').click(function () {
+                quantity = $("#product_quantity").val();
+
+                if (Number(quantity) > 0) {
+                    productFormData = new FormData();
+                    productFormData.append("product_id", $("#product_select option:selected").val());
+                    productFormData.append("quantity", quantity);
+                    $.ajax({
+                        url: productUrl,
+                        type: 'POST',
+                        data: productFormData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        headers: {'X-CSRF-TOKEN': _csrf},
+                        success: productAddedHandler
+                    });
+                }
+            });
+        };
+
+        $("#selectProductForm").load(frameUrl, function () {
+            initProductForm()
         });
 
-        $('#product_select').change(function () {
-            $('#product-unit').html($("option:selected", this).attr('kupra-unit'));
+        $("#newProductButton").click(function () {
+            openNewProductPopup(function () {
+                $("#selectProductForm").load(frameUrl, function () {
+                    initProductForm()
+                });
+            });
         });
     }(jQuery);
     // ]]>

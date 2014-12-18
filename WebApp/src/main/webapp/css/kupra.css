@@ -52,10 +52,10 @@ body.no-navbar {
 }
 
 .navbarImage {
-     width: 26px;
-     height: 26px;
-     margin: 3px 9px;
- }
+    width: 26px;
+    height: 26px;
+    margin: 3px 9px;
+}
 
 .btn-image {
     width: 20px;
@@ -66,6 +66,7 @@ body.no-navbar {
     position: relative;
     overflow: hidden;
 }
+
 .btn-file input[type=file] {
     position: absolute;
     top: 0;
@@ -87,8 +88,9 @@ body.no-navbar {
 }
 
 .small-title {
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 6px;
+    margin-left: 10px;
+    /*margin-bottom: 0px;*/
 }
 
 .linkImage {
@@ -116,7 +118,7 @@ body.no-navbar {
     right: 0px;
 }
 
-.navbar-kupra{
+.navbar-kupra {
     background-color: #006064;
 }
 
@@ -128,6 +130,7 @@ body.no-navbar {
     margin-left: auto;
     margin-right: auto;
 }
+
 .post {
     margin: 0;
     width: 100%;
@@ -137,27 +140,28 @@ body.no-navbar {
     margin: 10px;
 }
 
-
 /* Medium devices */
 
 @media (min-width: 768px) {
-    #grid > #posts .post { width: 100%; }
+    #grid > #posts .post {
+        width: 100%;
+    }
 }
-
-
 
 /* Medium devices */
 
 @media (min-width: 992px) {
-    #grid > #posts .post { width: 100%; }
+    #grid > #posts .post {
+        width: 100%;
+    }
 }
-
-
 
 /* Large devices */
 
 @media (min-width: 1200px) {
-    #grid > #posts .post { width: 50%; }
+    #grid > #posts .post {
+        width: 50%;
+    }
 }
 
 /* Large devices min-width (1200px) + a .post margin (50px) * 2 (100px) = 1300px */
@@ -173,6 +177,7 @@ Can this be done with Masonry options? */
         padding-right: 50px;
         position: relative;
     }
+
     #grid.container {
         left: auto;
         padding-left: 15px;
@@ -207,7 +212,7 @@ Can this be done with Masonry options? */
     color: #ffffff;
 }
 
-.panel-title h3{
+.panel-title h3 {
     margin: 4px 0;
 }
 
@@ -232,4 +237,32 @@ Can this be done with Masonry options? */
 
 .carousel-inner {
     background-color: #ffffff;
+}
+
+#privacy-toggle {
+    margin-left: 10px;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+.hcenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-horizontal .form-group {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.dirtyHack {
+    padding-top: 5px;
+}
+
+.btn-on-image {
+    padding: 1px 5px !important;
 }
