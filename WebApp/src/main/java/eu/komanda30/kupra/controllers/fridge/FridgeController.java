@@ -75,7 +75,7 @@ public class FridgeController {
             final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
             populateFridgeItemsList(list, kupraUser);
-            return "fridge";
+            return "fridge :: product-add-form";
         }
 
 
@@ -85,9 +85,7 @@ public class FridgeController {
         final Product product = products.findOne(form.getSelectedProductId());
         kupraUser.addFridgeItem(product, form.getAmount());
         kupraUsers.save(kupraUser);
-
-        populateFridgeItemsList(list, kupraUser);
-        return "fridge";
+        return "fridge :: reload-fridge";
     }
 
     private FridgeItemForm makeFridgeItemForm(FridgeItem f) {
