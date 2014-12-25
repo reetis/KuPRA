@@ -68,7 +68,7 @@ public class RecipeListController {
     }
 
     @Transactional
-    @RequestMapping(value = "/changePrivacy", method = RequestMethod.GET)
+    @RequestMapping(value = "/changePrivacy", method = RequestMethod.POST)
     public String changePrivacy(@RequestParam("recipe_id") Integer recipeId,
                                 @RequestParam("make_public") Boolean makePublic,
                                 @ModelAttribute("rcp") RecipePreview recipePreview) {
