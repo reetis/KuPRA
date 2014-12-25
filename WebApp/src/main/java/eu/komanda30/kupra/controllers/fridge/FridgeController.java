@@ -30,7 +30,7 @@ public class FridgeController {
     @Transactional
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteFridgeItem(
-            final FridgeItemsList list,
+            final FridgeItemsList list, final FridgeAddItemForm fridgeAddItemForm,
             @RequestParam(value = "product_id") Integer productId) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
@@ -40,7 +40,7 @@ public class FridgeController {
 
         populateFridgeItemsList(list, kupraUser);
 
-        return "fridge :: fridge-content";
+        return "fridge :: table-body";
     }
 
     private void populateFridgeItemsList(FridgeItemsList list, KupraUser kupraUser) {
@@ -70,22 +70,20 @@ public class FridgeController {
     public String addItem(@Valid final FridgeAddItemForm form,
                           final BindingResult bindingResult,
                           final FridgeItemsList list) {
-
-        if (bindingResult.hasErrors()) {
-            final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
-            populateFridgeItemsList(list, kupraUser);
-            return "fridge :: product-add-form";
-        }
-
-
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        if (bindingResult.hasErrors()) {
+            populateFridgeItemsList(list, kupraUser);
+            return "fridge :: table-body";
+        }
 
         final Product product = products.findOne(form.getSelectedProductId());
         kupraUser.addFridgeItem(product, form.getAmount());
         kupraUsers.save(kupraUser);
-        return "fridge :: reload-fridge";
+
+        populateFridgeItemsList(list, kupraUser);
+        return "fridge :: table-body";
     }
 
     private FridgeItemForm makeFridgeItemForm(FridgeItem f) {
