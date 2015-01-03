@@ -18,7 +18,7 @@ public class Menu {
     private Integer id;
 
     @JoinColumn(name="recipe_id")
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private Recipe recipe;
 
     @Column(nullable = false)
