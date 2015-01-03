@@ -87,7 +87,7 @@ public class RecipeReadController {
 
             if (friendships.isFriends(kupraUser, comment.getAuthor())
                     || comment.getAuthor().equals(kupraUser)) {
-                commentUnit.setAuthor(comment.getAuthor().getProfile().getFullName() + ": ");
+                commentUnit.setAuthor(comment.getAuthor().getProfile().getFullName());
                 commentUnit.setImage(comment.getAuthor().getProfile().getMainPhoto().orElse(null));
             } else {
                 commentUnit.setAuthor(comment.getAuthor().getUserId());
