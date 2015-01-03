@@ -1,9 +1,9 @@
 package eu.komanda30.kupra.controllers.editproductpopup;
 
+import org.apache.avro.reflect.Nullable;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-
-import org.apache.avro.reflect.Nullable;
 
 public class ProductEditForm {
 
@@ -15,7 +15,7 @@ public class ProductEditForm {
 
     private String unitName;
 
-    @Size(min = 1, max = 256)
+    @Size(max = 256)
     private String description;
 
     @Size(min = 1, max = 50)
