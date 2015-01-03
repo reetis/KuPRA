@@ -6,6 +6,7 @@ import eu.komanda30.kupra.entity.RecipeImage;
 import eu.komanda30.kupra.entity.UserProfileImage;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
+import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.services.RecipeFinder;
 import eu.komanda30.kupra.services.UserFinder;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Controller
 @RequestMapping("/search")
@@ -32,6 +34,9 @@ public class SearchController {
 
     @Resource
     private KupraUsers kupraUsers;
+
+    @Resource
+    private Recipes recipes;
 
     @Transactional
     @RequestMapping(method = RequestMethod.GET)
@@ -73,6 +78,24 @@ public class SearchController {
         recipeSearchForm.setFromFridge(false);
 
         recipeFinder.searchForRecipes(query).stream()
+                .map(this::recipeToResultRecipe)
+                .forEach(recipeSearchForm::addRecipe);
+
+        return "search-recipe";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/fridge", method = RequestMethod.GET)
+    public String searchFromFridge(final RecipeSearchForm recipeSearchForm) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        recipeSearchForm.setFromFridge(true);
+
+        List<Recipe> availableRecipes = recipes.findAllAccessible(kupraUser);
+
+        availableRecipes.stream()
+                .filter(x -> kupraUser.getLackingProducts(x.getRecipeProductList()).isEmpty())
                 .map(this::recipeToResultRecipe)
                 .forEach(recipeSearchForm::addRecipe);
 

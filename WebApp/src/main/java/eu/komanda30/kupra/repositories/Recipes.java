@@ -25,5 +25,6 @@ public interface Recipes extends CrudRepository<Recipe, Integer> {
     @Query("select distinct r from Recipe r left join r.author.friendships f where r.author = :user or f.target = :user or r.publicAccess = true")
     List<Recipe> findAllAccessible(@Param("user") KupraUser user, Pageable pageable);
 
-
+    @Query("select distinct r from Recipe r left join r.author.friendships f where r.author = :user or f.target = :user or r.publicAccess = true")
+    List<Recipe> findAllAccessible(@Param("user") KupraUser user);
 }
