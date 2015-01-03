@@ -52,6 +52,13 @@ public class UserFinderImpl implements UserFinder {
     @SuppressWarnings("unchecked")
     @Transactional
     @Override
+    public List<KupraUser> searchForUsers(String searchText) {
+        return searchForUsers(searchText, Integer.MAX_VALUE);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Transactional
+    @Override
     public List<KupraUser> searchForUsers(String searchText, int maxResults) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser user = kupraUsers.findByUsername(auth.getName());

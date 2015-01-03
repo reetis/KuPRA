@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserFinder {
     void indexUsers();
     List<KupraUser> searchForUsers(String searchText, int maxResults);
+    List<KupraUser> searchForUsers(String searchText);
 }

@@ -7,4 +7,5 @@ import java.util.List;
 public interface RecipeFinder {
     void indexRecipes();
     List<Recipe> searchForRecipes(String searchText, int maxResults);
+    List<Recipe> searchForRecipes(String searchText);
 }

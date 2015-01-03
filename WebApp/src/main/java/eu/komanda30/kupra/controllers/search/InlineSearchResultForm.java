@@ -6,6 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InlineSearchResultForm {
+    private String query;
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
     private List<RecipeRow> recipes = new ArrayList<>();
     private List<PersonRow> persons = new ArrayList<>();
 

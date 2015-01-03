@@ -52,6 +52,13 @@ public class RecipeFinderImpl implements RecipeFinder {
     @SuppressWarnings("unchecked")
     @Transactional
     @Override
+    public List<Recipe> searchForRecipes(String searchText) {
+        return searchForRecipes(searchText, Integer.MAX_VALUE);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Transactional
+    @Override
     public List<Recipe> searchForRecipes(String searchText, int maxResults) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser user = kupraUsers.findByUsername(auth.getName());

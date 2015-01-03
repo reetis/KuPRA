@@ -116,11 +116,11 @@
 
 <div th:fragment="searchResults" class="list-group">
     <th:block th:if="!${#lists.isEmpty(results.recipes)}">
-        <h3 class="no-margin" th:text="#{layout.recipes}">Recept</h3>
+        <h3 class="no-margin" style="color: #000000" th:text="#{layout.recipes}">Recept</h3>
         <div class="list-group-separator"></div>
     </th:block>
-    <th:block th:each="recipe : ${results.recipes}">
-        <div class="list-group-item">
+    <th:block th:each="recipe, iter : ${results.recipes}">
+        <div class="list-group-item" th:if="${iter.count != 3}">
             <div class="row-picture">
                 <a th:href="@{'/recipes/read/'+${recipe.recipeId}}">
                     <img th:src="${recipe.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
@@ -131,14 +131,21 @@
                 <p th:text="${recipe.description}" class="list-group-item-text hidden-xs">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ac dolor diam. Ut tempor, mi id scelerisque dignissim, ex nunc pharetra augue, non tristique est sem eu lectus. Sed pellentesque, tellus nec facilisis malesuada, nibh ex cursus mauris nullam.</p>
             </div>
         </div>
+        <div class="list-group-item" th:if="${iter.count == 3}">
+            <div class="row-content text-center"  style="min-height: 0">
+                <a th:href="@{'/search/recipes/'+${results.query}}">
+                    <p th:text="#{layout.showAllRecipes}" class="list-group-item-text">asdf</p>
+                </a>
+            </div>
+        </div>
         <div class="list-group-separator"></div>
     </th:block>
     <th:block th:if="!${#lists.isEmpty(results.persons)}">
-        <h3 class="no-margin" th:text="#{layout.users}">Vart</h3>
+        <h3 class="no-margin" style="color: #000000" th:text="#{layout.users}">Vart</h3>
         <div class="list-group-separator"></div>
     </th:block>
-    <th:block th:each="person : ${results.persons}">
-        <div class="list-group-item">
+    <th:block th:each="person, iter : ${results.persons}">
+        <div class="list-group-item" th:if="${iter.count != 3}">
             <div class="row-picture">
                 <a th:href="@{'/user/'+${person.userId}}">
                     <img th:src="${person.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
@@ -147,6 +154,13 @@
             <div class="row-content">
                 <a th:href="@{'/user/'+${person.userId}}"><h2 th:text="${person.name}" class="list-group-item-heading">Tile with avatar</h2></a>
                 <!--<p th:text="${recipe.description}" class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ac dolor diam. Ut tempor, mi id scelerisque dignissim, ex nunc pharetra augue, non tristique est sem eu lectus. Sed pellentesque, tellus nec facilisis malesuada, nibh ex cursus mauris nullam.</p>-->
+            </div>
+        </div>
+        <div class="list-group-item" th:if="${iter.count == 3}">
+            <div class="row-content text-center"  style="min-height: 0">
+                <a th:href="@{'/search/users/'+${results.query}}">
+                    <p th:text="#{layout.showAllUsers}" class="list-group-item-text">asdf</p>
+                </a>
             </div>
         </div>
         <div class="list-group-separator"></div>
