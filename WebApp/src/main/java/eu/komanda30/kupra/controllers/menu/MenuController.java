@@ -4,6 +4,7 @@ import eu.komanda30.kupra.controllers.reciperead.LackOfProductsForm;
 import eu.komanda30.kupra.controllers.reciperead.LackOfProductsItem;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Menu;
+import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.entity.RecipeProduct;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Menus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -80,6 +82,7 @@ public class MenuController {
             c.set(Calendar.HOUR_OF_DAY, 0);
             c.set(Calendar.MINUTE, 0);
             c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
 
             dateFrom = c.getTime();
         }
@@ -87,7 +90,7 @@ public class MenuController {
         // Hardcoded 4 Collumns now
         for(int i=0; i<4; i++){
             // Adding 24 hour's to from date
-            Date dateTo = new Date(dateFrom.getTime()+60*60*24*1000);
+            Date dateTo = new Date(dateFrom.getTime()+60*60*24*1000-1);
             Iterable<Menu> menusList = kupraUsers.findMenuByDate(kupraUser, dateFrom, dateTo);
 
             MenuListDay menuListDay = new MenuListDay();
@@ -101,7 +104,7 @@ public class MenuController {
                 menuListDay.addMenuListItem(menuListItem);
             }
             form.addMenuListDay(menuListDay);
-            dateFrom = dateTo;
+            dateFrom = new Date(dateFrom.getTime()+60*60*24*1000);
         }
 
         return templateToRender;
@@ -132,26 +135,33 @@ public class MenuController {
         return "popups/recipeLackOfProducts :: lackOfProducts";
     }
 
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     @RequestMapping(value = "/cook/{menuItem}", method = RequestMethod.POST)
     public String openCookModal(@Valid final RecipeCookForm form, final BindingResult bindingResult,
-                                @PathVariable Integer menuItem) {
+                                @PathVariable Integer menuItem) throws Exception {
         if (bindingResult.hasErrors()) {
             return "popups/cookRecipe :: menuCookModal";
         }
         Menu menu = menus.findOne(menuItem);
         KupraUser kupraUser = kupraUsers.findByMenu(menu);
 
-        // Manage Menu entity
-        menu.setDateTime(form.getDateTime());
-        menu.setCompleted(true);
-        menu.setScore(form.getScore());
-        menu.setServings(form.getServings());
-
         //Manage Fridge
-        if (kupraUser.consumeItemsFromFridge(menu)) {
+        Recipe recipe = menu.getRecipe();
+        Boolean enoughProducts = true;
+        List<RecipeProduct> recipeProducts = recipe.getProductsNeeded(new BigDecimal(menu.getServings()));
+
+        menu.setServings(form.getServings());
+        if (kupraUser.getLackingProducts(recipeProducts).isEmpty()) {
+            kupraUser.consumeItemsFromFridge(menu);
+            // Manage Menu entity
+            menu.setDateTime(form.getDateTime());
+            menu.setCompleted(true);
+            menu.setScore(form.getScore());
+
+
             kupraUsers.save(kupraUser);
         } else {
+
             form.setMenuItemId(menuItem);
             bindingResult.rejectValue("recipeId","notEnoughProducts");
             return "popups/cookRecipe :: menuCookModal";
