@@ -44,8 +44,9 @@ public class FridgeController {
     }
 
     private void populateFridgeItemsList(FridgeItemsList list, KupraUser kupraUser) {
-        kupraUser.getFridgeItems().parallelStream()
+        kupraUser.getFridgeItems().stream()
                 .map(this::makeFridgeItemForm)
+                .sorted( (x, y) -> (x.getName().compareToIgnoreCase(y.getName())) )
                 .forEach(list::addItem);
     }
 
