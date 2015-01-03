@@ -162,6 +162,12 @@
                 addFridgeItem();
             });
 
+            $('#product-select', newTableBody).change(function () {
+                $('#product-unit').html($("option:selected", this).data('unit'));
+            });
+
+            $('#product-unit', newTableBody).html($("option:selected", $('#product-select', newTableBody)).data('unit'));
+
             $('#table-body').replaceWith(newTableBody);
         };
 
@@ -213,13 +219,5 @@
         });
     }(jQuery);
 </script>
-
-<th:block th:remove="all">
-    <script type="text/javascript" th:fragment="reload-fridge">
-        +function ($) {
-            location.reload(true);
-        }(jQuery);
-    </script>
-</th:block>
 </body>
 </html>
