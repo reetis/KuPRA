@@ -4,8 +4,12 @@ import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.entity.RecipeImage;
 import eu.komanda30.kupra.entity.UserProfileImage;
+import eu.komanda30.kupra.repositories.Friendships;
+import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.services.RecipeFinder;
 import eu.komanda30.kupra.services.UserFinder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +30,21 @@ public class InlineSearchController {
     @Resource
     private RecipeFinder recipeFinder;
 
+    @Resource
+    private Friendships friendships;
+
+    @Resource
+    private KupraUsers kupraUsers;
+
     @Transactional
     @RequestMapping(method = RequestMethod.GET)
     public String showForm(@ModelAttribute("results") final InlineSearchResultForm form,
                            @RequestParam("query") final String query) {
-        userFinder.searchForUsers(query, USER_MAX_RESULTS).parallelStream()
+        userFinder.searchForUsers(query, USER_MAX_RESULTS).stream()
                 .map(this::userToResultRow)
                 .forEach(form::addPersonRow);
 
-        recipeFinder.searchForRecipes(query, RECIPE_MAX_RESULTS).parallelStream()
+        recipeFinder.searchForRecipes(query, RECIPE_MAX_RESULTS).stream()
                 .map(this::recipeToResultRow)
                 .forEach(form::addRecipeRow);
 
@@ -44,9 +54,19 @@ public class InlineSearchController {
     private InlineSearchResultForm.PersonRow userToResultRow(KupraUser user) {
         final InlineSearchResultForm.PersonRow row = new InlineSearchResultForm.PersonRow();
         row.setName(user.getProfile().getName());
-        row.setImageUrl(user.getProfile().getMainPhoto()
-                .map(UserProfileImage::getThumbUrl)
-                .orElse(null));
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        if (friendships.isFriends(kupraUser, user)
+                || user.equals(kupraUser)) {
+            row.setName(user.getProfile().getFullName());
+            row.setImageUrl(user.getProfile().getMainPhoto()
+                    .map(UserProfileImage::getThumbUrl)
+                    .orElse(null));
+        } else {
+            row.setName(user.getUserId());
+        }
+
         row.setUserId(user.getUserId());
         return row;
     }
