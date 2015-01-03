@@ -39,7 +39,7 @@
 <body>
 <div th:replace="layout :: header"></div>
 
-<div class="modal fade" id="addToMenu" tabindex="-1" role="dialog">
+<div class="modal fade" id="cookRecipe" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content"  th:fragment="menuCookModal">
             <div class="modal-header">
@@ -142,7 +142,7 @@
                                 var formattedTime = moment($('#datetimePopup').val()).format("YYYY-MM-D HH:mm");
                                 $('#datetimefinal').val(formattedTime);
                                 if (submitUrl != '#') {
-                                    $("#coocRecipeContent").load(submitUrl, $("#cookRecipeForm").serializeArray());
+                                    $("#cookRecipeContent").load(submitUrl, $("#cookRecipeForm").serializeArray());
                                 }
                             });
 
@@ -165,7 +165,7 @@
 
 
 
-<div class="modal fade" id="addToMenu" tabindex="-1" role="dialog">
+<div class="modal fade" id="cookedRecipe" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content"  th:fragment="menuCookedModal">
             <div class="modal-header">
