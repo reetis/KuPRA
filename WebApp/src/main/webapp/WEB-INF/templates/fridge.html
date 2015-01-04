@@ -111,6 +111,10 @@
                                         <span class="glyphicon glyphicon-plus" aria-hidden="true">
                                         </span>
                                     </button>
+                                    <button type="button" class="btn btn-default btn-flat btn-on-image" id="remove-button">
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true">
+                                        </span>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -154,6 +158,8 @@
     +function ($) {
         var deleteUrl = /*[[@{/fridge/delete}]]*/ '#';
         var addItemUrl = /*[[@{/fridge}]]*/ '#';
+        var removeItemUrl = /*[[@{/fridge/removeItem}]]*/ '#';
+
 
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
@@ -168,7 +174,11 @@
             });
 
             $("#add-button", newTableBody).click(function () {
-                addFridgeItem();
+                addFridgeItem(addItemUrl);
+            });
+
+            $("#remove-button", newTableBody).click(function () {
+                addFridgeItem(removeItemUrl);
             });
 
             $('#product-select', newTableBody).change(function () {
@@ -180,12 +190,12 @@
             $('#table-body').replaceWith(newTableBody);
         };
 
-        var addFridgeItem = function(){
+        var addFridgeItem = function(formUrl){
             formData = new FormData();
             formData.append('selectedProductId',$('#product-select').val());
             formData.append('amount', $('#amount').val());
             $.ajax({
-                url: addItemUrl,
+                url: formUrl,
                 type: 'POST',
                 data: formData,
                 async: true,
@@ -224,7 +234,12 @@
         });
 
         $("#add-button").click(function () {
-            addFridgeItem();
+            addFridgeItem(addItemUrl);
+        });
+
+        $("#remove-button").click(function () {
+            console.log("AAA");
+            addFridgeItem(removeItemUrl);
         });
     }(jQuery);
 </script>

@@ -37,6 +37,14 @@ public class FridgeItem {
         this.amount = this.amount.add(amount);
     }
 
+    public Integer decreaseAmount(BigDecimal amount) {
+        if (this.amount.compareTo(amount) >= 0){
+            this.amount = this.amount.subtract(amount);
+            return 0;
+        }else {
+            return -1;
+        }
+    }
     public Product getProduct() {
         return product;
     }
