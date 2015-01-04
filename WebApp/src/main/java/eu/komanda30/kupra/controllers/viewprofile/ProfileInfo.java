@@ -12,6 +12,7 @@ public class ProfileInfo {
     private String surname;
     private String email;
     private String description;
+    private String displayName;
     private boolean friend;
     private boolean requestSent;
     private boolean requestReceived;
@@ -110,5 +111,13 @@ public class ProfileInfo {
 
     public void setPersonal(boolean personal) {
         this.personal = personal;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

@@ -7,7 +7,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="#{viewProfile.title}">Regtst</title>
+    <title th:text="#{viewProfile.title} + ':' + ${profileInfo.displayName}">Regtst</title>
 
     <!-- Bootstrap CSS -->
     <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
@@ -37,26 +37,23 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <h1 th:text="${profileInfo.name}+' '+${profileInfo.surname}">Pavadinimas</h1>
+            <h1 th:text="${profileInfo.displayName}">Pavadinimas</h1>
         </div>
     </div>
     <div class="well">
         <div class="row">
             <div class="col-sm-6 col-xs-12">
-                    <img class="img-responsive" th:if="${profileInfo.photo != null}"
-                         th:src="${profileInfo.photo.imageUrl}"
-                         src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
-                    <img class="img-responsive" th:if="${profileInfo.photo == null}"
-                         th:src="@{/images/empty_prof_thumb.jpg}"
+                    <img class="img-responsive"
+                         th:src="${profileInfo.photo != null}? ${profileInfo.photo.imageUrl} : @{~/images/empty_prof_thumb.jpg}"
                          src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
             </div>
             <div class="col-sm-6 col-xs-12">
-                <div class="row">
+                <div class="row" th:unless="${profileInfo.personal}">
                     <div class="col-xs-4">
                         <h2 class="small-title" th:text="#{viewProfile.friendship}">Draugyste:</h2>
                     </div>
                     <div class="col-xs-8">
-                        <div th:fragment="buttonFragment" th:unless="${profileInfo.personal}">
+                        <div th:fragment="buttonFragment">
                             <input id="source_id" type="hidden" name="friend_id" th:value="${profileInfo.userId}"/>
                             <div th:if="${profileInfo.friend == true}">
                                 <button id="unfriend_button" class="btn btn-warning btn-raised btn-lg" th:text="#{viewProfile.unFriend}">
@@ -82,16 +79,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <h2 class="small-title" th:text="#{viewProfile.description}">Aprašymas:</h2>
+                <th:block th:if="${profileInfo.email != null}">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2 class="small-title" th:text="#{viewProfile.email}">mail:</h2>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p class="lead" th:text="${profileInfo.description}"></p>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="lead" th:text="${profileInfo.email}"></p>
+                        </div>
                     </div>
-                </div>
+                </th:block>
+                <th:block th:if="${profileInfo.description != null}">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2 class="small-title" th:text="#{viewProfile.description}">Aprašymas:</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="lead" th:text="${profileInfo.description}"></p>
+                        </div>
+                    </div>
+                </th:block>
             </div>
         </div>
     </div>

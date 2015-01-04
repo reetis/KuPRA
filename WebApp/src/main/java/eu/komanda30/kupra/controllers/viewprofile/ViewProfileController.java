@@ -45,22 +45,20 @@ public class ViewProfileController {
         boolean showEverything = friendships.isFriends(user, targetUser) || userId.contentEquals(auth.getName());
         Iterable<Recipe> allRecipes;
 
-        profileInfo.setName(profile.getName());
-        profileInfo.setSurname(profile.getSurname());
-        profileInfo.setEmail(profile.getEmail());
-        profileInfo.setDescription(profile.getDescription());
         profileInfo.setFriend(friendships.isFriends(user, targetUser));
         profileInfo.setRequestSent(friendships.isRequestSent(user, targetUser));
         profileInfo.setRequestReceived(friendships.isRequestSent(targetUser, user));
-        profileInfo.setPhoto(profile.getMainPhoto().orElse(null));
         profileInfo.setPersonal(user.equals(targetUser));
 
         if (showEverything) {
             allRecipes = recipes.findByUser(targetUser, new PageRequest(0, 100)); //TODO: pataisyti
-
+            profileInfo.setDisplayName(profile.getFullName() + " (" + targetUser.getUserId() + ")");
+            profileInfo.setEmail(profile.getEmail());
+            profileInfo.setDescription(profile.getDescription());
             profileInfo.setPhoto(profile.getMainPhoto().orElse(null));
         } else {
             allRecipes = recipes.findByUserPublic(targetUser, new PageRequest(0, 100)); //TODO: pataisyti
+            profileInfo.setDisplayName(targetUser.getUserId());
         }
 
         for (Recipe r : allRecipes) {
