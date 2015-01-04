@@ -109,12 +109,10 @@
                                     Priv
                                 </button>
                             </div>
-                            <button class="btn deleteButton" th:text="#{recipeCreateForm.deleteButton}"
-                                    th:classappend="!${rcp.publicAccess}?'btn-primary':'btn-default'"
+                            <button class="btn btn-raised btn-warning deleteButton glyphicon glyphicon-trash" th:title="#{recipeCreateForm.deleteButton}"
                                     th:attr="data-recipeid=${rcp.recipeId}"
-                                    th:if="${rcp.canDelete}">
-                                Trinti
-                            </button>
+                                    th:if="${rcp.canDelete}"
+                                    data-tooltip="true" data-placement="bottom" title="Tooltip on bottom"></button>
                         </div>
                     </div>
                 </div>
