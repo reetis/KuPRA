@@ -36,7 +36,7 @@ public class UnitListController {
     @ModelAttribute("units")
     public List<UnitListItem> getUnits() {
         return StreamSupport
-                .stream(units.findAllOrderByNameAsc().spliterator(), false)
+                .stream(units.findByOrderByNameAsc().spliterator(), false)
                 .map(unit -> {
                     final UnitListItem unitListItem = new UnitListItem();
                     unitListItem.setIsUsed(products.isUsedUnit(unit));

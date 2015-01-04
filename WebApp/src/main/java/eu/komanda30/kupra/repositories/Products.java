@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface Products extends CrudRepository<Product, Integer> {
-    Iterable<Product> findAllOrderByNameAsc();
+    Iterable<Product> findByOrderByNameAsc();
 
     Product findByName(String name);
 

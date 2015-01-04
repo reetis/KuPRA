@@ -62,7 +62,7 @@ public class ProductEditPopupController {
 
     @ModelAttribute("units")
     public Iterable<Unit> getUnits() {
-        return this.units.findAllOrderByNameAsc();
+        return this.units.findByOrderByNameAsc();
     }
 
     @Transactional

@@ -80,7 +80,7 @@ public class RecipeManagementController {
     }
 
     @ModelAttribute("productsList")
-    public Iterable<Product> getProductList() { return products.findAllOrderByNameAsc();}
+    public Iterable<Product> getProductList() { return products.findByOrderByNameAsc();}
 
     @RequestMapping(value="/create", method = RequestMethod.GET)
     public String showNewRecipeForm(final RecipeManagementForm form, Model model) {

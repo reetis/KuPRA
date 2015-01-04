@@ -64,7 +64,7 @@ public class FridgeController {
 
     @ModelAttribute("products")
     public Iterable<Product> getProducts() {
-        return this.products.findAllOrderByNameAsc();
+        return this.products.findByOrderByNameAsc();
     }
 
     @Transactional

@@ -44,7 +44,7 @@ public class ProductsListController {
 
     @ModelAttribute("products")
     public List<ProductItem> getAllProducts() {
-        return StreamSupport.stream(products.findAllOrderByNameAsc().spliterator(), false)
+        return StreamSupport.stream(products.findByOrderByNameAsc().spliterator(), false)
                 .map(p -> {
                     final ProductItem fridgesItem = new ProductItem();
                     fridgesItem.setIsUsed(products.isUsedInFridge(p) || products.isUsedInRecipes(p));
