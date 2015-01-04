@@ -15,6 +15,16 @@ public class RecipePreview {
 
     private RecipeImage recipeImage;
 
+    private boolean canDelete;
+
+    public boolean isCanDelete() {
+        return canDelete;
+    }
+
+    public void setCanDelete(boolean canDelete) {
+        this.canDelete = canDelete;
+    }
+
     public String getName() {
         return name;
     }

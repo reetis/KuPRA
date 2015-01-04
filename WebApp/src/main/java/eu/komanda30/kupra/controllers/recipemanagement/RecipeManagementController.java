@@ -37,6 +37,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,6 +88,13 @@ public class RecipeManagementController {
 
         model.addAttribute("unitList", new ArrayList<RecipeProductListUnit>());
         return "recipe_form";
+    }
+
+    @RequestMapping(value = "{recipeId}", method = RequestMethod.DELETE)
+    @Transactional
+    public String deleteRecipe(@PathVariable("recipeId") int recipeId) {
+        recipes.delete(recipeId);
+        return "Ok";
     }
 
     @RequestMapping(value="/create", method = RequestMethod.POST)

@@ -109,6 +109,12 @@
                                     Priv
                                 </button>
                             </div>
+                            <button class="btn deleteButton" th:text="#{recipeCreateForm.deleteButton}"
+                                    th:classappend="!${rcp.publicAccess}?'btn-primary':'btn-default'"
+                                    th:attr="data-recipeid=${rcp.recipeId}"
+                                    th:if="${rcp.canDelete}">
+                                Trinti
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -230,6 +236,20 @@
 
         $('.privateButton').click(function () {
             makeButtonPrivate($(this));
+        });
+
+        $('.deleteButton').click(function () {
+            var url = /*[[@{/recipes/}]]*/ '#';
+            var button = $(this);
+
+            $.ajax({
+                url: url + button.data('recipeid'),
+                type: 'DELETE',
+                async: false,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+                success: window.location.reload
+            });
         });
 
         $('#addToMenu').on('show.bs.modal', function (event) {
