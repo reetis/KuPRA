@@ -6,6 +6,13 @@ import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.services.RecipeFinder;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.apache.lucene.search.Query;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
@@ -17,15 +24,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.util.List;
-
 @Repository
 public class RecipeFinderImpl implements RecipeFinder {
     public static final float THRESHOLD = 0.3f;
-    public static final int PREFIX_LENGTH = 1;
+    public static final int PREFIX_LENGTH = 3;
     private static final Logger LOGGER = LoggerFactory.getLogger(RecipeFinderImpl.class);
     @Resource
     private EntityManager entityManager;

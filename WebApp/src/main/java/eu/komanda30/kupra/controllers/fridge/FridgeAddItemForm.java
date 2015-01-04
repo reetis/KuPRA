@@ -1,10 +1,12 @@
 package eu.komanda30.kupra.controllers.fridge;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 public class FridgeAddItemForm {
 
@@ -13,6 +15,7 @@ public class FridgeAddItemForm {
 
     @DecimalMin(value = "0", inclusive = false)
     @DecimalMax(value = "10000")
+    @Digits(integer = 4, fraction = 2)
     @NotNull
     private BigDecimal amount;
 

@@ -49,15 +49,15 @@
         <div class="col-xs-5 col-sm-8 col-md-6 col-lg-5">
             <div class="input-group">
                 <input id="product_quantity" class="form-control" type="text" placeholder="0"/>
-                                        <span id="product-unit" class="input-group-addon"
-                                              th:text="${#arrays.isEmpty(productsList)} ? '' : ${productsList[0].unit.abbreviation}"></span>
-                                        <span class="input-group-btn">
-                                            <button id="recipeProductFormSubmit" class="btn btn-flat btn-default"
-                                                    type="button" data-tooltip="true" data-placement="bottom"
-                                                    title="Tooltip on bottom" th:title="#{recipeCreateForm.addProduct}">
-                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                            </button>
-                                        </span>
+                    <span id="product-unit" class="input-group-addon"
+                          th:text="${#arrays.isEmpty(productsList)} ? '' : ${productsList[0].unit.abbreviation}"></span>
+                    <span class="input-group-btn">
+                        <button id="recipeProductFormSubmit" class="btn btn-flat btn-default"
+                                type="button" data-tooltip="true" data-placement="bottom"
+                                title="Tooltip on bottom" th:title="#{recipeCreateForm.addProduct}">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    </span>
             </div>
         </div>
     </div>
