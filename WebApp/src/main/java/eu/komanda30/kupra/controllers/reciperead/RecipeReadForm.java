@@ -27,6 +27,8 @@ public class RecipeReadForm {
 
     private String recipeAuthorId;
 
+    private Float averageScore;
+
     private Date date;
 
     private ArrayList<RecipeProductUnit> recipeProducts = new ArrayList<RecipeProductUnit>();
@@ -146,5 +148,13 @@ public class RecipeReadForm {
 
     public void addImage(String url) {
         imagesUrls.add(url);
+    }
+
+    public Float getAverageScore() {
+        return averageScore;
+    }
+
+    public void setAverageScore(Float averageScore) {
+        this.averageScore = averageScore;
     }
 }
