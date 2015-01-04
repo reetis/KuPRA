@@ -54,63 +54,54 @@
 <div th:replace="layout :: header"></div>
 <div class="container">
     <div class="row">
-        <!--<th:block th:fragment="recipe-list-header(place)" th:with="place='all'">-->
-            <div class="page-header">
-                <div class="row">
-                    <div class="col-xs-8">
-                        <h1 th:text="#{menu.title}">CP test</h1>
-                        <div class="inline">
-                            <label class="pull-left" th:text="#{menu.showDates}" >Dienos</label>
-                            <span class='input-group date pull-left' id='datetimepicker'>
-                                <div class='input-group date' id='datetimepicker'>
-                                    <input type='text' class="form-control" id="datetime"/>
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                </div>
-                            </span>
-                            <button class="btn-default btn" id="changeDateButton" th:title="#{menu.changeDate}"
-                                    data-tooltip="true" data-placement="bottom"
-                                    th:text="#{menu.changeDate}"
-                                    title="Tooltip on bottom">
-                                <!--dfghjkl-->
-                                <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>-->
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-xs-4">
-                        <button class="btn-default btn" id="newUnitButton" th:title="#{menu.find.products}"
-                                data-tooltip="true" data-placement="bottom"
-                                data-toggle="modal" data-target="#calculateModal"
-                                th:text="#{menu.find.products}"
-                                title="Tooltip on bottom">
-                            <!--dfghjkl-->
-                            <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>-->
-                        </button>
+        <div class="col-xs-12">
+            <h1 th:text="#{menu.title}">CP test</h1>
+        </div>
+    </div>
+    <div class="well">
+        <div class="row">
+            <div class="col-sm-8 col-md-4">
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker'>
+                        <span class="input-group-addon" th:text="#{menu.showDates}" >Dienos</span>
+                        <input type='text' class="form-control" id="datetime"/>
+                        <span class="input-group-addon datepickerbutton">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
                     </div>
                 </div>
             </div>
+            <div class="col-sm-4 col-md-8 text-right">
+                <button class="btn-default btn btn-raised" id="newUnitButton" th:title="#{menu.find.products}"
+                        data-tooltip="true" data-placement="bottom"
+                        data-toggle="modal" data-target="#calculateModal"
+                        th:text="#{menu.find.products}"
+                        title="Tooltip on bottom">
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="row">
-        <div th:fragment="menuContainer" id="menuContainer">
-            <div class="col-md-3 panel-body panel" th:each="dayListItem : ${menuListForm.menuListDays}" >
-                <div class="menu-day-header">
-                    <label th:text="${#calendars.format(dayListItem.day,'yyyy-MM-dd')}"></label>
-                </div>
-                <div class="menu-row"   th:each="meniuItem : ${dayListItem.menuListItems}"
-                     th:attr="recipeId=${meniuItem.menuItemId}"
-                     th:classappend="${meniuItem.cooked}? 'text-muted'">
-
-                    <span th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')}"></span>
-                    <span th:text="${meniuItem.recipeName}"></span>
+    <div class="row" th:fragment="menuContainer" id="menuContainer">
+            <div class="col-md-3 col-sm-6 col-xs-12 " th:each="dayListItem : ${menuListForm.menuListDays}" >
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="no-margin" th:text="${#calendars.format(dayListItem.day,'yyyy-MM-dd')}"></h4>
+                    </div>
+                    <div class="panel-body">
+                        <button class="menu-row btn btn-default"   th:each="meniuItem : ${dayListItem.menuListItems}"
+                             th:attr="recipeId=${meniuItem.menuItemId}"
+                             th:classappend="${meniuItem.cooked}? 'btn-flat' : 'btn-raised'"
+                                style="width: 100%; text-transform: none; text-align: left; padding-left: 8px; padding-right: 8px"
+                                th:text="${#calendars.format(meniuItem.dateTime,'HH:mm')} + ' ' + ${meniuItem.recipeName}">
+                        </button>
+                    </div>
                 </div>
             </div>
             <script type="text/javascript" th:inline="javascript">
                 console.log("RELOAD");
                 jQuery(document).ready(function(){
                     +function($){
-
                             menuRows = $('.menu-row');
                             menuRows.click(function (event) {
                                 var button = $(this); // Div that triggered the modal
@@ -121,13 +112,9 @@
 
                                 $("#cookRecipe").modal('show');
                             });
-
                     }(jQuery);
                 });
-
             </script>
-        </div>
-
     </div>
 </div>
 
@@ -189,8 +176,7 @@
                 pickTime: false
             });
         });
-
-        $('#changeDateButton').click(function () {
+        $("#datetimepicker").on("dp.change", function (e) {
             var unfriendUrl = /*[[@{/menu}]]*/ '#';
             var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
             console.log("HOPE NOT");
@@ -209,7 +195,6 @@
         });
 
         var productsUrl = /*[[@{/menu/calculateProducts}]]*/ '#';
-        productsUrl = productsUrl
         var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
 
         $('#calculateModal').on('show.bs.modal', function () {
