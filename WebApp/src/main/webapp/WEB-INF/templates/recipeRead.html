@@ -103,8 +103,12 @@
 
 
                 <label for="servings" th:text="#{recipeReadForm.servings}">Porcijos</label>
-                <span id="servings" th:text="${recipeReadForm.servings}">Random Description</span>
+                <span id="servings" th:text="${recipeReadForm.servings}">Random Description</span><br/>
 
+                <th:block th:unless="${recipeReadForm.averageScore == null}">
+                    <label for="score" th:text="#{recipeReadForm.score}">Porcijos</label>
+                    <span id="score" th:text="${recipeReadForm.averageScore}">Random Description</span>
+                </th:block>
 
                 <p id="description" th:text="${recipeReadForm.description}">Random Aprašas</p>
             </div>

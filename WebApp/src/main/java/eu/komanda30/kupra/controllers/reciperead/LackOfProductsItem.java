@@ -9,7 +9,9 @@ public class LackOfProductsItem {
 
     private String name;
     private String unit;
+
     private BigDecimal amount;
+
     private Integer productId;
 
     public String getName() {

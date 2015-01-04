@@ -65,14 +65,17 @@
                                             th:value="${listItem.productId}"></input>
 
                                     <div class="form-group row">
-                                        <label th:text="${listItem.name}" class="control-label col-md-2">koko</label>:
+                                        <label th:text="${listItem.name}" class="control-label col-md-2">koko</label>
                                         <div class="col-md-9">
-                                            <input class="form-control" th:value="${listItem.amount}"
+                                            <input class="form-control" th:value="${listItem.amount.toPlainString()}"
                                                    th:field="${lackOfProductsForm.lackOfProductsItems[__${rowStat.index}__].amount}"
                                                    ></input>
-
+                                            <div class="help-block has-error"
+                                                 th:if="${#fields.hasErrors('lackOfProductsForm.lackOfProductsItems[__${rowStat.index}__].amount')}"
+                                                 th:errors="${lackOfProductsForm.lackOfProductsItems[__${rowStat.index}__].amount}">Netinkamas kiekis
+                                            </div>
                                         </div>
-                                        <span class="col-md-9" th:text="${listItem.unit}">kg</span>
+                                        <span class="col-md-1" th:text="${listItem.unit}">kg</span>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +92,6 @@
 
                             }(jQuery);
                         </script>
-
 
                         <div th:if="${#lists.isEmpty(lackOfProductsForm.lackOfProductsItems)}">
                             <p class="text-success" th:text="#{menuMissingProducts.success}">success</p>
@@ -121,7 +123,7 @@
                                 <div class="col-md-9">
                                     <input class="form-control" th:value="${listItem.amount}" disabled=""></input>
                                 </div>
-                                <span class="col-md-9" th:text="${listItem.unit}">kg</span>
+                                <span class="col-md-1" th:text="${listItem.unit}">kg</span>
                             </div>
                         </div>
 

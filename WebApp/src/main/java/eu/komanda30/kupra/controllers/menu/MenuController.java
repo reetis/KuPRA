@@ -147,9 +147,13 @@ public class MenuController {
 
     @Transactional
     @RequestMapping(value = "/addProducts", method = RequestMethod.POST)
-    public String addProducts(LackOfProductsForm form) {
+    public String addProducts(@Valid LackOfProductsForm form, final BindingResult bindingResult) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        if (bindingResult.hasErrors()){
+            return "popups/menuMissingProducts :: lackOfProducts";
+        }
 
         ArrayList<LackOfProductsItem> items = form.getLackOfProductsItems();
         for(LackOfProductsItem item : items){
@@ -171,12 +175,12 @@ public class MenuController {
         Menu menu = menus.findOne(menuItem);
         KupraUser kupraUser = kupraUsers.findByMenu(menu);
 
+        menu.setServings(form.getServings());
         //Manage Fridge
         Recipe recipe = menu.getRecipe();
-        Boolean enoughProducts = true;
         List<RecipeProduct> recipeProducts = recipe.getProductsNeeded(new BigDecimal(menu.getServings()));
 
-        menu.setServings(form.getServings());
+
         if (kupraUser.getLackingProducts(recipeProducts).isEmpty()) {
             kupraUser.consumeItemsFromFridge(menu);
             // Manage Menu entity

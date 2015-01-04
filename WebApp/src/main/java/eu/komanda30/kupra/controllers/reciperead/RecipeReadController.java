@@ -3,6 +3,7 @@ package eu.komanda30.kupra.controllers.reciperead;
 import eu.komanda30.kupra.entity.*;
 import eu.komanda30.kupra.repositories.Friendships;
 import eu.komanda30.kupra.repositories.KupraUsers;
+import eu.komanda30.kupra.repositories.Menus;
 import eu.komanda30.kupra.repositories.Recipes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,8 @@ public class RecipeReadController {
     private KupraUsers kupraUsers;
     @Resource
     private Friendships friendships;
+    @Resource
+    private Menus menus;
 
     @Transactional
     @RequestMapping(value = "/read/{recipeId}", method = RequestMethod.GET)
@@ -62,6 +65,7 @@ public class RecipeReadController {
         form.setPublicAccess(recipe.isPublicAccess());
         form.setProcessDescription(recipe.getProcessDescription());
         form.setDate(recipe.getRecipeDate());
+        form.setAverageScore(menus.getRecipeScore(recipe));
 
         final List<Comment> commentList = recipe.getRecipeComments();
         List<RecipeProduct> productList = recipe.getRecipeProductList();
