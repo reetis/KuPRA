@@ -5,11 +5,6 @@ import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Products;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,6 +13,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @RequestMapping("/fridge")
 @Controller
@@ -83,6 +82,34 @@ public class FridgeController {
         final Product product = products.findOne(form.getSelectedProductId());
         kupraUser.addFridgeItem(product, form.getAmount());
         kupraUsers.save(kupraUser);
+
+        populateFridgeItemsList(list, kupraUser);
+        return "fridge :: table-body";
+    }
+
+    @Transactional
+    @RequestMapping(value="/removeItem", method = RequestMethod.POST)
+    public String removeItem(@Valid final FridgeAddItemForm form,
+                          final BindingResult bindingResult,
+                          final FridgeItemsList list) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        if (bindingResult.hasErrors()) {
+            populateFridgeItemsList(list, kupraUser);
+            return "fridge :: table-body";
+        }
+
+        // TODO: Sutvarkyti i validatoriu
+        final Product product = products.findOne(form.getSelectedProductId());
+        Integer removalResult = kupraUser.removeFridgeItem(product, form.getAmount());
+        if (removalResult == 0){
+            kupraUsers.save(kupraUser);
+        } else if(removalResult == -1) {
+            bindingResult.rejectValue("amount","notEnoughProduct");
+        } else if(removalResult == -2) {
+            bindingResult.rejectValue("amount", "noProduct");
+        }
 
         populateFridgeItemsList(list, kupraUser);
         return "fridge :: table-body";

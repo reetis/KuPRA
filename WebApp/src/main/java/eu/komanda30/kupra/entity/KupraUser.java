@@ -108,6 +108,24 @@ public class KupraUser {
         }
     }
 
+    public Integer removeFridgeItem(Product product, BigDecimal amount) {
+        final Optional<FridgeItem> item = fridgeContent.stream()
+                .filter(input -> input.getProduct() == product)
+                .findFirst();
+
+        if (item.isPresent()) {
+            Integer removalErrorCode = item.get().decreaseAmount(amount);
+            if (removalErrorCode == 0){
+                if (item.get().getAmount().compareTo(BigDecimal.ZERO) == 0){
+                    fridgeContent.remove(item.get());
+                }
+            }
+            return removalErrorCode;
+        } else {
+            return -2;
+        }
+    }
+
     public void removeFromFridgeByProduct(int productId) {
         final List<FridgeItem> badItems = fridgeContent.parallelStream()
                 .filter(item -> item.getProduct().getId() == productId)
