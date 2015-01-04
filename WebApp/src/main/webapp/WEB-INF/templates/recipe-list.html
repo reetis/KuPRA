@@ -32,7 +32,10 @@
     <![endif]-->
 </head>
 <body>
+
 <div th:replace="layout :: header"></div>
+
+<div th:replace="popups/choicePopup :: core"></div>
 
 <div class="container">
             <div class="page-header">
@@ -238,17 +241,29 @@
             makeButtonPrivate($(this));
         });
 
-        $('.deleteButton').click(function () {
+        var deleteRecipe = function(recipeId) {
             var url = /*[[@{/recipes/}]]*/ '#';
-            var button = $(this);
 
             $.ajax({
-                url: url + button.data('recipeid'),
+                url: url + recipeId,
                 type: 'DELETE',
                 async: false,
                 cache: false,
                 headers: {'X-CSRF-TOKEN': _csrf},
                 success: function() {window.location.reload();}
+            });
+        };
+
+        $('.deleteButton').click(function () {
+            var button = $(this);
+
+            choicePopup({
+                title: "Ar tikrai ištrinti?",
+                content: "Ar tikrai ištrinti?",
+                button1Caption: "Taip",
+                button1Callback: function() {deleteRecipe(button.data('recipeid'));},
+                button2Caption: "Ne",
+                button2Callback: null
             });
         });
 

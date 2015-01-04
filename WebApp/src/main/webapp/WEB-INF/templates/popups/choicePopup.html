@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+<head>
+    <base href="../../../" th:remove="all"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="#{unitEditForm.title}">Regtst</title>
+
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Material design CSS -->
+    <link th:href="@{/css/ripples.min.css}" href="css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
+
+    <!-- Kupra CSS -->
+    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="container">
+    <div th:fragment="core">
+        <!-- Modal -->
+        <div class="modal fade" id="choicePopupModal" tabindex="-1" role="dialog"
+             aria-labelledby="choicePopupModal"
+             aria-hidden="true"
+             style="z-index: 2000">
+            <div class="modal-dialog">
+                <div class="modal-content" id="choicePopupContent">
+                    <div class="modal-header">
+                        <button type="button" class="close smallCloseBtn" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">
+                            Title
+                        </h4>
+                    </div>
+
+                    <div class="form-horizontal" role="form">
+                        <div class="modal-body">
+                            Contents
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default buttonClose" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary button1" data-dismiss="modal">Button1</button>
+                            <button type="button" class="btn btn-primary button2" data-dismiss="modal">Button2</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="application/javascript" th:inline="javascript">
+            // <![CDATA[
+            var choicePopup;
+
+            +function ($) {
+                var $modal = $("#choicePopupModal");
+                choicePopup = function (options) {
+                    var $closeBtn = $('.buttonClose', $modal);
+                    var $smallCloseBtn = $('.smallCloseBtn', $modal);
+
+                    if (options.closeEnabled) {
+                        $smallCloseBtn.show();
+                        $closeBtn.show();
+                    } else {
+                        $smallCloseBtn.hide();
+                        $closeBtn.hide();
+                    }
+
+                    $modal.on('hide.bs.modal', function() {
+                        if (options.closeCallback) {
+                            options.closeCallback(options.context);
+                        }
+                    });
+
+                    var $button1 = $('.button1', $modal);
+                    if (options.button1Caption) {
+                        $button1.show();
+                        $button1.unbind("click");
+                        if (options.button1Callback) {
+                            $button1.click(function () {
+                                options.button1Callback();
+                            });
+                        }
+                        $button1.empty();
+                        $button1.html(options.button1Caption);
+                    } else {
+                        $button1.hide();
+                    }
+
+                    var $button2 = $('.button2', $modal);
+                    if (options.button2Caption) {
+                        $button2.show();
+                        $button2.unbind("click");
+                        if (options.button2Callback) {
+                            $button2.click(function () {
+                                options.button2Callback();
+                            });
+                        }
+                        $button2.empty();
+                        $button2.html(options.button2Caption);
+                    } else {
+                        $button2.hide();
+                    }
+
+                    var $modalBody = $('.modal-body', $modal);
+                    $modalBody.empty();
+                    $modalBody.append($("<div>"+options.content+"</div>"));
+
+                    var $modalTitle = $('.modal-title', $modal);
+                    $modalTitle.empty();
+                    $modalTitle.html(options.title);
+
+                    $modal.modal("toggle");
+                };
+            }(jQuery);
+            // ]]>
+        </script>
+    </div>
+
+    <hr/>
+
+    <!-- Buttons to test popups -->
+    <button class="btn-default btn" id="testBtn1" title="Tooltip on bottom">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true">Window 1</span>
+    </button>
+    <button class="btn-default btn" id="testBtn2" title="Tooltip on bottom">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true">Yes/No</span>
+    </button>
+    <script type="application/javascript">
+        +function ($) {
+            $("#testBtn1").click(function () {
+                choicePopup({
+                    title: "Some title",
+                    content: "Some content",
+                    closeEnabled: true,
+                    button1Caption: "Button 1",
+                    button2Caption: "Button 2"
+                });
+            });
+
+            $("#testBtn2").click(function () {
+                choicePopup({
+                    title: "Some title",
+                    content: "Some content",
+                    closeEnabled: false,
+                    button1Caption: "Yes",
+                    button2Caption: "No"
+                });
+            });
+        }(jQuery);
+    </script>
+</div>
+
+<!-- Arrive.js -->
+<script th:src="@{/js/arrive.min.js}" src="js/arrive.min.js" type="application/javascript"></script>
+
+<!-- Bootstrap javascript -->
+<script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Material design javascript -->
+<script th:src="@{/js/ripples.min.js}" src="js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="js/material.min.js"></script>
+
+<!-- Lightbox javascript -->
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="lightbox/js/lightbox.min.js" type="text/javascript"></script>
+
+<!--Kupra javascript-->
+<script th:src="@{/js/kupra.js}" src="js/kupra.js" type="text/javascript"></script>
+
+<!-- Custom JS -->
+</body>
+</html>
