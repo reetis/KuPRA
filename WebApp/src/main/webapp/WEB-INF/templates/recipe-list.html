@@ -248,7 +248,7 @@
                 async: false,
                 cache: false,
                 headers: {'X-CSRF-TOKEN': _csrf},
-                success: window.location.reload
+                success: function() {window.location.reload();}
             });
         });
 
