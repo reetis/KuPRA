@@ -3,6 +3,7 @@ package eu.komanda30.kupra.controllers.recipelist;
 import eu.komanda30.kupra.entity.KupraUser;
 import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.repositories.KupraUsers;
+import eu.komanda30.kupra.repositories.Menus;
 import eu.komanda30.kupra.repositories.Recipes;
 
 import javax.annotation.Resource;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.google.common.collect.Iterables;
+
 @Controller
 @RequestMapping("/recipes")
 public class RecipeListController {
@@ -29,6 +32,9 @@ public class RecipeListController {
 
     @Resource
     private KupraUsers kupraUsers;
+
+    @Resource
+    private Menus menus;
 
     @Transactional
     @RequestMapping(method = RequestMethod.GET)
@@ -61,7 +67,9 @@ public class RecipeListController {
             recipePreview.setDescription(r.getDescription());
             recipePreview.setPublicAccess(r.isPublicAccess());
             recipePreview.setAccessible(user == r.getAuthor());
-            recipePreview.setCanDelete(user == r.getAuthor() || user.isAdmin());
+
+            recipePreview.setCanDelete((user == r.getAuthor() || user.isAdmin())
+                    && Iterables.isEmpty(menus.findByRecipe(r)));
             recipePreview.setRecipeId(r.getRecipeId());
 
             if (!r.getRecipeImages().isEmpty()) {
