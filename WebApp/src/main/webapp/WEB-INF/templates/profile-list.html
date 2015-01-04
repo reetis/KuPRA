@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      lang="en">
+<head>
+    <base href="../../" th:remove="all"/>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <th:block th:switch="${section}">
+        <title th:case="all" th:text="#{profiles.all}">Regtst</title>
+        <title th:case="friends" th:text="#{profiles.friends}">Regtst</title>
+        <title th:case="invites" th:text="#{profiles.invites}">Regtst</title>
+    </th:block>
+
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Material design CSS -->
+    <link th:href="@{/css/ripples.min.css}" href="css/ripples.min.css" rel="stylesheet"/>
+    <link th:href="@{/css/material-wfont.min.css}" href="css/material-wfont.min.css" rel="stylesheet"/>
+
+    <!-- Bootstrap Datetime Picker CSS -->
+    <link th:href="@{/css/bootstrap-datetimepicker.css}" href="css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+
+    <!-- Kupra CSS -->
+    <link th:href="@{/css/kupra.css}" href="css/kupra.css" rel="stylesheet"/>
+    <link th:href="@{/css/masonry-small-posts.css}" href="css/masonry-large-posts.css" rel="stylesheet"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-1.11.1.min.js}" src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div th:replace="layout :: header"></div>
+
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-xs-12" th:switch="${section}">
+                <h1 th:case="all" th:text="#{profiles.all}">Pavadinimas</h1>
+                <h1 th:case="friends" th:text="#{profiles.friends}">Pavadinimas</h1>
+                <h1 th:case="invites" th:text="#{profiles.invites}">Pavadinimas</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-11">
+                <div class="btn-group">
+                    <a href="recipe-list.html" th:href="@{~/profiles/friends}" class="btn"
+                       th:text="#{profiles.friends}"
+                       th:classappend="${section=='friends'}?'btn-primary':'btn-default'">Mnao</a>
+                    <a href="recipe-list.html" th:href="@{~/profiles/invites}" class="btn"
+                       th:text="#{profiles.invites}"
+                       th:classappend="${section=='invites'}?'btn-primary':'btn-default'">Pakvtm</a>
+                    <a href="recipe-list.html" th:href="@{~/profiles}" class="btn"
+                       th:text="#{profiles.all}"
+                       th:classappend="${section=='all'}?'btn-primary':'btn-default'">Vsii</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="grid" class="container" th:if="!${#lists.isEmpty(profileList.users)}">
+            <div id="posts">
+                <div class="post" th:each="user : ${profileList.users}">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-xs-12 text-center">
+                                        <a th:href="@{'/user/'+${user.userId}}" class="panel-title">
+                                            <h3 th:text="${user.displayName}" >Pvdn</h3>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <a th:href="@{'/user/'+${user.userId}}">
+                                <img class="img-responsive hcenter"
+                                     th:src="${user.imageUrl}?: @{/images/empty_prof_thumb.jpg}"
+                                     src="http://upload.wikimedia.org/wikipedia/commons/a/ae/AfricanWildCat.jpg"/>
+                            </a>
+                        </div>
+                        <div class="panel-footer text-center" th:if="${section=='friends'}">
+                            <button type="button" th:text="#{friendsListForm.unfriend}"
+                                    class="btn btn-warning btn-raised unfriend_button"
+                                    th:attr="data-friendid=${user.userId}">
+                                Nedraugauti
+                            </button>
+                        </div>
+                        <div class="panel-footer text-center" th:if="${section=='invites'}">
+                            <input name="source_id" type="hidden" th:value="${user.userId}"/>
+                            <button type="submit" th:text="#{friendsListForm.deny}"
+                                    class="btn btn-default btn-raised deny_request_button">
+                                Nedraugauti
+                            </button>
+                            <button th:text="#{friendsListForm.accept}" class="btn btn-success btn-raised accept_request_button">
+                                draugauti
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" th:if="${#lists.isEmpty(profileList.users)}">
+            <div class="col-md-12">
+                <p>Nėra zmoniu</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addToMenu" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" th:text="#{recipe-list.addToMenu}">Pvd</h4>
+            </div>
+            <div id="modal-body-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div th:replace="layout :: footer"></div>
+
+<!-- Arrive.js -->
+<script th:src="@{/js/arrive.min.js}" src="js/arrive.min.js" type="application/javascript"></script>
+
+<!-- Bootstrap javascript -->
+<script th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js" type="text/javascript"></script>
+
+<!-- Material design javascript -->
+<script th:src="@{/js/ripples.min.js}" src="js/ripples.min.js"></script>
+<script th:src="@{/js/material.min.js}" src="js/material.min.js"></script>
+
+<!-- Lightbox javascript -->
+<script th:src="@{/lightbox/js/lightbox.min.js}" src="lightbox/js/lightbox.min.js"
+        type="text/javascript"></script>
+
+<!-- Masonry javascript -->
+<script th:src="@{/js/masonry.pkgd.min.js}" src="js/masonry.pkgd.min.js"></script>
+
+<!-- Moment javascript -->
+<script th:src="@{/js/moment.min.js}" src="../../js/moment.min.js"></script>
+<script th:src="@{/js/lt.js}" src="../../js/lt.js"></script>
+
+<!-- Bootstrap Datetime Picker javascript -->
+<script th:src="@{/js/bootstrap-datetimepicker.min.js}" src="../../js/bootstrap-datetimepicker.min.js"></script>
+
+<!--Kupra javascript-->
+<script th:src="@{/js/kupra.js}" src="js/kupra.js" type="text/javascript"></script>
+
+<!-- Custom JS -->
+<script th:src="@{/js/kupra-masonry.js}" src="js/kupra-masonry.js" type="text/javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+    +function ($) {
+        var unfriendUrl = /*[[@{/friends/unfriend}]]*/ '#';
+        var denyUrl = /*[[@{/friends/unfriend}]]*/ '#';
+        var acceptUrl = /*[[@{/friends/accept_request}]]*/ '#';
+        var _csrf = /*[[${_csrf.token}]]*/ 'csrf_token';
+
+        $('.unfriend_button').click(function (event){
+            source_id = $(this).data('friendid');
+
+            $.ajax({
+                url: unfriendUrl,
+                type: 'POST',
+                data: {'source_id': source_id},
+                async: true,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+                success: function(){
+                    location.reload();
+                }
+            });
+        });
+
+        $('.deny_request_button').click(function (event){
+            source_id = $(this).parent().find('input').val();
+
+            $.ajax({
+                url: denyUrl,
+                type: 'POST',
+                data: {'source_id':source_id},
+                async: true,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+                success: function(){
+                    location.reload();
+                }
+            });
+        });
+
+        $('.accept_request_button').click(function (event){
+            source_id = $(this).parent().find('input').val();
+
+            $.ajax({
+                url: acceptUrl,
+                type: 'POST',
+                data: {'source_id':source_id},
+                async: true,
+                cache: false,
+                headers: {'X-CSRF-TOKEN': _csrf},
+                success: function(){
+                    location.reload();
+                }
+            });
+        });
+
+    }(jQuery);
+</script>
+
+</body>
+</html>

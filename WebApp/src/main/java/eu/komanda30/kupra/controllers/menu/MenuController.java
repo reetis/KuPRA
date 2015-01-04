@@ -8,6 +8,7 @@ import eu.komanda30.kupra.entity.Recipe;
 import eu.komanda30.kupra.entity.RecipeProduct;
 import eu.komanda30.kupra.repositories.KupraUsers;
 import eu.komanda30.kupra.repositories.Menus;
+import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Recipes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,9 @@ public class MenuController {
 
     @Resource
     private Recipes recipes;
+
+    @Resource
+    private Products products;
 
     @InitBinder("newMenuItemForm")
     protected void initBinder(WebDataBinder binder) {
@@ -112,7 +117,7 @@ public class MenuController {
 
     @Transactional
     @RequestMapping(value = "/calculateProducts", method = RequestMethod.GET)
-    public String calculateLackOfProducts(LackOfProductsForm form) {
+    public String calculateLackOfProducts(Model model) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
 
@@ -120,19 +125,40 @@ public class MenuController {
 
         ArrayList<RecipeProduct> productsLacking = kupraUser.getLackingProducts(productsNeeded);
 
+        LackOfProductsForm form = new LackOfProductsForm();
         for(RecipeProduct productNeeded : productsLacking){
 
             LackOfProductsItem item = new LackOfProductsItem();
 
             item.setName(productNeeded.getProduct().getName());
-            item.setAmount(productNeeded.getQuantity());
+            item.setProductId(productNeeded.getProduct().getId());
+            item.setAmount(productNeeded.getQuantity().stripTrailingZeros());
             item.setUnit(productNeeded.getProduct().getUnit().getAbbreviation());
 
 
             form.addLackOfProductsItem(item);
         }
 
-        return "popups/recipeLackOfProducts :: lackOfProducts";
+
+        model.addAttribute("lackOfProductsForm", form);
+
+        return "popups/menuMissingProducts :: lackOfProducts";
+    }
+
+    @Transactional
+    @RequestMapping(value = "/addProducts", method = RequestMethod.POST)
+    public String addProducts(LackOfProductsForm form) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        final KupraUser kupraUser = kupraUsers.findByUsername(auth.getName());
+
+        ArrayList<LackOfProductsItem> items = form.getLackOfProductsItems();
+        for(LackOfProductsItem item : items){
+            if (item.getAmount() != null && !item.getAmount().equals(new BigDecimal(0))){
+                kupraUser.addFridgeItem( products.findOne(item.getProductId()), item.getAmount());
+            }
+        }
+
+        return "popups/menuMissingProducts :: productsAdded";
     }
 
     @Transactional(rollbackFor=Exception.class)

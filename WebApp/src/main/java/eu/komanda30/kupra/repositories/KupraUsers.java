@@ -26,4 +26,7 @@ public interface KupraUsers extends CrudRepository<KupraUser, String> {
 
     @Query("select u from KupraUser u join u.menuList m where m = :menu")
     KupraUser findByMenu(@Param("menu") Menu menu);
+
+    @Query("from KupraUser")
+    List<KupraUser> findAllList();
 }

@@ -75,7 +75,7 @@ public class RecipeReadController {
             Product product = recipeProduct.getProduct();
             RecipeProductUnit recipeProductUnit = new RecipeProductUnit();
             recipeProductUnit.setName(product.getName());
-            recipeProductUnit.setQuantity(recipeProduct.getQuantity());
+            recipeProductUnit.setQuantity(recipeProduct.getQuantity().stripTrailingZeros());
             recipeProductUnit.setUnit(product.getUnit().getAbbreviation());
             form.addRecipeProducts(recipeProductUnit);
         }
@@ -142,7 +142,7 @@ public class RecipeReadController {
             LackOfProductsItem item = new LackOfProductsItem();
 
             item.setName(productNeeded.getProduct().getName());
-            item.setAmount(productNeeded.getQuantity());
+            item.setAmount(productNeeded.getQuantity().stripTrailingZeros());
             item.setUnit(productNeeded.getProduct().getUnit().getAbbreviation());
 
 

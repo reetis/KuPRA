@@ -71,7 +71,7 @@
                         <tbody id="table-body" th:fragment="table-body">
                             <tr th:each="item : ${fridgeItemsList.items}">
                                 <td th:text="${item.name}">varske</td>
-                                <td th:text="${item.amount} + ' ' + ${item.unit}">15</td>
+                                <td th:text="${item.amount.toPlainString()} + ' ' + ${item.unit}">15</td>
                                 <td>
                                     <button th:attr="data-productid=${item.productId}"
                                             class="btn btn-default btn-flat remove-button btn-on-image">
