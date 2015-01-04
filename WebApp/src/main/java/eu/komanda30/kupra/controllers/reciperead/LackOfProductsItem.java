@@ -10,6 +10,7 @@ public class LackOfProductsItem {
     private String name;
     private String unit;
     private BigDecimal amount;
+    private Integer productId;
 
     public String getName() {
         return name;
@@ -33,5 +34,13 @@ public class LackOfProductsItem {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 }
