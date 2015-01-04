@@ -81,6 +81,7 @@ public class RecipeReadController {
             recipeProductUnit.setName(product.getName());
             recipeProductUnit.setQuantity(recipeProduct.getQuantity().stripTrailingZeros());
             recipeProductUnit.setUnit(product.getUnit().getAbbreviation());
+            recipeProductUnit.setDescription(product.getDescription());
             form.addRecipeProducts(recipeProductUnit);
         }
 
