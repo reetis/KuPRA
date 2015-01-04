@@ -123,7 +123,8 @@
         <div class="list-group-item" th:if="${iter.count != 3}">
             <div class="row-picture">
                 <a th:href="@{'/recipes/read/'+${recipe.recipeId}}">
-                    <img th:src="${recipe.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
+                    <img th:if="${recipe.imageUrl != null}" th:src="${recipe.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
+                    <img th:if="${recipe.imageUrl == null}" th:src="@{/images/empty_recp_thumb.jpg}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
                 </a>
             </div>
             <div class="row-content">
@@ -148,7 +149,8 @@
         <div class="list-group-item" th:if="${iter.count != 3}">
             <div class="row-picture">
                 <a th:href="@{'/user/'+${person.userId}}">
-                    <img th:src="${person.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
+                    <img th:if="${person.imageUrl != null}" th:src="${person.imageUrl}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
+                    <img th:if="${person.imageUrl == null}" th:src="@{/images/empty_prof_thumb.jpg}" src="http://lorempixel.com/200/200/" style="height: auto; max-width: 56px"/>
                 </a>
             </div>
             <div class="row-content">
