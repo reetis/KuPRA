@@ -1,13 +1,17 @@
 package eu.komanda30.kupra.config;
 
 import eu.komanda30.kupra.email.DebugMailSender;
+import eu.komanda30.kupra.locale.BooleanChoiceFormatFactory;
+import eu.komanda30.kupra.locale.KupraMessageSource;
 import eu.komanda30.kupra.services.RecipeFinder;
 import eu.komanda30.kupra.services.UserFinder;
 
 import java.time.Duration;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.text.FormatFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
@@ -17,7 +21,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -40,6 +43,8 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+
+import com.google.common.collect.ImmutableMap;
 
 @Configuration
 @EnableWebMvc
@@ -123,8 +128,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
+    public Map<String, FormatFactory> formatFactoryRegistry() {
+        return ImmutableMap.<String, FormatFactory>builder()
+                .put("boolchoice", new BooleanChoiceFormatFactory())
+                .build();
+    }
+
+    @Bean
     public MessageSource messageSource() {
-        final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        final KupraMessageSource messageSource = new KupraMessageSource(formatFactoryRegistry());
         messageSource.setBasenames(
                 "classpath:/messages/messages",
                 "classpath:/messages/validation");
