@@ -81,7 +81,7 @@ public class KupraLocaleResolverImpl extends AbstractLocaleContextResolver imple
         final KupraUser user = kupraUsers.findOne(auth.getName());
         if (user != null) {
             user.getProfile().setLocale(localeContext.getLocale());
+            kupraUsers.save(user);
         }
-        kupraUsers.save(user);
     }
 }
