@@ -1,6 +1,5 @@
 package eu.komanda30.kupra.controllers.recipemanagement;
 
-import com.google.common.collect.ImmutableList;
 import eu.komanda30.kupra.UploadUtils;
 import eu.komanda30.kupra.entity.Product;
 import eu.komanda30.kupra.entity.Recipe;
@@ -10,6 +9,21 @@ import eu.komanda30.kupra.repositories.Products;
 import eu.komanda30.kupra.repositories.Recipes;
 import eu.komanda30.kupra.uploads.TmpUploadedFileManager;
 import eu.komanda30.kupra.uploads.UploadedImageInfo;
+
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,18 +35,16 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.google.common.collect.ImmutableList;
 
 @Controller
 @SessionAttributes("unitList")
@@ -67,7 +79,7 @@ public class RecipeManagementController {
     }
 
     @ModelAttribute("productsList")
-    public Iterable<Product> getProductList() { return products.findAll();}
+    public Iterable<Product> getProductList() { return products.findAllOrderByNameAsc();}
 
     @RequestMapping(value="/create", method = RequestMethod.GET)
     public String showNewRecipeForm(final RecipeManagementForm form, Model model) {

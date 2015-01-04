@@ -5,6 +5,7 @@ import eu.komanda30.kupra.entity.Unit;
 import org.springframework.data.repository.CrudRepository;
 
 public interface Units extends CrudRepository<Unit, Integer> {
+    Iterable<Unit> findAllOrderByNameAsc();
     Unit findByName(String name);
     Unit findByAbbreviation(String abbreviation);
 }
