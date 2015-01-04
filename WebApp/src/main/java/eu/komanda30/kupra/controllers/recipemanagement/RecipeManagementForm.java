@@ -24,7 +24,7 @@ public class RecipeManagementForm {
     private String description;
 
     @NotNull
-    @Size(min=1, max=512)
+    @Size(min=1, max=10000)
     private String processDescription;
 
     @NotNull
