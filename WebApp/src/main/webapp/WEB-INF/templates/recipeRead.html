@@ -114,7 +114,7 @@
                 <div th:unless="${#lists.isEmpty(recipeReadForm.recipeProducts)}">
                     <div th:each="product : ${recipeReadForm.recipeProducts}">
                         <span th:text="${product.name}">Produkto pav</span>
-                        <span th:text="${product.quantity}">Produkto kiekis</span>
+                        <span th:text="${product.quantity.toPlainString()}">Produkto kiekis</span>
                         <span th:text="${product.unit}">Produkto vienetas</span>
                     </div>
                     <div>

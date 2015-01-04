@@ -92,7 +92,7 @@ public class FridgeController {
         final Product product = f.getProduct();
         fridgeItemForm.setName(product.getName());
         fridgeItemForm.setUnit(product.getUnit().getAbbreviation());
-        fridgeItemForm.setAmount(f.getAmount());
+        fridgeItemForm.setAmount(f.getAmount().stripTrailingZeros());
         fridgeItemForm.setProductId(product.getId());
         return fridgeItemForm;
     }

@@ -125,7 +125,7 @@ public class MenuController {
             LackOfProductsItem item = new LackOfProductsItem();
 
             item.setName(productNeeded.getProduct().getName());
-            item.setAmount(productNeeded.getQuantity());
+            item.setAmount(productNeeded.getQuantity().stripTrailingZeros());
             item.setUnit(productNeeded.getProduct().getUnit().getAbbreviation());
 
 

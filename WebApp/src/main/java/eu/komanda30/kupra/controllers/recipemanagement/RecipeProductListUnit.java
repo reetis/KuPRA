@@ -37,10 +37,10 @@ public class RecipeProductListUnit implements Serializable {
     }
 
     public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
+        this.quantity = quantity.stripTrailingZeros();
     }
 
-    public void increaseQuantity(BigDecimal quantity) { this.quantity = this.quantity.add(quantity); }
+    public void increaseQuantity(BigDecimal quantity) { this.quantity = this.quantity.add(quantity).stripTrailingZeros(); }
 
     public String getUnit() {
         return unit;
