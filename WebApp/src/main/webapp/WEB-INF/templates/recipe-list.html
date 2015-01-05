@@ -99,7 +99,7 @@
 
                             <p th:text="${rcp.description}">Dscr</p>
                         </div>
-                        <div class="panel-footer" th:if="${section=='personal'}">
+                        <div class="panel-footer" th:if="${section=='personal' || @sessionData.loggedUserAdmin}">
                             <div class="btn-group" th:fragment="privacyButtons">
                                 <button class="btn publicButton" th:text="#{recipeCreateForm.public}"
                                         th:classappend="${rcp.publicAccess}?'btn-primary':'btn-default'"
